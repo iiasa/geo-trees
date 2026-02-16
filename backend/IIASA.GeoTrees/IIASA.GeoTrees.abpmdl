@@ -1,0 +1,56 @@
+{
+  "template": "app-nolayers",
+  "imports": {
+    "Volo.Abp.LeptonXLiteTheme": {
+      "version": "5.0.2",
+      "isInstalled": true,
+      "creationTime": "02/16/2026 08:43:03 +00:00"
+    },
+    "Volo.Abp.Account": {
+      "version": "10.0.2",
+      "isInstalled": true,
+      "creationTime": "02/16/2026 08:43:03 +00:00"
+    },
+    "Volo.Abp.OpenIddict": {
+      "version": "10.0.2",
+      "isInstalled": true,
+      "creationTime": "02/16/2026 08:43:03 +00:00"
+    },
+    "Volo.Abp.Identity": {
+      "version": "10.0.2",
+      "isInstalled": true,
+      "creationTime": "02/16/2026 08:43:03 +00:00"
+    },
+    "Volo.Abp.TenantManagement": {
+      "version": "10.0.2",
+      "isInstalled": true,
+      "creationTime": "02/16/2026 08:43:03 +00:00"
+    },
+    "Volo.Abp.SettingManagement": {
+      "version": "10.0.2",
+      "isInstalled": true,
+      "creationTime": "02/16/2026 08:43:03 +00:00"
+    },
+    "Volo.Abp.PermissionManagement": {
+      "version": "10.0.2",
+      "isInstalled": true,
+      "creationTime": "02/16/2026 08:43:03 +00:00"
+    },
+    "Volo.Abp.FeatureManagement": {
+      "version": "10.0.2",
+      "isInstalled": true,
+      "creationTime": "02/16/2026 08:43:03 +00:00"
+    }
+  },
+  "packages": {
+    "IIASA.GeoTrees": {
+      "path": "IIASA.GeoTrees/IIASA.GeoTrees.abppkg"
+    },
+    "IIASA.GeoTrees.Client": {
+      "path": "IIASA.GeoTrees.Client/IIASA.GeoTrees.Client.abppkg"
+    },
+    "IIASA.GeoTrees.Contracts": {
+      "path": "IIASA.GeoTrees.Contracts/IIASA.GeoTrees.Contracts.abppkg"
+    }
+  }
+}
