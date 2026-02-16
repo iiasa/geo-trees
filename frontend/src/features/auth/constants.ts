@@ -90,9 +90,9 @@ export const REGISTER_LABELS = {
 	TERMS_LINK: "Terms and Conditions",
 	SUBMIT: "Create Account",
 	BACK_TO_LOGIN: "Back to Login",
-	SUCCESS_TITLE: "Account Created",
+	SUCCESS_TITLE: "Account Created - Verify Your Email",
 	SUCCESS_MESSAGE:
-		"Your account has been created successfully. You can now sign in.",
+		"Please check your inbox for a confirmation email and click the link to verify your account.",
 	ALREADY_HAVE_ACCOUNT: "Already have an account?",
 	SIGN_IN: "Sign In",
 } as const;
