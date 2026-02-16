@@ -3,6 +3,7 @@ import { screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import {
+	AUTH_ROUTES,
 	REGISTER_LABELS,
 	REGISTER_VALIDATION,
 } from "@/features/auth/constants";
@@ -206,6 +207,47 @@ describe("RegisterForm", () => {
 		expect(
 			screen.queryByText(REGISTER_VALIDATION.PASSWORD.REQUIRED),
 		).not.toBeInTheDocument();
+	});
+
+	it("shows email verification success screen after registration", async () => {
+		mockMutate.mockResolvedValueOnce({});
+		const user = userEvent.setup();
+		renderWithQueryClient(<RegisterForm />);
+
+		await user.type(screen.getByLabelText(/username/i), "testuser");
+		await user.type(
+			screen.getByLabelText(/email address/i),
+			"test@example.com",
+		);
+		await user.type(
+			screen.getByLabelText(/^password/i, { selector: "input" }),
+			"ValidPass1",
+		);
+		await user.type(screen.getByLabelText(/confirm password/i), "ValidPass1");
+		await user.type(screen.getByLabelText(/institution/i), "MIT");
+		await user.type(screen.getByLabelText(/country/i), "USA");
+
+		const checkbox = screen.getByRole("checkbox");
+		await user.click(checkbox);
+
+		const submitButton = screen.getByRole("button", {
+			name: REGISTER_LABELS.SUBMIT,
+		});
+		await user.click(submitButton);
+
+		await waitFor(() => {
+			expect(
+				screen.getByText(REGISTER_LABELS.SUCCESS_TITLE),
+			).toBeInTheDocument();
+		});
+
+		expect(
+			screen.getByText(REGISTER_LABELS.SUCCESS_MESSAGE),
+		).toBeInTheDocument();
+		expect(screen.getByText(/test@example\.com/)).toBeInTheDocument();
+		expect(
+			screen.getByRole("link", { name: new RegExp(REGISTER_LABELS.SIGN_IN) }),
+		).toHaveAttribute("href", AUTH_ROUTES.LOGIN);
 	});
 
 	it("calls register mutation with correct data on successful submission", async () => {

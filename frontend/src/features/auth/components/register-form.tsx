@@ -1,9 +1,10 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
-import { ArrowLeft, CheckCircle2, Eye, EyeOff } from "lucide-react";
+import { ArrowLeft, Eye, EyeOff, Mail } from "lucide-react";
 import { useId, useState } from "react";
 import { toast } from "sonner";
 import { postApiAccountRegisterMutation } from "@/infrastructure/api/@tanstack/react-query.gen";
+import { Alert, AlertDescription } from "@/shared/components/ui/alert";
 import { Button } from "@/shared/components/ui/button";
 import {
 	Card,
@@ -138,7 +139,7 @@ export function RegisterForm() {
 			<Card className="w-full max-w-md mx-auto">
 				<CardHeader>
 					<div className="flex justify-center mb-4">
-						<CheckCircle2 className="h-12 w-12 text-primary" />
+						<Mail className="h-12 w-12 text-primary" />
 					</div>
 					<CardTitle className="text-center">
 						{REGISTER_LABELS.SUCCESS_TITLE}
@@ -147,9 +148,16 @@ export function RegisterForm() {
 						{REGISTER_LABELS.SUCCESS_MESSAGE}
 					</CardDescription>
 				</CardHeader>
-				<CardContent>
+				<CardContent className="space-y-4">
+					<Alert>
+						<Mail className="h-4 w-4" />
+						<AlertDescription>
+							We sent a confirmation email to <strong>{email}</strong>. Click
+							the link to verify your account.
+						</AlertDescription>
+					</Alert>
 					<Link to={AUTH_ROUTES.LOGIN}>
-						<Button className="w-full">
+						<Button variant="outline" className="w-full">
 							<ArrowLeft className="h-4 w-4 mr-2" />
 							{REGISTER_LABELS.SIGN_IN}
 						</Button>

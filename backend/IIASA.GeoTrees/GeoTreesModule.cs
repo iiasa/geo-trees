@@ -30,7 +30,6 @@ using Volo.Abp.Autofac;
 using Volo.Abp.BackgroundJobs.EntityFrameworkCore;
 using Volo.Abp.BlobStoring.Database.EntityFrameworkCore;
 using Volo.Abp.Caching;
-using Volo.Abp.Emailing;
 using Volo.Abp.EntityFrameworkCore;
 using Volo.Abp.EntityFrameworkCore.PostgreSql;
 using Volo.Abp.FeatureManagement;
@@ -65,6 +64,8 @@ using Volo.Abp.UI.Navigation;
 using Volo.Abp.UI.Navigation.Urls;
 using Volo.Abp.Uow;
 using Volo.Abp.Validation.Localization;
+using Volo.Abp.MailKit;
+using Volo.Abp.TextTemplating.Scriban;
 using Volo.Abp.VirtualFileSystem;
 using Volo.CmsKit.Web;
 using Volo.CmsKit;
@@ -80,6 +81,8 @@ namespace IIASA.GeoTrees;
     typeof(AbpCachingModule),
     typeof(AbpSwashbuckleModule),
     typeof(AbpAspNetCoreSerilogModule),
+    typeof(AbpMailKitModule),
+    typeof(AbpTextTemplatingScribanModule),
     typeof(AbpStudioClientAspNetCoreModule),
     // lepton-theme
     typeof(AbpAspNetCoreMvcUiLeptonXLiteThemeModule),
@@ -177,10 +180,12 @@ public class GeoTreesModule : AbpModule
         var hostingEnvironment = context.Services.GetHostingEnvironment();
         var configuration = context.Services.GetConfiguration();
 
-        if (hostingEnvironment.IsDevelopment())
+        Configure<AbpMailKitOptions>(options =>
         {
-            context.Services.Replace(ServiceDescriptor.Singleton<IEmailSender, NullEmailSender>());
-        }
+            options.SecureSocketOption = hostingEnvironment.IsDevelopment()
+                ? MailKit.Security.SecureSocketOptions.None
+                : MailKit.Security.SecureSocketOptions.StartTls;
+        });
 
         ConfigureStudio(hostingEnvironment);
         ConfigureAuthentication(context);
@@ -251,6 +256,9 @@ public class GeoTreesModule : AbpModule
         Configure<AppUrlOptions>(options =>
         {
             options.Applications["MVC"].RootUrl = configuration["App:SelfUrl"];
+            options.Applications["Geo Trees"].RootUrl = configuration["App:FrontendUrl"] ?? "http://localhost:3000";
+            options.Applications["Geo Trees"].Urls["Abp.Account.PasswordReset"] = "auth/reset-password";
+            options.Applications["Geo Trees"].Urls["Abp.Account.EmailConfirmation"] = "auth/confirm-email";
         });
     }
 

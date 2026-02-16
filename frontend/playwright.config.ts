@@ -32,6 +32,9 @@ export default defineConfig({
 
 		/* Record video on failure */
 		video: "retain-on-failure",
+
+		/* Accept self-signed certs (backend uses HTTPS with dev cert) */
+		ignoreHTTPSErrors: true,
 	},
 
 	/* Configure projects for major browsers */
