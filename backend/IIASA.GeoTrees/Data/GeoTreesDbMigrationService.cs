@@ -5,7 +5,6 @@ using Volo.Abp.Data;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.Identity;
 using Volo.Abp.MultiTenancy;
-using IIASA.GeoTrees.MultiTenancy;
 using Volo.Abp.TenantManagement;
 
 namespace IIASA.GeoTrees.Data;
@@ -49,7 +48,7 @@ public class GeoTreesDbMigrationService : ITransientDependency
 
         Logger.LogInformation($"Successfully completed host database migrations.");
 
-        if (MultiTenancyConsts.IsEnabled)
+        if (GeoTreesModule.IsMultiTenant)
         {
             var tenants = await _tenantRepository.GetListAsync(includeDetails: true);
 

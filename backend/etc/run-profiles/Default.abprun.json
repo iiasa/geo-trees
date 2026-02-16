@@ -2,8 +2,9 @@
   "applications": {
     "IIASA.GeoTrees": {
       "type": "dotnet-project",
-      "launchUrl": "https://localhost:44386",
-      "healthCheckEndpoint": "/",
+      "launchUrl": "https://localhost:44324",
+      "healthCheckEndpoint": "/health-status",
+      "healthUiEndpoint": "/health-ui",
       "path": "../../IIASA.GeoTrees/IIASA.GeoTrees.csproj",
       "execution": {
         "order": 0

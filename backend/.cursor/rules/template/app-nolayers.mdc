@@ -23,7 +23,7 @@ IIASA.GeoTrees/
 │       ├── Data/              # EF Core DbContext, migrations
 │       ├── Entities/          # Domain entities
 │       ├── Services/          # Application services + DTOs
-│       ├── Components/        # Blazor components (Server + WebAssembly)
+│       ├── Pages/             # Razor Pages UI
 │       └── GeoTreesModule.cs
 ```
 
@@ -114,11 +114,9 @@ dotnet ef database update
 
 ## UI Integration
 
-This solution uses **Blazor WebApp** (Server + WebAssembly) for the UI layer.
-
-- Components are in the `Components/` folder
-- Supports both server-side and client-side rendering
-- Use `@rendermode` to control rendering mode per component
+This solution uses **MVC / Razor Pages** for the UI layer.- Pages are in the `Pages/` folder
+- Use `@page` directive for Razor Pages
+- Inject application services directly into pages
 
 ## Best Practices
 
