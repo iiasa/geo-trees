@@ -127,6 +127,19 @@ export type ClockDto = {
     kind?: string | null;
 };
 
+export type CmsKitPageDto = {
+    readonly extraProperties?: {
+        [key: string]: unknown;
+    } | null;
+    id?: string;
+    title?: string | null;
+    slug?: string | null;
+    layoutName?: string | null;
+    content?: string | null;
+    script?: string | null;
+    style?: string | null;
+};
+
 export type ControllerApiDescriptionModel = {
     controllerName?: string | null;
     controllerGroupName?: string | null;
@@ -144,6 +157,18 @@ export type ControllerInterfaceApiDescriptionModel = {
     type?: string | null;
     name?: string | null;
     methods?: Array<InterfaceMethodApiDescriptionModel> | null;
+};
+
+export type CreatePageInputDto = {
+    readonly extraProperties?: {
+        [key: string]: unknown;
+    } | null;
+    title: string;
+    slug: string;
+    layoutName?: string | null;
+    content?: string | null;
+    script?: string | null;
+    style?: string | null;
 };
 
 export type CreateUpdateBookDto = {
@@ -540,6 +565,25 @@ export type ObjectExtensionsDto = {
     } | null;
 };
 
+export type PageDto = {
+    readonly extraProperties?: {
+        [key: string]: unknown;
+    } | null;
+    id?: string;
+    creationTime?: string;
+    creatorId?: string | null;
+    lastModificationTime?: string | null;
+    lastModifierId?: string | null;
+    title?: string | null;
+    slug?: string | null;
+    layoutName?: string | null;
+    content?: string | null;
+    script?: string | null;
+    style?: string | null;
+    isHomePage?: boolean;
+    concurrencyStamp?: string | null;
+};
+
 export type PagedResultDto_BookDto_ = {
     items?: Array<BookDto> | null;
     totalCount?: number;
@@ -552,6 +596,11 @@ export type PagedResultDto_IdentityRoleDto_ = {
 
 export type PagedResultDto_IdentityUserDto_ = {
     items?: Array<IdentityUserDto> | null;
+    totalCount?: number;
+};
+
+export type PagedResultDto_PageDto_ = {
+    items?: Array<PageDto> | null;
     totalCount?: number;
 };
 
@@ -742,6 +791,19 @@ export type UpdateFeaturesDto = {
     features?: Array<UpdateFeatureDto> | null;
 };
 
+export type UpdatePageInputDto = {
+    readonly extraProperties?: {
+        [key: string]: unknown;
+    } | null;
+    title: string;
+    slug: string;
+    layoutName?: string | null;
+    content?: string | null;
+    script?: string | null;
+    style?: string | null;
+    concurrencyStamp?: string | null;
+};
+
 export type UpdatePermissionDto = {
     name?: string | null;
     isGranted?: boolean;
@@ -833,6 +895,25 @@ export type ApplicationLocalizationConfigurationDtoWritable = {
     languageFilesMap?: {
         [key: string]: Array<NameValue>;
     } | null;
+};
+
+export type CmsKitPageDtoWritable = {
+    id?: string;
+    title?: string | null;
+    slug?: string | null;
+    layoutName?: string | null;
+    content?: string | null;
+    script?: string | null;
+    style?: string | null;
+};
+
+export type CreatePageInputDtoWritable = {
+    title: string;
+    slug: string;
+    layoutName?: string | null;
+    content?: string | null;
+    script?: string | null;
+    style?: string | null;
 };
 
 export type FeatureDtoWritable = {
@@ -952,6 +1033,22 @@ export type ListResultDto_userData_Writable = {
     items?: Array<UserDataWritable> | null;
 };
 
+export type PageDtoWritable = {
+    id?: string;
+    creationTime?: string;
+    creatorId?: string | null;
+    lastModificationTime?: string | null;
+    lastModifierId?: string | null;
+    title?: string | null;
+    slug?: string | null;
+    layoutName?: string | null;
+    content?: string | null;
+    script?: string | null;
+    style?: string | null;
+    isHomePage?: boolean;
+    concurrencyStamp?: string | null;
+};
+
 export type PagedResultDto_IdentityRoleDto_Writable = {
     items?: Array<IdentityRoleDtoWritable> | null;
     totalCount?: number;
@@ -959,6 +1056,11 @@ export type PagedResultDto_IdentityRoleDto_Writable = {
 
 export type PagedResultDto_IdentityUserDto_Writable = {
     items?: Array<IdentityUserDtoWritable> | null;
+    totalCount?: number;
+};
+
+export type PagedResultDto_PageDto_Writable = {
+    items?: Array<PageDtoWritable> | null;
     totalCount?: number;
 };
 
@@ -999,6 +1101,16 @@ export type TenantDtoWritable = {
 
 export type TenantUpdateDtoWritable = {
     name: string;
+    concurrencyStamp?: string | null;
+};
+
+export type UpdatePageInputDtoWritable = {
+    title: string;
+    slug: string;
+    layoutName?: string | null;
+    content?: string | null;
+    script?: string | null;
+    style?: string | null;
     concurrencyStamp?: string | null;
 };
 
@@ -1669,6 +1781,34 @@ export type PostApiAppBookResponses = {
 
 export type PostApiAppBookResponse = PostApiAppBookResponses[keyof PostApiAppBookResponses];
 
+export type GetCmsKitGlobalResourcesStyleData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/cms-kit/global-resources/style';
+};
+
+export type GetCmsKitGlobalResourcesStyleResponses = {
+    /**
+     * OK
+     */
+    200: unknown;
+};
+
+export type GetCmsKitGlobalResourcesScriptData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/cms-kit/global-resources/script';
+};
+
+export type GetCmsKitGlobalResourcesScriptResponses = {
+    /**
+     * OK
+     */
+    200: unknown;
+};
+
 export type PostApiAccountDynamicClaimsRefreshData = {
     body?: never;
     path?: never;
@@ -2115,6 +2255,424 @@ export type PostApiAccountCheckPasswordResponses = {
 };
 
 export type PostApiAccountCheckPasswordResponse = PostApiAccountCheckPasswordResponses[keyof PostApiAccountCheckPasswordResponses];
+
+export type DeleteApiCmsKitAdminPagesByIdData = {
+    body?: never;
+    path: {
+        id: string;
+    };
+    query?: never;
+    url: '/api/cms-kit-admin/pages/{id}';
+};
+
+export type DeleteApiCmsKitAdminPagesByIdErrors = {
+    /**
+     * Bad Request
+     */
+    400: RemoteServiceErrorResponse;
+    /**
+     * Unauthorized
+     */
+    401: RemoteServiceErrorResponse;
+    /**
+     * Forbidden
+     */
+    403: RemoteServiceErrorResponse;
+    /**
+     * Not Found
+     */
+    404: RemoteServiceErrorResponse;
+    /**
+     * Internal Server Error
+     */
+    500: RemoteServiceErrorResponse;
+    /**
+     * Not Implemented
+     */
+    501: RemoteServiceErrorResponse;
+};
+
+export type DeleteApiCmsKitAdminPagesByIdError = DeleteApiCmsKitAdminPagesByIdErrors[keyof DeleteApiCmsKitAdminPagesByIdErrors];
+
+export type DeleteApiCmsKitAdminPagesByIdResponses = {
+    /**
+     * OK
+     */
+    200: unknown;
+};
+
+export type GetApiCmsKitAdminPagesByIdData = {
+    body?: never;
+    path: {
+        id: string;
+    };
+    query?: never;
+    url: '/api/cms-kit-admin/pages/{id}';
+};
+
+export type GetApiCmsKitAdminPagesByIdErrors = {
+    /**
+     * Bad Request
+     */
+    400: RemoteServiceErrorResponse;
+    /**
+     * Unauthorized
+     */
+    401: RemoteServiceErrorResponse;
+    /**
+     * Forbidden
+     */
+    403: RemoteServiceErrorResponse;
+    /**
+     * Not Found
+     */
+    404: RemoteServiceErrorResponse;
+    /**
+     * Internal Server Error
+     */
+    500: RemoteServiceErrorResponse;
+    /**
+     * Not Implemented
+     */
+    501: RemoteServiceErrorResponse;
+};
+
+export type GetApiCmsKitAdminPagesByIdError = GetApiCmsKitAdminPagesByIdErrors[keyof GetApiCmsKitAdminPagesByIdErrors];
+
+export type GetApiCmsKitAdminPagesByIdResponses = {
+    /**
+     * OK
+     */
+    200: PageDto;
+};
+
+export type GetApiCmsKitAdminPagesByIdResponse = GetApiCmsKitAdminPagesByIdResponses[keyof GetApiCmsKitAdminPagesByIdResponses];
+
+export type PutApiCmsKitAdminPagesByIdData = {
+    body?: UpdatePageInputDtoWritable;
+    path: {
+        id: string;
+    };
+    query?: never;
+    url: '/api/cms-kit-admin/pages/{id}';
+};
+
+export type PutApiCmsKitAdminPagesByIdErrors = {
+    /**
+     * Bad Request
+     */
+    400: RemoteServiceErrorResponse;
+    /**
+     * Unauthorized
+     */
+    401: RemoteServiceErrorResponse;
+    /**
+     * Forbidden
+     */
+    403: RemoteServiceErrorResponse;
+    /**
+     * Not Found
+     */
+    404: RemoteServiceErrorResponse;
+    /**
+     * Internal Server Error
+     */
+    500: RemoteServiceErrorResponse;
+    /**
+     * Not Implemented
+     */
+    501: RemoteServiceErrorResponse;
+};
+
+export type PutApiCmsKitAdminPagesByIdError = PutApiCmsKitAdminPagesByIdErrors[keyof PutApiCmsKitAdminPagesByIdErrors];
+
+export type PutApiCmsKitAdminPagesByIdResponses = {
+    /**
+     * OK
+     */
+    200: PageDto;
+};
+
+export type PutApiCmsKitAdminPagesByIdResponse = PutApiCmsKitAdminPagesByIdResponses[keyof PutApiCmsKitAdminPagesByIdResponses];
+
+export type GetApiCmsKitAdminPagesData = {
+    body?: never;
+    path?: never;
+    query?: {
+        Filter?: string;
+        Sorting?: string;
+        SkipCount?: number;
+        MaxResultCount?: number;
+    };
+    url: '/api/cms-kit-admin/pages';
+};
+
+export type GetApiCmsKitAdminPagesErrors = {
+    /**
+     * Bad Request
+     */
+    400: RemoteServiceErrorResponse;
+    /**
+     * Unauthorized
+     */
+    401: RemoteServiceErrorResponse;
+    /**
+     * Forbidden
+     */
+    403: RemoteServiceErrorResponse;
+    /**
+     * Not Found
+     */
+    404: RemoteServiceErrorResponse;
+    /**
+     * Internal Server Error
+     */
+    500: RemoteServiceErrorResponse;
+    /**
+     * Not Implemented
+     */
+    501: RemoteServiceErrorResponse;
+};
+
+export type GetApiCmsKitAdminPagesError = GetApiCmsKitAdminPagesErrors[keyof GetApiCmsKitAdminPagesErrors];
+
+export type GetApiCmsKitAdminPagesResponses = {
+    /**
+     * OK
+     */
+    200: PagedResultDto_PageDto_;
+};
+
+export type GetApiCmsKitAdminPagesResponse = GetApiCmsKitAdminPagesResponses[keyof GetApiCmsKitAdminPagesResponses];
+
+export type PostApiCmsKitAdminPagesData = {
+    body?: CreatePageInputDtoWritable;
+    path?: never;
+    query?: never;
+    url: '/api/cms-kit-admin/pages';
+};
+
+export type PostApiCmsKitAdminPagesErrors = {
+    /**
+     * Bad Request
+     */
+    400: RemoteServiceErrorResponse;
+    /**
+     * Unauthorized
+     */
+    401: RemoteServiceErrorResponse;
+    /**
+     * Forbidden
+     */
+    403: RemoteServiceErrorResponse;
+    /**
+     * Not Found
+     */
+    404: RemoteServiceErrorResponse;
+    /**
+     * Internal Server Error
+     */
+    500: RemoteServiceErrorResponse;
+    /**
+     * Not Implemented
+     */
+    501: RemoteServiceErrorResponse;
+};
+
+export type PostApiCmsKitAdminPagesError = PostApiCmsKitAdminPagesErrors[keyof PostApiCmsKitAdminPagesErrors];
+
+export type PostApiCmsKitAdminPagesResponses = {
+    /**
+     * OK
+     */
+    200: PageDto;
+};
+
+export type PostApiCmsKitAdminPagesResponse = PostApiCmsKitAdminPagesResponses[keyof PostApiCmsKitAdminPagesResponses];
+
+export type PutApiCmsKitAdminPagesSetashomepageByIdData = {
+    body?: never;
+    path: {
+        id: string;
+    };
+    query?: never;
+    url: '/api/cms-kit-admin/pages/setashomepage/{id}';
+};
+
+export type PutApiCmsKitAdminPagesSetashomepageByIdErrors = {
+    /**
+     * Bad Request
+     */
+    400: RemoteServiceErrorResponse;
+    /**
+     * Unauthorized
+     */
+    401: RemoteServiceErrorResponse;
+    /**
+     * Forbidden
+     */
+    403: RemoteServiceErrorResponse;
+    /**
+     * Not Found
+     */
+    404: RemoteServiceErrorResponse;
+    /**
+     * Internal Server Error
+     */
+    500: RemoteServiceErrorResponse;
+    /**
+     * Not Implemented
+     */
+    501: RemoteServiceErrorResponse;
+};
+
+export type PutApiCmsKitAdminPagesSetashomepageByIdError = PutApiCmsKitAdminPagesSetashomepageByIdErrors[keyof PutApiCmsKitAdminPagesSetashomepageByIdErrors];
+
+export type PutApiCmsKitAdminPagesSetashomepageByIdResponses = {
+    /**
+     * OK
+     */
+    200: unknown;
+};
+
+export type GetApiCmsKitPublicPagesBySlugData = {
+    body?: never;
+    path?: never;
+    query?: {
+        slug?: string;
+    };
+    url: '/api/cms-kit-public/pages/by-slug';
+};
+
+export type GetApiCmsKitPublicPagesBySlugErrors = {
+    /**
+     * Bad Request
+     */
+    400: RemoteServiceErrorResponse;
+    /**
+     * Unauthorized
+     */
+    401: RemoteServiceErrorResponse;
+    /**
+     * Forbidden
+     */
+    403: RemoteServiceErrorResponse;
+    /**
+     * Not Found
+     */
+    404: RemoteServiceErrorResponse;
+    /**
+     * Internal Server Error
+     */
+    500: RemoteServiceErrorResponse;
+    /**
+     * Not Implemented
+     */
+    501: RemoteServiceErrorResponse;
+};
+
+export type GetApiCmsKitPublicPagesBySlugError = GetApiCmsKitPublicPagesBySlugErrors[keyof GetApiCmsKitPublicPagesBySlugErrors];
+
+export type GetApiCmsKitPublicPagesBySlugResponses = {
+    /**
+     * OK
+     */
+    200: CmsKitPageDto;
+};
+
+export type GetApiCmsKitPublicPagesBySlugResponse = GetApiCmsKitPublicPagesBySlugResponses[keyof GetApiCmsKitPublicPagesBySlugResponses];
+
+export type GetApiCmsKitPublicPagesHomeData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/api/cms-kit-public/pages/home';
+};
+
+export type GetApiCmsKitPublicPagesHomeErrors = {
+    /**
+     * Bad Request
+     */
+    400: RemoteServiceErrorResponse;
+    /**
+     * Unauthorized
+     */
+    401: RemoteServiceErrorResponse;
+    /**
+     * Forbidden
+     */
+    403: RemoteServiceErrorResponse;
+    /**
+     * Not Found
+     */
+    404: RemoteServiceErrorResponse;
+    /**
+     * Internal Server Error
+     */
+    500: RemoteServiceErrorResponse;
+    /**
+     * Not Implemented
+     */
+    501: RemoteServiceErrorResponse;
+};
+
+export type GetApiCmsKitPublicPagesHomeError = GetApiCmsKitPublicPagesHomeErrors[keyof GetApiCmsKitPublicPagesHomeErrors];
+
+export type GetApiCmsKitPublicPagesHomeResponses = {
+    /**
+     * OK
+     */
+    200: CmsKitPageDto;
+};
+
+export type GetApiCmsKitPublicPagesHomeResponse = GetApiCmsKitPublicPagesHomeResponses[keyof GetApiCmsKitPublicPagesHomeResponses];
+
+export type GetApiCmsKitPublicPagesExistData = {
+    body?: never;
+    path?: never;
+    query?: {
+        slug?: string;
+    };
+    url: '/api/cms-kit-public/pages/exist';
+};
+
+export type GetApiCmsKitPublicPagesExistErrors = {
+    /**
+     * Bad Request
+     */
+    400: RemoteServiceErrorResponse;
+    /**
+     * Unauthorized
+     */
+    401: RemoteServiceErrorResponse;
+    /**
+     * Forbidden
+     */
+    403: RemoteServiceErrorResponse;
+    /**
+     * Not Found
+     */
+    404: RemoteServiceErrorResponse;
+    /**
+     * Internal Server Error
+     */
+    500: RemoteServiceErrorResponse;
+    /**
+     * Not Implemented
+     */
+    501: RemoteServiceErrorResponse;
+};
+
+export type GetApiCmsKitPublicPagesExistError = GetApiCmsKitPublicPagesExistErrors[keyof GetApiCmsKitPublicPagesExistErrors];
+
+export type GetApiCmsKitPublicPagesExistResponses = {
+    /**
+     * OK
+     */
+    200: boolean;
+};
+
+export type GetApiCmsKitPublicPagesExistResponse = GetApiCmsKitPublicPagesExistResponses[keyof GetApiCmsKitPublicPagesExistResponses];
 
 export type GetApiPermissionManagementPermissionsData = {
     body?: never;
