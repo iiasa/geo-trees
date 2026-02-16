@@ -7,7 +7,7 @@ import {
 	commentPublicGetListOptions,
 	commentPublicGetListQueryKey,
 	commentPublicUpdateMutation,
-} from "@/infrastructure/api/@tanstack/react-query.gen";
+} from "../api-stubs";
 import { COMMENT_ACTION_MESSAGES, COMMENT_QUERY_KEYS } from "../constants";
 import type { CommentNode } from "../hooks/use-comments-tree";
 import {

@@ -1,8 +1,8 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import {
-	pageAdminCreateMutation,
-	pageAdminGetListQueryKey,
+	postApiCmsKitAdminPagesMutation,
+	getApiCmsKitAdminPagesQueryKey,
 } from "@/infrastructure/api/@tanstack/react-query.gen";
 import { PageHeader } from "@/shared/components/page-header";
 import { PageLayout } from "@/shared/components/page-layout";
@@ -13,7 +13,7 @@ export function CreatePage() {
 	const queryClient = useQueryClient();
 
 	const createPageMutation = useMutation({
-		...pageAdminCreateMutation(),
+		...postApiCmsKitAdminPagesMutation(),
 	});
 
 	const handleSubmit = async (data: PageFormData) => {
@@ -29,7 +29,7 @@ export function CreatePage() {
 				},
 			});
 			queryClient.invalidateQueries({
-				queryKey: pageAdminGetListQueryKey(),
+				queryKey: getApiCmsKitAdminPagesQueryKey(),
 			});
 			toast.success(PAGE_ACTION_MESSAGES.CREATE_SUCCESS);
 			// Stay on the page after save

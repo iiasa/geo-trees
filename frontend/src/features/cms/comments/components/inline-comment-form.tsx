@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-import type { VoloCmsKitPublicCommentsCommentDto } from "@/infrastructure/api/types.gen";
+import type { VoloCmsKitPublicCommentsCommentDto } from "../types";
 import { Button } from "@/shared/components/ui/button";
 import {
 	Form,

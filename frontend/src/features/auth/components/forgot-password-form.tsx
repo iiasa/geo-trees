@@ -3,7 +3,7 @@ import { Link } from "@tanstack/react-router";
 import { ArrowLeft, CheckCircle2 } from "lucide-react";
 import { useId, useState } from "react";
 import { toast } from "sonner";
-import { accountSendPasswordResetCodeMutation } from "@/infrastructure/api/@tanstack/react-query.gen";
+import { postApiAccountSendPasswordResetCodeMutation } from "@/infrastructure/api/@tanstack/react-query.gen";
 import {
 	Alert,
 	AlertDescription,
@@ -37,7 +37,7 @@ export function ForgotPasswordForm() {
 	const [success, setSuccess] = useState(false);
 
 	const sendResetCode = useMutation({
-		...accountSendPasswordResetCodeMutation(),
+		...postApiAccountSendPasswordResetCodeMutation(),
 		onSuccess: () => {
 			setSuccess(true);
 			toast.success(PASSWORD_RESET_MESSAGES.SEND_CODE_SUCCESS);

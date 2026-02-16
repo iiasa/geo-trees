@@ -1,7 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { commentAdminUpdateSettings } from "@/infrastructure/api/sdk.gen";
-import type { CommentSettingsDto } from "@/infrastructure/api/types.gen";
+import { commentAdminUpdateSettings } from "@/features/cms/comments/api-stubs";
+import type { CommentSettingsDto } from "@/features/cms/comments/types";
 import { SETTINGS_MESSAGES } from "../constants";
 
 export function useUpdateCommentSettings() {

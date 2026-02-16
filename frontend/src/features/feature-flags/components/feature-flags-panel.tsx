@@ -3,8 +3,8 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { toast } from "sonner";
 
 import {
-	featuresGetOptions,
-	featuresUpdateMutation,
+	getApiFeatureManagementFeaturesOptions,
+	putApiFeatureManagementFeaturesMutation,
 } from "@/infrastructure/api/@tanstack/react-query.gen";
 import type {
 	FeatureDto,
@@ -76,13 +76,13 @@ export function FeatureFlagsPanel({
 		: undefined;
 
 	const { data, isLoading, refetch } = useQuery({
-		...featuresGetOptions({
+		...getApiFeatureManagementFeaturesOptions({
 			query: queryParams,
 		}),
 	});
 
 	const updateMutation = useMutation({
-		...featuresUpdateMutation(),
+		...putApiFeatureManagementFeaturesMutation(),
 	});
 
 	useEffect(() => {

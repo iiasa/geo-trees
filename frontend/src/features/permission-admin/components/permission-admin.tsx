@@ -3,8 +3,8 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { toast } from "sonner";
 
 import {
-	permissionsGetOptions,
-	permissionsUpdateMutation,
+	getApiPermissionManagementPermissionsOptions,
+	putApiPermissionManagementPermissionsMutation,
 } from "@/infrastructure/api/@tanstack/react-query.gen";
 import { PERMISSION_ADMIN_LABELS } from "@/features/permission-admin/constants";
 import { usePermissionAdminStore } from "@/features/permission-admin/stores/permission-admin-store";
@@ -34,7 +34,7 @@ export function PermissionAdminPage() {
 	} = usePermissionAdminStore();
 
 	const { data, isLoading, refetch } = useQuery({
-		...permissionsGetOptions({
+		...getApiPermissionManagementPermissionsOptions({
 			query: providerName
 				? {
 						providerName,
@@ -44,7 +44,7 @@ export function PermissionAdminPage() {
 	});
 
 	const updateMutation = useMutation({
-		...permissionsUpdateMutation(),
+		...putApiPermissionManagementPermissionsMutation(),
 	});
 
 	useEffect(() => {

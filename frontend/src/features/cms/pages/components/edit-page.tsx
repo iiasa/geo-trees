@@ -2,9 +2,9 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useParams } from "@tanstack/react-router";
 import { toast } from "sonner";
 import {
-	pageAdminGetOptions,
-	pageAdminGetListQueryKey,
-	pageAdminUpdateMutation,
+	getApiCmsKitAdminPagesByIdOptions,
+	getApiCmsKitAdminPagesQueryKey,
+	putApiCmsKitAdminPagesByIdMutation,
 } from "@/infrastructure/api/@tanstack/react-query.gen";
 import { PageHeader } from "@/shared/components/page-header";
 import { PageLayout } from "@/shared/components/page-layout";
@@ -21,10 +21,10 @@ export function EditPage() {
 		isLoading: isLoadingPage,
 		error,
 		isError,
-	} = useQuery(pageAdminGetOptions({ path: { id } }));
+	} = useQuery(getApiCmsKitAdminPagesByIdOptions({ path: { id } }));
 
 	const updatePageMutation = useMutation({
-		...pageAdminUpdateMutation(),
+		...putApiCmsKitAdminPagesByIdMutation(),
 	});
 
 	const handleSubmit = async (data: PageFormData) => {
@@ -44,14 +44,15 @@ export function EditPage() {
 			});
 
 			await queryClient.invalidateQueries({
-				queryKey: pageAdminGetListQueryKey(),
+				queryKey: getApiCmsKitAdminPagesQueryKey(),
 			});
 			await queryClient.refetchQueries({
-				queryKey: pageAdminGetListQueryKey(),
+				queryKey: getApiCmsKitAdminPagesQueryKey(),
 			});
 			// Refetch the current page to show updated data
 			await queryClient.refetchQueries({
-				queryKey: pageAdminGetOptions({ path: { id: page.id } }).queryKey,
+				queryKey: getApiCmsKitAdminPagesByIdOptions({ path: { id: page.id } })
+					.queryKey,
 			});
 			toast.success(PAGE_ACTION_MESSAGES.UPDATE_SUCCESS);
 			// Stay on the page after save - form will be updated with refetched data

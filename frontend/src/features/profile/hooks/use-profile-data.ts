@@ -1,9 +1,9 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import {
-	profileChangePasswordMutation,
-	profileGetOptions,
-	profileUpdateMutation,
+	postApiAccountMyProfileChangePasswordMutation,
+	getApiAccountMyProfileOptions,
+	putApiAccountMyProfileMutation,
 } from "@/infrastructure/api/@tanstack/react-query.gen";
 import type { ProfileDto } from "@/infrastructure/api/types.gen";
 import { PROFILE_MESSAGES } from "../constants";
@@ -16,7 +16,7 @@ export function useProfileData() {
 		isLoading,
 		error,
 		refetch,
-	} = useQuery(profileGetOptions());
+	} = useQuery(getApiAccountMyProfileOptions());
 
 	return {
 		profile: profile as ProfileDto | undefined,
@@ -30,7 +30,7 @@ export function useUpdateProfile() {
 	const queryClient = useQueryClient();
 
 	return useMutation({
-		...profileUpdateMutation(),
+		...putApiAccountMyProfileMutation(),
 		onSuccess: (data) => {
 			queryClient.setQueryData(PROFILE_QUERY_KEY, data);
 			toast.success(PROFILE_MESSAGES.GENERAL.SAVE_SUCCESS);
@@ -46,7 +46,7 @@ export function useChangePassword() {
 	const queryClient = useQueryClient();
 
 	return useMutation({
-		mutationFn: profileChangePasswordMutation().mutationFn,
+		mutationFn: postApiAccountMyProfileChangePasswordMutation().mutationFn,
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: PROFILE_QUERY_KEY });
 			toast.success(PROFILE_MESSAGES.SECURITY.SAVE_SUCCESS);

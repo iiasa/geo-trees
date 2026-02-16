@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { PageComments } from "@/features/cms/comments/components/page-comments";
 import { ENTITY_TYPES } from "@/features/cms/comments/constants";
 import { PuckRender } from "@/features/cms/pages/components/puck-render";
-import { pagesPublicFindBySlugOptions } from "@/infrastructure/api/@tanstack/react-query.gen";
+import { getApiCmsKitPublicPagesBySlugOptions } from "@/infrastructure/api/@tanstack/react-query.gen";
 import { PageHeader } from "@/shared/components/page-header";
 import { Spinner } from "@/shared/components/ui/spinner";
 
@@ -23,7 +23,7 @@ export const Route = createFileRoute("/page/$slug")({
 function PageComponent() {
 	const { slug } = Route.useParams();
 	const { data: page, isLoading } = useQuery(
-		pagesPublicFindBySlugOptions({ query: { slug } }),
+		getApiCmsKitPublicPagesBySlugOptions({ query: { slug } }),
 	);
 
 	if (isLoading) {

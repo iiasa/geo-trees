@@ -2,7 +2,7 @@ import { useMemo } from "react";
 import type {
 	CommentWithDetailsDto,
 	VoloCmsKitPublicCommentsCommentDto,
-} from "@/infrastructure/api/types.gen";
+} from "../types";
 
 export interface CommentNode {
 	id?: string;

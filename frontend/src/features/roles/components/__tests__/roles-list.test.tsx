@@ -9,7 +9,7 @@ vi.mock("@/infrastructure/api/@tanstack/react-query.gen", () => {
 		"@/infrastructure/api/@tanstack/react-query.gen",
 	);
 
-	const mockRoleGetListOptions = vi.fn(() => ({
+	const mockGetApiIdentityRolesOptions = vi.fn(() => ({
 		queryKey: ["roles"],
 		queryFn: async () => ({
 			items: [
@@ -34,30 +34,30 @@ vi.mock("@/infrastructure/api/@tanstack/react-query.gen", () => {
 
 	return {
 		...originalModule,
-		roleGetListOptions: mockRoleGetListOptions,
-		permissionsGetOptions: vi.fn(() => ({
+		getApiIdentityRolesOptions: mockGetApiIdentityRolesOptions,
+		getApiPermissionManagementPermissionsOptions: vi.fn(() => ({
 			queryKey: ["permissions"],
 			queryFn: async () => ({
 				items: [],
 				totalCount: 0,
 			}),
 		})),
-		permissionsUpdateMutation: vi.fn(() => ({
+		putApiPermissionManagementPermissionsMutation: vi.fn(() => ({
 			mutationFn: vi.fn(),
 			onSuccess: vi.fn(),
 			onError: vi.fn(),
 		})),
-		roleCreateMutation: vi.fn(() => ({
+		postApiIdentityRolesMutation: vi.fn(() => ({
 			mutationFn: vi.fn(),
 			onSuccess: vi.fn(),
 			onError: vi.fn(),
 		})),
-		roleUpdateMutation: vi.fn(() => ({
+		putApiIdentityRolesByIdMutation: vi.fn(() => ({
 			mutationFn: vi.fn(),
 			onSuccess: vi.fn(),
 			onError: vi.fn(),
 		})),
-		roleDeleteMutation: vi.fn(() => ({
+		deleteApiIdentityRolesByIdMutation: vi.fn(() => ({
 			mutationFn: vi.fn(),
 			onSuccess: vi.fn(),
 			onError: vi.fn(),
@@ -128,13 +128,13 @@ describe("RolesList", () => {
 
 	it("should show loading state when loading", async () => {
 		// Mock loading state by making queryFn return a promise that doesn't resolve immediately
-		const { roleGetListOptions } = await import(
+		const { getApiIdentityRolesOptions } = await import(
 			"@/infrastructure/api/@tanstack/react-query.gen"
 		);
-		vi.mocked(roleGetListOptions).mockReturnValueOnce({
+		vi.mocked(getApiIdentityRolesOptions).mockReturnValueOnce({
 			queryKey: ["roles"],
 			queryFn: () => new Promise(() => {}), // Never resolves, keeps loading
-		} as unknown as ReturnType<typeof roleGetListOptions>);
+		} as unknown as ReturnType<typeof getApiIdentityRolesOptions>);
 
 		render(<RolesList />, { wrapper });
 

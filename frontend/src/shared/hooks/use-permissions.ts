@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { abpApplicationConfigurationGetOptions } from "@/infrastructure/api/@tanstack/react-query.gen";
+import { getApiAbpApplicationConfigurationOptions } from "@/infrastructure/api/@tanstack/react-query.gen";
 
 /**
  * Hook to check user permissions using ABP's application configuration
@@ -26,7 +26,7 @@ import { abpApplicationConfigurationGetOptions } from "@/infrastructure/api/@tan
  */
 export function usePermissions() {
 	const { data: appConfig, isLoading } = useQuery(
-		abpApplicationConfigurationGetOptions(),
+		getApiAbpApplicationConfigurationOptions(),
 	);
 
 	const grantedPolicies = appConfig?.auth?.grantedPolicies ?? {};

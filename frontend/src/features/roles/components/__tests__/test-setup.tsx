@@ -10,7 +10,7 @@ global.ResizeObserver = ResizeObserverMock as typeof ResizeObserver;
 
 // Mock global API and store hooks
 vi.mock("@/infrastructure/api/@tanstack/react-query.gen", () => ({
-	roleGetListOptions: () => ({
+	getApiIdentityRolesOptions: () => ({
 		queryKey: ["roles"],
 		queryFn: () =>
 			Promise.resolve({

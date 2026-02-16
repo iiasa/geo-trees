@@ -1,9 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
 import {
-	roleGetListOptions,
-	tenantGetListOptions,
-	userGetListOptions,
+	getApiIdentityRolesOptions,
+	getApiMultiTenancyTenantsOptions,
+	getApiIdentityUsersOptions,
 } from "@/infrastructure/api/@tanstack/react-query.gen";
 import {
 	Card,
@@ -32,7 +32,7 @@ export default function Dashboard() {
 		isLoading: isLoadingUsers,
 		error: usersError,
 	} = useQuery(
-		userGetListOptions({
+		getApiIdentityUsersOptions({
 			query: {
 				MaxResultCount: 1000,
 				SkipCount: 0,
@@ -46,7 +46,7 @@ export default function Dashboard() {
 		isLoading: isLoadingRoles,
 		error: rolesError,
 	} = useQuery(
-		roleGetListOptions({
+		getApiIdentityRolesOptions({
 			query: {
 				MaxResultCount: 1000,
 				SkipCount: 0,
@@ -60,7 +60,7 @@ export default function Dashboard() {
 		isLoading: isLoadingTenants,
 		error: tenantsError,
 	} = useQuery(
-		tenantGetListOptions({
+		getApiMultiTenancyTenantsOptions({
 			query: {
 				MaxResultCount: 1000,
 				SkipCount: 0,

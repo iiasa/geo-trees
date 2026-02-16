@@ -78,12 +78,17 @@
     {
       "name": "Install Dependencies",
       "command": "make install",
-      "description": "Install backend and frontend dependencies"
+      "description": "Install frontend (pnpm) and backend (ABP) dependencies"
+    },
+    {
+      "name": "Run Frontend",
+      "command": "make fe-dev",
+      "description": "Start frontend dev server on port 3000"
     },
     {
       "name": "Run Backend",
-      "command": "make run-api",
-      "description": "Start FastAPI backend at http://localhost:8000"
+      "command": "make be-run",
+      "description": "Start ABP backend server"
     }
   ]
 }

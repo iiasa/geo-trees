@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using IIASA.GeoTrees.Data;
+using IIASA.GeoTrees.Extensions;
 using IIASA.GeoTrees.HealthChecks;
 using IIASA.GeoTrees.Localization;
 using IIASA.GeoTrees.Menus;
@@ -194,6 +195,11 @@ public class GeoTreesModule : AbpModule
         ConfigureNavigationServices();
         ConfigureEfCore(context);
 
+        // Override ABP's TimeZoneSettingsAppService to handle deprecated IANA timezone IDs on Linux
+        context.Services.Replace(
+            ServiceDescriptor.Transient<ITimeZoneSettingsAppService, SafeTimeZoneSettingsAppService>()
+        );
+
         Configure<RazorPagesOptions>(options =>
         {
             options.Conventions.AuthorizePage("/Books/Index", GeoTreesPermissions.Books.Default);
@@ -338,30 +344,7 @@ public class GeoTreesModule : AbpModule
         {
             options.SwaggerDoc("v1", new OpenApiInfo { Title = "GeoTrees API", Version = "v1" });
             options.DocInclusionPredicate((docName, description) => true);
-            var schemaIdTracker = new Dictionary<string, Type>();
-            options.CustomSchemaIds(type =>
-            {
-                string name;
-                if (type.IsGenericType)
-                {
-                    name = $"{type.Name.Split('`')[0]}<{string.Join(",", type.GenericTypeArguments.Select(t => t.Name))}>";
-                }
-                else
-                {
-                    name = type.Name;
-                }
-
-                if (schemaIdTracker.TryGetValue(name, out var existing) && existing != type)
-                {
-                    // Conflict — qualify with parent namespace segment
-                    var parts = type.Namespace?.Split('.') ?? [];
-                    var prefix = parts.Length >= 2 ? parts[^2] : type.Namespace ?? "";
-                    name = $"{prefix}{name}";
-                }
-
-                schemaIdTracker.TryAdd(name, type);
-                return name;
-            });
+            options.CustomSchemaIds(type => type.FriendlyId());
         });
     }
 

@@ -9,7 +9,7 @@ import {
 	commentAdminGetListQueryKey,
 	commentAdminGetWaitingCountOptions,
 	commentAdminUpdateApprovalStatusMutation,
-} from "@/infrastructure/api/@tanstack/react-query.gen";
+} from "../api-stubs";
 import { Alert, AlertDescription } from "@/shared/components/ui/alert";
 import {
 	AlertDialog,
@@ -161,7 +161,7 @@ export function CommentsModeration() {
 		return (
 			<Alert variant="destructive">
 				<AlertDescription>
-					Failed to load comments: {error?.error?.message || "Unknown error"}
+					Failed to load comments: {error?.message || "Unknown error"}
 				</AlertDescription>
 			</Alert>
 		);

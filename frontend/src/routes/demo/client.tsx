@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { DEMO_CONSTANTS } from "@/infrastructure/constants";
 
-import { abpApplicationConfigurationGetOptions } from "@/infrastructure/api/@tanstack/react-query.gen";
+import { getApiAbpApplicationConfigurationOptions } from "@/infrastructure/api/@tanstack/react-query.gen";
 import type { LanguageInfo } from "@/infrastructure/api/types.gen";
 import {
 	Card,
@@ -22,7 +22,7 @@ function ClientDemo() {
 		isLoading: appConfigLoading,
 		error: appConfigError,
 		isError: appConfigIsError,
-	} = useQuery(abpApplicationConfigurationGetOptions());
+	} = useQuery(getApiAbpApplicationConfigurationOptions());
 
 	return (
 		<div className="container mx-auto py-8">
