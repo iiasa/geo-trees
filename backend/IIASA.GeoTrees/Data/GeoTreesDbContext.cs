@@ -11,6 +11,7 @@ using Volo.Abp.OpenIddict.EntityFrameworkCore;
 using Volo.Abp.PermissionManagement.EntityFrameworkCore;
 using Volo.Abp.SettingManagement.EntityFrameworkCore;
 using Volo.Abp.TenantManagement.EntityFrameworkCore;
+using Volo.CmsKit.EntityFrameworkCore;
 
 namespace IIASA.GeoTrees.Data;
 
@@ -39,6 +40,7 @@ public class GeoTreesDbContext : AbpDbContext<GeoTreesDbContext>
         builder.ConfigureIdentity();
         builder.ConfigureOpenIddict();
         builder.ConfigureTenantManagement();
+        builder.ConfigureCmsKit();
 
         builder.Entity<Book>(b =>
         {

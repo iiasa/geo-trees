@@ -116,6 +116,67 @@ export const zClockDto = z.object({
 
 export type ClockDtoZodType = z.infer<typeof zClockDto>;
 
+export const zCmsKitPageDto = z.object({
+    extraProperties: z.optional(z.union([
+        z.record(z.string(), z.unknown()).readonly(),
+        z.null()
+    ]).readonly()),
+    id: z.optional(z.uuid()),
+    title: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    slug: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    layoutName: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    content: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    script: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    style: z.optional(z.union([
+        z.string(),
+        z.null()
+    ]))
+});
+
+export type CmsKitPageDtoZodType = z.infer<typeof zCmsKitPageDto>;
+
+export const zCreatePageInputDto = z.object({
+    extraProperties: z.optional(z.union([
+        z.record(z.string(), z.unknown()).readonly(),
+        z.null()
+    ]).readonly()),
+    title: z.string().min(1).max(256),
+    slug: z.string().min(1).max(256),
+    layoutName: z.optional(z.union([
+        z.string().max(256),
+        z.null()
+    ])),
+    content: z.optional(z.union([
+        z.string().max(2147483647),
+        z.null()
+    ])),
+    script: z.optional(z.union([
+        z.string().max(2147483647),
+        z.null()
+    ])),
+    style: z.optional(z.union([
+        z.string().max(2147483647),
+        z.null()
+    ]))
+});
+
+export type CreatePageInputDtoZodType = z.infer<typeof zCreatePageInputDto>;
+
 export const zCreateUpdateBookDto = z.object({
     name: z.string().min(0).max(128),
     type: zBookType,
@@ -974,6 +1035,58 @@ export const zObjectExtensionsDto = z.object({
 
 export type ObjectExtensionsDtoZodType = z.infer<typeof zObjectExtensionsDto>;
 
+export const zPageDto = z.object({
+    extraProperties: z.optional(z.union([
+        z.record(z.string(), z.unknown()).readonly(),
+        z.null()
+    ]).readonly()),
+    id: z.optional(z.uuid()),
+    creationTime: z.optional(z.iso.datetime()),
+    creatorId: z.optional(z.union([
+        z.uuid(),
+        z.null()
+    ])),
+    lastModificationTime: z.optional(z.union([
+        z.iso.datetime(),
+        z.null()
+    ])),
+    lastModifierId: z.optional(z.union([
+        z.uuid(),
+        z.null()
+    ])),
+    title: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    slug: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    layoutName: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    content: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    script: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    style: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    isHomePage: z.optional(z.boolean()),
+    concurrencyStamp: z.optional(z.union([
+        z.string(),
+        z.null()
+    ]))
+});
+
+export type PageDtoZodType = z.infer<typeof zPageDto>;
+
 export const zPagedResultDto_BookDto_ = z.object({
     items: z.optional(z.union([
         z.array(zBookDto),
@@ -1003,6 +1116,16 @@ export const zPagedResultDto_IdentityUserDto_ = z.object({
 });
 
 export type PagedResultDto_IdentityUserDto_ZodType = z.infer<typeof zPagedResultDto_IdentityUserDto_>;
+
+export const zPagedResultDto_PageDto_ = z.object({
+    items: z.optional(z.union([
+        z.array(zPageDto),
+        z.null()
+    ])),
+    totalCount: z.optional(z.coerce.bigint())
+});
+
+export type PagedResultDto_PageDto_ZodType = z.infer<typeof zPagedResultDto_PageDto_>;
 
 export const zParameterApiDescriptionModel = z.object({
     nameOnMethod: z.optional(z.union([
@@ -1565,6 +1688,37 @@ export const zUpdateFeaturesDto = z.object({
 
 export type UpdateFeaturesDtoZodType = z.infer<typeof zUpdateFeaturesDto>;
 
+export const zUpdatePageInputDto = z.object({
+    extraProperties: z.optional(z.union([
+        z.record(z.string(), z.unknown()).readonly(),
+        z.null()
+    ]).readonly()),
+    title: z.string().min(1).max(256),
+    slug: z.string().min(1).max(256),
+    layoutName: z.optional(z.union([
+        z.string().max(256),
+        z.null()
+    ])),
+    content: z.optional(z.union([
+        z.string().max(2147483647),
+        z.null()
+    ])),
+    script: z.optional(z.union([
+        z.string().max(2147483647),
+        z.null()
+    ])),
+    style: z.optional(z.union([
+        z.string().max(2147483647),
+        z.null()
+    ])),
+    concurrencyStamp: z.optional(z.union([
+        z.string(),
+        z.null()
+    ]))
+});
+
+export type UpdatePageInputDtoZodType = z.infer<typeof zUpdatePageInputDto>;
+
 export const zUpdatePermissionDto = z.object({
     name: z.optional(z.union([
         z.string(),
@@ -1725,6 +1879,59 @@ export const zAbpLoginResultWritable = z.object({
 });
 
 export type AbpLoginResultWritableZodType = z.infer<typeof zAbpLoginResultWritable>;
+
+export const zCmsKitPageDtoWritable = z.object({
+    id: z.optional(z.uuid()),
+    title: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    slug: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    layoutName: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    content: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    script: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    style: z.optional(z.union([
+        z.string(),
+        z.null()
+    ]))
+});
+
+export type CmsKitPageDtoWritableZodType = z.infer<typeof zCmsKitPageDtoWritable>;
+
+export const zCreatePageInputDtoWritable = z.object({
+    title: z.string().min(1).max(256),
+    slug: z.string().min(1).max(256),
+    layoutName: z.optional(z.union([
+        z.string().max(256),
+        z.null()
+    ])),
+    content: z.optional(z.union([
+        z.string().max(2147483647),
+        z.null()
+    ])),
+    script: z.optional(z.union([
+        z.string().max(2147483647),
+        z.null()
+    ])),
+    style: z.optional(z.union([
+        z.string().max(2147483647),
+        z.null()
+    ]))
+});
+
+export type CreatePageInputDtoWritableZodType = z.infer<typeof zCreatePageInputDtoWritable>;
 
 export const zIValueValidatorWritable = z.record(z.string(), z.never());
 
@@ -2033,6 +2240,54 @@ export const zListResultDto_IdentityRoleDto_Writable = z.object({
 
 export type ListResultDto_IdentityRoleDto_WritableZodType = z.infer<typeof zListResultDto_IdentityRoleDto_Writable>;
 
+export const zPageDtoWritable = z.object({
+    id: z.optional(z.uuid()),
+    creationTime: z.optional(z.iso.datetime()),
+    creatorId: z.optional(z.union([
+        z.uuid(),
+        z.null()
+    ])),
+    lastModificationTime: z.optional(z.union([
+        z.iso.datetime(),
+        z.null()
+    ])),
+    lastModifierId: z.optional(z.union([
+        z.uuid(),
+        z.null()
+    ])),
+    title: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    slug: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    layoutName: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    content: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    script: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    style: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    isHomePage: z.optional(z.boolean()),
+    concurrencyStamp: z.optional(z.union([
+        z.string(),
+        z.null()
+    ]))
+});
+
+export type PageDtoWritableZodType = z.infer<typeof zPageDtoWritable>;
+
 export const zPagedResultDto_IdentityRoleDto_Writable = z.object({
     items: z.optional(z.union([
         z.array(zIdentityRoleDtoWritable),
@@ -2052,6 +2307,16 @@ export const zPagedResultDto_IdentityUserDto_Writable = z.object({
 });
 
 export type PagedResultDto_IdentityUserDto_WritableZodType = z.infer<typeof zPagedResultDto_IdentityUserDto_Writable>;
+
+export const zPagedResultDto_PageDto_Writable = z.object({
+    items: z.optional(z.union([
+        z.array(zPageDtoWritable),
+        z.null()
+    ])),
+    totalCount: z.optional(z.coerce.bigint())
+});
+
+export type PagedResultDto_PageDto_WritableZodType = z.infer<typeof zPagedResultDto_PageDto_Writable>;
 
 export const zProfileDtoWritable = z.object({
     userName: z.optional(z.union([
@@ -2134,6 +2399,33 @@ export const zTenantUpdateDtoWritable = z.object({
 });
 
 export type TenantUpdateDtoWritableZodType = z.infer<typeof zTenantUpdateDtoWritable>;
+
+export const zUpdatePageInputDtoWritable = z.object({
+    title: z.string().min(1).max(256),
+    slug: z.string().min(1).max(256),
+    layoutName: z.optional(z.union([
+        z.string().max(256),
+        z.null()
+    ])),
+    content: z.optional(z.union([
+        z.string().max(2147483647),
+        z.null()
+    ])),
+    script: z.optional(z.union([
+        z.string().max(2147483647),
+        z.null()
+    ])),
+    style: z.optional(z.union([
+        z.string().max(2147483647),
+        z.null()
+    ])),
+    concurrencyStamp: z.optional(z.union([
+        z.string(),
+        z.null()
+    ]))
+});
+
+export type UpdatePageInputDtoWritableZodType = z.infer<typeof zUpdatePageInputDtoWritable>;
 
 export const zUpdateProfileDtoWritable = z.object({
     userName: z.optional(z.union([
@@ -2416,6 +2708,22 @@ export const zPostApiAppBookResponse = zBookDto;
 
 export type PostApiAppBookResponseZodType = z.infer<typeof zPostApiAppBookResponse>;
 
+export const zGetCmsKitGlobalResourcesStyleData = z.object({
+    body: z.optional(z.never()),
+    path: z.optional(z.never()),
+    query: z.optional(z.never())
+});
+
+export type GetCmsKitGlobalResourcesStyleDataZodType = z.infer<typeof zGetCmsKitGlobalResourcesStyleData>;
+
+export const zGetCmsKitGlobalResourcesScriptData = z.object({
+    body: z.optional(z.never()),
+    path: z.optional(z.never()),
+    query: z.optional(z.never())
+});
+
+export type GetCmsKitGlobalResourcesScriptDataZodType = z.infer<typeof zGetCmsKitGlobalResourcesScriptData>;
+
 export const zPostApiAccountDynamicClaimsRefreshData = z.object({
     body: z.optional(z.never()),
     path: z.optional(z.never()),
@@ -2532,6 +2840,144 @@ export type PostApiAccountCheckPasswordDataZodType = z.infer<typeof zPostApiAcco
 export const zPostApiAccountCheckPasswordResponse = zAbpLoginResult;
 
 export type PostApiAccountCheckPasswordResponseZodType = z.infer<typeof zPostApiAccountCheckPasswordResponse>;
+
+export const zDeleteApiCmsKitAdminPagesByIdData = z.object({
+    body: z.optional(z.never()),
+    path: z.object({
+        id: z.uuid()
+    }),
+    query: z.optional(z.never())
+});
+
+export type DeleteApiCmsKitAdminPagesByIdDataZodType = z.infer<typeof zDeleteApiCmsKitAdminPagesByIdData>;
+
+export const zGetApiCmsKitAdminPagesByIdData = z.object({
+    body: z.optional(z.never()),
+    path: z.object({
+        id: z.uuid()
+    }),
+    query: z.optional(z.never())
+});
+
+export type GetApiCmsKitAdminPagesByIdDataZodType = z.infer<typeof zGetApiCmsKitAdminPagesByIdData>;
+
+/**
+ * OK
+ */
+export const zGetApiCmsKitAdminPagesByIdResponse = zPageDto;
+
+export type GetApiCmsKitAdminPagesByIdResponseZodType = z.infer<typeof zGetApiCmsKitAdminPagesByIdResponse>;
+
+export const zPutApiCmsKitAdminPagesByIdData = z.object({
+    body: z.optional(zUpdatePageInputDtoWritable),
+    path: z.object({
+        id: z.uuid()
+    }),
+    query: z.optional(z.never())
+});
+
+export type PutApiCmsKitAdminPagesByIdDataZodType = z.infer<typeof zPutApiCmsKitAdminPagesByIdData>;
+
+/**
+ * OK
+ */
+export const zPutApiCmsKitAdminPagesByIdResponse = zPageDto;
+
+export type PutApiCmsKitAdminPagesByIdResponseZodType = z.infer<typeof zPutApiCmsKitAdminPagesByIdResponse>;
+
+export const zGetApiCmsKitAdminPagesData = z.object({
+    body: z.optional(z.never()),
+    path: z.optional(z.never()),
+    query: z.optional(z.object({
+        Filter: z.optional(z.string()),
+        Sorting: z.optional(z.string()),
+        SkipCount: z.optional(z.int().gte(0).lte(2147483647)),
+        MaxResultCount: z.optional(z.int().gte(1).lte(2147483647))
+    }))
+});
+
+export type GetApiCmsKitAdminPagesDataZodType = z.infer<typeof zGetApiCmsKitAdminPagesData>;
+
+/**
+ * OK
+ */
+export const zGetApiCmsKitAdminPagesResponse = zPagedResultDto_PageDto_;
+
+export type GetApiCmsKitAdminPagesResponseZodType = z.infer<typeof zGetApiCmsKitAdminPagesResponse>;
+
+export const zPostApiCmsKitAdminPagesData = z.object({
+    body: z.optional(zCreatePageInputDtoWritable),
+    path: z.optional(z.never()),
+    query: z.optional(z.never())
+});
+
+export type PostApiCmsKitAdminPagesDataZodType = z.infer<typeof zPostApiCmsKitAdminPagesData>;
+
+/**
+ * OK
+ */
+export const zPostApiCmsKitAdminPagesResponse = zPageDto;
+
+export type PostApiCmsKitAdminPagesResponseZodType = z.infer<typeof zPostApiCmsKitAdminPagesResponse>;
+
+export const zPutApiCmsKitAdminPagesSetashomepageByIdData = z.object({
+    body: z.optional(z.never()),
+    path: z.object({
+        id: z.uuid()
+    }),
+    query: z.optional(z.never())
+});
+
+export type PutApiCmsKitAdminPagesSetashomepageByIdDataZodType = z.infer<typeof zPutApiCmsKitAdminPagesSetashomepageByIdData>;
+
+export const zGetApiCmsKitPublicPagesBySlugData = z.object({
+    body: z.optional(z.never()),
+    path: z.optional(z.never()),
+    query: z.optional(z.object({
+        slug: z.optional(z.string())
+    }))
+});
+
+export type GetApiCmsKitPublicPagesBySlugDataZodType = z.infer<typeof zGetApiCmsKitPublicPagesBySlugData>;
+
+/**
+ * OK
+ */
+export const zGetApiCmsKitPublicPagesBySlugResponse = zCmsKitPageDto;
+
+export type GetApiCmsKitPublicPagesBySlugResponseZodType = z.infer<typeof zGetApiCmsKitPublicPagesBySlugResponse>;
+
+export const zGetApiCmsKitPublicPagesHomeData = z.object({
+    body: z.optional(z.never()),
+    path: z.optional(z.never()),
+    query: z.optional(z.never())
+});
+
+export type GetApiCmsKitPublicPagesHomeDataZodType = z.infer<typeof zGetApiCmsKitPublicPagesHomeData>;
+
+/**
+ * OK
+ */
+export const zGetApiCmsKitPublicPagesHomeResponse = zCmsKitPageDto;
+
+export type GetApiCmsKitPublicPagesHomeResponseZodType = z.infer<typeof zGetApiCmsKitPublicPagesHomeResponse>;
+
+export const zGetApiCmsKitPublicPagesExistData = z.object({
+    body: z.optional(z.never()),
+    path: z.optional(z.never()),
+    query: z.optional(z.object({
+        slug: z.optional(z.string())
+    }))
+});
+
+export type GetApiCmsKitPublicPagesExistDataZodType = z.infer<typeof zGetApiCmsKitPublicPagesExistData>;
+
+/**
+ * OK
+ */
+export const zGetApiCmsKitPublicPagesExistResponse = z.boolean();
+
+export type GetApiCmsKitPublicPagesExistResponseZodType = z.infer<typeof zGetApiCmsKitPublicPagesExistResponse>;
 
 export const zGetApiPermissionManagementPermissionsData = z.object({
     body: z.optional(z.never()),

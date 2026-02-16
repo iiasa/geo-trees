@@ -65,6 +65,9 @@ using Volo.Abp.UI.Navigation.Urls;
 using Volo.Abp.Uow;
 using Volo.Abp.Validation.Localization;
 using Volo.Abp.VirtualFileSystem;
+using Volo.CmsKit.Web;
+using Volo.CmsKit;
+using Volo.CmsKit.EntityFrameworkCore;
 
 namespace IIASA.GeoTrees;
 
@@ -115,7 +118,12 @@ namespace IIASA.GeoTrees;
     typeof(AbpSettingManagementEntityFrameworkCoreModule),
     typeof(AbpBackgroundJobsEntityFrameworkCoreModule),
     typeof(BlobStoringDatabaseEntityFrameworkCoreModule),
-    typeof(AbpEntityFrameworkCorePostgreSqlModule)
+    typeof(AbpEntityFrameworkCorePostgreSqlModule),
+    // CMS Kit module packages
+    typeof(CmsKitWebModule),
+    typeof(CmsKitHttpApiModule),
+    typeof(CmsKitApplicationModule),
+    typeof(CmsKitEntityFrameworkCoreModule)
 )]
 public class GeoTreesModule : AbpModule
 {
@@ -330,9 +338,30 @@ public class GeoTreesModule : AbpModule
         {
             options.SwaggerDoc("v1", new OpenApiInfo { Title = "GeoTrees API", Version = "v1" });
             options.DocInclusionPredicate((docName, description) => true);
-            options.CustomSchemaIds(type => type.IsGenericType
-                ? $"{type.Name.Split('`')[0]}<{string.Join(",", type.GenericTypeArguments.Select(t => t.Name))}>"
-                : type.Name);
+            var schemaIdTracker = new Dictionary<string, Type>();
+            options.CustomSchemaIds(type =>
+            {
+                string name;
+                if (type.IsGenericType)
+                {
+                    name = $"{type.Name.Split('`')[0]}<{string.Join(",", type.GenericTypeArguments.Select(t => t.Name))}>";
+                }
+                else
+                {
+                    name = type.Name;
+                }
+
+                if (schemaIdTracker.TryGetValue(name, out var existing) && existing != type)
+                {
+                    // Conflict — qualify with parent namespace segment
+                    var parts = type.Namespace?.Split('.') ?? [];
+                    var prefix = parts.Length >= 2 ? parts[^2] : type.Namespace ?? "";
+                    name = $"{prefix}{name}";
+                }
+
+                schemaIdTracker.TryAdd(name, type);
+                return name;
+            });
         });
     }
 
