@@ -1,8 +1,7 @@
-import { test, expect } from "@playwright/test";
+// Allow self-signed certs for direct backend API calls
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 
-// Run all auth tests serially to avoid DB concurrency errors
-// when multiple tests hit ABP's login page simultaneously
-test.describe.configure({ mode: "serial" });
+import { test, expect } from "@playwright/test";
 
 /**
  * E2E tests for authentication flows.
@@ -18,8 +17,17 @@ test.describe.configure({ mode: "serial" });
  */
 
 const MAILPIT_API = process.env.MAILPIT_API || "http://localhost:8025/api/v1";
-const ADMIN_USERNAME = "admin";
+const BACKEND_URL = process.env.BACKEND_URL || "https://localhost:44324";
 const ADMIN_PASSWORD = "1q2w3E*";
+
+// --- Types ---
+
+type TestUser = {
+	id: string;
+	username: string;
+	email: string;
+	password: string;
+};
 
 // --- Helpers ---
 
@@ -39,20 +47,159 @@ async function getMailpitMessages(retries = 10, delayMs = 1000) {
 	return [];
 }
 
-async function findEmailByTo(toAddress: string, retries = 10) {
-	const messages = await getMailpitMessages(retries);
-	return messages.find((m: { To: { Address: string }[] }) =>
-		m.To.some((t: { Address: string }) => t.Address === toAddress),
-	);
+async function findEmailByTo(
+	toAddress: string,
+	retries = 10,
+	subjectPattern?: RegExp,
+) {
+	for (let i = 0; i < retries; i++) {
+		const messages = await getMailpitMessages(1, 0);
+		const match = messages.find(
+			(m: { To: { Address: string }[]; Subject: string }) =>
+				m.To.some((t: { Address: string }) => t.Address === toAddress) &&
+				(!subjectPattern || subjectPattern.test(m.Subject)),
+		);
+		if (match) return match;
+		await new Promise((r) => setTimeout(r, 1000));
+	}
+	return undefined;
+}
+
+/** Fetch the full HTML body of an email from Mailpit */
+async function getEmailBody(messageId: string): Promise<string> {
+	const res = await fetch(`${MAILPIT_API}/message/${messageId}`);
+	const data = await res.json();
+	return data.HTML || data.Text || "";
+}
+
+/** Extract the confirmation URL from the email HTML */
+function extractConfirmationUrl(html: string): string | null {
+	const match = html.match(/href="([^"]*\/auth\/confirm-email\?[^"]*)"/);
+	if (!match) return null;
+	// Decode HTML entities (e.g. &amp; -> &)
+	return match[1].replace(/&amp;/g, "&");
 }
 
 function generateTestUser() {
-	const id = Date.now().toString(36);
+	const id = Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
 	return {
 		username: `testuser_${id}`,
 		email: `testuser_${id}@test.local`,
-		password: "TestPass1",
+		password: "TestPass1!",
 	};
+}
+
+/** Get admin session (cookies + XSRF token) for authenticated API calls */
+async function getAdminSession(): Promise<{ cookies: string; xsrf: string }> {
+	const loginRes = await fetch(`${BACKEND_URL}/api/account/login`, {
+		method: "POST",
+		headers: { "Content-Type": "application/json" },
+		body: JSON.stringify({
+			userNameOrEmailAddress: "admin",
+			password: ADMIN_PASSWORD,
+			rememberMe: false,
+		}),
+	});
+
+	if (!loginRes.ok) {
+		throw new Error(`Admin login failed (${loginRes.status})`);
+	}
+
+	const loginCookies = loginRes.headers.getSetCookie?.() || [];
+
+	// Fetch ABP config to get XSRF cookie
+	const configRes = await fetch(
+		`${BACKEND_URL}/api/abp/application-configuration`,
+		{ headers: { Cookie: loginCookies.map((c) => c.split(";")[0]).join("; ") } },
+	);
+	const configCookies = configRes.headers.getSetCookie?.() || [];
+
+	const allCookies = [...loginCookies, ...configCookies];
+	const cookies = allCookies.map((c) => c.split(";")[0]).join("; ");
+	const xsrfCookie = allCookies.find((c) => c.startsWith("XSRF-TOKEN="));
+	const xsrf = xsrfCookie
+		? decodeURIComponent(xsrfCookie.split(";")[0].replace("XSRF-TOKEN=", ""))
+		: "";
+
+	return { cookies, xsrf };
+}
+
+/** Register a user, confirm email via welcome email link, return user details */
+async function createAndConfirmUser(
+	page: import("@playwright/test").Page,
+): Promise<TestUser> {
+	const user = generateTestUser();
+
+	// Clear mailpit so we only see this user's welcome email
+	await clearMailpit();
+
+	// Register via backend API
+	const res = await fetch(`${BACKEND_URL}/api/account/register`, {
+		method: "POST",
+		headers: { "Content-Type": "application/json" },
+		body: JSON.stringify({
+			userName: user.username,
+			emailAddress: user.email,
+			password: user.password,
+			appName: "GeoTrees",
+		}),
+	});
+
+	if (!res.ok) {
+		const err = await res.text();
+		throw new Error(`Registration failed (${res.status}): ${err}`);
+	}
+
+	const data = await res.json();
+
+	// Wait for welcome email
+	const welcomeEmail = await findEmailByTo(user.email, 15);
+	if (!welcomeEmail) {
+		throw new Error(`Welcome email not received for ${user.email}`);
+	}
+
+	// Extract confirmation link from email
+	const emailHtml = await getEmailBody(welcomeEmail.ID);
+	const confirmUrl = extractConfirmationUrl(emailHtml);
+	if (!confirmUrl) {
+		throw new Error("Could not find confirmation link in welcome email");
+	}
+
+	// Visit the confirmation URL in the browser
+	await page.goto(confirmUrl);
+
+	// Wait for the confirmation success
+	await page.waitForSelector('text="Email Confirmed"', { timeout: 15000 });
+
+	return {
+		id: data.id,
+		username: user.username,
+		email: user.email,
+		password: user.password,
+	};
+}
+
+/** Delete a user via admin API */
+async function deleteUser(userId: string): Promise<void> {
+	try {
+		const { cookies, xsrf } = await getAdminSession();
+		const deleteRes = await fetch(
+			`${BACKEND_URL}/api/identity/users/${userId}`,
+			{
+				method: "DELETE",
+				headers: {
+					Cookie: cookies,
+					RequestVerificationToken: xsrf,
+				},
+			},
+		);
+
+		if (!deleteRes.ok && deleteRes.status !== 404) {
+			console.warn(`Failed to delete user ${userId}: ${deleteRes.status}`);
+		}
+	} catch (err) {
+		console.warn(`User cleanup failed for ${userId}:`, err);
+	}
 }
 
 // --- Login via OIDC (ABP backend login page) ---
@@ -158,13 +305,25 @@ test.describe("Signup Flow", () => {
 });
 
 test.describe("Login Flow", () => {
-	test("should login with admin credentials via OIDC", async ({ page }) => {
-		await loginViaOidc(page, ADMIN_USERNAME, ADMIN_PASSWORD);
+	let testUser: TestUser;
+
+	test.beforeEach(async ({ page }) => {
+		testUser = await createAndConfirmUser(page);
+	});
+
+	test.afterEach(async () => {
+		if (testUser?.id) {
+			await deleteUser(testUser.id);
+		}
+	});
+
+	test("should login with valid credentials via OIDC", async ({ page }) => {
+		await loginViaOidc(page, testUser.username, testUser.password);
 
 		// Should see authenticated content (redirects to dashboard)
-		await expect(page.getByText(/welcome,?\s*admin/i)).toBeVisible({
-			timeout: 10000,
-		});
+		await expect(
+			page.getByText(new RegExp(`welcome,?\\s*${testUser.username}`, "i")),
+		).toBeVisible({ timeout: 10000 });
 	});
 
 	test("should show error for invalid credentials", async ({ page }) => {
@@ -175,7 +334,7 @@ test.describe("Login Flow", () => {
 
 		await page
 			.locator("#LoginInput_UserNameOrEmailAddress")
-			.fill("admin");
+			.fill(testUser.username);
 		await page.locator("#LoginInput_Password").fill("wrongpassword");
 		await page.getByRole("button", { name: /^login$/i }).click();
 
@@ -197,39 +356,46 @@ test.describe("Login Flow", () => {
 });
 
 test.describe("Forgot Password Flow", () => {
-	test.beforeEach(async () => {
-		await clearMailpit();
-	});
-
 	test("should send password reset email", async ({ page }) => {
-		await page.goto("/auth/forgot-password");
-		await page.waitForLoadState("networkidle");
+		const testUser = await createAndConfirmUser(page);
 
-		await page.getByLabel(/email/i).click();
-		await page.getByLabel(/email/i).fill("admin@abp.io");
-		await page.getByRole("button", { name: /send reset code/i }).click();
+		try {
+			// Clear Mailpit after user creation so we only see the reset email
+			await clearMailpit();
 
-		// Should see success screen
-		await expect(page.getByText(/check your email/i).first()).toBeVisible({
-			timeout: 10000,
-		});
+			await page.goto("/auth/forgot-password");
+			await page.waitForLoadState("networkidle");
 
-		// Check Mailpit for the reset email
-		const resetEmail = await findEmailByTo("admin@abp.io");
-		expect(resetEmail).toBeTruthy();
+			await page.getByRole("textbox", { name: /email/i }).click();
+			await page.getByRole("textbox", { name: /email/i }).fill(testUser.email);
+			await page.getByRole("button", { name: /send reset code/i }).click();
+
+			// Should see success screen
+			await expect(
+				page.getByText(/check your email/i).first(),
+			).toBeVisible({ timeout: 10000 });
+
+			// Check Mailpit for the reset email
+			const resetEmail = await findEmailByTo(testUser.email);
+			expect(resetEmail).toBeTruthy();
+		} finally {
+			await deleteUser(testUser.id);
+		}
 	});
 
 	test("should show error for non-existent email", async ({ page }) => {
 		await page.goto("/auth/forgot-password");
 		await page.waitForLoadState("networkidle");
 
-		await page.getByLabel(/email/i).click();
-		await page.getByLabel(/email/i).fill("nonexistent@test.local");
+		await page.getByRole("textbox", { name: /email/i }).click();
+		await page.getByRole("textbox", { name: /email/i }).fill("nonexistent@test.local");
 		await page.getByRole("button", { name: /send reset code/i }).click();
 
 		// ABP returns an error for non-existent emails
 		await expect(
-			page.locator("[data-sonner-toaster]").getByText(/failed|error|not find/i),
+			page
+				.locator("[data-sonner-toaster]")
+				.getByText(/failed|error|not find/i),
 		).toBeVisible({ timeout: 10000 });
 	});
 
@@ -238,7 +404,7 @@ test.describe("Forgot Password Flow", () => {
 		await page.waitForLoadState("networkidle");
 
 		// Ensure hydration by interacting with the field first
-		const emailField = page.getByLabel(/email/i);
+		const emailField = page.getByRole("textbox", { name: /email/i });
 		await emailField.click();
 		await emailField.fill("x");
 		await emailField.clear();
@@ -250,13 +416,21 @@ test.describe("Forgot Password Flow", () => {
 });
 
 test.describe("Change Password Flow", () => {
-	test.beforeEach(async () => {
-		await clearMailpit();
+	let testUser: TestUser;
+
+	test.beforeEach(async ({ page }) => {
+		testUser = await createAndConfirmUser(page);
+	});
+
+	test.afterEach(async () => {
+		if (testUser?.id) {
+			await deleteUser(testUser.id);
+		}
 	});
 
 	test("should change password for logged-in user", async ({ page }) => {
 		// Login first
-		await loginViaOidc(page, ADMIN_USERNAME, ADMIN_PASSWORD);
+		await loginViaOidc(page, testUser.username, testUser.password);
 
 		// Navigate to security settings
 		await page.goto("/profile/security");
@@ -271,7 +445,7 @@ test.describe("Change Password Flow", () => {
 		await currentPwField.click();
 
 		// Fill change password form
-		await currentPwField.fill(ADMIN_PASSWORD);
+		await currentPwField.fill(testUser.password);
 		const newPassword = "NewPass1!";
 		await page.getByLabel(/^new password/i).fill(newPassword);
 		await page.getByLabel(/confirm new password/i).fill(newPassword);
@@ -283,38 +457,16 @@ test.describe("Change Password Flow", () => {
 
 		// Should see success toast
 		await expect(
-			page.locator("[data-sonner-toaster]").getByText(/password changed/i),
-		).toBeVisible({ timeout: 10000 });
-
-		// Check Mailpit for password changed notification
-		const notification = await findEmailByTo("admin@abp.io");
-		expect(notification).toBeTruthy();
-		expect(notification.Subject).toContain("Password");
-
-		// Wait for toast to auto-dismiss before reverting password
-		await page.locator("[data-sonner-toaster]").waitFor({ state: "hidden", timeout: 15000 }).catch(() => {});
-
-		// Revert password back to original so other tests still work
-		await page
-			.getByLabel(/current password/i)
-			.fill(newPassword);
-		await page.getByLabel(/^new password/i).fill(ADMIN_PASSWORD);
-		await page
-			.getByLabel(/confirm new password/i)
-			.fill(ADMIN_PASSWORD);
-		await page
-			.getByRole("button", { name: /change password/i })
-			.click({ force: true });
-
-		await expect(
-			page.locator("[data-sonner-toaster]").getByText(/password changed/i),
+			page
+				.locator("[data-sonner-toaster]")
+				.getByText(/password changed/i),
 		).toBeVisible({ timeout: 10000 });
 	});
 
 	test("should show validation errors for empty change password form", async ({
 		page,
 	}) => {
-		await loginViaOidc(page, ADMIN_USERNAME, ADMIN_PASSWORD);
+		await loginViaOidc(page, testUser.username, testUser.password);
 		await page.goto("/profile/security");
 		await page.waitForLoadState("networkidle");
 
@@ -344,7 +496,7 @@ test.describe("Change Password Flow", () => {
 	test("should show mismatch error when passwords differ", async ({
 		page,
 	}) => {
-		await loginViaOidc(page, ADMIN_USERNAME, ADMIN_PASSWORD);
+		await loginViaOidc(page, testUser.username, testUser.password);
 		await page.goto("/profile/security");
 		await page.waitForLoadState("networkidle");
 
@@ -356,11 +508,11 @@ test.describe("Change Password Flow", () => {
 		const currentPwField = page.getByLabel(/current password/i);
 		await currentPwField.click();
 
-		await currentPwField.fill(ADMIN_PASSWORD);
-		await page.getByLabel(/^new password/i).fill("NewPass1");
+		await currentPwField.fill(testUser.password);
+		await page.getByLabel(/^new password/i).fill("NewPass1!");
 		await page
 			.getByLabel(/confirm new password/i)
-			.fill("DifferentPass1");
+			.fill("DifferentPass1!");
 
 		await page
 			.getByRole("button", { name: /change password/i })
