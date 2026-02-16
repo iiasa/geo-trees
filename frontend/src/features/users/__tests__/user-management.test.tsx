@@ -9,10 +9,10 @@ import {
 	useMutation,
 } from "@tanstack/react-query";
 import {
-	userGetListOptions,
-	userCreateMutation,
-	userUpdateMutation,
-	userDeleteMutation,
+	getApiIdentityUsersOptions,
+	postApiIdentityUsersMutation,
+	putApiIdentityUsersByIdMutation,
+	deleteApiIdentityUsersByIdMutation,
 } from "@/infrastructure/api/@tanstack/react-query.gen";
 import type {
 	IdentityUserCreateDto,
@@ -54,15 +54,15 @@ describe.skip("User Management Workflow Integration", () => {
 
 			// Queries
 			const { data: usersList, refetch: refetchUsers } = useQuery(
-				userGetListOptions({
+				getApiIdentityUsersOptions({
 					query: { MaxResultCount: 10, SkipCount: 0 },
 				}),
 			);
 
 			// Mutations
-			const createMutation = useMutation(userCreateMutation());
-			const updateMutation = useMutation(userUpdateMutation());
-			const deleteMutation = useMutation(userDeleteMutation());
+			const createMutation = useMutation(postApiIdentityUsersMutation());
+			const updateMutation = useMutation(putApiIdentityUsersByIdMutation());
+			const deleteMutation = useMutation(deleteApiIdentityUsersByIdMutation());
 
 			const handleCreateUser = async () => {
 				const userData: IdentityUserCreateDto = {
@@ -215,7 +215,7 @@ describe.skip("User Management Workflow Integration", () => {
 		function ErrorWorkflow() {
 			const [error, setError] = React.useState<string | null>(null);
 
-			const createMutation = useMutation(userCreateMutation());
+			const createMutation = useMutation(postApiIdentityUsersMutation());
 
 			const handleCreateInvalidUser = async () => {
 				try {
@@ -264,8 +264,8 @@ describe.skip("User Management Workflow Integration", () => {
 		function ConcurrentOperations() {
 			const [operations, setOperations] = React.useState<string[]>([]);
 
-			const createMutation1 = useMutation(userCreateMutation());
-			const createMutation2 = useMutation(userCreateMutation());
+			const createMutation1 = useMutation(postApiIdentityUsersMutation());
+			const createMutation2 = useMutation(postApiIdentityUsersMutation());
 
 			const handleConcurrentCreates = async () => {
 				setOperations([]);

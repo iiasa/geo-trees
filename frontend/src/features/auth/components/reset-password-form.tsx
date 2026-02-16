@@ -3,7 +3,7 @@ import { Link, useNavigate } from "@tanstack/react-router";
 import { CheckCircle2, Eye, EyeOff } from "lucide-react";
 import { useId, useState } from "react";
 import { toast } from "sonner";
-import { accountResetPasswordMutation } from "@/infrastructure/api/@tanstack/react-query.gen";
+import { postApiAccountResetPasswordMutation } from "@/infrastructure/api/@tanstack/react-query.gen";
 import {
 	Alert,
 	AlertDescription,
@@ -54,7 +54,7 @@ export function ResetPasswordForm({
 	const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
 	const resetPassword = useMutation({
-		...accountResetPasswordMutation(),
+		...postApiAccountResetPasswordMutation(),
 		onSuccess: () => {
 			setSuccess(true);
 			toast.success(PASSWORD_RESET_MESSAGES.RESET_SUCCESS);

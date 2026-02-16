@@ -1,9 +1,9 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { emailSettingsGetOptions } from "@/infrastructure/api/@tanstack/react-query.gen";
+import { getApiSettingManagementEmailingOptions } from "@/infrastructure/api/@tanstack/react-query.gen";
 import {
-	emailSettingsSendTestEmail,
-	emailSettingsUpdate,
+	postApiSettingManagementEmailingSendTestEmail,
+	postApiSettingManagementEmailing,
 } from "@/infrastructure/api/sdk.gen";
 import type {
 	SendTestEmailInput,
@@ -12,7 +12,7 @@ import type {
 import { SETTINGS_MESSAGES } from "../constants";
 
 export function useEmailSettings() {
-	return useQuery(emailSettingsGetOptions({}));
+	return useQuery(getApiSettingManagementEmailingOptions({}));
 }
 
 export function useUpdateEmailSettings() {
@@ -20,7 +20,7 @@ export function useUpdateEmailSettings() {
 
 	return useMutation({
 		mutationFn: async (data: UpdateEmailSettingsDto) => {
-			const { data: result } = await emailSettingsUpdate({
+			const { data: result } = await postApiSettingManagementEmailing({
 				body: data,
 				throwOnError: true,
 			});
@@ -49,10 +49,11 @@ export function useUpdateEmailSettings() {
 export function useSendTestEmail() {
 	return useMutation({
 		mutationFn: async (data: SendTestEmailInput) => {
-			const { data: result } = await emailSettingsSendTestEmail({
-				body: data,
-				throwOnError: true,
-			});
+			const { data: result } =
+				await postApiSettingManagementEmailingSendTestEmail({
+					body: data,
+					throwOnError: true,
+				});
 			return result;
 		},
 		onSuccess: () => {

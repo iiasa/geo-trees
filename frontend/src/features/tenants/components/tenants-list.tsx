@@ -2,11 +2,11 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { toast } from "sonner";
 import {
-	tenantCreateMutation,
-	tenantDeleteMutation,
-	tenantGetListOptions,
-	tenantGetListQueryKey,
-	tenantUpdateMutation,
+	postApiMultiTenancyTenantsMutation,
+	deleteApiMultiTenancyTenantsByIdMutation,
+	getApiMultiTenancyTenantsOptions,
+	getApiMultiTenancyTenantsQueryKey,
+	putApiMultiTenancyTenantsByIdMutation,
 } from "@/infrastructure/api/@tanstack/react-query.gen";
 import type { TenantDto } from "@/infrastructure/api/types.gen";
 import { Alert, AlertDescription } from "@/shared/components/ui/alert";
@@ -50,18 +50,18 @@ export function TenantsList() {
 		isLoading,
 		error,
 		isError,
-	} = useQuery(tenantGetListOptions(queryOptions));
+	} = useQuery(getApiMultiTenancyTenantsOptions(queryOptions));
 
 	const createTenantMutation = useMutation({
-		...tenantCreateMutation(),
+		...postApiMultiTenancyTenantsMutation(),
 	});
 
 	const updateTenantMutation = useMutation({
-		...tenantUpdateMutation(),
+		...putApiMultiTenancyTenantsByIdMutation(),
 	});
 
 	const deleteTenantMutation = useMutation({
-		...tenantDeleteMutation(),
+		...deleteApiMultiTenancyTenantsByIdMutation(),
 	});
 
 	const tenants = tenantsResponse?.items || [];
@@ -78,7 +78,7 @@ export function TenantsList() {
 				},
 			});
 			queryClient.invalidateQueries({
-				queryKey: tenantGetListQueryKey(queryOptions),
+				queryKey: getApiMultiTenancyTenantsQueryKey(queryOptions),
 			});
 			toast.success("Tenant created successfully");
 			closeForm();
@@ -104,7 +104,7 @@ export function TenantsList() {
 				},
 			});
 			queryClient.invalidateQueries({
-				queryKey: tenantGetListQueryKey(queryOptions),
+				queryKey: getApiMultiTenancyTenantsQueryKey(queryOptions),
 			});
 			toast.success("Tenant updated successfully");
 			closeForm();
@@ -124,7 +124,7 @@ export function TenantsList() {
 				path: { id: tenantId },
 			});
 			queryClient.invalidateQueries({
-				queryKey: tenantGetListQueryKey(queryOptions),
+				queryKey: getApiMultiTenancyTenantsQueryKey(queryOptions),
 			});
 			toast.success("Tenant deleted successfully");
 		} catch (error: unknown) {

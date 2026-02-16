@@ -3,12 +3,12 @@ import { useState } from "react";
 import { toast } from "sonner";
 
 import {
-	userCreateMutation,
-	userDeleteMutation,
-	userGetListOptions,
-	userGetListQueryKey,
-	userUpdateMutation,
-	userUpdateRolesMutation,
+	postApiIdentityUsersMutation,
+	deleteApiIdentityUsersByIdMutation,
+	getApiIdentityUsersOptions,
+	getApiIdentityUsersQueryKey,
+	putApiIdentityUsersByIdMutation,
+	putApiIdentityUsersByIdRolesMutation,
 } from "@/infrastructure/api/@tanstack/react-query.gen";
 import type { IdentityUserDto } from "@/infrastructure/api/types.gen";
 import { Alert, AlertDescription } from "@/shared/components/ui/alert";
@@ -64,22 +64,22 @@ export function UsersList() {
 		isLoading,
 		error,
 		isError,
-	} = useQuery(userGetListOptions(queryOptions));
+	} = useQuery(getApiIdentityUsersOptions(queryOptions));
 
 	const createUserMutation = useMutation({
-		...userCreateMutation(),
+		...postApiIdentityUsersMutation(),
 	});
 
 	const updateUserMutation = useMutation({
-		...userUpdateMutation(),
+		...putApiIdentityUsersByIdMutation(),
 	});
 
 	const _updateUserRolesMutation = useMutation({
-		...userUpdateRolesMutation(),
+		...putApiIdentityUsersByIdRolesMutation(),
 	});
 
 	const deleteUserMutation = useMutation({
-		...userDeleteMutation(),
+		...deleteApiIdentityUsersByIdMutation(),
 	});
 
 	const users = usersResponse?.items || [];
@@ -101,7 +101,7 @@ export function UsersList() {
 				},
 			});
 			queryClient.invalidateQueries({
-				queryKey: userGetListQueryKey(queryOptions),
+				queryKey: getApiIdentityUsersQueryKey(queryOptions),
 			});
 			toast.success("User created successfully");
 			closeForm();
@@ -146,11 +146,11 @@ export function UsersList() {
 
 			// Invalidate and refetch user list to update table
 			await queryClient.invalidateQueries({
-				queryKey: userGetListQueryKey(queryOptions),
+				queryKey: getApiIdentityUsersQueryKey(queryOptions),
 			});
 			// Also force a refetch to ensure immediate UI update
 			await queryClient.refetchQueries({
-				queryKey: userGetListQueryKey(queryOptions),
+				queryKey: getApiIdentityUsersQueryKey(queryOptions),
 			});
 			toast.success("User updated successfully");
 			closeForm();
@@ -170,7 +170,7 @@ export function UsersList() {
 				path: { id: userId },
 			});
 			queryClient.invalidateQueries({
-				queryKey: userGetListQueryKey(queryOptions),
+				queryKey: getApiIdentityUsersQueryKey(queryOptions),
 			});
 			toast.success("User deleted successfully");
 		} catch (error: unknown) {
@@ -193,7 +193,7 @@ export function UsersList() {
 					),
 				);
 				queryClient.invalidateQueries({
-					queryKey: userGetListQueryKey(queryOptions),
+					queryKey: getApiIdentityUsersQueryKey(queryOptions),
 				});
 				toast.success("Users deleted successfully");
 				setSelectedUsers([]);

@@ -127,17 +127,45 @@ export type ClockDto = {
     kind?: string | null;
 };
 
-export type CmsKitPageDto = {
+export type CommentApprovalDto = {
+    isApproved?: boolean;
+};
+
+export type CommentApproveState = 0 | 1 | 2 | 4;
+
+export type CommentSettingsDto = {
+    commentRequireApprovement?: boolean;
+};
+
+export type CommentWithAuthorDto = {
     readonly extraProperties?: {
         [key: string]: unknown;
     } | null;
     id?: string;
-    title?: string | null;
-    slug?: string | null;
-    layoutName?: string | null;
-    content?: string | null;
-    script?: string | null;
-    style?: string | null;
+    entityType?: string | null;
+    entityId?: string | null;
+    text?: string | null;
+    repliedCommentId?: string | null;
+    creatorId?: string;
+    creationTime?: string;
+    author?: VoloCmsKitAdminCommentsCmsUserDto;
+    url?: string | null;
+    isApproved?: boolean | null;
+};
+
+export type CommentWithDetailsDto = {
+    readonly extraProperties?: {
+        [key: string]: unknown;
+    } | null;
+    id?: string;
+    entityType?: string | null;
+    entityId?: string | null;
+    text?: string | null;
+    creatorId?: string;
+    creationTime?: string;
+    replies?: Array<VoloCmsKitPublicCommentsCommentDto> | null;
+    author?: VoloCmsKitPublicCommentsCmsUserDto;
+    concurrencyStamp?: string | null;
 };
 
 export type ControllerApiDescriptionModel = {
@@ -157,6 +185,18 @@ export type ControllerInterfaceApiDescriptionModel = {
     type?: string | null;
     name?: string | null;
     methods?: Array<InterfaceMethodApiDescriptionModel> | null;
+};
+
+export type CreateCommentInput = {
+    readonly extraProperties?: {
+        [key: string]: unknown;
+    } | null;
+    text: string;
+    repliedCommentId?: string | null;
+    captchaToken?: string | null;
+    captchaAnswer?: number;
+    url?: string | null;
+    idempotencyToken: string;
 };
 
 export type CreatePageInputDto = {
@@ -345,7 +385,7 @@ export type FeatureDto = {
     value?: string | null;
     provider?: FeatureProviderDto;
     description?: string | null;
-    valueType?: IStringValueType;
+    valueType?: VoloAbpValidationStringValuesIStringValueType;
     depth?: number;
     parentName?: string | null;
 };
@@ -376,21 +416,6 @@ export type GetFeatureListResultDto = {
 export type GetPermissionListResultDto = {
     entityDisplayName?: string | null;
     groups?: Array<PermissionGroupDto> | null;
-};
-
-export type IStringValueType = {
-    readonly name?: string | null;
-    readonly properties?: {
-        [key: string]: unknown;
-    } | null;
-    validator?: IValueValidator;
-};
-
-export type IValueValidator = {
-    readonly name?: string | null;
-    readonly properties?: {
-        [key: string]: unknown;
-    } | null;
 };
 
 export type IanaTimeZone = {
@@ -506,11 +531,15 @@ export type LanguageInfo = {
     readonly twoLetterISOLanguageName?: string | null;
 };
 
-export type ListResultDto_IdentityRoleDto_ = {
+export type ListResultDtoCommentWithDetailsDto = {
+    items?: Array<CommentWithDetailsDto> | null;
+};
+
+export type ListResultDtoIdentityRoleDto = {
     items?: Array<IdentityRoleDto> | null;
 };
 
-export type ListResultDto_userData_ = {
+export type ListResultDtoUserData = {
     items?: Array<UserData> | null;
 };
 
@@ -565,47 +594,33 @@ export type ObjectExtensionsDto = {
     } | null;
 };
 
-export type PageDto = {
-    readonly extraProperties?: {
-        [key: string]: unknown;
-    } | null;
-    id?: string;
-    creationTime?: string;
-    creatorId?: string | null;
-    lastModificationTime?: string | null;
-    lastModifierId?: string | null;
-    title?: string | null;
-    slug?: string | null;
-    layoutName?: string | null;
-    content?: string | null;
-    script?: string | null;
-    style?: string | null;
-    isHomePage?: boolean;
-    concurrencyStamp?: string | null;
-};
-
-export type PagedResultDto_BookDto_ = {
+export type PagedResultDtoBookDto = {
     items?: Array<BookDto> | null;
     totalCount?: number;
 };
 
-export type PagedResultDto_IdentityRoleDto_ = {
+export type PagedResultDtoCommentWithAuthorDto = {
+    items?: Array<CommentWithAuthorDto> | null;
+    totalCount?: number;
+};
+
+export type PagedResultDtoIdentityRoleDto = {
     items?: Array<IdentityRoleDto> | null;
     totalCount?: number;
 };
 
-export type PagedResultDto_IdentityUserDto_ = {
+export type PagedResultDtoIdentityUserDto = {
     items?: Array<IdentityUserDto> | null;
     totalCount?: number;
 };
 
-export type PagedResultDto_PageDto_ = {
-    items?: Array<PageDto> | null;
+export type PagedResultDtoTenantDto = {
+    items?: Array<TenantDto> | null;
     totalCount?: number;
 };
 
-export type PagedResultDto_TenantDto_ = {
-    items?: Array<TenantDto> | null;
+export type PagedResultDtoVoloCmsKitAdminPagesPageDto = {
+    items?: Array<VoloCmsKitAdminPagesPageDto> | null;
     totalCount?: number;
 };
 
@@ -752,13 +767,8 @@ export type TenantUpdateDto = {
     concurrencyStamp?: string | null;
 };
 
-export type TimeZone = {
-    iana?: IanaTimeZone;
-    windows?: WindowsTimeZone;
-};
-
 export type TimingDto = {
-    timeZone?: TimeZone;
+    timeZone?: VoloAbpAspNetCoreMvcApplicationConfigurationsTimeZone;
 };
 
 export type TypeApiDescriptionModel = {
@@ -768,6 +778,16 @@ export type TypeApiDescriptionModel = {
     enumValues?: Array<unknown> | null;
     genericArguments?: Array<string> | null;
     properties?: Array<PropertyApiDescriptionModel> | null;
+};
+
+export type UpdateCommentInput = {
+    readonly extraProperties?: {
+        [key: string]: unknown;
+    } | null;
+    text: string;
+    concurrencyStamp?: string | null;
+    captchaToken?: string | null;
+    captchaAnswer?: number;
 };
 
 export type UpdateEmailSettingsDto = {
@@ -841,15 +861,103 @@ export type UserData = {
     } | null;
 };
 
-export type UserLoginInfo = {
+export type VerifyPasswordResetTokenInput = {
+    userId?: string;
+    resetToken: string;
+};
+
+export type VoloAbpAccountWebAreasAccountControllersModelsUserLoginInfo = {
     userNameOrEmailAddress: string;
     password: string;
     rememberMe?: boolean;
 };
 
-export type VerifyPasswordResetTokenInput = {
-    userId?: string;
-    resetToken: string;
+export type VoloAbpAspNetCoreMvcApplicationConfigurationsTimeZone = {
+    iana?: IanaTimeZone;
+    windows?: WindowsTimeZone;
+};
+
+export type VoloAbpValidationStringValuesIStringValueType = {
+    readonly name?: string | null;
+    readonly properties?: {
+        [key: string]: unknown;
+    } | null;
+    validator?: VoloAbpValidationStringValuesIValueValidator;
+};
+
+export type VoloAbpValidationStringValuesIValueValidator = {
+    readonly name?: string | null;
+    readonly properties?: {
+        [key: string]: unknown;
+    } | null;
+};
+
+export type VoloCmsKitAdminCommentsCmsUserDto = {
+    readonly extraProperties?: {
+        [key: string]: unknown;
+    } | null;
+    id?: string;
+    userName?: string | null;
+    name?: string | null;
+    surname?: string | null;
+};
+
+export type VoloCmsKitAdminPagesPageDto = {
+    readonly extraProperties?: {
+        [key: string]: unknown;
+    } | null;
+    id?: string;
+    creationTime?: string;
+    creatorId?: string | null;
+    lastModificationTime?: string | null;
+    lastModifierId?: string | null;
+    title?: string | null;
+    slug?: string | null;
+    layoutName?: string | null;
+    content?: string | null;
+    script?: string | null;
+    style?: string | null;
+    isHomePage?: boolean;
+    concurrencyStamp?: string | null;
+};
+
+export type VoloCmsKitContentsPageDto = {
+    readonly extraProperties?: {
+        [key: string]: unknown;
+    } | null;
+    id?: string;
+    title?: string | null;
+    slug?: string | null;
+    layoutName?: string | null;
+    content?: string | null;
+    script?: string | null;
+    style?: string | null;
+};
+
+export type VoloCmsKitPublicCommentsCmsUserDto = {
+    readonly extraProperties?: {
+        [key: string]: unknown;
+    } | null;
+    id?: string;
+    userName?: string | null;
+    name?: string | null;
+    surname?: string | null;
+};
+
+export type VoloCmsKitPublicCommentsCommentDto = {
+    readonly extraProperties?: {
+        [key: string]: unknown;
+    } | null;
+    id?: string;
+    entityType?: string | null;
+    entityId?: string | null;
+    text?: string | null;
+    repliedCommentId?: string | null;
+    creatorId?: string;
+    creationTime?: string;
+    author?: VoloCmsKitPublicCommentsCmsUserDto;
+    concurrencyStamp?: string | null;
+    url?: string | null;
 };
 
 export type WindowsTimeZone = {
@@ -897,14 +1005,38 @@ export type ApplicationLocalizationConfigurationDtoWritable = {
     } | null;
 };
 
-export type CmsKitPageDtoWritable = {
+export type CommentWithAuthorDtoWritable = {
     id?: string;
-    title?: string | null;
-    slug?: string | null;
-    layoutName?: string | null;
-    content?: string | null;
-    script?: string | null;
-    style?: string | null;
+    entityType?: string | null;
+    entityId?: string | null;
+    text?: string | null;
+    repliedCommentId?: string | null;
+    creatorId?: string;
+    creationTime?: string;
+    author?: VoloCmsKitAdminCommentsCmsUserDtoWritable;
+    url?: string | null;
+    isApproved?: boolean | null;
+};
+
+export type CommentWithDetailsDtoWritable = {
+    id?: string;
+    entityType?: string | null;
+    entityId?: string | null;
+    text?: string | null;
+    creatorId?: string;
+    creationTime?: string;
+    replies?: Array<VoloCmsKitPublicCommentsCommentDtoWritable> | null;
+    author?: VoloCmsKitPublicCommentsCmsUserDtoWritable;
+    concurrencyStamp?: string | null;
+};
+
+export type CreateCommentInputWritable = {
+    text: string;
+    repliedCommentId?: string | null;
+    captchaToken?: string | null;
+    captchaAnswer?: number;
+    url?: string | null;
+    idempotencyToken: string;
 };
 
 export type CreatePageInputDtoWritable = {
@@ -922,7 +1054,7 @@ export type FeatureDtoWritable = {
     value?: string | null;
     provider?: FeatureProviderDto;
     description?: string | null;
-    valueType?: IStringValueTypeWritable;
+    valueType?: VoloAbpValidationStringValuesIStringValueTypeWritable;
     depth?: number;
     parentName?: string | null;
 };
@@ -935,14 +1067,6 @@ export type FeatureGroupDtoWritable = {
 
 export type GetFeatureListResultDtoWritable = {
     groups?: Array<FeatureGroupDtoWritable> | null;
-};
-
-export type IStringValueTypeWritable = {
-    validator?: IValueValidatorWritable;
-};
-
-export type IValueValidatorWritable = {
-    [key: string]: never;
 };
 
 export type IdentityRoleCreateDtoWritable = {
@@ -1025,47 +1149,40 @@ export type LanguageInfoWritable = {
     displayName?: string | null;
 };
 
-export type ListResultDto_IdentityRoleDto_Writable = {
+export type ListResultDtoCommentWithDetailsDtoWritable = {
+    items?: Array<CommentWithDetailsDtoWritable> | null;
+};
+
+export type ListResultDtoIdentityRoleDtoWritable = {
     items?: Array<IdentityRoleDtoWritable> | null;
 };
 
-export type ListResultDto_userData_Writable = {
+export type ListResultDtoUserDataWritable = {
     items?: Array<UserDataWritable> | null;
 };
 
-export type PageDtoWritable = {
-    id?: string;
-    creationTime?: string;
-    creatorId?: string | null;
-    lastModificationTime?: string | null;
-    lastModifierId?: string | null;
-    title?: string | null;
-    slug?: string | null;
-    layoutName?: string | null;
-    content?: string | null;
-    script?: string | null;
-    style?: string | null;
-    isHomePage?: boolean;
-    concurrencyStamp?: string | null;
+export type PagedResultDtoCommentWithAuthorDtoWritable = {
+    items?: Array<CommentWithAuthorDtoWritable> | null;
+    totalCount?: number;
 };
 
-export type PagedResultDto_IdentityRoleDto_Writable = {
+export type PagedResultDtoIdentityRoleDtoWritable = {
     items?: Array<IdentityRoleDtoWritable> | null;
     totalCount?: number;
 };
 
-export type PagedResultDto_IdentityUserDto_Writable = {
+export type PagedResultDtoIdentityUserDtoWritable = {
     items?: Array<IdentityUserDtoWritable> | null;
     totalCount?: number;
 };
 
-export type PagedResultDto_PageDto_Writable = {
-    items?: Array<PageDtoWritable> | null;
+export type PagedResultDtoTenantDtoWritable = {
+    items?: Array<TenantDtoWritable> | null;
     totalCount?: number;
 };
 
-export type PagedResultDto_TenantDto_Writable = {
-    items?: Array<TenantDtoWritable> | null;
+export type PagedResultDtoVoloCmsKitAdminPagesPageDtoWritable = {
+    items?: Array<VoloCmsKitAdminPagesPageDtoWritable> | null;
     totalCount?: number;
 };
 
@@ -1104,6 +1221,13 @@ export type TenantUpdateDtoWritable = {
     concurrencyStamp?: string | null;
 };
 
+export type UpdateCommentInputWritable = {
+    text: string;
+    concurrencyStamp?: string | null;
+    captchaToken?: string | null;
+    captchaAnswer?: number;
+};
+
 export type UpdatePageInputDtoWritable = {
     title: string;
     slug: string;
@@ -1134,6 +1258,67 @@ export type UserDataWritable = {
     emailConfirmed?: boolean;
     phoneNumber?: string | null;
     phoneNumberConfirmed?: boolean;
+};
+
+export type VoloAbpValidationStringValuesIStringValueTypeWritable = {
+    validator?: VoloAbpValidationStringValuesIValueValidatorWritable;
+};
+
+export type VoloAbpValidationStringValuesIValueValidatorWritable = {
+    [key: string]: never;
+};
+
+export type VoloCmsKitAdminCommentsCmsUserDtoWritable = {
+    id?: string;
+    userName?: string | null;
+    name?: string | null;
+    surname?: string | null;
+};
+
+export type VoloCmsKitAdminPagesPageDtoWritable = {
+    id?: string;
+    creationTime?: string;
+    creatorId?: string | null;
+    lastModificationTime?: string | null;
+    lastModifierId?: string | null;
+    title?: string | null;
+    slug?: string | null;
+    layoutName?: string | null;
+    content?: string | null;
+    script?: string | null;
+    style?: string | null;
+    isHomePage?: boolean;
+    concurrencyStamp?: string | null;
+};
+
+export type VoloCmsKitContentsPageDtoWritable = {
+    id?: string;
+    title?: string | null;
+    slug?: string | null;
+    layoutName?: string | null;
+    content?: string | null;
+    script?: string | null;
+    style?: string | null;
+};
+
+export type VoloCmsKitPublicCommentsCmsUserDtoWritable = {
+    id?: string;
+    userName?: string | null;
+    name?: string | null;
+    surname?: string | null;
+};
+
+export type VoloCmsKitPublicCommentsCommentDtoWritable = {
+    id?: string;
+    entityType?: string | null;
+    entityId?: string | null;
+    text?: string | null;
+    repliedCommentId?: string | null;
+    creatorId?: string;
+    creationTime?: string;
+    author?: VoloCmsKitPublicCommentsCmsUserDtoWritable;
+    concurrencyStamp?: string | null;
+    url?: string | null;
 };
 
 export type GetApiAbpApiDefinitionData = {
@@ -1731,7 +1916,7 @@ export type GetApiAppBookResponses = {
     /**
      * OK
      */
-    200: PagedResultDto_BookDto_;
+    200: PagedResultDtoBookDto;
 };
 
 export type GetApiAppBookResponse = GetApiAppBookResponses[keyof GetApiAppBookResponses];
@@ -1808,6 +1993,475 @@ export type GetCmsKitGlobalResourcesScriptResponses = {
      */
     200: unknown;
 };
+
+export type GetApiCmsKitAdminCommentsData = {
+    body?: never;
+    path?: never;
+    query?: {
+        EntityType?: string;
+        Text?: string;
+        RepliedCommentId?: string;
+        Author?: string;
+        CreationStartDate?: string;
+        CreationEndDate?: string;
+        CommentApproveState?: CommentApproveState;
+        Sorting?: string;
+        SkipCount?: number;
+        MaxResultCount?: number;
+    };
+    url: '/api/cms-kit-admin/comments';
+};
+
+export type GetApiCmsKitAdminCommentsErrors = {
+    /**
+     * Bad Request
+     */
+    400: RemoteServiceErrorResponse;
+    /**
+     * Unauthorized
+     */
+    401: RemoteServiceErrorResponse;
+    /**
+     * Forbidden
+     */
+    403: RemoteServiceErrorResponse;
+    /**
+     * Not Found
+     */
+    404: RemoteServiceErrorResponse;
+    /**
+     * Internal Server Error
+     */
+    500: RemoteServiceErrorResponse;
+    /**
+     * Not Implemented
+     */
+    501: RemoteServiceErrorResponse;
+};
+
+export type GetApiCmsKitAdminCommentsError = GetApiCmsKitAdminCommentsErrors[keyof GetApiCmsKitAdminCommentsErrors];
+
+export type GetApiCmsKitAdminCommentsResponses = {
+    /**
+     * OK
+     */
+    200: PagedResultDtoCommentWithAuthorDto;
+};
+
+export type GetApiCmsKitAdminCommentsResponse = GetApiCmsKitAdminCommentsResponses[keyof GetApiCmsKitAdminCommentsResponses];
+
+export type DeleteApiCmsKitAdminCommentsByIdData = {
+    body?: never;
+    path: {
+        id: string;
+    };
+    query?: never;
+    url: '/api/cms-kit-admin/comments/{id}';
+};
+
+export type DeleteApiCmsKitAdminCommentsByIdErrors = {
+    /**
+     * Bad Request
+     */
+    400: RemoteServiceErrorResponse;
+    /**
+     * Unauthorized
+     */
+    401: RemoteServiceErrorResponse;
+    /**
+     * Forbidden
+     */
+    403: RemoteServiceErrorResponse;
+    /**
+     * Not Found
+     */
+    404: RemoteServiceErrorResponse;
+    /**
+     * Internal Server Error
+     */
+    500: RemoteServiceErrorResponse;
+    /**
+     * Not Implemented
+     */
+    501: RemoteServiceErrorResponse;
+};
+
+export type DeleteApiCmsKitAdminCommentsByIdError = DeleteApiCmsKitAdminCommentsByIdErrors[keyof DeleteApiCmsKitAdminCommentsByIdErrors];
+
+export type DeleteApiCmsKitAdminCommentsByIdResponses = {
+    /**
+     * OK
+     */
+    200: unknown;
+};
+
+export type GetApiCmsKitAdminCommentsByIdData = {
+    body?: never;
+    path: {
+        id: string;
+    };
+    query?: never;
+    url: '/api/cms-kit-admin/comments/{id}';
+};
+
+export type GetApiCmsKitAdminCommentsByIdErrors = {
+    /**
+     * Bad Request
+     */
+    400: RemoteServiceErrorResponse;
+    /**
+     * Unauthorized
+     */
+    401: RemoteServiceErrorResponse;
+    /**
+     * Forbidden
+     */
+    403: RemoteServiceErrorResponse;
+    /**
+     * Not Found
+     */
+    404: RemoteServiceErrorResponse;
+    /**
+     * Internal Server Error
+     */
+    500: RemoteServiceErrorResponse;
+    /**
+     * Not Implemented
+     */
+    501: RemoteServiceErrorResponse;
+};
+
+export type GetApiCmsKitAdminCommentsByIdError = GetApiCmsKitAdminCommentsByIdErrors[keyof GetApiCmsKitAdminCommentsByIdErrors];
+
+export type GetApiCmsKitAdminCommentsByIdResponses = {
+    /**
+     * OK
+     */
+    200: CommentWithAuthorDto;
+};
+
+export type GetApiCmsKitAdminCommentsByIdResponse = GetApiCmsKitAdminCommentsByIdResponses[keyof GetApiCmsKitAdminCommentsByIdResponses];
+
+export type PutApiCmsKitAdminCommentsByIdApprovalStatusData = {
+    body?: CommentApprovalDto;
+    path: {
+        id: string;
+    };
+    query?: never;
+    url: '/api/cms-kit-admin/comments/{id}/approval-status';
+};
+
+export type PutApiCmsKitAdminCommentsByIdApprovalStatusErrors = {
+    /**
+     * Bad Request
+     */
+    400: RemoteServiceErrorResponse;
+    /**
+     * Unauthorized
+     */
+    401: RemoteServiceErrorResponse;
+    /**
+     * Forbidden
+     */
+    403: RemoteServiceErrorResponse;
+    /**
+     * Not Found
+     */
+    404: RemoteServiceErrorResponse;
+    /**
+     * Internal Server Error
+     */
+    500: RemoteServiceErrorResponse;
+    /**
+     * Not Implemented
+     */
+    501: RemoteServiceErrorResponse;
+};
+
+export type PutApiCmsKitAdminCommentsByIdApprovalStatusError = PutApiCmsKitAdminCommentsByIdApprovalStatusErrors[keyof PutApiCmsKitAdminCommentsByIdApprovalStatusErrors];
+
+export type PutApiCmsKitAdminCommentsByIdApprovalStatusResponses = {
+    /**
+     * OK
+     */
+    200: unknown;
+};
+
+export type PostApiCmsKitAdminCommentsSettingsData = {
+    body?: CommentSettingsDto;
+    path?: never;
+    query?: never;
+    url: '/api/cms-kit-admin/comments/settings';
+};
+
+export type PostApiCmsKitAdminCommentsSettingsErrors = {
+    /**
+     * Bad Request
+     */
+    400: RemoteServiceErrorResponse;
+    /**
+     * Unauthorized
+     */
+    401: RemoteServiceErrorResponse;
+    /**
+     * Forbidden
+     */
+    403: RemoteServiceErrorResponse;
+    /**
+     * Not Found
+     */
+    404: RemoteServiceErrorResponse;
+    /**
+     * Internal Server Error
+     */
+    500: RemoteServiceErrorResponse;
+    /**
+     * Not Implemented
+     */
+    501: RemoteServiceErrorResponse;
+};
+
+export type PostApiCmsKitAdminCommentsSettingsError = PostApiCmsKitAdminCommentsSettingsErrors[keyof PostApiCmsKitAdminCommentsSettingsErrors];
+
+export type PostApiCmsKitAdminCommentsSettingsResponses = {
+    /**
+     * OK
+     */
+    200: unknown;
+};
+
+export type GetApiCmsKitAdminCommentsWaitingCountData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/api/cms-kit-admin/comments/waiting-count';
+};
+
+export type GetApiCmsKitAdminCommentsWaitingCountErrors = {
+    /**
+     * Bad Request
+     */
+    400: RemoteServiceErrorResponse;
+    /**
+     * Unauthorized
+     */
+    401: RemoteServiceErrorResponse;
+    /**
+     * Forbidden
+     */
+    403: RemoteServiceErrorResponse;
+    /**
+     * Not Found
+     */
+    404: RemoteServiceErrorResponse;
+    /**
+     * Internal Server Error
+     */
+    500: RemoteServiceErrorResponse;
+    /**
+     * Not Implemented
+     */
+    501: RemoteServiceErrorResponse;
+};
+
+export type GetApiCmsKitAdminCommentsWaitingCountError = GetApiCmsKitAdminCommentsWaitingCountErrors[keyof GetApiCmsKitAdminCommentsWaitingCountErrors];
+
+export type GetApiCmsKitAdminCommentsWaitingCountResponses = {
+    /**
+     * OK
+     */
+    200: number;
+};
+
+export type GetApiCmsKitAdminCommentsWaitingCountResponse = GetApiCmsKitAdminCommentsWaitingCountResponses[keyof GetApiCmsKitAdminCommentsWaitingCountResponses];
+
+export type GetApiCmsKitPublicCommentsByEntityTypeByEntityIdData = {
+    body?: never;
+    path: {
+        entityType: string;
+        entityId: string;
+    };
+    query?: never;
+    url: '/api/cms-kit-public/comments/{entityType}/{entityId}';
+};
+
+export type GetApiCmsKitPublicCommentsByEntityTypeByEntityIdErrors = {
+    /**
+     * Bad Request
+     */
+    400: RemoteServiceErrorResponse;
+    /**
+     * Unauthorized
+     */
+    401: RemoteServiceErrorResponse;
+    /**
+     * Forbidden
+     */
+    403: RemoteServiceErrorResponse;
+    /**
+     * Not Found
+     */
+    404: RemoteServiceErrorResponse;
+    /**
+     * Internal Server Error
+     */
+    500: RemoteServiceErrorResponse;
+    /**
+     * Not Implemented
+     */
+    501: RemoteServiceErrorResponse;
+};
+
+export type GetApiCmsKitPublicCommentsByEntityTypeByEntityIdError = GetApiCmsKitPublicCommentsByEntityTypeByEntityIdErrors[keyof GetApiCmsKitPublicCommentsByEntityTypeByEntityIdErrors];
+
+export type GetApiCmsKitPublicCommentsByEntityTypeByEntityIdResponses = {
+    /**
+     * OK
+     */
+    200: ListResultDtoCommentWithDetailsDto;
+};
+
+export type GetApiCmsKitPublicCommentsByEntityTypeByEntityIdResponse = GetApiCmsKitPublicCommentsByEntityTypeByEntityIdResponses[keyof GetApiCmsKitPublicCommentsByEntityTypeByEntityIdResponses];
+
+export type PostApiCmsKitPublicCommentsByEntityTypeByEntityIdData = {
+    body?: CreateCommentInputWritable;
+    path: {
+        entityType: string;
+        entityId: string;
+    };
+    query?: never;
+    url: '/api/cms-kit-public/comments/{entityType}/{entityId}';
+};
+
+export type PostApiCmsKitPublicCommentsByEntityTypeByEntityIdErrors = {
+    /**
+     * Bad Request
+     */
+    400: RemoteServiceErrorResponse;
+    /**
+     * Unauthorized
+     */
+    401: RemoteServiceErrorResponse;
+    /**
+     * Forbidden
+     */
+    403: RemoteServiceErrorResponse;
+    /**
+     * Not Found
+     */
+    404: RemoteServiceErrorResponse;
+    /**
+     * Internal Server Error
+     */
+    500: RemoteServiceErrorResponse;
+    /**
+     * Not Implemented
+     */
+    501: RemoteServiceErrorResponse;
+};
+
+export type PostApiCmsKitPublicCommentsByEntityTypeByEntityIdError = PostApiCmsKitPublicCommentsByEntityTypeByEntityIdErrors[keyof PostApiCmsKitPublicCommentsByEntityTypeByEntityIdErrors];
+
+export type PostApiCmsKitPublicCommentsByEntityTypeByEntityIdResponses = {
+    /**
+     * OK
+     */
+    200: VoloCmsKitPublicCommentsCommentDto;
+};
+
+export type PostApiCmsKitPublicCommentsByEntityTypeByEntityIdResponse = PostApiCmsKitPublicCommentsByEntityTypeByEntityIdResponses[keyof PostApiCmsKitPublicCommentsByEntityTypeByEntityIdResponses];
+
+export type DeleteApiCmsKitPublicCommentsByIdData = {
+    body?: never;
+    path: {
+        id: string;
+    };
+    query?: never;
+    url: '/api/cms-kit-public/comments/{id}';
+};
+
+export type DeleteApiCmsKitPublicCommentsByIdErrors = {
+    /**
+     * Bad Request
+     */
+    400: RemoteServiceErrorResponse;
+    /**
+     * Unauthorized
+     */
+    401: RemoteServiceErrorResponse;
+    /**
+     * Forbidden
+     */
+    403: RemoteServiceErrorResponse;
+    /**
+     * Not Found
+     */
+    404: RemoteServiceErrorResponse;
+    /**
+     * Internal Server Error
+     */
+    500: RemoteServiceErrorResponse;
+    /**
+     * Not Implemented
+     */
+    501: RemoteServiceErrorResponse;
+};
+
+export type DeleteApiCmsKitPublicCommentsByIdError = DeleteApiCmsKitPublicCommentsByIdErrors[keyof DeleteApiCmsKitPublicCommentsByIdErrors];
+
+export type DeleteApiCmsKitPublicCommentsByIdResponses = {
+    /**
+     * OK
+     */
+    200: unknown;
+};
+
+export type PutApiCmsKitPublicCommentsByIdData = {
+    body?: UpdateCommentInputWritable;
+    path: {
+        id: string;
+    };
+    query?: never;
+    url: '/api/cms-kit-public/comments/{id}';
+};
+
+export type PutApiCmsKitPublicCommentsByIdErrors = {
+    /**
+     * Bad Request
+     */
+    400: RemoteServiceErrorResponse;
+    /**
+     * Unauthorized
+     */
+    401: RemoteServiceErrorResponse;
+    /**
+     * Forbidden
+     */
+    403: RemoteServiceErrorResponse;
+    /**
+     * Not Found
+     */
+    404: RemoteServiceErrorResponse;
+    /**
+     * Internal Server Error
+     */
+    500: RemoteServiceErrorResponse;
+    /**
+     * Not Implemented
+     */
+    501: RemoteServiceErrorResponse;
+};
+
+export type PutApiCmsKitPublicCommentsByIdError = PutApiCmsKitPublicCommentsByIdErrors[keyof PutApiCmsKitPublicCommentsByIdErrors];
+
+export type PutApiCmsKitPublicCommentsByIdResponses = {
+    /**
+     * OK
+     */
+    200: VoloCmsKitPublicCommentsCommentDto;
+};
+
+export type PutApiCmsKitPublicCommentsByIdResponse = PutApiCmsKitPublicCommentsByIdResponses[keyof PutApiCmsKitPublicCommentsByIdResponses];
 
 export type PostApiAccountDynamicClaimsRefreshData = {
     body?: never;
@@ -2124,7 +2778,7 @@ export type PutApiFeatureManagementFeaturesResponses = {
 };
 
 export type PostApiAccountLoginData = {
-    body?: UserLoginInfo;
+    body?: VoloAbpAccountWebAreasAccountControllersModelsUserLoginInfo;
     path?: never;
     query?: never;
     url: '/api/account/login';
@@ -2212,7 +2866,7 @@ export type GetApiAccountLogoutResponses = {
 };
 
 export type PostApiAccountCheckPasswordData = {
-    body?: UserLoginInfo;
+    body?: VoloAbpAccountWebAreasAccountControllersModelsUserLoginInfo;
     path?: never;
     query?: never;
     url: '/api/account/check-password';
@@ -2343,7 +2997,7 @@ export type GetApiCmsKitAdminPagesByIdResponses = {
     /**
      * OK
      */
-    200: PageDto;
+    200: VoloCmsKitAdminPagesPageDto;
 };
 
 export type GetApiCmsKitAdminPagesByIdResponse = GetApiCmsKitAdminPagesByIdResponses[keyof GetApiCmsKitAdminPagesByIdResponses];
@@ -2390,7 +3044,7 @@ export type PutApiCmsKitAdminPagesByIdResponses = {
     /**
      * OK
      */
-    200: PageDto;
+    200: VoloCmsKitAdminPagesPageDto;
 };
 
 export type PutApiCmsKitAdminPagesByIdResponse = PutApiCmsKitAdminPagesByIdResponses[keyof PutApiCmsKitAdminPagesByIdResponses];
@@ -2440,7 +3094,7 @@ export type GetApiCmsKitAdminPagesResponses = {
     /**
      * OK
      */
-    200: PagedResultDto_PageDto_;
+    200: PagedResultDtoVoloCmsKitAdminPagesPageDto;
 };
 
 export type GetApiCmsKitAdminPagesResponse = GetApiCmsKitAdminPagesResponses[keyof GetApiCmsKitAdminPagesResponses];
@@ -2485,7 +3139,7 @@ export type PostApiCmsKitAdminPagesResponses = {
     /**
      * OK
      */
-    200: PageDto;
+    200: VoloCmsKitAdminPagesPageDto;
 };
 
 export type PostApiCmsKitAdminPagesResponse = PostApiCmsKitAdminPagesResponses[keyof PostApiCmsKitAdminPagesResponses];
@@ -2577,7 +3231,7 @@ export type GetApiCmsKitPublicPagesBySlugResponses = {
     /**
      * OK
      */
-    200: CmsKitPageDto;
+    200: VoloCmsKitContentsPageDto;
 };
 
 export type GetApiCmsKitPublicPagesBySlugResponse = GetApiCmsKitPublicPagesBySlugResponses[keyof GetApiCmsKitPublicPagesBySlugResponses];
@@ -2622,7 +3276,7 @@ export type GetApiCmsKitPublicPagesHomeResponses = {
     /**
      * OK
      */
-    200: CmsKitPageDto;
+    200: VoloCmsKitContentsPageDto;
 };
 
 export type GetApiCmsKitPublicPagesHomeResponse = GetApiCmsKitPublicPagesHomeResponses[keyof GetApiCmsKitPublicPagesHomeResponses];
@@ -2990,7 +3644,7 @@ export type GetApiIdentityRolesAllResponses = {
     /**
      * OK
      */
-    200: ListResultDto_IdentityRoleDto_;
+    200: ListResultDtoIdentityRoleDto;
 };
 
 export type GetApiIdentityRolesAllResponse = GetApiIdentityRolesAllResponses[keyof GetApiIdentityRolesAllResponses];
@@ -3043,7 +3697,7 @@ export type GetApiIdentityRolesResponses = {
     /**
      * OK
      */
-    200: PagedResultDto_IdentityRoleDto_;
+    200: PagedResultDtoIdentityRoleDto;
 };
 
 export type GetApiIdentityRolesResponse = GetApiIdentityRolesResponses[keyof GetApiIdentityRolesResponses];
@@ -3416,7 +4070,7 @@ export type GetApiMultiTenancyTenantsResponses = {
     /**
      * OK
      */
-    200: PagedResultDto_TenantDto_;
+    200: PagedResultDtoTenantDto;
 };
 
 export type GetApiMultiTenancyTenantsResponse = GetApiMultiTenancyTenantsResponses[keyof GetApiMultiTenancyTenantsResponses];
@@ -3927,7 +4581,7 @@ export type GetApiIdentityUsersResponses = {
     /**
      * OK
      */
-    200: PagedResultDto_IdentityUserDto_;
+    200: PagedResultDtoIdentityUserDto;
 };
 
 export type GetApiIdentityUsersResponse = GetApiIdentityUsersResponses[keyof GetApiIdentityUsersResponses];
@@ -4019,7 +4673,7 @@ export type GetApiIdentityUsersByIdRolesResponses = {
     /**
      * OK
      */
-    200: ListResultDto_IdentityRoleDto_;
+    200: ListResultDtoIdentityRoleDto;
 };
 
 export type GetApiIdentityUsersByIdRolesResponse = GetApiIdentityUsersByIdRolesResponses[keyof GetApiIdentityUsersByIdRolesResponses];
@@ -4109,7 +4763,7 @@ export type GetApiIdentityUsersAssignableRolesResponses = {
     /**
      * OK
      */
-    200: ListResultDto_IdentityRoleDto_;
+    200: ListResultDtoIdentityRoleDto;
 };
 
 export type GetApiIdentityUsersAssignableRolesResponse = GetApiIdentityUsersAssignableRolesResponses[keyof GetApiIdentityUsersAssignableRolesResponses];
@@ -4350,7 +5004,7 @@ export type GetApiIdentityUsersLookupSearchResponses = {
     /**
      * OK
      */
-    200: ListResultDto_userData_;
+    200: ListResultDtoUserData;
 };
 
 export type GetApiIdentityUsersLookupSearchResponse = GetApiIdentityUsersLookupSearchResponses[keyof GetApiIdentityUsersLookupSearchResponses];

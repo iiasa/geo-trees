@@ -4,10 +4,10 @@ import { useState } from "react";
 import { toast } from "sonner";
 
 import {
-	pageAdminDeleteMutation,
-	pageAdminGetListOptions,
-	pageAdminGetListQueryKey,
-	pageAdminSetAsHomePageMutation,
+	deleteApiCmsKitAdminPagesByIdMutation,
+	getApiCmsKitAdminPagesOptions,
+	getApiCmsKitAdminPagesQueryKey,
+	putApiCmsKitAdminPagesSetashomepageByIdMutation,
 } from "@/infrastructure/api/@tanstack/react-query.gen";
 import type { VoloCmsKitAdminPagesPageDto } from "@/infrastructure/api/types.gen";
 import { Alert, AlertDescription } from "@/shared/components/ui/alert";
@@ -56,14 +56,14 @@ export function PagesList() {
 		data: pagesResponse,
 		error,
 		isError,
-	} = useQuery(pageAdminGetListOptions(queryOptions));
+	} = useQuery(getApiCmsKitAdminPagesOptions(queryOptions));
 
 	const deletePageMutation = useMutation({
-		...pageAdminDeleteMutation(),
+		...deleteApiCmsKitAdminPagesByIdMutation(),
 	});
 
 	const setAsHomePageMutation = useMutation({
-		...pageAdminSetAsHomePageMutation(),
+		...putApiCmsKitAdminPagesSetashomepageByIdMutation(),
 	});
 
 	const pages = pagesResponse?.items || [];
@@ -75,7 +75,7 @@ export function PagesList() {
 				path: { id: pageId },
 			});
 			queryClient.invalidateQueries({
-				queryKey: pageAdminGetListQueryKey(queryOptions),
+				queryKey: getApiCmsKitAdminPagesQueryKey(queryOptions),
 			});
 			toast.success(PAGE_ACTION_MESSAGES.DELETE_SUCCESS);
 		} catch (error: unknown) {
@@ -94,7 +94,7 @@ export function PagesList() {
 				path: { id: pageId },
 			});
 			queryClient.invalidateQueries({
-				queryKey: pageAdminGetListQueryKey(queryOptions),
+				queryKey: getApiCmsKitAdminPagesQueryKey(queryOptions),
 			});
 			toast.success(PAGE_ACTION_MESSAGES.SET_HOMEPAGE_SUCCESS);
 		} catch (error: unknown) {
@@ -117,7 +117,7 @@ export function PagesList() {
 					),
 				);
 				queryClient.invalidateQueries({
-					queryKey: pageAdminGetListQueryKey(queryOptions),
+					queryKey: getApiCmsKitAdminPagesQueryKey(queryOptions),
 				});
 				toast.success(PAGE_ACTION_MESSAGES.DELETE_SUCCESS);
 				setSelectedPages([]);

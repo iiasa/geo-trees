@@ -24,9 +24,9 @@ import { Loader2, Database } from "lucide-react";
 import { useTenantConnectionStore } from "../stores/tenant-connection-store";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import {
-	tenantGetDefaultConnectionStringOptions,
-	tenantUpdateDefaultConnectionStringMutation,
-	tenantDeleteDefaultConnectionStringMutation,
+	getApiMultiTenancyTenantsByIdDefaultConnectionStringOptions,
+	putApiMultiTenancyTenantsByIdDefaultConnectionStringMutation,
+	deleteApiMultiTenancyTenantsByIdDefaultConnectionStringMutation,
 } from "@/infrastructure/api/@tanstack/react-query.gen";
 import { toast } from "sonner";
 
@@ -59,7 +59,7 @@ export function TenantConnectionStringModal() {
 
 	// Query to get the current connection string
 	const { data: currentConnectionString, isLoading } = useQuery({
-		...tenantGetDefaultConnectionStringOptions({
+		...getApiMultiTenancyTenantsByIdDefaultConnectionStringOptions({
 			path: { id: tenant?.id || "" },
 		}),
 		enabled: !!tenant?.id && open,
@@ -119,7 +119,7 @@ export function TenantConnectionStringModal() {
 
 	// Mutation to update connection string
 	const updateConnectionStringMutation = useMutation({
-		...tenantUpdateDefaultConnectionStringMutation(),
+		...putApiMultiTenancyTenantsByIdDefaultConnectionStringMutation(),
 		onSuccess: () => {
 			toast.success("Connection string updated successfully");
 			closeModal();
@@ -128,7 +128,7 @@ export function TenantConnectionStringModal() {
 
 	// Mutation to delete connection string
 	const deleteConnectionStringMutation = useMutation({
-		...tenantDeleteDefaultConnectionStringMutation(),
+		...deleteApiMultiTenancyTenantsByIdDefaultConnectionStringMutation(),
 		onSuccess: () => {
 			toast.success("Connection string deleted successfully");
 			closeModal();

@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import type { VoloCmsKitPublicCommentsCommentDto } from "@/infrastructure/api/types.gen";
+import type { VoloCmsKitPublicCommentsCommentDto } from "../types";
 
 interface CommentModerationState {
 	selectedComment: VoloCmsKitPublicCommentsCommentDto | null;

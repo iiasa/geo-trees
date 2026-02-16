@@ -1,18 +1,18 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import {
-	timeZoneSettingsGetOptions,
-	timeZoneSettingsGetTimezonesOptions,
+	getApiSettingManagementTimezoneOptions,
+	getApiSettingManagementTimezoneTimezonesOptions,
 } from "@/infrastructure/api/@tanstack/react-query.gen";
-import { timeZoneSettingsUpdate } from "@/infrastructure/api/sdk.gen";
+import { postApiSettingManagementTimezone } from "@/infrastructure/api/sdk.gen";
 import { SETTINGS_MESSAGES } from "../constants";
 
 export function useTimezoneSettings() {
-	return useQuery(timeZoneSettingsGetOptions({}));
+	return useQuery(getApiSettingManagementTimezoneOptions({}));
 }
 
 export function useTimezonesList() {
-	return useQuery(timeZoneSettingsGetTimezonesOptions({}));
+	return useQuery(getApiSettingManagementTimezoneTimezonesOptions({}));
 }
 
 export function useUpdateTimezoneSettings() {
@@ -20,7 +20,7 @@ export function useUpdateTimezoneSettings() {
 
 	return useMutation({
 		mutationFn: async (timezone: string) => {
-			const { data: result } = await timeZoneSettingsUpdate({
+			const { data: result } = await postApiSettingManagementTimezone({
 				query: { timezone },
 				throwOnError: true,
 			});

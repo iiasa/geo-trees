@@ -1,4 +1,4 @@
-import type { CommentWithDetailsDto } from "@/infrastructure/api/types.gen";
+import type { CommentWithDetailsDto } from "../types";
 import { Button } from "@/shared/components/ui/button";
 import { COMMENT_BUTTON_LABELS } from "../constants";
 import { type CommentNode, useCommentsTree } from "../hooks/use-comments-tree";

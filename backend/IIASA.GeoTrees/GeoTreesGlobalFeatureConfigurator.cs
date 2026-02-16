@@ -14,6 +14,7 @@ public static class GeoTreesGlobalFeatureConfigurator
             GlobalFeatureManager.Instance.Modules.CmsKit(cmsKit =>
             {
                 cmsKit.Pages.Enable();
+                cmsKit.Comments.Enable();
             });
         });
     }

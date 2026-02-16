@@ -116,39 +116,50 @@ export const zClockDto = z.object({
 
 export type ClockDtoZodType = z.infer<typeof zClockDto>;
 
-export const zCmsKitPageDto = z.object({
+export const zCommentApprovalDto = z.object({
+    isApproved: z.optional(z.boolean())
+});
+
+export type CommentApprovalDtoZodType = z.infer<typeof zCommentApprovalDto>;
+
+export const zCommentApproveState = z.union([
+    z.literal(0),
+    z.literal(1),
+    z.literal(2),
+    z.literal(4)
+]);
+
+export type CommentApproveStateZodType = z.infer<typeof zCommentApproveState>;
+
+export const zCommentSettingsDto = z.object({
+    commentRequireApprovement: z.optional(z.boolean())
+});
+
+export type CommentSettingsDtoZodType = z.infer<typeof zCommentSettingsDto>;
+
+export const zCreateCommentInput = z.object({
     extraProperties: z.optional(z.union([
         z.record(z.string(), z.unknown()).readonly(),
         z.null()
     ]).readonly()),
-    id: z.optional(z.uuid()),
-    title: z.optional(z.union([
+    text: z.string().min(0).max(512),
+    repliedCommentId: z.optional(z.union([
+        z.uuid(),
+        z.null()
+    ])),
+    captchaToken: z.optional(z.union([
+        z.uuid(),
+        z.null()
+    ])),
+    captchaAnswer: z.optional(z.int()),
+    url: z.optional(z.union([
         z.string(),
         z.null()
     ])),
-    slug: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    layoutName: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    content: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    script: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    style: z.optional(z.union([
-        z.string(),
-        z.null()
-    ]))
+    idempotencyToken: z.string().min(1)
 });
 
-export type CmsKitPageDtoZodType = z.infer<typeof zCmsKitPageDto>;
+export type CreateCommentInputZodType = z.infer<typeof zCreateCommentInput>;
 
 export const zCreatePageInputDto = z.object({
     extraProperties: z.optional(z.union([
@@ -548,87 +559,6 @@ export const zFindTenantResultDto = z.object({
 
 export type FindTenantResultDtoZodType = z.infer<typeof zFindTenantResultDto>;
 
-export const zIValueValidator = z.object({
-    name: z.optional(z.union([
-        z.string().readonly(),
-        z.null()
-    ]).readonly()),
-    properties: z.optional(z.union([
-        z.record(z.string(), z.unknown()).readonly(),
-        z.null()
-    ]).readonly())
-});
-
-export type IValueValidatorZodType = z.infer<typeof zIValueValidator>;
-
-export const zIStringValueType = z.object({
-    name: z.optional(z.union([
-        z.string().readonly(),
-        z.null()
-    ]).readonly()),
-    properties: z.optional(z.union([
-        z.record(z.string(), z.unknown()).readonly(),
-        z.null()
-    ]).readonly()),
-    validator: z.optional(zIValueValidator)
-});
-
-export type IStringValueTypeZodType = z.infer<typeof zIStringValueType>;
-
-export const zFeatureDto = z.object({
-    name: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    displayName: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    value: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    provider: z.optional(zFeatureProviderDto),
-    description: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    valueType: z.optional(zIStringValueType),
-    depth: z.optional(z.int()),
-    parentName: z.optional(z.union([
-        z.string(),
-        z.null()
-    ]))
-});
-
-export type FeatureDtoZodType = z.infer<typeof zFeatureDto>;
-
-export const zFeatureGroupDto = z.object({
-    name: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    displayName: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    features: z.optional(z.union([
-        z.array(zFeatureDto),
-        z.null()
-    ]))
-});
-
-export type FeatureGroupDtoZodType = z.infer<typeof zFeatureGroupDto>;
-
-export const zGetFeatureListResultDto = z.object({
-    groups: z.optional(z.union([
-        z.array(zFeatureGroupDto),
-        z.null()
-    ]))
-});
-
-export type GetFeatureListResultDtoZodType = z.infer<typeof zGetFeatureListResultDto>;
-
 export const zIanaTimeZone = z.object({
     timeZoneName: z.optional(z.union([
         z.string(),
@@ -856,14 +786,14 @@ export const zLanguageInfo = z.object({
 
 export type LanguageInfoZodType = z.infer<typeof zLanguageInfo>;
 
-export const zListResultDto_IdentityRoleDto_ = z.object({
+export const zListResultDtoIdentityRoleDto = z.object({
     items: z.optional(z.union([
         z.array(zIdentityRoleDto),
         z.null()
     ]))
 });
 
-export type ListResultDto_IdentityRoleDto_ZodType = z.infer<typeof zListResultDto_IdentityRoleDto_>;
+export type ListResultDtoIdentityRoleDtoZodType = z.infer<typeof zListResultDtoIdentityRoleDto>;
 
 export const zLocalizableStringDto = z.object({
     name: z.optional(z.union([
@@ -1035,59 +965,7 @@ export const zObjectExtensionsDto = z.object({
 
 export type ObjectExtensionsDtoZodType = z.infer<typeof zObjectExtensionsDto>;
 
-export const zPageDto = z.object({
-    extraProperties: z.optional(z.union([
-        z.record(z.string(), z.unknown()).readonly(),
-        z.null()
-    ]).readonly()),
-    id: z.optional(z.uuid()),
-    creationTime: z.optional(z.iso.datetime()),
-    creatorId: z.optional(z.union([
-        z.uuid(),
-        z.null()
-    ])),
-    lastModificationTime: z.optional(z.union([
-        z.iso.datetime(),
-        z.null()
-    ])),
-    lastModifierId: z.optional(z.union([
-        z.uuid(),
-        z.null()
-    ])),
-    title: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    slug: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    layoutName: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    content: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    script: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    style: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    isHomePage: z.optional(z.boolean()),
-    concurrencyStamp: z.optional(z.union([
-        z.string(),
-        z.null()
-    ]))
-});
-
-export type PageDtoZodType = z.infer<typeof zPageDto>;
-
-export const zPagedResultDto_BookDto_ = z.object({
+export const zPagedResultDtoBookDto = z.object({
     items: z.optional(z.union([
         z.array(zBookDto),
         z.null()
@@ -1095,9 +973,9 @@ export const zPagedResultDto_BookDto_ = z.object({
     totalCount: z.optional(z.coerce.bigint())
 });
 
-export type PagedResultDto_BookDto_ZodType = z.infer<typeof zPagedResultDto_BookDto_>;
+export type PagedResultDtoBookDtoZodType = z.infer<typeof zPagedResultDtoBookDto>;
 
-export const zPagedResultDto_IdentityRoleDto_ = z.object({
+export const zPagedResultDtoIdentityRoleDto = z.object({
     items: z.optional(z.union([
         z.array(zIdentityRoleDto),
         z.null()
@@ -1105,9 +983,9 @@ export const zPagedResultDto_IdentityRoleDto_ = z.object({
     totalCount: z.optional(z.coerce.bigint())
 });
 
-export type PagedResultDto_IdentityRoleDto_ZodType = z.infer<typeof zPagedResultDto_IdentityRoleDto_>;
+export type PagedResultDtoIdentityRoleDtoZodType = z.infer<typeof zPagedResultDtoIdentityRoleDto>;
 
-export const zPagedResultDto_IdentityUserDto_ = z.object({
+export const zPagedResultDtoIdentityUserDto = z.object({
     items: z.optional(z.union([
         z.array(zIdentityUserDto),
         z.null()
@@ -1115,17 +993,7 @@ export const zPagedResultDto_IdentityUserDto_ = z.object({
     totalCount: z.optional(z.coerce.bigint())
 });
 
-export type PagedResultDto_IdentityUserDto_ZodType = z.infer<typeof zPagedResultDto_IdentityUserDto_>;
-
-export const zPagedResultDto_PageDto_ = z.object({
-    items: z.optional(z.union([
-        z.array(zPageDto),
-        z.null()
-    ])),
-    totalCount: z.optional(z.coerce.bigint())
-});
-
-export type PagedResultDto_PageDto_ZodType = z.infer<typeof zPagedResultDto_PageDto_>;
+export type PagedResultDtoIdentityUserDtoZodType = z.infer<typeof zPagedResultDtoIdentityUserDto>;
 
 export const zParameterApiDescriptionModel = z.object({
     nameOnMethod: z.optional(z.union([
@@ -1577,7 +1445,7 @@ export const zTenantDto = z.object({
 
 export type TenantDtoZodType = z.infer<typeof zTenantDto>;
 
-export const zPagedResultDto_TenantDto_ = z.object({
+export const zPagedResultDtoTenantDto = z.object({
     items: z.optional(z.union([
         z.array(zTenantDto),
         z.null()
@@ -1585,7 +1453,7 @@ export const zPagedResultDto_TenantDto_ = z.object({
     totalCount: z.optional(z.coerce.bigint())
 });
 
-export type PagedResultDto_TenantDto_ZodType = z.infer<typeof zPagedResultDto_TenantDto_>;
+export type PagedResultDtoTenantDtoZodType = z.infer<typeof zPagedResultDtoTenantDto>;
 
 export const zTenantUpdateDto = z.object({
     extraProperties: z.optional(z.union([
@@ -1639,6 +1507,25 @@ export const zApplicationApiDescriptionModel = z.object({
 });
 
 export type ApplicationApiDescriptionModelZodType = z.infer<typeof zApplicationApiDescriptionModel>;
+
+export const zUpdateCommentInput = z.object({
+    extraProperties: z.optional(z.union([
+        z.record(z.string(), z.unknown()).readonly(),
+        z.null()
+    ]).readonly()),
+    text: z.string().min(0).max(512),
+    concurrencyStamp: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    captchaToken: z.optional(z.union([
+        z.uuid(),
+        z.null()
+    ])),
+    captchaAnswer: z.optional(z.int())
+});
+
+export type UpdateCommentInputZodType = z.infer<typeof zUpdateCommentInput>;
 
 export const zUpdateEmailSettingsDto = z.object({
     smtpHost: z.optional(z.union([
@@ -1808,22 +1695,14 @@ export const zUserData = z.object({
 
 export type UserDataZodType = z.infer<typeof zUserData>;
 
-export const zListResultDto_userData_ = z.object({
+export const zListResultDtoUserData = z.object({
     items: z.optional(z.union([
         z.array(zUserData),
         z.null()
     ]))
 });
 
-export type ListResultDto_userData_ZodType = z.infer<typeof zListResultDto_userData_>;
-
-export const zUserLoginInfo = z.object({
-    userNameOrEmailAddress: z.string().min(0).max(255),
-    password: z.string().min(0).max(32),
-    rememberMe: z.optional(z.boolean())
-});
-
-export type UserLoginInfoZodType = z.infer<typeof zUserLoginInfo>;
+export type ListResultDtoUserDataZodType = z.infer<typeof zListResultDtoUserData>;
 
 export const zVerifyPasswordResetTokenInput = z.object({
     userId: z.optional(z.uuid()),
@@ -1831,6 +1710,361 @@ export const zVerifyPasswordResetTokenInput = z.object({
 });
 
 export type VerifyPasswordResetTokenInputZodType = z.infer<typeof zVerifyPasswordResetTokenInput>;
+
+export const zVoloAbpAccountWebAreasAccountControllersModelsUserLoginInfo = z.object({
+    userNameOrEmailAddress: z.string().min(0).max(255),
+    password: z.string().min(0).max(32),
+    rememberMe: z.optional(z.boolean())
+});
+
+export type VoloAbpAccountWebAreasAccountControllersModelsUserLoginInfoZodType = z.infer<typeof zVoloAbpAccountWebAreasAccountControllersModelsUserLoginInfo>;
+
+export const zVoloAbpValidationStringValuesIValueValidator = z.object({
+    name: z.optional(z.union([
+        z.string().readonly(),
+        z.null()
+    ]).readonly()),
+    properties: z.optional(z.union([
+        z.record(z.string(), z.unknown()).readonly(),
+        z.null()
+    ]).readonly())
+});
+
+export type VoloAbpValidationStringValuesIValueValidatorZodType = z.infer<typeof zVoloAbpValidationStringValuesIValueValidator>;
+
+export const zVoloAbpValidationStringValuesIStringValueType = z.object({
+    name: z.optional(z.union([
+        z.string().readonly(),
+        z.null()
+    ]).readonly()),
+    properties: z.optional(z.union([
+        z.record(z.string(), z.unknown()).readonly(),
+        z.null()
+    ]).readonly()),
+    validator: z.optional(zVoloAbpValidationStringValuesIValueValidator)
+});
+
+export type VoloAbpValidationStringValuesIStringValueTypeZodType = z.infer<typeof zVoloAbpValidationStringValuesIStringValueType>;
+
+export const zFeatureDto = z.object({
+    name: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    displayName: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    value: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    provider: z.optional(zFeatureProviderDto),
+    description: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    valueType: z.optional(zVoloAbpValidationStringValuesIStringValueType),
+    depth: z.optional(z.int()),
+    parentName: z.optional(z.union([
+        z.string(),
+        z.null()
+    ]))
+});
+
+export type FeatureDtoZodType = z.infer<typeof zFeatureDto>;
+
+export const zFeatureGroupDto = z.object({
+    name: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    displayName: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    features: z.optional(z.union([
+        z.array(zFeatureDto),
+        z.null()
+    ]))
+});
+
+export type FeatureGroupDtoZodType = z.infer<typeof zFeatureGroupDto>;
+
+export const zGetFeatureListResultDto = z.object({
+    groups: z.optional(z.union([
+        z.array(zFeatureGroupDto),
+        z.null()
+    ]))
+});
+
+export type GetFeatureListResultDtoZodType = z.infer<typeof zGetFeatureListResultDto>;
+
+export const zVoloCmsKitAdminCommentsCmsUserDto = z.object({
+    extraProperties: z.optional(z.union([
+        z.record(z.string(), z.unknown()).readonly(),
+        z.null()
+    ]).readonly()),
+    id: z.optional(z.uuid()),
+    userName: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    name: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    surname: z.optional(z.union([
+        z.string(),
+        z.null()
+    ]))
+});
+
+export type VoloCmsKitAdminCommentsCmsUserDtoZodType = z.infer<typeof zVoloCmsKitAdminCommentsCmsUserDto>;
+
+export const zCommentWithAuthorDto = z.object({
+    extraProperties: z.optional(z.union([
+        z.record(z.string(), z.unknown()).readonly(),
+        z.null()
+    ]).readonly()),
+    id: z.optional(z.uuid()),
+    entityType: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    entityId: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    text: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    repliedCommentId: z.optional(z.union([
+        z.uuid(),
+        z.null()
+    ])),
+    creatorId: z.optional(z.uuid()),
+    creationTime: z.optional(z.iso.datetime()),
+    author: z.optional(zVoloCmsKitAdminCommentsCmsUserDto),
+    url: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    isApproved: z.optional(z.union([
+        z.boolean(),
+        z.null()
+    ]))
+});
+
+export type CommentWithAuthorDtoZodType = z.infer<typeof zCommentWithAuthorDto>;
+
+export const zPagedResultDtoCommentWithAuthorDto = z.object({
+    items: z.optional(z.union([
+        z.array(zCommentWithAuthorDto),
+        z.null()
+    ])),
+    totalCount: z.optional(z.coerce.bigint())
+});
+
+export type PagedResultDtoCommentWithAuthorDtoZodType = z.infer<typeof zPagedResultDtoCommentWithAuthorDto>;
+
+export const zVoloCmsKitAdminPagesPageDto = z.object({
+    extraProperties: z.optional(z.union([
+        z.record(z.string(), z.unknown()).readonly(),
+        z.null()
+    ]).readonly()),
+    id: z.optional(z.uuid()),
+    creationTime: z.optional(z.iso.datetime()),
+    creatorId: z.optional(z.union([
+        z.uuid(),
+        z.null()
+    ])),
+    lastModificationTime: z.optional(z.union([
+        z.iso.datetime(),
+        z.null()
+    ])),
+    lastModifierId: z.optional(z.union([
+        z.uuid(),
+        z.null()
+    ])),
+    title: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    slug: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    layoutName: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    content: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    script: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    style: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    isHomePage: z.optional(z.boolean()),
+    concurrencyStamp: z.optional(z.union([
+        z.string(),
+        z.null()
+    ]))
+});
+
+export type VoloCmsKitAdminPagesPageDtoZodType = z.infer<typeof zVoloCmsKitAdminPagesPageDto>;
+
+export const zPagedResultDtoVoloCmsKitAdminPagesPageDto = z.object({
+    items: z.optional(z.union([
+        z.array(zVoloCmsKitAdminPagesPageDto),
+        z.null()
+    ])),
+    totalCount: z.optional(z.coerce.bigint())
+});
+
+export type PagedResultDtoVoloCmsKitAdminPagesPageDtoZodType = z.infer<typeof zPagedResultDtoVoloCmsKitAdminPagesPageDto>;
+
+export const zVoloCmsKitContentsPageDto = z.object({
+    extraProperties: z.optional(z.union([
+        z.record(z.string(), z.unknown()).readonly(),
+        z.null()
+    ]).readonly()),
+    id: z.optional(z.uuid()),
+    title: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    slug: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    layoutName: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    content: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    script: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    style: z.optional(z.union([
+        z.string(),
+        z.null()
+    ]))
+});
+
+export type VoloCmsKitContentsPageDtoZodType = z.infer<typeof zVoloCmsKitContentsPageDto>;
+
+export const zVoloCmsKitPublicCommentsCmsUserDto = z.object({
+    extraProperties: z.optional(z.union([
+        z.record(z.string(), z.unknown()).readonly(),
+        z.null()
+    ]).readonly()),
+    id: z.optional(z.uuid()),
+    userName: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    name: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    surname: z.optional(z.union([
+        z.string(),
+        z.null()
+    ]))
+});
+
+export type VoloCmsKitPublicCommentsCmsUserDtoZodType = z.infer<typeof zVoloCmsKitPublicCommentsCmsUserDto>;
+
+export const zVoloCmsKitPublicCommentsCommentDto = z.object({
+    extraProperties: z.optional(z.union([
+        z.record(z.string(), z.unknown()).readonly(),
+        z.null()
+    ]).readonly()),
+    id: z.optional(z.uuid()),
+    entityType: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    entityId: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    text: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    repliedCommentId: z.optional(z.union([
+        z.uuid(),
+        z.null()
+    ])),
+    creatorId: z.optional(z.uuid()),
+    creationTime: z.optional(z.iso.datetime()),
+    author: z.optional(zVoloCmsKitPublicCommentsCmsUserDto),
+    concurrencyStamp: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    url: z.optional(z.union([
+        z.string(),
+        z.null()
+    ]))
+});
+
+export type VoloCmsKitPublicCommentsCommentDtoZodType = z.infer<typeof zVoloCmsKitPublicCommentsCommentDto>;
+
+export const zCommentWithDetailsDto = z.object({
+    extraProperties: z.optional(z.union([
+        z.record(z.string(), z.unknown()).readonly(),
+        z.null()
+    ]).readonly()),
+    id: z.optional(z.uuid()),
+    entityType: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    entityId: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    text: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    creatorId: z.optional(z.uuid()),
+    creationTime: z.optional(z.iso.datetime()),
+    replies: z.optional(z.union([
+        z.array(zVoloCmsKitPublicCommentsCommentDto),
+        z.null()
+    ])),
+    author: z.optional(zVoloCmsKitPublicCommentsCmsUserDto),
+    concurrencyStamp: z.optional(z.union([
+        z.string(),
+        z.null()
+    ]))
+});
+
+export type CommentWithDetailsDtoZodType = z.infer<typeof zCommentWithDetailsDto>;
+
+export const zListResultDtoCommentWithDetailsDto = z.object({
+    items: z.optional(z.union([
+        z.array(zCommentWithDetailsDto),
+        z.null()
+    ]))
+});
+
+export type ListResultDtoCommentWithDetailsDtoZodType = z.infer<typeof zListResultDtoCommentWithDetailsDto>;
 
 export const zWindowsTimeZone = z.object({
     timeZoneId: z.optional(z.union([
@@ -1841,15 +2075,15 @@ export const zWindowsTimeZone = z.object({
 
 export type WindowsTimeZoneZodType = z.infer<typeof zWindowsTimeZone>;
 
-export const zTimeZone = z.object({
+export const zVoloAbpAspNetCoreMvcApplicationConfigurationsTimeZone = z.object({
     iana: z.optional(zIanaTimeZone),
     windows: z.optional(zWindowsTimeZone)
 });
 
-export type TimeZoneZodType = z.infer<typeof zTimeZone>;
+export type VoloAbpAspNetCoreMvcApplicationConfigurationsTimeZoneZodType = z.infer<typeof zVoloAbpAspNetCoreMvcApplicationConfigurationsTimeZone>;
 
 export const zTimingDto = z.object({
-    timeZone: z.optional(zTimeZone)
+    timeZone: z.optional(zVoloAbpAspNetCoreMvcApplicationConfigurationsTimeZone)
 });
 
 export type TimingDtoZodType = z.infer<typeof zTimingDto>;
@@ -1880,35 +2114,25 @@ export const zAbpLoginResultWritable = z.object({
 
 export type AbpLoginResultWritableZodType = z.infer<typeof zAbpLoginResultWritable>;
 
-export const zCmsKitPageDtoWritable = z.object({
-    id: z.optional(z.uuid()),
-    title: z.optional(z.union([
+export const zCreateCommentInputWritable = z.object({
+    text: z.string().min(0).max(512),
+    repliedCommentId: z.optional(z.union([
+        z.uuid(),
+        z.null()
+    ])),
+    captchaToken: z.optional(z.union([
+        z.uuid(),
+        z.null()
+    ])),
+    captchaAnswer: z.optional(z.int()),
+    url: z.optional(z.union([
         z.string(),
         z.null()
     ])),
-    slug: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    layoutName: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    content: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    script: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    style: z.optional(z.union([
-        z.string(),
-        z.null()
-    ]))
+    idempotencyToken: z.string().min(1)
 });
 
-export type CmsKitPageDtoWritableZodType = z.infer<typeof zCmsKitPageDtoWritable>;
+export type CreateCommentInputWritableZodType = z.infer<typeof zCreateCommentInputWritable>;
 
 export const zCreatePageInputDtoWritable = z.object({
     title: z.string().min(1).max(256),
@@ -1932,70 +2156,6 @@ export const zCreatePageInputDtoWritable = z.object({
 });
 
 export type CreatePageInputDtoWritableZodType = z.infer<typeof zCreatePageInputDtoWritable>;
-
-export const zIValueValidatorWritable = z.record(z.string(), z.never());
-
-export type IValueValidatorWritableZodType = z.infer<typeof zIValueValidatorWritable>;
-
-export const zIStringValueTypeWritable = z.object({
-    validator: z.optional(zIValueValidatorWritable)
-});
-
-export type IStringValueTypeWritableZodType = z.infer<typeof zIStringValueTypeWritable>;
-
-export const zFeatureDtoWritable = z.object({
-    name: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    displayName: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    value: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    provider: z.optional(zFeatureProviderDto),
-    description: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    valueType: z.optional(zIStringValueTypeWritable),
-    depth: z.optional(z.int()),
-    parentName: z.optional(z.union([
-        z.string(),
-        z.null()
-    ]))
-});
-
-export type FeatureDtoWritableZodType = z.infer<typeof zFeatureDtoWritable>;
-
-export const zFeatureGroupDtoWritable = z.object({
-    name: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    displayName: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    features: z.optional(z.union([
-        z.array(zFeatureDtoWritable),
-        z.null()
-    ]))
-});
-
-export type FeatureGroupDtoWritableZodType = z.infer<typeof zFeatureGroupDtoWritable>;
-
-export const zGetFeatureListResultDtoWritable = z.object({
-    groups: z.optional(z.union([
-        z.array(zFeatureGroupDtoWritable),
-        z.null()
-    ]))
-});
-
-export type GetFeatureListResultDtoWritableZodType = z.infer<typeof zGetFeatureListResultDtoWritable>;
 
 export const zIdentityRoleCreateDtoWritable = z.object({
     name: z.string().min(0).max(256),
@@ -2231,64 +2391,16 @@ export const zApplicationConfigurationDtoWritable = z.object({
 
 export type ApplicationConfigurationDtoWritableZodType = z.infer<typeof zApplicationConfigurationDtoWritable>;
 
-export const zListResultDto_IdentityRoleDto_Writable = z.object({
+export const zListResultDtoIdentityRoleDtoWritable = z.object({
     items: z.optional(z.union([
         z.array(zIdentityRoleDtoWritable),
         z.null()
     ]))
 });
 
-export type ListResultDto_IdentityRoleDto_WritableZodType = z.infer<typeof zListResultDto_IdentityRoleDto_Writable>;
+export type ListResultDtoIdentityRoleDtoWritableZodType = z.infer<typeof zListResultDtoIdentityRoleDtoWritable>;
 
-export const zPageDtoWritable = z.object({
-    id: z.optional(z.uuid()),
-    creationTime: z.optional(z.iso.datetime()),
-    creatorId: z.optional(z.union([
-        z.uuid(),
-        z.null()
-    ])),
-    lastModificationTime: z.optional(z.union([
-        z.iso.datetime(),
-        z.null()
-    ])),
-    lastModifierId: z.optional(z.union([
-        z.uuid(),
-        z.null()
-    ])),
-    title: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    slug: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    layoutName: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    content: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    script: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    style: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    isHomePage: z.optional(z.boolean()),
-    concurrencyStamp: z.optional(z.union([
-        z.string(),
-        z.null()
-    ]))
-});
-
-export type PageDtoWritableZodType = z.infer<typeof zPageDtoWritable>;
-
-export const zPagedResultDto_IdentityRoleDto_Writable = z.object({
+export const zPagedResultDtoIdentityRoleDtoWritable = z.object({
     items: z.optional(z.union([
         z.array(zIdentityRoleDtoWritable),
         z.null()
@@ -2296,9 +2408,9 @@ export const zPagedResultDto_IdentityRoleDto_Writable = z.object({
     totalCount: z.optional(z.coerce.bigint())
 });
 
-export type PagedResultDto_IdentityRoleDto_WritableZodType = z.infer<typeof zPagedResultDto_IdentityRoleDto_Writable>;
+export type PagedResultDtoIdentityRoleDtoWritableZodType = z.infer<typeof zPagedResultDtoIdentityRoleDtoWritable>;
 
-export const zPagedResultDto_IdentityUserDto_Writable = z.object({
+export const zPagedResultDtoIdentityUserDtoWritable = z.object({
     items: z.optional(z.union([
         z.array(zIdentityUserDtoWritable),
         z.null()
@@ -2306,17 +2418,7 @@ export const zPagedResultDto_IdentityUserDto_Writable = z.object({
     totalCount: z.optional(z.coerce.bigint())
 });
 
-export type PagedResultDto_IdentityUserDto_WritableZodType = z.infer<typeof zPagedResultDto_IdentityUserDto_Writable>;
-
-export const zPagedResultDto_PageDto_Writable = z.object({
-    items: z.optional(z.union([
-        z.array(zPageDtoWritable),
-        z.null()
-    ])),
-    totalCount: z.optional(z.coerce.bigint())
-});
-
-export type PagedResultDto_PageDto_WritableZodType = z.infer<typeof zPagedResultDto_PageDto_Writable>;
+export type PagedResultDtoIdentityUserDtoWritableZodType = z.infer<typeof zPagedResultDtoIdentityUserDtoWritable>;
 
 export const zProfileDtoWritable = z.object({
     userName: z.optional(z.union([
@@ -2380,7 +2482,7 @@ export const zTenantDtoWritable = z.object({
 
 export type TenantDtoWritableZodType = z.infer<typeof zTenantDtoWritable>;
 
-export const zPagedResultDto_TenantDto_Writable = z.object({
+export const zPagedResultDtoTenantDtoWritable = z.object({
     items: z.optional(z.union([
         z.array(zTenantDtoWritable),
         z.null()
@@ -2388,7 +2490,7 @@ export const zPagedResultDto_TenantDto_Writable = z.object({
     totalCount: z.optional(z.coerce.bigint())
 });
 
-export type PagedResultDto_TenantDto_WritableZodType = z.infer<typeof zPagedResultDto_TenantDto_Writable>;
+export type PagedResultDtoTenantDtoWritableZodType = z.infer<typeof zPagedResultDtoTenantDtoWritable>;
 
 export const zTenantUpdateDtoWritable = z.object({
     name: z.string().min(0).max(64),
@@ -2399,6 +2501,21 @@ export const zTenantUpdateDtoWritable = z.object({
 });
 
 export type TenantUpdateDtoWritableZodType = z.infer<typeof zTenantUpdateDtoWritable>;
+
+export const zUpdateCommentInputWritable = z.object({
+    text: z.string().min(0).max(512),
+    concurrencyStamp: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    captchaToken: z.optional(z.union([
+        z.uuid(),
+        z.null()
+    ])),
+    captchaAnswer: z.optional(z.int())
+});
+
+export type UpdateCommentInputWritableZodType = z.infer<typeof zUpdateCommentInputWritable>;
 
 export const zUpdatePageInputDtoWritable = z.object({
     title: z.string().min(1).max(256),
@@ -2489,14 +2606,316 @@ export const zUserDataWritable = z.object({
 
 export type UserDataWritableZodType = z.infer<typeof zUserDataWritable>;
 
-export const zListResultDto_userData_Writable = z.object({
+export const zListResultDtoUserDataWritable = z.object({
     items: z.optional(z.union([
         z.array(zUserDataWritable),
         z.null()
     ]))
 });
 
-export type ListResultDto_userData_WritableZodType = z.infer<typeof zListResultDto_userData_Writable>;
+export type ListResultDtoUserDataWritableZodType = z.infer<typeof zListResultDtoUserDataWritable>;
+
+export const zVoloAbpValidationStringValuesIValueValidatorWritable = z.record(z.string(), z.never());
+
+export type VoloAbpValidationStringValuesIValueValidatorWritableZodType = z.infer<typeof zVoloAbpValidationStringValuesIValueValidatorWritable>;
+
+export const zVoloAbpValidationStringValuesIStringValueTypeWritable = z.object({
+    validator: z.optional(zVoloAbpValidationStringValuesIValueValidatorWritable)
+});
+
+export type VoloAbpValidationStringValuesIStringValueTypeWritableZodType = z.infer<typeof zVoloAbpValidationStringValuesIStringValueTypeWritable>;
+
+export const zFeatureDtoWritable = z.object({
+    name: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    displayName: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    value: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    provider: z.optional(zFeatureProviderDto),
+    description: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    valueType: z.optional(zVoloAbpValidationStringValuesIStringValueTypeWritable),
+    depth: z.optional(z.int()),
+    parentName: z.optional(z.union([
+        z.string(),
+        z.null()
+    ]))
+});
+
+export type FeatureDtoWritableZodType = z.infer<typeof zFeatureDtoWritable>;
+
+export const zFeatureGroupDtoWritable = z.object({
+    name: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    displayName: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    features: z.optional(z.union([
+        z.array(zFeatureDtoWritable),
+        z.null()
+    ]))
+});
+
+export type FeatureGroupDtoWritableZodType = z.infer<typeof zFeatureGroupDtoWritable>;
+
+export const zGetFeatureListResultDtoWritable = z.object({
+    groups: z.optional(z.union([
+        z.array(zFeatureGroupDtoWritable),
+        z.null()
+    ]))
+});
+
+export type GetFeatureListResultDtoWritableZodType = z.infer<typeof zGetFeatureListResultDtoWritable>;
+
+export const zVoloCmsKitAdminCommentsCmsUserDtoWritable = z.object({
+    id: z.optional(z.uuid()),
+    userName: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    name: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    surname: z.optional(z.union([
+        z.string(),
+        z.null()
+    ]))
+});
+
+export type VoloCmsKitAdminCommentsCmsUserDtoWritableZodType = z.infer<typeof zVoloCmsKitAdminCommentsCmsUserDtoWritable>;
+
+export const zCommentWithAuthorDtoWritable = z.object({
+    id: z.optional(z.uuid()),
+    entityType: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    entityId: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    text: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    repliedCommentId: z.optional(z.union([
+        z.uuid(),
+        z.null()
+    ])),
+    creatorId: z.optional(z.uuid()),
+    creationTime: z.optional(z.iso.datetime()),
+    author: z.optional(zVoloCmsKitAdminCommentsCmsUserDtoWritable),
+    url: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    isApproved: z.optional(z.union([
+        z.boolean(),
+        z.null()
+    ]))
+});
+
+export type CommentWithAuthorDtoWritableZodType = z.infer<typeof zCommentWithAuthorDtoWritable>;
+
+export const zPagedResultDtoCommentWithAuthorDtoWritable = z.object({
+    items: z.optional(z.union([
+        z.array(zCommentWithAuthorDtoWritable),
+        z.null()
+    ])),
+    totalCount: z.optional(z.coerce.bigint())
+});
+
+export type PagedResultDtoCommentWithAuthorDtoWritableZodType = z.infer<typeof zPagedResultDtoCommentWithAuthorDtoWritable>;
+
+export const zVoloCmsKitAdminPagesPageDtoWritable = z.object({
+    id: z.optional(z.uuid()),
+    creationTime: z.optional(z.iso.datetime()),
+    creatorId: z.optional(z.union([
+        z.uuid(),
+        z.null()
+    ])),
+    lastModificationTime: z.optional(z.union([
+        z.iso.datetime(),
+        z.null()
+    ])),
+    lastModifierId: z.optional(z.union([
+        z.uuid(),
+        z.null()
+    ])),
+    title: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    slug: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    layoutName: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    content: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    script: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    style: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    isHomePage: z.optional(z.boolean()),
+    concurrencyStamp: z.optional(z.union([
+        z.string(),
+        z.null()
+    ]))
+});
+
+export type VoloCmsKitAdminPagesPageDtoWritableZodType = z.infer<typeof zVoloCmsKitAdminPagesPageDtoWritable>;
+
+export const zPagedResultDtoVoloCmsKitAdminPagesPageDtoWritable = z.object({
+    items: z.optional(z.union([
+        z.array(zVoloCmsKitAdminPagesPageDtoWritable),
+        z.null()
+    ])),
+    totalCount: z.optional(z.coerce.bigint())
+});
+
+export type PagedResultDtoVoloCmsKitAdminPagesPageDtoWritableZodType = z.infer<typeof zPagedResultDtoVoloCmsKitAdminPagesPageDtoWritable>;
+
+export const zVoloCmsKitContentsPageDtoWritable = z.object({
+    id: z.optional(z.uuid()),
+    title: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    slug: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    layoutName: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    content: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    script: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    style: z.optional(z.union([
+        z.string(),
+        z.null()
+    ]))
+});
+
+export type VoloCmsKitContentsPageDtoWritableZodType = z.infer<typeof zVoloCmsKitContentsPageDtoWritable>;
+
+export const zVoloCmsKitPublicCommentsCmsUserDtoWritable = z.object({
+    id: z.optional(z.uuid()),
+    userName: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    name: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    surname: z.optional(z.union([
+        z.string(),
+        z.null()
+    ]))
+});
+
+export type VoloCmsKitPublicCommentsCmsUserDtoWritableZodType = z.infer<typeof zVoloCmsKitPublicCommentsCmsUserDtoWritable>;
+
+export const zVoloCmsKitPublicCommentsCommentDtoWritable = z.object({
+    id: z.optional(z.uuid()),
+    entityType: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    entityId: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    text: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    repliedCommentId: z.optional(z.union([
+        z.uuid(),
+        z.null()
+    ])),
+    creatorId: z.optional(z.uuid()),
+    creationTime: z.optional(z.iso.datetime()),
+    author: z.optional(zVoloCmsKitPublicCommentsCmsUserDtoWritable),
+    concurrencyStamp: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    url: z.optional(z.union([
+        z.string(),
+        z.null()
+    ]))
+});
+
+export type VoloCmsKitPublicCommentsCommentDtoWritableZodType = z.infer<typeof zVoloCmsKitPublicCommentsCommentDtoWritable>;
+
+export const zCommentWithDetailsDtoWritable = z.object({
+    id: z.optional(z.uuid()),
+    entityType: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    entityId: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    text: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    creatorId: z.optional(z.uuid()),
+    creationTime: z.optional(z.iso.datetime()),
+    replies: z.optional(z.union([
+        z.array(zVoloCmsKitPublicCommentsCommentDtoWritable),
+        z.null()
+    ])),
+    author: z.optional(zVoloCmsKitPublicCommentsCmsUserDtoWritable),
+    concurrencyStamp: z.optional(z.union([
+        z.string(),
+        z.null()
+    ]))
+});
+
+export type CommentWithDetailsDtoWritableZodType = z.infer<typeof zCommentWithDetailsDtoWritable>;
+
+export const zListResultDtoCommentWithDetailsDtoWritable = z.object({
+    items: z.optional(z.union([
+        z.array(zCommentWithDetailsDtoWritable),
+        z.null()
+    ]))
+});
+
+export type ListResultDtoCommentWithDetailsDtoWritableZodType = z.infer<typeof zListResultDtoCommentWithDetailsDtoWritable>;
 
 export const zGetApiAbpApiDefinitionData = z.object({
     body: z.optional(z.never()),
@@ -2689,7 +3108,7 @@ export type GetApiAppBookDataZodType = z.infer<typeof zGetApiAppBookData>;
 /**
  * OK
  */
-export const zGetApiAppBookResponse = zPagedResultDto_BookDto_;
+export const zGetApiAppBookResponse = zPagedResultDtoBookDto;
 
 export type GetApiAppBookResponseZodType = z.infer<typeof zGetApiAppBookResponse>;
 
@@ -2723,6 +3142,155 @@ export const zGetCmsKitGlobalResourcesScriptData = z.object({
 });
 
 export type GetCmsKitGlobalResourcesScriptDataZodType = z.infer<typeof zGetCmsKitGlobalResourcesScriptData>;
+
+export const zGetApiCmsKitAdminCommentsData = z.object({
+    body: z.optional(z.never()),
+    path: z.optional(z.never()),
+    query: z.optional(z.object({
+        EntityType: z.optional(z.string()),
+        Text: z.optional(z.string()),
+        RepliedCommentId: z.optional(z.uuid()),
+        Author: z.optional(z.string()),
+        CreationStartDate: z.optional(z.iso.datetime()),
+        CreationEndDate: z.optional(z.iso.datetime()),
+        CommentApproveState: z.optional(zCommentApproveState),
+        Sorting: z.optional(z.string()),
+        SkipCount: z.optional(z.int().gte(0).lte(2147483647)),
+        MaxResultCount: z.optional(z.int().gte(1).lte(2147483647))
+    }))
+});
+
+export type GetApiCmsKitAdminCommentsDataZodType = z.infer<typeof zGetApiCmsKitAdminCommentsData>;
+
+/**
+ * OK
+ */
+export const zGetApiCmsKitAdminCommentsResponse = zPagedResultDtoCommentWithAuthorDto;
+
+export type GetApiCmsKitAdminCommentsResponseZodType = z.infer<typeof zGetApiCmsKitAdminCommentsResponse>;
+
+export const zDeleteApiCmsKitAdminCommentsByIdData = z.object({
+    body: z.optional(z.never()),
+    path: z.object({
+        id: z.uuid()
+    }),
+    query: z.optional(z.never())
+});
+
+export type DeleteApiCmsKitAdminCommentsByIdDataZodType = z.infer<typeof zDeleteApiCmsKitAdminCommentsByIdData>;
+
+export const zGetApiCmsKitAdminCommentsByIdData = z.object({
+    body: z.optional(z.never()),
+    path: z.object({
+        id: z.uuid()
+    }),
+    query: z.optional(z.never())
+});
+
+export type GetApiCmsKitAdminCommentsByIdDataZodType = z.infer<typeof zGetApiCmsKitAdminCommentsByIdData>;
+
+/**
+ * OK
+ */
+export const zGetApiCmsKitAdminCommentsByIdResponse = zCommentWithAuthorDto;
+
+export type GetApiCmsKitAdminCommentsByIdResponseZodType = z.infer<typeof zGetApiCmsKitAdminCommentsByIdResponse>;
+
+export const zPutApiCmsKitAdminCommentsByIdApprovalStatusData = z.object({
+    body: z.optional(zCommentApprovalDto),
+    path: z.object({
+        id: z.uuid()
+    }),
+    query: z.optional(z.never())
+});
+
+export type PutApiCmsKitAdminCommentsByIdApprovalStatusDataZodType = z.infer<typeof zPutApiCmsKitAdminCommentsByIdApprovalStatusData>;
+
+export const zPostApiCmsKitAdminCommentsSettingsData = z.object({
+    body: z.optional(zCommentSettingsDto),
+    path: z.optional(z.never()),
+    query: z.optional(z.never())
+});
+
+export type PostApiCmsKitAdminCommentsSettingsDataZodType = z.infer<typeof zPostApiCmsKitAdminCommentsSettingsData>;
+
+export const zGetApiCmsKitAdminCommentsWaitingCountData = z.object({
+    body: z.optional(z.never()),
+    path: z.optional(z.never()),
+    query: z.optional(z.never())
+});
+
+export type GetApiCmsKitAdminCommentsWaitingCountDataZodType = z.infer<typeof zGetApiCmsKitAdminCommentsWaitingCountData>;
+
+/**
+ * OK
+ */
+export const zGetApiCmsKitAdminCommentsWaitingCountResponse = z.int();
+
+export type GetApiCmsKitAdminCommentsWaitingCountResponseZodType = z.infer<typeof zGetApiCmsKitAdminCommentsWaitingCountResponse>;
+
+export const zGetApiCmsKitPublicCommentsByEntityTypeByEntityIdData = z.object({
+    body: z.optional(z.never()),
+    path: z.object({
+        entityType: z.string(),
+        entityId: z.string()
+    }),
+    query: z.optional(z.never())
+});
+
+export type GetApiCmsKitPublicCommentsByEntityTypeByEntityIdDataZodType = z.infer<typeof zGetApiCmsKitPublicCommentsByEntityTypeByEntityIdData>;
+
+/**
+ * OK
+ */
+export const zGetApiCmsKitPublicCommentsByEntityTypeByEntityIdResponse = zListResultDtoCommentWithDetailsDto;
+
+export type GetApiCmsKitPublicCommentsByEntityTypeByEntityIdResponseZodType = z.infer<typeof zGetApiCmsKitPublicCommentsByEntityTypeByEntityIdResponse>;
+
+export const zPostApiCmsKitPublicCommentsByEntityTypeByEntityIdData = z.object({
+    body: z.optional(zCreateCommentInputWritable),
+    path: z.object({
+        entityType: z.string(),
+        entityId: z.string()
+    }),
+    query: z.optional(z.never())
+});
+
+export type PostApiCmsKitPublicCommentsByEntityTypeByEntityIdDataZodType = z.infer<typeof zPostApiCmsKitPublicCommentsByEntityTypeByEntityIdData>;
+
+/**
+ * OK
+ */
+export const zPostApiCmsKitPublicCommentsByEntityTypeByEntityIdResponse = zVoloCmsKitPublicCommentsCommentDto;
+
+export type PostApiCmsKitPublicCommentsByEntityTypeByEntityIdResponseZodType = z.infer<typeof zPostApiCmsKitPublicCommentsByEntityTypeByEntityIdResponse>;
+
+export const zDeleteApiCmsKitPublicCommentsByIdData = z.object({
+    body: z.optional(z.never()),
+    path: z.object({
+        id: z.uuid()
+    }),
+    query: z.optional(z.never())
+});
+
+export type DeleteApiCmsKitPublicCommentsByIdDataZodType = z.infer<typeof zDeleteApiCmsKitPublicCommentsByIdData>;
+
+export const zPutApiCmsKitPublicCommentsByIdData = z.object({
+    body: z.optional(zUpdateCommentInputWritable),
+    path: z.object({
+        id: z.uuid()
+    }),
+    query: z.optional(z.never())
+});
+
+export type PutApiCmsKitPublicCommentsByIdDataZodType = z.infer<typeof zPutApiCmsKitPublicCommentsByIdData>;
+
+/**
+ * OK
+ */
+export const zPutApiCmsKitPublicCommentsByIdResponse = zVoloCmsKitPublicCommentsCommentDto;
+
+export type PutApiCmsKitPublicCommentsByIdResponseZodType = z.infer<typeof zPutApiCmsKitPublicCommentsByIdResponse>;
 
 export const zPostApiAccountDynamicClaimsRefreshData = z.object({
     body: z.optional(z.never()),
@@ -2804,7 +3372,7 @@ export const zPutApiFeatureManagementFeaturesData = z.object({
 export type PutApiFeatureManagementFeaturesDataZodType = z.infer<typeof zPutApiFeatureManagementFeaturesData>;
 
 export const zPostApiAccountLoginData = z.object({
-    body: z.optional(zUserLoginInfo),
+    body: z.optional(zVoloAbpAccountWebAreasAccountControllersModelsUserLoginInfo),
     path: z.optional(z.never()),
     query: z.optional(z.never())
 });
@@ -2827,7 +3395,7 @@ export const zGetApiAccountLogoutData = z.object({
 export type GetApiAccountLogoutDataZodType = z.infer<typeof zGetApiAccountLogoutData>;
 
 export const zPostApiAccountCheckPasswordData = z.object({
-    body: z.optional(zUserLoginInfo),
+    body: z.optional(zVoloAbpAccountWebAreasAccountControllersModelsUserLoginInfo),
     path: z.optional(z.never()),
     query: z.optional(z.never())
 });
@@ -2864,7 +3432,7 @@ export type GetApiCmsKitAdminPagesByIdDataZodType = z.infer<typeof zGetApiCmsKit
 /**
  * OK
  */
-export const zGetApiCmsKitAdminPagesByIdResponse = zPageDto;
+export const zGetApiCmsKitAdminPagesByIdResponse = zVoloCmsKitAdminPagesPageDto;
 
 export type GetApiCmsKitAdminPagesByIdResponseZodType = z.infer<typeof zGetApiCmsKitAdminPagesByIdResponse>;
 
@@ -2881,7 +3449,7 @@ export type PutApiCmsKitAdminPagesByIdDataZodType = z.infer<typeof zPutApiCmsKit
 /**
  * OK
  */
-export const zPutApiCmsKitAdminPagesByIdResponse = zPageDto;
+export const zPutApiCmsKitAdminPagesByIdResponse = zVoloCmsKitAdminPagesPageDto;
 
 export type PutApiCmsKitAdminPagesByIdResponseZodType = z.infer<typeof zPutApiCmsKitAdminPagesByIdResponse>;
 
@@ -2901,7 +3469,7 @@ export type GetApiCmsKitAdminPagesDataZodType = z.infer<typeof zGetApiCmsKitAdmi
 /**
  * OK
  */
-export const zGetApiCmsKitAdminPagesResponse = zPagedResultDto_PageDto_;
+export const zGetApiCmsKitAdminPagesResponse = zPagedResultDtoVoloCmsKitAdminPagesPageDto;
 
 export type GetApiCmsKitAdminPagesResponseZodType = z.infer<typeof zGetApiCmsKitAdminPagesResponse>;
 
@@ -2916,7 +3484,7 @@ export type PostApiCmsKitAdminPagesDataZodType = z.infer<typeof zPostApiCmsKitAd
 /**
  * OK
  */
-export const zPostApiCmsKitAdminPagesResponse = zPageDto;
+export const zPostApiCmsKitAdminPagesResponse = zVoloCmsKitAdminPagesPageDto;
 
 export type PostApiCmsKitAdminPagesResponseZodType = z.infer<typeof zPostApiCmsKitAdminPagesResponse>;
 
@@ -2943,7 +3511,7 @@ export type GetApiCmsKitPublicPagesBySlugDataZodType = z.infer<typeof zGetApiCms
 /**
  * OK
  */
-export const zGetApiCmsKitPublicPagesBySlugResponse = zCmsKitPageDto;
+export const zGetApiCmsKitPublicPagesBySlugResponse = zVoloCmsKitContentsPageDto;
 
 export type GetApiCmsKitPublicPagesBySlugResponseZodType = z.infer<typeof zGetApiCmsKitPublicPagesBySlugResponse>;
 
@@ -2958,7 +3526,7 @@ export type GetApiCmsKitPublicPagesHomeDataZodType = z.infer<typeof zGetApiCmsKi
 /**
  * OK
  */
-export const zGetApiCmsKitPublicPagesHomeResponse = zCmsKitPageDto;
+export const zGetApiCmsKitPublicPagesHomeResponse = zVoloCmsKitContentsPageDto;
 
 export type GetApiCmsKitPublicPagesHomeResponseZodType = z.infer<typeof zGetApiCmsKitPublicPagesHomeResponse>;
 
@@ -3076,7 +3644,7 @@ export type GetApiIdentityRolesAllDataZodType = z.infer<typeof zGetApiIdentityRo
 /**
  * OK
  */
-export const zGetApiIdentityRolesAllResponse = zListResultDto_IdentityRoleDto_;
+export const zGetApiIdentityRolesAllResponse = zListResultDtoIdentityRoleDto;
 
 export type GetApiIdentityRolesAllResponseZodType = z.infer<typeof zGetApiIdentityRolesAllResponse>;
 
@@ -3097,7 +3665,7 @@ export type GetApiIdentityRolesDataZodType = z.infer<typeof zGetApiIdentityRoles
 /**
  * OK
  */
-export const zGetApiIdentityRolesResponse = zPagedResultDto_IdentityRoleDto_;
+export const zGetApiIdentityRolesResponse = zPagedResultDtoIdentityRoleDto;
 
 export type GetApiIdentityRolesResponseZodType = z.infer<typeof zGetApiIdentityRolesResponse>;
 
@@ -3220,7 +3788,7 @@ export type GetApiMultiTenancyTenantsDataZodType = z.infer<typeof zGetApiMultiTe
 /**
  * OK
  */
-export const zGetApiMultiTenancyTenantsResponse = zPagedResultDto_TenantDto_;
+export const zGetApiMultiTenancyTenantsResponse = zPagedResultDtoTenantDto;
 
 export type GetApiMultiTenancyTenantsResponseZodType = z.infer<typeof zGetApiMultiTenancyTenantsResponse>;
 
@@ -3379,7 +3947,7 @@ export type GetApiIdentityUsersDataZodType = z.infer<typeof zGetApiIdentityUsers
 /**
  * OK
  */
-export const zGetApiIdentityUsersResponse = zPagedResultDto_IdentityUserDto_;
+export const zGetApiIdentityUsersResponse = zPagedResultDtoIdentityUserDto;
 
 export type GetApiIdentityUsersResponseZodType = z.infer<typeof zGetApiIdentityUsersResponse>;
 
@@ -3411,7 +3979,7 @@ export type GetApiIdentityUsersByIdRolesDataZodType = z.infer<typeof zGetApiIden
 /**
  * OK
  */
-export const zGetApiIdentityUsersByIdRolesResponse = zListResultDto_IdentityRoleDto_;
+export const zGetApiIdentityUsersByIdRolesResponse = zListResultDtoIdentityRoleDto;
 
 export type GetApiIdentityUsersByIdRolesResponseZodType = z.infer<typeof zGetApiIdentityUsersByIdRolesResponse>;
 
@@ -3436,7 +4004,7 @@ export type GetApiIdentityUsersAssignableRolesDataZodType = z.infer<typeof zGetA
 /**
  * OK
  */
-export const zGetApiIdentityUsersAssignableRolesResponse = zListResultDto_IdentityRoleDto_;
+export const zGetApiIdentityUsersAssignableRolesResponse = zListResultDtoIdentityRoleDto;
 
 export type GetApiIdentityUsersAssignableRolesResponseZodType = z.infer<typeof zGetApiIdentityUsersAssignableRolesResponse>;
 
@@ -3525,7 +4093,7 @@ export type GetApiIdentityUsersLookupSearchDataZodType = z.infer<typeof zGetApiI
 /**
  * OK
  */
-export const zGetApiIdentityUsersLookupSearchResponse = zListResultDto_userData_;
+export const zGetApiIdentityUsersLookupSearchResponse = zListResultDtoUserData;
 
 export type GetApiIdentityUsersLookupSearchResponseZodType = z.infer<typeof zGetApiIdentityUsersLookupSearchResponse>;
 

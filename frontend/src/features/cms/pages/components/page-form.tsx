@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { pagesPublicDoesSlugExist } from "@/infrastructure/api/sdk.gen";
+import { getApiCmsKitPublicPagesExist } from "@/infrastructure/api/sdk.gen";
 import type { VoloCmsKitAdminPagesPageDto } from "@/infrastructure/api/types.gen";
 import { Button } from "@/shared/components/ui/button";
 import {
@@ -89,7 +89,7 @@ export function PageForm({
 		queryKey: ["slug-exists", slugToCheck],
 		queryFn: async () => {
 			if (!slugToCheck) return null;
-			const { data } = await pagesPublicDoesSlugExist({
+			const { data } = await getApiCmsKitPublicPagesExist({
 				query: { slug: slugToCheck },
 			});
 			return data;

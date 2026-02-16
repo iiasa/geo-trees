@@ -3,11 +3,11 @@ import { useState } from "react";
 import { toast } from "sonner";
 
 import {
-	roleCreateMutation,
-	roleDeleteMutation,
-	roleGetListOptions,
-	roleGetListQueryKey,
-	roleUpdateMutation,
+	postApiIdentityRolesMutation,
+	deleteApiIdentityRolesByIdMutation,
+	getApiIdentityRolesOptions,
+	getApiIdentityRolesQueryKey,
+	putApiIdentityRolesByIdMutation,
 } from "@/infrastructure/api/@tanstack/react-query.gen";
 import type { IdentityRoleDto } from "@/infrastructure/api/types.gen";
 import { Alert, AlertDescription } from "@/shared/components/ui/alert";
@@ -60,18 +60,18 @@ export function RolesList() {
 		isLoading,
 		error,
 		isError,
-	} = useQuery(roleGetListOptions(queryOptions));
+	} = useQuery(getApiIdentityRolesOptions(queryOptions));
 
 	const createRoleMutation = useMutation({
-		...roleCreateMutation(),
+		...postApiIdentityRolesMutation(),
 	});
 
 	const updateRoleMutation = useMutation({
-		...roleUpdateMutation(),
+		...putApiIdentityRolesByIdMutation(),
 	});
 
 	const deleteRoleMutation = useMutation({
-		...roleDeleteMutation(),
+		...deleteApiIdentityRolesByIdMutation(),
 	});
 
 	const roles = rolesResponse?.items || [];
@@ -88,7 +88,7 @@ export function RolesList() {
 				},
 			});
 			queryClient.invalidateQueries({
-				queryKey: roleGetListQueryKey(queryOptions),
+				queryKey: getApiIdentityRolesQueryKey(queryOptions),
 			});
 			toast.success("Role created successfully");
 			closeForm();
@@ -116,7 +116,7 @@ export function RolesList() {
 				},
 			});
 			queryClient.invalidateQueries({
-				queryKey: roleGetListQueryKey(queryOptions),
+				queryKey: getApiIdentityRolesQueryKey(queryOptions),
 			});
 			toast.success("Role updated successfully");
 			closeForm();
@@ -136,7 +136,7 @@ export function RolesList() {
 				path: { id: roleId },
 			});
 			queryClient.invalidateQueries({
-				queryKey: roleGetListQueryKey(queryOptions),
+				queryKey: getApiIdentityRolesQueryKey(queryOptions),
 			});
 			toast.success("Role deleted successfully");
 		} catch (error: unknown) {

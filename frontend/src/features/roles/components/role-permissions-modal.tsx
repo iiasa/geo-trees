@@ -4,8 +4,8 @@ import { IconSearch, IconShield, IconX } from "@tabler/icons-react";
 import { toast } from "sonner";
 
 import {
-	permissionsGetOptions,
-	permissionsUpdateMutation,
+	getApiPermissionManagementPermissionsOptions,
+	putApiPermissionManagementPermissionsMutation,
 } from "@/infrastructure/api/@tanstack/react-query.gen";
 import { Button } from "@/shared/components/ui/button";
 import { Input } from "@/shared/components/ui/input";
@@ -57,7 +57,7 @@ export function RolePermissionsModal() {
 		error: permissionsError,
 		refetch: refetchPermissions,
 	} = useQuery({
-		...permissionsGetOptions({
+		...getApiPermissionManagementPermissionsOptions({
 			query: {
 				providerName: "R",
 				providerKey: role?.id || "",
@@ -68,7 +68,7 @@ export function RolePermissionsModal() {
 
 	// Update permissions mutation
 	const updatePermissionsMutation = useMutation({
-		...permissionsUpdateMutation(),
+		...putApiPermissionManagementPermissionsMutation(),
 	});
 
 	// Process permissions response when it loads

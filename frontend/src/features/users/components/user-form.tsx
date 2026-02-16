@@ -28,8 +28,8 @@ import { Input } from "@/shared/components/ui/input";
 import { Switch } from "@/shared/components/ui/switch";
 import { Checkbox } from "@/shared/components/ui/checkbox";
 import { Badge } from "@/shared/components/ui/badge";
-import { userGetAssignableRolesOptions } from "@/infrastructure/api/@tanstack/react-query.gen";
-import { userGetRoles } from "@/infrastructure/api/sdk.gen";
+import { getApiIdentityUsersAssignableRolesOptions } from "@/infrastructure/api/@tanstack/react-query.gen";
+import { getApiIdentityUsersByIdRoles } from "@/infrastructure/api/sdk.gen";
 
 const userFormSchema = z.object({
 	userName: z.string().min(1, "Username is required"),
@@ -64,7 +64,7 @@ export function UserForm({
 
 	// Fetch available roles
 	const { data: assignableRolesData, isLoading: rolesLoading } = useQuery(
-		userGetAssignableRolesOptions({}),
+		getApiIdentityUsersAssignableRolesOptions({}),
 	);
 
 	// Fetch current user roles when editing
@@ -72,7 +72,7 @@ export function UserForm({
 		queryKey: ["userRoles", user?.id],
 		queryFn: async () => {
 			if (!user?.id) return { items: [] };
-			const { data } = await userGetRoles({
+			const { data } = await getApiIdentityUsersByIdRoles({
 				path: { id: user.id },
 			});
 			return data;
