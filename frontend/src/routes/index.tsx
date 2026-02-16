@@ -172,6 +172,12 @@ function App() {
 							<p className="text-muted-foreground text-sm mt-2">
 								Sign in to access the Geo Trees platform
 							</p>
+							<Link
+								to="/auth/register"
+								className="text-sm text-primary hover:underline"
+							>
+								Don't have an account? Create one
+							</Link>
 						</div>
 					)}
 				</div>
