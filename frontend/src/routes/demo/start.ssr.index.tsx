@@ -45,7 +45,7 @@ function RouteComponent() {
 								Server-Side Rendering Examples
 							</h2>
 							<p className="text-muted-foreground mb-6">
-								Explore different SSR approaches with TanStack Start
+								Explore different SSR approaches
 							</p>
 						</div>
 						<div className="grid gap-4 md:grid-cols-1">

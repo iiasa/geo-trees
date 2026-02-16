@@ -1,6 +1,6 @@
-# ABP React TanStack Application
+# Geo Trees
 
-A modern full-stack web application built with React, TanStack Router, and integrated with ABP (ASP.NET Boilerplate Platform) backend.
+IIASA GeoTrees - A modern full-stack web application built with React, TanStack Router, and an ABP Framework (.NET) backend.
 
 ## 🚀 Features
 
@@ -20,7 +20,7 @@ A modern full-stack web application built with React, TanStack Router, and integ
 ## 📋 Prerequisites
 
 - Node.js 18+ and pnpm
-- Access to an ABP backend API (default: <https://abp.antosubash.com>)
+- Access to the backend API
 - OIDC provider (for authentication)
 
 ## 🛠️ Installation
@@ -28,7 +28,7 @@ A modern full-stack web application built with React, TanStack Router, and integ
 ```bash
 # Clone the repository
 git clone <repository-url>
-cd abp-react-tanstack
+cd geo-trees
 
 # Install dependencies
 pnpm install
@@ -63,7 +63,7 @@ VITE_OIDC_REDIRECT_URI=http://localhost:3000/auth/callback
 VITE_SESSION_SECRET=your-super-secret-key-change-this-in-production
 
 # Application Configuration
-VITE_APP_NAME=abp-react-tanstack
+VITE_APP_NAME=geo-trees
 VITE_APP_VERSION=v1
 ```
 

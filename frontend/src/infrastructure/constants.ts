@@ -15,7 +15,7 @@ export const OIDC_CONSTANTS = {
 	SESSION_SECRET:
 		import.meta.env.VITE_SESSION_SECRET ||
 		"your-super-secret-key-change-this-in-production",
-	SESSION_COOKIE_NAME: "tanstack-oidc-session",
+	SESSION_COOKIE_NAME: "geo-trees-session",
 
 	// Scopes (comma-separated string from env, or default)
 	SCOPES: import.meta.env.VITE_OIDC_SCOPES
@@ -34,7 +34,7 @@ export const DEMO_CONSTANTS = {
 	CLIENT: {
 		TITLE: "Generated API Client Demo",
 		DESCRIPTION:
-			"Generated API client from ABP OpenAPI specification with full TypeScript support.",
+			"Generated API client from OpenAPI specification with full TypeScript support.",
 		USER_FORM: {
 			USER_NAME_LABEL: "User Name",
 			USER_NAME_PLACEHOLDER: "Enter user name",
@@ -67,7 +67,7 @@ export const DEMO_CONSTANTS = {
 		},
 		APP_CONFIG: {
 			TITLE: "Application Configuration",
-			DESCRIPTION: "ABP application configuration from the backend",
+			DESCRIPTION: "Application configuration from the backend",
 			LOADING: "Loading application configuration...",
 			ERROR: "Failed to load application configuration",
 			SECTIONS: {

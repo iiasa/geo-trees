@@ -1,13 +1,13 @@
-# AGENTS.md - ABP React TanStack Application
+# AGENTS.md - Geo Trees Application
 
 ## 🤖 AI Agent Documentation
 
-This document serves as a comprehensive guide for AI agents working with the ABP React TanStack application. It provides context, architecture details, and operational guidance for maintaining and extending this full-stack project.
+This document serves as a comprehensive guide for AI agents working with the Geo Trees application. It provides context, architecture details, and operational guidance for maintaining and extending this full-stack project.
 
 ## 📋 Project Overview
 
-**Project Name**: `abp-react-tanstack`
-**Purpose**: A modern full-stack web application built with React, TanStack Router, and integrated with ABP (ASP.NET Boilerplate Platform) backend.
+**Project Name**: `geo-trees`
+**Purpose**: IIASA GeoTrees - A modern full-stack web application built with React, TanStack Router, and an ABP Framework (.NET) backend.
 
 **Key Features**:
 - 🔐 **OIDC Authentication**: Secure authentication via OpenID Connect

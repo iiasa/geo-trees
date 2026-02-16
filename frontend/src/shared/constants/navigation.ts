@@ -35,7 +35,7 @@ const NAV_LABELS = {
 	SSR_SPA_MODE: "SPA Mode",
 	SSR_FULL: "Full SSR",
 	SSR_DATA_ONLY: "Data Only",
-	BRAND: "TanStack Start",
+	BRAND: "Geo Trees",
 } as const;
 
 export type NavItem = {

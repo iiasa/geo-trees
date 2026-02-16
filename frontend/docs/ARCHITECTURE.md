@@ -1,6 +1,6 @@
 # Project Architecture
 
-This document describes the architectural decisions and patterns used in the ABP React TanStack application.
+This document describes the architectural decisions and patterns used in the Geo Trees application.
 
 ## Feature-Based Architecture
 

@@ -59,7 +59,7 @@ export function TestEmailDialog({
 			senderEmailAddress: defaultFromAddress || "",
 			targetEmailAddress: "",
 			subject: "Test Email",
-			body: "This is a test email from ABP application.",
+			body: "This is a test email from Geo Trees.",
 		},
 	});
 
