@@ -3,8 +3,8 @@ import { useQuery } from "@tanstack/react-query";
 import { useEffect, useMemo, useState } from "react";
 import { useForm, type Resolver, type SubmitHandler } from "react-hook-form";
 import {
-	menuItemAdminGetPageLookupOptions,
-	menuItemAdminGetPermissionLookupOptions,
+	getApiCmsKitAdminMenuItemsLookupPagesOptions,
+	getApiCmsKitAdminMenuItemsLookupPermissionsOptions,
 } from "@/infrastructure/api/@tanstack/react-query.gen";
 import type { MenuItemDto } from "@/infrastructure/api/types.gen";
 import { Button } from "@/shared/components/ui/button";
@@ -100,7 +100,7 @@ export function MenuItemForm({
 		form.reset(formValues);
 	}, [formValues, form]);
 	const pageLookupQuery = useQuery({
-		...menuItemAdminGetPageLookupOptions({
+		...getApiCmsKitAdminMenuItemsLookupPagesOptions({
 			query: {
 				Filter: pageSearch || undefined,
 				MaxResultCount: 50,
@@ -110,7 +110,7 @@ export function MenuItemForm({
 	});
 
 	const permissionLookupQuery = useQuery({
-		...menuItemAdminGetPermissionLookupOptions({
+		...getApiCmsKitAdminMenuItemsLookupPermissionsOptions({
 			query: {
 				Filter: permissionSearch || undefined,
 			},

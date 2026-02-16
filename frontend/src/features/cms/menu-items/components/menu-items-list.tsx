@@ -2,16 +2,16 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useMemo, useState } from "react";
 import { toast } from "sonner";
 import {
-	menuItemAdminCreateMutation,
-	menuItemAdminDeleteMutation,
-	menuItemAdminGetListOptions,
-	menuItemAdminGetListQueryKey,
-	menuItemAdminGetPageLookupOptions,
-	menuItemAdminGetPermissionLookupOptions,
-	menuItemAdminMoveMenuItemMutation,
-	menuItemAdminUpdateMutation,
-	menuItemPublicGetListOptions,
-	menuItemPublicGetListQueryKey,
+	postApiCmsKitAdminMenuItemsMutation,
+	deleteApiCmsKitAdminMenuItemsByIdMutation,
+	getApiCmsKitAdminMenuItemsOptions,
+	getApiCmsKitAdminMenuItemsQueryKey,
+	getApiCmsKitAdminMenuItemsLookupPagesOptions,
+	getApiCmsKitAdminMenuItemsLookupPermissionsOptions,
+	putApiCmsKitAdminMenuItemsByIdMoveMutation,
+	putApiCmsKitAdminMenuItemsByIdMutation,
+	getApiCmsKitPublicMenuItemsOptions,
+	getApiCmsKitPublicMenuItemsQueryKey,
 } from "@/infrastructure/api/@tanstack/react-query.gen";
 import type { MenuItemDto } from "@/infrastructure/api/types.gen";
 import { Alert, AlertDescription } from "@/shared/components/ui/alert";
@@ -74,21 +74,25 @@ export function MenuItemsList() {
 		closeMove,
 	} = useMenuItemMoveStore();
 
-	const adminQuery = useQuery(menuItemAdminGetListOptions());
-	const publicQuery = useQuery(menuItemPublicGetListOptions());
+	const adminQuery = useQuery(getApiCmsKitAdminMenuItemsOptions());
+	const publicQuery = useQuery(getApiCmsKitPublicMenuItemsOptions());
 	const pageLookupQuery = useQuery(
-		menuItemAdminGetPageLookupOptions({
+		getApiCmsKitAdminMenuItemsLookupPagesOptions({
 			query: { MaxResultCount: 200 },
 		}),
 	);
 	const permissionLookupQuery = useQuery(
-		menuItemAdminGetPermissionLookupOptions(),
+		getApiCmsKitAdminMenuItemsLookupPermissionsOptions(),
 	);
 
-	const createMutation = useMutation(menuItemAdminCreateMutation());
-	const updateMutation = useMutation(menuItemAdminUpdateMutation());
-	const deleteMutation = useMutation(menuItemAdminDeleteMutation());
-	const moveMutation = useMutation(menuItemAdminMoveMenuItemMutation());
+	const createMutation = useMutation(postApiCmsKitAdminMenuItemsMutation());
+	const updateMutation = useMutation(putApiCmsKitAdminMenuItemsByIdMutation());
+	const deleteMutation = useMutation(
+		deleteApiCmsKitAdminMenuItemsByIdMutation(),
+	);
+	const moveMutation = useMutation(
+		putApiCmsKitAdminMenuItemsByIdMoveMutation(),
+	);
 
 	const adminItems = adminQuery.data?.items ?? [];
 	const adminTree = useMemo(() => buildMenuTree(adminItems), [adminItems]);
@@ -140,10 +144,10 @@ export function MenuItemsList() {
 
 	const invalidateMenuQueries = () => {
 		queryClient.invalidateQueries({
-			queryKey: menuItemAdminGetListQueryKey(),
+			queryKey: getApiCmsKitAdminMenuItemsQueryKey(),
 		});
 		queryClient.invalidateQueries({
-			queryKey: menuItemPublicGetListQueryKey(),
+			queryKey: getApiCmsKitPublicMenuItemsQueryKey(),
 		});
 	};
 

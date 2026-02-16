@@ -867,6 +867,246 @@ export const zAbpLoginResult = z.object({
 
 export type AbpLoginResultZodType = z.infer<typeof zAbpLoginResult>;
 
+export const zMenuItemCreateInput = z.object({
+    extraProperties: z.optional(z.union([
+        z.record(z.string(), z.unknown()).readonly(),
+        z.null()
+    ]).readonly()),
+    parentId: z.optional(z.union([
+        z.uuid(),
+        z.null()
+    ])),
+    displayName: z.string().min(1),
+    isActive: z.optional(z.boolean()),
+    url: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    icon: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    order: z.optional(z.int()),
+    target: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    elementId: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    cssClass: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    pageId: z.optional(z.union([
+        z.uuid(),
+        z.null()
+    ])),
+    requiredPermissionName: z.optional(z.union([
+        z.string(),
+        z.null()
+    ]))
+});
+
+export type MenuItemCreateInputZodType = z.infer<typeof zMenuItemCreateInput>;
+
+export const zMenuItemDto = z.object({
+    extraProperties: z.optional(z.union([
+        z.record(z.string(), z.unknown()).readonly(),
+        z.null()
+    ]).readonly()),
+    id: z.optional(z.uuid()),
+    creationTime: z.optional(z.iso.datetime()),
+    creatorId: z.optional(z.union([
+        z.uuid(),
+        z.null()
+    ])),
+    lastModificationTime: z.optional(z.union([
+        z.iso.datetime(),
+        z.null()
+    ])),
+    lastModifierId: z.optional(z.union([
+        z.uuid(),
+        z.null()
+    ])),
+    parentId: z.optional(z.union([
+        z.uuid(),
+        z.null()
+    ])),
+    displayName: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    isActive: z.optional(z.boolean()),
+    url: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    icon: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    order: z.optional(z.int()),
+    target: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    elementId: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    cssClass: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    pageId: z.optional(z.union([
+        z.uuid(),
+        z.null()
+    ])),
+    requiredPermissionName: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    concurrencyStamp: z.optional(z.union([
+        z.string(),
+        z.null()
+    ]))
+});
+
+export type MenuItemDtoZodType = z.infer<typeof zMenuItemDto>;
+
+export const zListResultDtoMenuItemDto = z.object({
+    items: z.optional(z.union([
+        z.array(zMenuItemDto),
+        z.null()
+    ]))
+});
+
+export type ListResultDtoMenuItemDtoZodType = z.infer<typeof zListResultDtoMenuItemDto>;
+
+export const zMenuItemMoveInput = z.object({
+    newParentId: z.optional(z.union([
+        z.uuid(),
+        z.null()
+    ])),
+    position: z.optional(z.int())
+});
+
+export type MenuItemMoveInputZodType = z.infer<typeof zMenuItemMoveInput>;
+
+export const zMenuItemUpdateInput = z.object({
+    extraProperties: z.optional(z.union([
+        z.record(z.string(), z.unknown()).readonly(),
+        z.null()
+    ]).readonly()),
+    displayName: z.string().min(1),
+    isActive: z.optional(z.boolean()),
+    url: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    icon: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    target: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    elementId: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    cssClass: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    pageId: z.optional(z.union([
+        z.uuid(),
+        z.null()
+    ])),
+    requiredPermissionName: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    concurrencyStamp: z.optional(z.union([
+        z.string(),
+        z.null()
+    ]))
+});
+
+export type MenuItemUpdateInputZodType = z.infer<typeof zMenuItemUpdateInput>;
+
+export const zMenuItemWithDetailsDto = z.object({
+    extraProperties: z.optional(z.union([
+        z.record(z.string(), z.unknown()).readonly(),
+        z.null()
+    ]).readonly()),
+    id: z.optional(z.uuid()),
+    creationTime: z.optional(z.iso.datetime()),
+    creatorId: z.optional(z.union([
+        z.uuid(),
+        z.null()
+    ])),
+    lastModificationTime: z.optional(z.union([
+        z.iso.datetime(),
+        z.null()
+    ])),
+    lastModifierId: z.optional(z.union([
+        z.uuid(),
+        z.null()
+    ])),
+    parentId: z.optional(z.union([
+        z.uuid(),
+        z.null()
+    ])),
+    displayName: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    isActive: z.optional(z.boolean()),
+    url: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    icon: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    order: z.optional(z.int()),
+    target: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    elementId: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    cssClass: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    pageId: z.optional(z.union([
+        z.uuid(),
+        z.null()
+    ])),
+    requiredPermissionName: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    concurrencyStamp: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    pageTitle: z.optional(z.union([
+        z.string(),
+        z.null()
+    ]))
+});
+
+export type MenuItemWithDetailsDtoZodType = z.infer<typeof zMenuItemWithDetailsDto>;
+
 export const zMethodParameterApiDescriptionModel = z.object({
     name: z.optional(z.union([
         z.string(),
@@ -965,6 +1205,20 @@ export const zObjectExtensionsDto = z.object({
 
 export type ObjectExtensionsDtoZodType = z.infer<typeof zObjectExtensionsDto>;
 
+export const zPageLookupDto = z.object({
+    id: z.optional(z.uuid()),
+    title: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    slug: z.optional(z.union([
+        z.string(),
+        z.null()
+    ]))
+});
+
+export type PageLookupDtoZodType = z.infer<typeof zPageLookupDto>;
+
 export const zPagedResultDtoBookDto = z.object({
     items: z.optional(z.union([
         z.array(zBookDto),
@@ -994,6 +1248,16 @@ export const zPagedResultDtoIdentityUserDto = z.object({
 });
 
 export type PagedResultDtoIdentityUserDtoZodType = z.infer<typeof zPagedResultDtoIdentityUserDto>;
+
+export const zPagedResultDtoPageLookupDto = z.object({
+    items: z.optional(z.union([
+        z.array(zPageLookupDto),
+        z.null()
+    ])),
+    totalCount: z.optional(z.coerce.bigint())
+});
+
+export type PagedResultDtoPageLookupDtoZodType = z.infer<typeof zPagedResultDtoPageLookupDto>;
 
 export const zParameterApiDescriptionModel = z.object({
     nameOnMethod: z.optional(z.union([
@@ -1033,6 +1297,28 @@ export const zParameterApiDescriptionModel = z.object({
 });
 
 export type ParameterApiDescriptionModelZodType = z.infer<typeof zParameterApiDescriptionModel>;
+
+export const zPermissionLookupDto = z.object({
+    name: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    displayName: z.optional(z.union([
+        z.string(),
+        z.null()
+    ]))
+});
+
+export type PermissionLookupDtoZodType = z.infer<typeof zPermissionLookupDto>;
+
+export const zListResultDtoPermissionLookupDto = z.object({
+    items: z.optional(z.union([
+        z.array(zPermissionLookupDto),
+        z.null()
+    ]))
+});
+
+export type ListResultDtoPermissionLookupDtoZodType = z.infer<typeof zListResultDtoPermissionLookupDto>;
 
 export const zProfileDto = z.object({
     extraProperties: z.optional(z.union([
@@ -2400,6 +2686,220 @@ export const zListResultDtoIdentityRoleDtoWritable = z.object({
 
 export type ListResultDtoIdentityRoleDtoWritableZodType = z.infer<typeof zListResultDtoIdentityRoleDtoWritable>;
 
+export const zMenuItemCreateInputWritable = z.object({
+    parentId: z.optional(z.union([
+        z.uuid(),
+        z.null()
+    ])),
+    displayName: z.string().min(1),
+    isActive: z.optional(z.boolean()),
+    url: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    icon: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    order: z.optional(z.int()),
+    target: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    elementId: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    cssClass: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    pageId: z.optional(z.union([
+        z.uuid(),
+        z.null()
+    ])),
+    requiredPermissionName: z.optional(z.union([
+        z.string(),
+        z.null()
+    ]))
+});
+
+export type MenuItemCreateInputWritableZodType = z.infer<typeof zMenuItemCreateInputWritable>;
+
+export const zMenuItemDtoWritable = z.object({
+    id: z.optional(z.uuid()),
+    creationTime: z.optional(z.iso.datetime()),
+    creatorId: z.optional(z.union([
+        z.uuid(),
+        z.null()
+    ])),
+    lastModificationTime: z.optional(z.union([
+        z.iso.datetime(),
+        z.null()
+    ])),
+    lastModifierId: z.optional(z.union([
+        z.uuid(),
+        z.null()
+    ])),
+    parentId: z.optional(z.union([
+        z.uuid(),
+        z.null()
+    ])),
+    displayName: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    isActive: z.optional(z.boolean()),
+    url: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    icon: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    order: z.optional(z.int()),
+    target: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    elementId: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    cssClass: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    pageId: z.optional(z.union([
+        z.uuid(),
+        z.null()
+    ])),
+    requiredPermissionName: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    concurrencyStamp: z.optional(z.union([
+        z.string(),
+        z.null()
+    ]))
+});
+
+export type MenuItemDtoWritableZodType = z.infer<typeof zMenuItemDtoWritable>;
+
+export const zListResultDtoMenuItemDtoWritable = z.object({
+    items: z.optional(z.union([
+        z.array(zMenuItemDtoWritable),
+        z.null()
+    ]))
+});
+
+export type ListResultDtoMenuItemDtoWritableZodType = z.infer<typeof zListResultDtoMenuItemDtoWritable>;
+
+export const zMenuItemUpdateInputWritable = z.object({
+    displayName: z.string().min(1),
+    isActive: z.optional(z.boolean()),
+    url: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    icon: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    target: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    elementId: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    cssClass: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    pageId: z.optional(z.union([
+        z.uuid(),
+        z.null()
+    ])),
+    requiredPermissionName: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    concurrencyStamp: z.optional(z.union([
+        z.string(),
+        z.null()
+    ]))
+});
+
+export type MenuItemUpdateInputWritableZodType = z.infer<typeof zMenuItemUpdateInputWritable>;
+
+export const zMenuItemWithDetailsDtoWritable = z.object({
+    id: z.optional(z.uuid()),
+    creationTime: z.optional(z.iso.datetime()),
+    creatorId: z.optional(z.union([
+        z.uuid(),
+        z.null()
+    ])),
+    lastModificationTime: z.optional(z.union([
+        z.iso.datetime(),
+        z.null()
+    ])),
+    lastModifierId: z.optional(z.union([
+        z.uuid(),
+        z.null()
+    ])),
+    parentId: z.optional(z.union([
+        z.uuid(),
+        z.null()
+    ])),
+    displayName: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    isActive: z.optional(z.boolean()),
+    url: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    icon: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    order: z.optional(z.int()),
+    target: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    elementId: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    cssClass: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    pageId: z.optional(z.union([
+        z.uuid(),
+        z.null()
+    ])),
+    requiredPermissionName: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    concurrencyStamp: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    pageTitle: z.optional(z.union([
+        z.string(),
+        z.null()
+    ]))
+});
+
+export type MenuItemWithDetailsDtoWritableZodType = z.infer<typeof zMenuItemWithDetailsDtoWritable>;
+
 export const zPagedResultDtoIdentityRoleDtoWritable = z.object({
     items: z.optional(z.union([
         z.array(zIdentityRoleDtoWritable),
@@ -3409,6 +3909,159 @@ export const zPostApiAccountCheckPasswordResponse = zAbpLoginResult;
 
 export type PostApiAccountCheckPasswordResponseZodType = z.infer<typeof zPostApiAccountCheckPasswordResponse>;
 
+export const zGetApiCmsKitAdminMenuItemsData = z.object({
+    body: z.optional(z.never()),
+    path: z.optional(z.never()),
+    query: z.optional(z.never())
+});
+
+export type GetApiCmsKitAdminMenuItemsDataZodType = z.infer<typeof zGetApiCmsKitAdminMenuItemsData>;
+
+/**
+ * OK
+ */
+export const zGetApiCmsKitAdminMenuItemsResponse = zListResultDtoMenuItemDto;
+
+export type GetApiCmsKitAdminMenuItemsResponseZodType = z.infer<typeof zGetApiCmsKitAdminMenuItemsResponse>;
+
+export const zPostApiCmsKitAdminMenuItemsData = z.object({
+    body: z.optional(zMenuItemCreateInputWritable),
+    path: z.optional(z.never()),
+    query: z.optional(z.never())
+});
+
+export type PostApiCmsKitAdminMenuItemsDataZodType = z.infer<typeof zPostApiCmsKitAdminMenuItemsData>;
+
+/**
+ * OK
+ */
+export const zPostApiCmsKitAdminMenuItemsResponse = zMenuItemDto;
+
+export type PostApiCmsKitAdminMenuItemsResponseZodType = z.infer<typeof zPostApiCmsKitAdminMenuItemsResponse>;
+
+export const zDeleteApiCmsKitAdminMenuItemsByIdData = z.object({
+    body: z.optional(z.never()),
+    path: z.object({
+        id: z.uuid()
+    }),
+    query: z.optional(z.never())
+});
+
+export type DeleteApiCmsKitAdminMenuItemsByIdDataZodType = z.infer<typeof zDeleteApiCmsKitAdminMenuItemsByIdData>;
+
+export const zGetApiCmsKitAdminMenuItemsByIdData = z.object({
+    body: z.optional(z.never()),
+    path: z.object({
+        id: z.uuid()
+    }),
+    query: z.optional(z.never())
+});
+
+export type GetApiCmsKitAdminMenuItemsByIdDataZodType = z.infer<typeof zGetApiCmsKitAdminMenuItemsByIdData>;
+
+/**
+ * OK
+ */
+export const zGetApiCmsKitAdminMenuItemsByIdResponse = zMenuItemWithDetailsDto;
+
+export type GetApiCmsKitAdminMenuItemsByIdResponseZodType = z.infer<typeof zGetApiCmsKitAdminMenuItemsByIdResponse>;
+
+export const zPutApiCmsKitAdminMenuItemsByIdData = z.object({
+    body: z.optional(zMenuItemUpdateInputWritable),
+    path: z.object({
+        id: z.uuid()
+    }),
+    query: z.optional(z.never())
+});
+
+export type PutApiCmsKitAdminMenuItemsByIdDataZodType = z.infer<typeof zPutApiCmsKitAdminMenuItemsByIdData>;
+
+/**
+ * OK
+ */
+export const zPutApiCmsKitAdminMenuItemsByIdResponse = zMenuItemDto;
+
+export type PutApiCmsKitAdminMenuItemsByIdResponseZodType = z.infer<typeof zPutApiCmsKitAdminMenuItemsByIdResponse>;
+
+export const zPutApiCmsKitAdminMenuItemsByIdMoveData = z.object({
+    body: z.optional(zMenuItemMoveInput),
+    path: z.object({
+        id: z.uuid()
+    }),
+    query: z.optional(z.never())
+});
+
+export type PutApiCmsKitAdminMenuItemsByIdMoveDataZodType = z.infer<typeof zPutApiCmsKitAdminMenuItemsByIdMoveData>;
+
+export const zGetApiCmsKitAdminMenuItemsLookupPagesData = z.object({
+    body: z.optional(z.never()),
+    path: z.optional(z.never()),
+    query: z.optional(z.object({
+        Filter: z.optional(z.string()),
+        Sorting: z.optional(z.string()),
+        SkipCount: z.optional(z.int().gte(0).lte(2147483647)),
+        MaxResultCount: z.optional(z.int().gte(1).lte(2147483647))
+    }))
+});
+
+export type GetApiCmsKitAdminMenuItemsLookupPagesDataZodType = z.infer<typeof zGetApiCmsKitAdminMenuItemsLookupPagesData>;
+
+/**
+ * OK
+ */
+export const zGetApiCmsKitAdminMenuItemsLookupPagesResponse = zPagedResultDtoPageLookupDto;
+
+export type GetApiCmsKitAdminMenuItemsLookupPagesResponseZodType = z.infer<typeof zGetApiCmsKitAdminMenuItemsLookupPagesResponse>;
+
+export const zGetApiCmsKitAdminMenuItemsLookupPermissionsData = z.object({
+    body: z.optional(z.never()),
+    path: z.optional(z.never()),
+    query: z.optional(z.object({
+        Filter: z.optional(z.string())
+    }))
+});
+
+export type GetApiCmsKitAdminMenuItemsLookupPermissionsDataZodType = z.infer<typeof zGetApiCmsKitAdminMenuItemsLookupPermissionsData>;
+
+/**
+ * OK
+ */
+export const zGetApiCmsKitAdminMenuItemsLookupPermissionsResponse = zListResultDtoPermissionLookupDto;
+
+export type GetApiCmsKitAdminMenuItemsLookupPermissionsResponseZodType = z.infer<typeof zGetApiCmsKitAdminMenuItemsLookupPermissionsResponse>;
+
+export const zGetApiCmsKitAdminMenuItemsAvailableOrderData = z.object({
+    body: z.optional(z.never()),
+    path: z.optional(z.never()),
+    query: z.optional(z.object({
+        parentId: z.optional(z.uuid())
+    }))
+});
+
+export type GetApiCmsKitAdminMenuItemsAvailableOrderDataZodType = z.infer<typeof zGetApiCmsKitAdminMenuItemsAvailableOrderData>;
+
+/**
+ * OK
+ */
+export const zGetApiCmsKitAdminMenuItemsAvailableOrderResponse = z.int();
+
+export type GetApiCmsKitAdminMenuItemsAvailableOrderResponseZodType = z.infer<typeof zGetApiCmsKitAdminMenuItemsAvailableOrderResponse>;
+
+export const zGetApiCmsKitPublicMenuItemsData = z.object({
+    body: z.optional(z.never()),
+    path: z.optional(z.never()),
+    query: z.optional(z.never())
+});
+
+export type GetApiCmsKitPublicMenuItemsDataZodType = z.infer<typeof zGetApiCmsKitPublicMenuItemsData>;
+
+/**
+ * OK
+ */
+export const zGetApiCmsKitPublicMenuItemsResponse = z.array(zMenuItemDto);
+
+export type GetApiCmsKitPublicMenuItemsResponseZodType = z.infer<typeof zGetApiCmsKitPublicMenuItemsResponse>;
+
 export const zDeleteApiCmsKitAdminPagesByIdData = z.object({
     body: z.optional(z.never()),
     path: z.object({
@@ -3727,6 +4380,46 @@ export type PutApiIdentityRolesByIdDataZodType = z.infer<typeof zPutApiIdentityR
 export const zPutApiIdentityRolesByIdResponse = zIdentityRoleDto;
 
 export type PutApiIdentityRolesByIdResponseZodType = z.infer<typeof zPutApiIdentityRolesByIdResponse>;
+
+export const zGetApiAppSafeTimeZoneSettingsTimezonesData = z.object({
+    body: z.optional(z.never()),
+    path: z.optional(z.never()),
+    query: z.optional(z.never())
+});
+
+export type GetApiAppSafeTimeZoneSettingsTimezonesDataZodType = z.infer<typeof zGetApiAppSafeTimeZoneSettingsTimezonesData>;
+
+/**
+ * OK
+ */
+export const zGetApiAppSafeTimeZoneSettingsTimezonesResponse = z.array(zNameValue);
+
+export type GetApiAppSafeTimeZoneSettingsTimezonesResponseZodType = z.infer<typeof zGetApiAppSafeTimeZoneSettingsTimezonesResponse>;
+
+export const zGetApiAppSafeTimeZoneSettingsData = z.object({
+    body: z.optional(z.never()),
+    path: z.optional(z.never()),
+    query: z.optional(z.never())
+});
+
+export type GetApiAppSafeTimeZoneSettingsDataZodType = z.infer<typeof zGetApiAppSafeTimeZoneSettingsData>;
+
+/**
+ * OK
+ */
+export const zGetApiAppSafeTimeZoneSettingsResponse = z.string();
+
+export type GetApiAppSafeTimeZoneSettingsResponseZodType = z.infer<typeof zGetApiAppSafeTimeZoneSettingsResponse>;
+
+export const zPutApiAppSafeTimeZoneSettingsData = z.object({
+    body: z.optional(z.never()),
+    path: z.optional(z.never()),
+    query: z.optional(z.object({
+        timezone: z.optional(z.string())
+    }))
+});
+
+export type PutApiAppSafeTimeZoneSettingsDataZodType = z.infer<typeof zPutApiAppSafeTimeZoneSettingsData>;
 
 export const zDeleteApiMultiTenancyTenantsByIdData = z.object({
     body: z.optional(z.never()),
