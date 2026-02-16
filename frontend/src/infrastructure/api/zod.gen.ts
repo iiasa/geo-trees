@@ -57,140 +57,45 @@ export const zApplicationSettingConfigurationDto = z.object({
 
 export type ApplicationSettingConfigurationDtoZodType = z.infer<typeof zApplicationSettingConfigurationDto>;
 
-export const zBlogDto = z.object({
-    extraProperties: z.optional(z.union([
-        z.record(z.string(), z.unknown()).readonly(),
-        z.null()
-    ]).readonly()),
+export const zBookType = z.union([
+    z.literal(0),
+    z.literal(1),
+    z.literal(2),
+    z.literal(3),
+    z.literal(4),
+    z.literal(5),
+    z.literal(6),
+    z.literal(7),
+    z.literal(8)
+]);
+
+export type BookTypeZodType = z.infer<typeof zBookType>;
+
+export const zBookDto = z.object({
     id: z.optional(z.uuid()),
+    creationTime: z.optional(z.iso.datetime()),
+    creatorId: z.optional(z.union([
+        z.uuid(),
+        z.null()
+    ])),
+    lastModificationTime: z.optional(z.union([
+        z.iso.datetime(),
+        z.null()
+    ])),
+    lastModifierId: z.optional(z.union([
+        z.uuid(),
+        z.null()
+    ])),
     name: z.optional(z.union([
         z.string(),
         z.null()
     ])),
-    slug: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    concurrencyStamp: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    blogPostCount: z.optional(z.int())
+    type: z.optional(zBookType),
+    publishDate: z.optional(z.iso.datetime()),
+    price: z.optional(z.number())
 });
 
-export type BlogDtoZodType = z.infer<typeof zBlogDto>;
-
-export const zBlogFeatureDto = z.object({
-    extraProperties: z.optional(z.union([
-        z.record(z.string(), z.unknown()).readonly(),
-        z.null()
-    ]).readonly()),
-    id: z.optional(z.uuid()),
-    featureName: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    isEnabled: z.optional(z.boolean())
-});
-
-export type BlogFeatureDtoZodType = z.infer<typeof zBlogFeatureDto>;
-
-export const zBlogFeatureInputDto = z.object({
-    featureName: z.string().min(1),
-    isEnabled: z.optional(z.boolean())
-});
-
-export type BlogFeatureInputDtoZodType = z.infer<typeof zBlogFeatureInputDto>;
-
-export const zBlogPostStatus = z.union([
-    z.literal(0),
-    z.literal(1),
-    z.literal(2)
-]);
-
-export type BlogPostStatusZodType = z.infer<typeof zBlogPostStatus>;
-
-export const zBlogPostDto = z.object({
-    extraProperties: z.optional(z.union([
-        z.record(z.string(), z.unknown()).readonly(),
-        z.null()
-    ]).readonly()),
-    id: z.optional(z.uuid()),
-    blogId: z.optional(z.uuid()),
-    title: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    slug: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    shortDescription: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    content: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    coverImageMediaId: z.optional(z.union([
-        z.uuid(),
-        z.null()
-    ])),
-    creationTime: z.optional(z.iso.datetime()),
-    lastModificationTime: z.optional(z.union([
-        z.iso.datetime(),
-        z.null()
-    ])),
-    concurrencyStamp: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    status: z.optional(zBlogPostStatus)
-});
-
-export type BlogPostDtoZodType = z.infer<typeof zBlogPostDto>;
-
-export const zBlogPostListDto = z.object({
-    extraProperties: z.optional(z.union([
-        z.record(z.string(), z.unknown()).readonly(),
-        z.null()
-    ]).readonly()),
-    id: z.optional(z.uuid()),
-    blogId: z.optional(z.uuid()),
-    blogName: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    title: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    slug: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    shortDescription: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    content: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    coverImageMediaId: z.optional(z.union([
-        z.uuid(),
-        z.null()
-    ])),
-    creationTime: z.optional(z.iso.datetime()),
-    lastModificationTime: z.optional(z.union([
-        z.iso.datetime(),
-        z.null()
-    ])),
-    status: z.optional(zBlogPostStatus)
-});
-
-export type BlogPostListDtoZodType = z.infer<typeof zBlogPostListDto>;
+export type BookDtoZodType = z.infer<typeof zBookDto>;
 
 export const zChangePasswordInput = z.object({
     currentPassword: z.optional(z.union([
@@ -202,35 +107,6 @@ export const zChangePasswordInput = z.object({
 
 export type ChangePasswordInputZodType = z.infer<typeof zChangePasswordInput>;
 
-export const zClientDto = z.object({
-    clientId: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    displayName: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    postLogoutRedirectUris: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    redirectUris: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    permissions: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    type: z.optional(z.union([
-        z.string(),
-        z.null()
-    ]))
-});
-
-export type ClientDtoZodType = z.infer<typeof zClientDto>;
-
 export const zClockDto = z.object({
     kind: z.optional(z.union([
         z.string(),
@@ -240,118 +116,14 @@ export const zClockDto = z.object({
 
 export type ClockDtoZodType = z.infer<typeof zClockDto>;
 
-export const zCommentApprovalDto = z.object({
-    isApproved: z.optional(z.boolean())
+export const zCreateUpdateBookDto = z.object({
+    name: z.string().min(0).max(128),
+    type: zBookType,
+    publishDate: z.iso.date(),
+    price: z.number()
 });
 
-export type CommentApprovalDtoZodType = z.infer<typeof zCommentApprovalDto>;
-
-export const zCommentApproveState = z.union([
-    z.literal(0),
-    z.literal(1),
-    z.literal(2),
-    z.literal(4)
-]);
-
-export type CommentApproveStateZodType = z.infer<typeof zCommentApproveState>;
-
-export const zCommentSettingsDto = z.object({
-    commentRequireApprovement: z.optional(z.boolean())
-});
-
-export type CommentSettingsDtoZodType = z.infer<typeof zCommentSettingsDto>;
-
-export const zCreateBlogDto = z.object({
-    extraProperties: z.optional(z.union([
-        z.record(z.string(), z.unknown()).readonly(),
-        z.null()
-    ]).readonly()),
-    name: z.string().min(1).max(64),
-    slug: z.string().min(1).max(64)
-});
-
-export type CreateBlogDtoZodType = z.infer<typeof zCreateBlogDto>;
-
-export const zCreateBlogPostDto = z.object({
-    extraProperties: z.optional(z.union([
-        z.record(z.string(), z.unknown()).readonly(),
-        z.null()
-    ]).readonly()),
-    blogId: z.uuid(),
-    title: z.string().min(1).max(64),
-    slug: z.string().min(2).max(256),
-    shortDescription: z.optional(z.union([
-        z.string().max(256),
-        z.null()
-    ])),
-    content: z.optional(z.union([
-        z.string().max(2147483647),
-        z.null()
-    ])),
-    coverImageMediaId: z.optional(z.union([
-        z.uuid(),
-        z.null()
-    ]))
-});
-
-export type CreateBlogPostDtoZodType = z.infer<typeof zCreateBlogPostDto>;
-
-export const zCreateCommentInput = z.object({
-    extraProperties: z.optional(z.union([
-        z.record(z.string(), z.unknown()).readonly(),
-        z.null()
-    ]).readonly()),
-    text: z.string().min(0).max(512),
-    repliedCommentId: z.optional(z.union([
-        z.uuid(),
-        z.null()
-    ])),
-    captchaToken: z.optional(z.union([
-        z.uuid(),
-        z.null()
-    ])),
-    captchaAnswer: z.optional(z.int()),
-    url: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    idempotencyToken: z.string().min(1)
-});
-
-export type CreateCommentInputZodType = z.infer<typeof zCreateCommentInput>;
-
-export const zCreatePageInputDto = z.object({
-    extraProperties: z.optional(z.union([
-        z.record(z.string(), z.unknown()).readonly(),
-        z.null()
-    ]).readonly()),
-    title: z.string().min(1).max(256),
-    slug: z.string().min(1).max(256),
-    layoutName: z.optional(z.union([
-        z.string().max(256),
-        z.null()
-    ])),
-    content: z.optional(z.union([
-        z.string().max(2147483647),
-        z.null()
-    ])),
-    script: z.optional(z.union([
-        z.string().max(2147483647),
-        z.null()
-    ])),
-    style: z.optional(z.union([
-        z.string().max(2147483647),
-        z.null()
-    ]))
-});
-
-export type CreatePageInputDtoZodType = z.infer<typeof zCreatePageInputDto>;
-
-export const zCreateUpdateRatingInput = z.object({
-    starCount: z.int().gte(1).lte(5)
-});
-
-export type CreateUpdateRatingInputZodType = z.infer<typeof zCreateUpdateRatingInput>;
+export type CreateUpdateBookDtoZodType = z.infer<typeof zCreateUpdateBookDto>;
 
 export const zCurrentTenantDto = z.object({
     id: z.optional(z.union([
@@ -426,20 +198,6 @@ export const zCurrentUserDto = z.object({
 });
 
 export type CurrentUserDtoZodType = z.infer<typeof zCurrentUserDto>;
-
-export const zCustomTenantDto = z.object({
-    id: z.optional(z.uuid()),
-    name: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    host: z.optional(z.union([
-        z.string(),
-        z.null()
-    ]))
-});
-
-export type CustomTenantDtoZodType = z.infer<typeof zCustomTenantDto>;
 
 export const zDateTimeFormatDto = z.object({
     calendarAlgorithmType: z.optional(z.union([
@@ -550,28 +308,6 @@ export const zEmailSettingsDto = z.object({
 });
 
 export type EmailSettingsDtoZodType = z.infer<typeof zEmailSettingsDto>;
-
-export const zEntityTagCreateDto = z.object({
-    tagName: z.string().min(1),
-    entityType: z.string().min(1),
-    entityId: z.string().min(1)
-});
-
-export type EntityTagCreateDtoZodType = z.infer<typeof zEntityTagCreateDto>;
-
-export const zEntityTagSetDto = z.object({
-    entityId: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    entityType: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    tags: z.array(z.string())
-});
-
-export type EntityTagSetDtoZodType = z.infer<typeof zEntityTagSetDto>;
 
 export const zExtensionEnumFieldDto = z.object({
     name: z.optional(z.union([
@@ -751,69 +487,86 @@ export const zFindTenantResultDto = z.object({
 
 export type FindTenantResultDtoZodType = z.infer<typeof zFindTenantResultDto>;
 
-export const zGlobalResourceDto = z.object({
-    extraProperties: z.optional(z.union([
+export const zIValueValidator = z.object({
+    name: z.optional(z.union([
+        z.string().readonly(),
+        z.null()
+    ]).readonly()),
+    properties: z.optional(z.union([
+        z.record(z.string(), z.unknown()).readonly(),
+        z.null()
+    ]).readonly())
+});
+
+export type IValueValidatorZodType = z.infer<typeof zIValueValidator>;
+
+export const zIStringValueType = z.object({
+    name: z.optional(z.union([
+        z.string().readonly(),
+        z.null()
+    ]).readonly()),
+    properties: z.optional(z.union([
         z.record(z.string(), z.unknown()).readonly(),
         z.null()
     ]).readonly()),
-    creationTime: z.optional(z.iso.datetime()),
-    creatorId: z.optional(z.union([
-        z.uuid(),
-        z.null()
-    ])),
-    lastModificationTime: z.optional(z.union([
-        z.iso.datetime(),
-        z.null()
-    ])),
-    lastModifierId: z.optional(z.union([
-        z.uuid(),
-        z.null()
-    ])),
+    validator: z.optional(zIValueValidator)
+});
+
+export type IStringValueTypeZodType = z.infer<typeof zIStringValueType>;
+
+export const zFeatureDto = z.object({
     name: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    displayName: z.optional(z.union([
         z.string(),
         z.null()
     ])),
     value: z.optional(z.union([
         z.string(),
         z.null()
-    ]))
-});
-
-export type GlobalResourceDtoZodType = z.infer<typeof zGlobalResourceDto>;
-
-export const zGlobalResourcesDto = z.object({
-    extraProperties: z.optional(z.union([
-        z.record(z.string(), z.unknown()).readonly(),
-        z.null()
-    ]).readonly()),
-    styleContent: z.optional(z.union([
+    ])),
+    provider: z.optional(zFeatureProviderDto),
+    description: z.optional(z.union([
         z.string(),
         z.null()
     ])),
-    scriptContent: z.optional(z.union([
+    valueType: z.optional(zIStringValueType),
+    depth: z.optional(z.int()),
+    parentName: z.optional(z.union([
         z.string(),
         z.null()
     ]))
 });
 
-export type GlobalResourcesDtoZodType = z.infer<typeof zGlobalResourcesDto>;
+export type FeatureDtoZodType = z.infer<typeof zFeatureDto>;
 
-export const zGlobalResourcesUpdateDto = z.object({
-    extraProperties: z.optional(z.union([
-        z.record(z.string(), z.unknown()).readonly(),
-        z.null()
-    ]).readonly()),
-    style: z.optional(z.union([
+export const zFeatureGroupDto = z.object({
+    name: z.optional(z.union([
         z.string(),
         z.null()
     ])),
-    script: z.optional(z.union([
+    displayName: z.optional(z.union([
         z.string(),
+        z.null()
+    ])),
+    features: z.optional(z.union([
+        z.array(zFeatureDto),
         z.null()
     ]))
 });
 
-export type GlobalResourcesUpdateDtoZodType = z.infer<typeof zGlobalResourcesUpdateDto>;
+export type FeatureGroupDtoZodType = z.infer<typeof zFeatureGroupDto>;
+
+export const zGetFeatureListResultDto = z.object({
+    groups: z.optional(z.union([
+        z.array(zFeatureGroupDto),
+        z.null()
+    ]))
+});
+
+export type GetFeatureListResultDtoZodType = z.infer<typeof zGetFeatureListResultDto>;
 
 export const zIanaTimeZone = z.object({
     timeZoneName: z.optional(z.union([
@@ -1042,23 +795,14 @@ export const zLanguageInfo = z.object({
 
 export type LanguageInfoZodType = z.infer<typeof zLanguageInfo>;
 
-export const zListResultDtoOfBlogDto = z.object({
-    items: z.optional(z.union([
-        z.array(zBlogDto),
-        z.null()
-    ]))
-});
-
-export type ListResultDtoOfBlogDtoZodType = z.infer<typeof zListResultDtoOfBlogDto>;
-
-export const zListResultDtoOfIdentityRoleDto = z.object({
+export const zListResultDto_IdentityRoleDto_ = z.object({
     items: z.optional(z.union([
         z.array(zIdentityRoleDto),
         z.null()
     ]))
 });
 
-export type ListResultDtoOfIdentityRoleDtoZodType = z.infer<typeof zListResultDtoOfIdentityRoleDto>;
+export type ListResultDto_IdentityRoleDto_ZodType = z.infer<typeof zListResultDto_IdentityRoleDto_>;
 
 export const zLocalizableStringDto = z.object({
     name: z.optional(z.union([
@@ -1131,281 +875,6 @@ export const zAbpLoginResult = z.object({
 });
 
 export type AbpLoginResultZodType = z.infer<typeof zAbpLoginResult>;
-
-export const zMarkedItemDto = z.object({
-    iconName: z.optional(z.union([
-        z.string(),
-        z.null()
-    ]))
-});
-
-export type MarkedItemDtoZodType = z.infer<typeof zMarkedItemDto>;
-
-export const zMarkedItemWithToggleDto = z.object({
-    markedItem: z.optional(zMarkedItemDto),
-    isMarkedByCurrentUser: z.optional(z.boolean())
-});
-
-export type MarkedItemWithToggleDtoZodType = z.infer<typeof zMarkedItemWithToggleDto>;
-
-export const zMediaDescriptorDto = z.object({
-    extraProperties: z.optional(z.union([
-        z.record(z.string(), z.unknown()).readonly(),
-        z.null()
-    ]).readonly()),
-    id: z.optional(z.uuid()),
-    name: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    mimeType: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    size: z.optional(z.int())
-});
-
-export type MediaDescriptorDtoZodType = z.infer<typeof zMediaDescriptorDto>;
-
-export const zMenuItemCreateInput = z.object({
-    extraProperties: z.optional(z.union([
-        z.record(z.string(), z.unknown()).readonly(),
-        z.null()
-    ]).readonly()),
-    parentId: z.optional(z.union([
-        z.uuid(),
-        z.null()
-    ])),
-    displayName: z.string().min(1),
-    isActive: z.optional(z.boolean()),
-    url: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    icon: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    order: z.optional(z.int()),
-    target: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    elementId: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    cssClass: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    pageId: z.optional(z.union([
-        z.uuid(),
-        z.null()
-    ])),
-    requiredPermissionName: z.optional(z.union([
-        z.string(),
-        z.null()
-    ]))
-});
-
-export type MenuItemCreateInputZodType = z.infer<typeof zMenuItemCreateInput>;
-
-export const zMenuItemDto = z.object({
-    extraProperties: z.optional(z.union([
-        z.record(z.string(), z.unknown()).readonly(),
-        z.null()
-    ]).readonly()),
-    id: z.optional(z.uuid()),
-    creationTime: z.optional(z.iso.datetime()),
-    creatorId: z.optional(z.union([
-        z.uuid(),
-        z.null()
-    ])),
-    lastModificationTime: z.optional(z.union([
-        z.iso.datetime(),
-        z.null()
-    ])),
-    lastModifierId: z.optional(z.union([
-        z.uuid(),
-        z.null()
-    ])),
-    parentId: z.optional(z.union([
-        z.uuid(),
-        z.null()
-    ])),
-    displayName: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    isActive: z.optional(z.boolean()),
-    url: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    icon: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    order: z.optional(z.int()),
-    target: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    elementId: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    cssClass: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    pageId: z.optional(z.union([
-        z.uuid(),
-        z.null()
-    ])),
-    requiredPermissionName: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    concurrencyStamp: z.optional(z.union([
-        z.string(),
-        z.null()
-    ]))
-});
-
-export type MenuItemDtoZodType = z.infer<typeof zMenuItemDto>;
-
-export const zListResultDtoOfMenuItemDto = z.object({
-    items: z.optional(z.union([
-        z.array(zMenuItemDto),
-        z.null()
-    ]))
-});
-
-export type ListResultDtoOfMenuItemDtoZodType = z.infer<typeof zListResultDtoOfMenuItemDto>;
-
-export const zMenuItemMoveInput = z.object({
-    newParentId: z.optional(z.union([
-        z.uuid(),
-        z.null()
-    ])),
-    position: z.optional(z.int())
-});
-
-export type MenuItemMoveInputZodType = z.infer<typeof zMenuItemMoveInput>;
-
-export const zMenuItemUpdateInput = z.object({
-    extraProperties: z.optional(z.union([
-        z.record(z.string(), z.unknown()).readonly(),
-        z.null()
-    ]).readonly()),
-    displayName: z.string().min(1),
-    isActive: z.optional(z.boolean()),
-    url: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    icon: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    target: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    elementId: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    cssClass: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    pageId: z.optional(z.union([
-        z.uuid(),
-        z.null()
-    ])),
-    requiredPermissionName: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    concurrencyStamp: z.optional(z.union([
-        z.string(),
-        z.null()
-    ]))
-});
-
-export type MenuItemUpdateInputZodType = z.infer<typeof zMenuItemUpdateInput>;
-
-export const zMenuItemWithDetailsDto = z.object({
-    extraProperties: z.optional(z.union([
-        z.record(z.string(), z.unknown()).readonly(),
-        z.null()
-    ]).readonly()),
-    id: z.optional(z.uuid()),
-    creationTime: z.optional(z.iso.datetime()),
-    creatorId: z.optional(z.union([
-        z.uuid(),
-        z.null()
-    ])),
-    lastModificationTime: z.optional(z.union([
-        z.iso.datetime(),
-        z.null()
-    ])),
-    lastModifierId: z.optional(z.union([
-        z.uuid(),
-        z.null()
-    ])),
-    parentId: z.optional(z.union([
-        z.uuid(),
-        z.null()
-    ])),
-    displayName: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    isActive: z.optional(z.boolean()),
-    url: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    icon: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    order: z.optional(z.int()),
-    target: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    elementId: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    cssClass: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    pageId: z.optional(z.union([
-        z.uuid(),
-        z.null()
-    ])),
-    requiredPermissionName: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    concurrencyStamp: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    pageTitle: z.optional(z.union([
-        z.string(),
-        z.null()
-    ]))
-});
-
-export type MenuItemWithDetailsDtoZodType = z.infer<typeof zMenuItemWithDetailsDto>;
 
 export const zMethodParameterApiDescriptionModel = z.object({
     name: z.optional(z.union([
@@ -1505,41 +974,17 @@ export const zObjectExtensionsDto = z.object({
 
 export type ObjectExtensionsDtoZodType = z.infer<typeof zObjectExtensionsDto>;
 
-export const zPageLookupDto = z.object({
-    id: z.optional(z.uuid()),
-    title: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    slug: z.optional(z.union([
-        z.string(),
-        z.null()
-    ]))
-});
-
-export type PageLookupDtoZodType = z.infer<typeof zPageLookupDto>;
-
-export const zPagedResultDtoOfBlogDto = z.object({
+export const zPagedResultDto_BookDto_ = z.object({
     items: z.optional(z.union([
-        z.array(zBlogDto),
+        z.array(zBookDto),
         z.null()
     ])),
     totalCount: z.optional(z.coerce.bigint())
 });
 
-export type PagedResultDtoOfBlogDtoZodType = z.infer<typeof zPagedResultDtoOfBlogDto>;
+export type PagedResultDto_BookDto_ZodType = z.infer<typeof zPagedResultDto_BookDto_>;
 
-export const zPagedResultDtoOfBlogPostListDto = z.object({
-    items: z.optional(z.union([
-        z.array(zBlogPostListDto),
-        z.null()
-    ])),
-    totalCount: z.optional(z.coerce.bigint())
-});
-
-export type PagedResultDtoOfBlogPostListDtoZodType = z.infer<typeof zPagedResultDtoOfBlogPostListDto>;
-
-export const zPagedResultDtoOfIdentityRoleDto = z.object({
+export const zPagedResultDto_IdentityRoleDto_ = z.object({
     items: z.optional(z.union([
         z.array(zIdentityRoleDto),
         z.null()
@@ -1547,9 +992,9 @@ export const zPagedResultDtoOfIdentityRoleDto = z.object({
     totalCount: z.optional(z.coerce.bigint())
 });
 
-export type PagedResultDtoOfIdentityRoleDtoZodType = z.infer<typeof zPagedResultDtoOfIdentityRoleDto>;
+export type PagedResultDto_IdentityRoleDto_ZodType = z.infer<typeof zPagedResultDto_IdentityRoleDto_>;
 
-export const zPagedResultDtoOfIdentityUserDto = z.object({
+export const zPagedResultDto_IdentityUserDto_ = z.object({
     items: z.optional(z.union([
         z.array(zIdentityUserDto),
         z.null()
@@ -1557,17 +1002,7 @@ export const zPagedResultDtoOfIdentityUserDto = z.object({
     totalCount: z.optional(z.coerce.bigint())
 });
 
-export type PagedResultDtoOfIdentityUserDtoZodType = z.infer<typeof zPagedResultDtoOfIdentityUserDto>;
-
-export const zPagedResultDtoOfPageLookupDto = z.object({
-    items: z.optional(z.union([
-        z.array(zPageLookupDto),
-        z.null()
-    ])),
-    totalCount: z.optional(z.coerce.bigint())
-});
-
-export type PagedResultDtoOfPageLookupDtoZodType = z.infer<typeof zPagedResultDtoOfPageLookupDto>;
+export type PagedResultDto_IdentityUserDto_ZodType = z.infer<typeof zPagedResultDto_IdentityUserDto_>;
 
 export const zParameterApiDescriptionModel = z.object({
     nameOnMethod: z.optional(z.union([
@@ -1607,39 +1042,6 @@ export const zParameterApiDescriptionModel = z.object({
 });
 
 export type ParameterApiDescriptionModelZodType = z.infer<typeof zParameterApiDescriptionModel>;
-
-export const zPermissionLookupDto = z.object({
-    name: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    displayName: z.optional(z.union([
-        z.string(),
-        z.null()
-    ]))
-});
-
-export type PermissionLookupDtoZodType = z.infer<typeof zPermissionLookupDto>;
-
-export const zListResultDtoOfPermissionLookupDto = z.object({
-    items: z.optional(z.union([
-        z.array(zPermissionLookupDto),
-        z.null()
-    ]))
-});
-
-export type ListResultDtoOfPermissionLookupDtoZodType = z.infer<typeof zListResultDtoOfPermissionLookupDto>;
-
-export const zPopularTagDto = z.object({
-    id: z.optional(z.uuid()),
-    name: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    count: z.optional(z.int())
-});
-
-export type PopularTagDtoZodType = z.infer<typeof zPopularTagDto>;
 
 export const zProfileDto = z.object({
     extraProperties: z.optional(z.union([
@@ -1713,7 +1115,8 @@ export const zPropertyApiDescriptionModel = z.object({
     regex: z.optional(z.union([
         z.string(),
         z.null()
-    ]))
+    ])),
+    isNullable: z.optional(z.boolean())
 });
 
 export type PropertyApiDescriptionModelZodType = z.infer<typeof zPropertyApiDescriptionModel>;
@@ -1794,61 +1197,6 @@ export const zGetPermissionListResultDto = z.object({
 });
 
 export type GetPermissionListResultDtoZodType = z.infer<typeof zGetPermissionListResultDto>;
-
-export const zRatingDto = z.object({
-    id: z.optional(z.uuid()),
-    entityType: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    entityId: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    starCount: z.optional(z.int()),
-    creatorId: z.optional(z.uuid()),
-    creationTime: z.optional(z.iso.datetime())
-});
-
-export type RatingDtoZodType = z.infer<typeof zRatingDto>;
-
-export const zRatingWithStarCountDto = z.object({
-    starCount: z.optional(z.int()),
-    count: z.optional(z.int()),
-    isSelectedByCurrentUser: z.optional(z.boolean())
-});
-
-export type RatingWithStarCountDtoZodType = z.infer<typeof zRatingWithStarCountDto>;
-
-export const zReactionDto = z.object({
-    name: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    displayName: z.optional(z.union([
-        z.string(),
-        z.null()
-    ]))
-});
-
-export type ReactionDtoZodType = z.infer<typeof zReactionDto>;
-
-export const zReactionWithSelectionDto = z.object({
-    reaction: z.optional(zReactionDto),
-    count: z.optional(z.int()),
-    isSelectedByCurrentUser: z.optional(z.boolean())
-});
-
-export type ReactionWithSelectionDtoZodType = z.infer<typeof zReactionWithSelectionDto>;
-
-export const zListResultDtoOfReactionWithSelectionDto = z.object({
-    items: z.optional(z.union([
-        z.array(zReactionWithSelectionDto),
-        z.null()
-    ]))
-});
-
-export type ListResultDtoOfReactionWithSelectionDtoZodType = z.infer<typeof zListResultDtoOfReactionWithSelectionDto>;
 
 export const zRegisterDto = z.object({
     extraProperties: z.optional(z.union([
@@ -2076,76 +1424,6 @@ export const zSendTestEmailInput = z.object({
 
 export type SendTestEmailInputZodType = z.infer<typeof zSendTestEmailInput>;
 
-export const zTagCreateDto = z.object({
-    extraProperties: z.optional(z.union([
-        z.record(z.string(), z.unknown()).readonly(),
-        z.null()
-    ]).readonly()),
-    entityType: z.string().min(1).max(64),
-    name: z.string().min(1).max(32)
-});
-
-export type TagCreateDtoZodType = z.infer<typeof zTagCreateDto>;
-
-export const zTagDefinitionDto = z.object({
-    entityType: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    displayName: z.optional(z.union([
-        z.string(),
-        z.null()
-    ]))
-});
-
-export type TagDefinitionDtoZodType = z.infer<typeof zTagDefinitionDto>;
-
-export const zTagDto = z.object({
-    extraProperties: z.optional(z.union([
-        z.record(z.string(), z.unknown()).readonly(),
-        z.null()
-    ]).readonly()),
-    id: z.optional(z.uuid()),
-    entityType: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    name: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    concurrencyStamp: z.optional(z.union([
-        z.string(),
-        z.null()
-    ]))
-});
-
-export type TagDtoZodType = z.infer<typeof zTagDto>;
-
-export const zPagedResultDtoOfTagDto = z.object({
-    items: z.optional(z.union([
-        z.array(zTagDto),
-        z.null()
-    ])),
-    totalCount: z.optional(z.coerce.bigint())
-});
-
-export type PagedResultDtoOfTagDtoZodType = z.infer<typeof zPagedResultDtoOfTagDto>;
-
-export const zTagUpdateDto = z.object({
-    extraProperties: z.optional(z.union([
-        z.record(z.string(), z.unknown()).readonly(),
-        z.null()
-    ]).readonly()),
-    name: z.string().min(1).max(32),
-    concurrencyStamp: z.optional(z.union([
-        z.string(),
-        z.null()
-    ]))
-});
-
-export type TagUpdateDtoZodType = z.infer<typeof zTagUpdateDto>;
-
 export const zTenantCreateDto = z.object({
     extraProperties: z.optional(z.union([
         z.record(z.string(), z.unknown()).readonly(),
@@ -2176,7 +1454,7 @@ export const zTenantDto = z.object({
 
 export type TenantDtoZodType = z.infer<typeof zTenantDto>;
 
-export const zPagedResultDtoOfTenantDto = z.object({
+export const zPagedResultDto_TenantDto_ = z.object({
     items: z.optional(z.union([
         z.array(zTenantDto),
         z.null()
@@ -2184,7 +1462,7 @@ export const zPagedResultDtoOfTenantDto = z.object({
     totalCount: z.optional(z.coerce.bigint())
 });
 
-export type PagedResultDtoOfTenantDtoZodType = z.infer<typeof zPagedResultDtoOfTenantDto>;
+export type PagedResultDto_TenantDto_ZodType = z.infer<typeof zPagedResultDto_TenantDto_>;
 
 export const zTenantUpdateDto = z.object({
     extraProperties: z.optional(z.union([
@@ -2239,67 +1517,6 @@ export const zApplicationApiDescriptionModel = z.object({
 
 export type ApplicationApiDescriptionModelZodType = z.infer<typeof zApplicationApiDescriptionModel>;
 
-export const zUpdateBlogDto = z.object({
-    extraProperties: z.optional(z.union([
-        z.record(z.string(), z.unknown()).readonly(),
-        z.null()
-    ]).readonly()),
-    name: z.string().min(1).max(64),
-    slug: z.string().min(1).max(64),
-    concurrencyStamp: z.optional(z.union([
-        z.string(),
-        z.null()
-    ]))
-});
-
-export type UpdateBlogDtoZodType = z.infer<typeof zUpdateBlogDto>;
-
-export const zUpdateBlogPostDto = z.object({
-    extraProperties: z.optional(z.union([
-        z.record(z.string(), z.unknown()).readonly(),
-        z.null()
-    ]).readonly()),
-    title: z.string().min(1).max(64),
-    slug: z.string().min(2).max(256),
-    shortDescription: z.optional(z.union([
-        z.string().max(256),
-        z.null()
-    ])),
-    content: z.optional(z.union([
-        z.string().max(2147483647),
-        z.null()
-    ])),
-    coverImageMediaId: z.optional(z.union([
-        z.uuid(),
-        z.null()
-    ])),
-    concurrencyStamp: z.optional(z.union([
-        z.string(),
-        z.null()
-    ]))
-});
-
-export type UpdateBlogPostDtoZodType = z.infer<typeof zUpdateBlogPostDto>;
-
-export const zUpdateCommentInput = z.object({
-    extraProperties: z.optional(z.union([
-        z.record(z.string(), z.unknown()).readonly(),
-        z.null()
-    ]).readonly()),
-    text: z.string().min(0).max(512),
-    concurrencyStamp: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    captchaToken: z.optional(z.union([
-        z.uuid(),
-        z.null()
-    ])),
-    captchaAnswer: z.optional(z.int())
-});
-
-export type UpdateCommentInputZodType = z.infer<typeof zUpdateCommentInput>;
-
 export const zUpdateEmailSettingsDto = z.object({
     smtpHost: z.optional(z.union([
         z.string().max(256),
@@ -2347,37 +1564,6 @@ export const zUpdateFeaturesDto = z.object({
 });
 
 export type UpdateFeaturesDtoZodType = z.infer<typeof zUpdateFeaturesDto>;
-
-export const zUpdatePageInputDto = z.object({
-    extraProperties: z.optional(z.union([
-        z.record(z.string(), z.unknown()).readonly(),
-        z.null()
-    ]).readonly()),
-    title: z.string().min(1).max(256),
-    slug: z.string().min(1).max(256),
-    layoutName: z.optional(z.union([
-        z.string().max(256),
-        z.null()
-    ])),
-    content: z.optional(z.union([
-        z.string().max(2147483647),
-        z.null()
-    ])),
-    script: z.optional(z.union([
-        z.string().max(2147483647),
-        z.null()
-    ])),
-    style: z.optional(z.union([
-        z.string().max(2147483647),
-        z.null()
-    ])),
-    concurrencyStamp: z.optional(z.union([
-        z.string(),
-        z.null()
-    ]))
-});
-
-export type UpdatePageInputDtoZodType = z.infer<typeof zUpdatePageInputDto>;
 
 export const zUpdatePermissionDto = z.object({
     name: z.optional(z.union([
@@ -2468,14 +1654,22 @@ export const zUserData = z.object({
 
 export type UserDataZodType = z.infer<typeof zUserData>;
 
-export const zListResultDtoOfUserData = z.object({
+export const zListResultDto_userData_ = z.object({
     items: z.optional(z.union([
         z.array(zUserData),
         z.null()
     ]))
 });
 
-export type ListResultDtoOfUserDataZodType = z.infer<typeof zListResultDtoOfUserData>;
+export type ListResultDto_userData_ZodType = z.infer<typeof zListResultDto_userData_>;
+
+export const zUserLoginInfo = z.object({
+    userNameOrEmailAddress: z.string().min(0).max(255),
+    password: z.string().min(0).max(32),
+    rememberMe: z.optional(z.boolean())
+});
+
+export type UserLoginInfoZodType = z.infer<typeof zUserLoginInfo>;
 
 export const zVerifyPasswordResetTokenInput = z.object({
     userId: z.optional(z.uuid()),
@@ -2483,452 +1677,6 @@ export const zVerifyPasswordResetTokenInput = z.object({
 });
 
 export type VerifyPasswordResetTokenInputZodType = z.infer<typeof zVerifyPasswordResetTokenInput>;
-
-export const zVoloAbpAccountWebAreasAccountControllersModelsUserLoginInfo = z.object({
-    userNameOrEmailAddress: z.string().min(0).max(255),
-    password: z.string().min(0).max(32),
-    rememberMe: z.optional(z.boolean())
-});
-
-export type VoloAbpAccountWebAreasAccountControllersModelsUserLoginInfoZodType = z.infer<typeof zVoloAbpAccountWebAreasAccountControllersModelsUserLoginInfo>;
-
-export const zVoloAbpValidationStringValuesIValueValidator = z.object({
-    name: z.optional(z.union([
-        z.string().readonly(),
-        z.null()
-    ]).readonly()),
-    properties: z.optional(z.union([
-        z.record(z.string(), z.unknown()).readonly(),
-        z.null()
-    ]).readonly())
-});
-
-export type VoloAbpValidationStringValuesIValueValidatorZodType = z.infer<typeof zVoloAbpValidationStringValuesIValueValidator>;
-
-export const zVoloAbpValidationStringValuesIStringValueType = z.object({
-    name: z.optional(z.union([
-        z.string().readonly(),
-        z.null()
-    ]).readonly()),
-    properties: z.optional(z.union([
-        z.record(z.string(), z.unknown()).readonly(),
-        z.null()
-    ]).readonly()),
-    validator: z.optional(zVoloAbpValidationStringValuesIValueValidator)
-});
-
-export type VoloAbpValidationStringValuesIStringValueTypeZodType = z.infer<typeof zVoloAbpValidationStringValuesIStringValueType>;
-
-export const zFeatureDto = z.object({
-    name: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    displayName: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    value: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    provider: z.optional(zFeatureProviderDto),
-    description: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    valueType: z.optional(zVoloAbpValidationStringValuesIStringValueType),
-    depth: z.optional(z.int()),
-    parentName: z.optional(z.union([
-        z.string(),
-        z.null()
-    ]))
-});
-
-export type FeatureDtoZodType = z.infer<typeof zFeatureDto>;
-
-export const zFeatureGroupDto = z.object({
-    name: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    displayName: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    features: z.optional(z.union([
-        z.array(zFeatureDto),
-        z.null()
-    ]))
-});
-
-export type FeatureGroupDtoZodType = z.infer<typeof zFeatureGroupDto>;
-
-export const zGetFeatureListResultDto = z.object({
-    groups: z.optional(z.union([
-        z.array(zFeatureGroupDto),
-        z.null()
-    ]))
-});
-
-export type GetFeatureListResultDtoZodType = z.infer<typeof zGetFeatureListResultDto>;
-
-export const zVoloCmsKitAdminCommentsCmsUserDto = z.object({
-    extraProperties: z.optional(z.union([
-        z.record(z.string(), z.unknown()).readonly(),
-        z.null()
-    ]).readonly()),
-    id: z.optional(z.uuid()),
-    userName: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    name: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    surname: z.optional(z.union([
-        z.string(),
-        z.null()
-    ]))
-});
-
-export type VoloCmsKitAdminCommentsCmsUserDtoZodType = z.infer<typeof zVoloCmsKitAdminCommentsCmsUserDto>;
-
-export const zCommentWithAuthorDto = z.object({
-    extraProperties: z.optional(z.union([
-        z.record(z.string(), z.unknown()).readonly(),
-        z.null()
-    ]).readonly()),
-    id: z.optional(z.uuid()),
-    entityType: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    entityId: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    text: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    repliedCommentId: z.optional(z.union([
-        z.uuid(),
-        z.null()
-    ])),
-    creatorId: z.optional(z.uuid()),
-    creationTime: z.optional(z.iso.datetime()),
-    author: z.optional(zVoloCmsKitAdminCommentsCmsUserDto),
-    url: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    isApproved: z.optional(z.union([
-        z.boolean(),
-        z.null()
-    ]))
-});
-
-export type CommentWithAuthorDtoZodType = z.infer<typeof zCommentWithAuthorDto>;
-
-export const zPagedResultDtoOfCommentWithAuthorDto = z.object({
-    items: z.optional(z.union([
-        z.array(zCommentWithAuthorDto),
-        z.null()
-    ])),
-    totalCount: z.optional(z.coerce.bigint())
-});
-
-export type PagedResultDtoOfCommentWithAuthorDtoZodType = z.infer<typeof zPagedResultDtoOfCommentWithAuthorDto>;
-
-export const zVoloCmsKitAdminPagesPageDto = z.object({
-    extraProperties: z.optional(z.union([
-        z.record(z.string(), z.unknown()).readonly(),
-        z.null()
-    ]).readonly()),
-    id: z.optional(z.uuid()),
-    creationTime: z.optional(z.iso.datetime()),
-    creatorId: z.optional(z.union([
-        z.uuid(),
-        z.null()
-    ])),
-    lastModificationTime: z.optional(z.union([
-        z.iso.datetime(),
-        z.null()
-    ])),
-    lastModifierId: z.optional(z.union([
-        z.uuid(),
-        z.null()
-    ])),
-    title: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    slug: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    layoutName: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    content: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    script: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    style: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    isHomePage: z.optional(z.boolean()),
-    concurrencyStamp: z.optional(z.union([
-        z.string(),
-        z.null()
-    ]))
-});
-
-export type VoloCmsKitAdminPagesPageDtoZodType = z.infer<typeof zVoloCmsKitAdminPagesPageDto>;
-
-export const zPagedResultDtoOfVoloCmsKitAdminPagesPageDto = z.object({
-    items: z.optional(z.union([
-        z.array(zVoloCmsKitAdminPagesPageDto),
-        z.null()
-    ])),
-    totalCount: z.optional(z.coerce.bigint())
-});
-
-export type PagedResultDtoOfVoloCmsKitAdminPagesPageDtoZodType = z.infer<typeof zPagedResultDtoOfVoloCmsKitAdminPagesPageDto>;
-
-export const zVoloCmsKitContentsPageDto = z.object({
-    extraProperties: z.optional(z.union([
-        z.record(z.string(), z.unknown()).readonly(),
-        z.null()
-    ]).readonly()),
-    id: z.optional(z.uuid()),
-    title: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    slug: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    layoutName: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    content: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    script: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    style: z.optional(z.union([
-        z.string(),
-        z.null()
-    ]))
-});
-
-export type VoloCmsKitContentsPageDtoZodType = z.infer<typeof zVoloCmsKitContentsPageDto>;
-
-export const zVoloCmsKitPublicCommentsCmsUserDto = z.object({
-    extraProperties: z.optional(z.union([
-        z.record(z.string(), z.unknown()).readonly(),
-        z.null()
-    ]).readonly()),
-    id: z.optional(z.uuid()),
-    userName: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    name: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    surname: z.optional(z.union([
-        z.string(),
-        z.null()
-    ]))
-});
-
-export type VoloCmsKitPublicCommentsCmsUserDtoZodType = z.infer<typeof zVoloCmsKitPublicCommentsCmsUserDto>;
-
-export const zVoloCmsKitPublicCommentsCommentDto = z.object({
-    extraProperties: z.optional(z.union([
-        z.record(z.string(), z.unknown()).readonly(),
-        z.null()
-    ]).readonly()),
-    id: z.optional(z.uuid()),
-    entityType: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    entityId: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    text: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    repliedCommentId: z.optional(z.union([
-        z.uuid(),
-        z.null()
-    ])),
-    creatorId: z.optional(z.uuid()),
-    creationTime: z.optional(z.iso.datetime()),
-    author: z.optional(zVoloCmsKitPublicCommentsCmsUserDto),
-    concurrencyStamp: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    url: z.optional(z.union([
-        z.string(),
-        z.null()
-    ]))
-});
-
-export type VoloCmsKitPublicCommentsCommentDtoZodType = z.infer<typeof zVoloCmsKitPublicCommentsCommentDto>;
-
-export const zCommentWithDetailsDto = z.object({
-    extraProperties: z.optional(z.union([
-        z.record(z.string(), z.unknown()).readonly(),
-        z.null()
-    ]).readonly()),
-    id: z.optional(z.uuid()),
-    entityType: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    entityId: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    text: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    creatorId: z.optional(z.uuid()),
-    creationTime: z.optional(z.iso.datetime()),
-    replies: z.optional(z.union([
-        z.array(zVoloCmsKitPublicCommentsCommentDto),
-        z.null()
-    ])),
-    author: z.optional(zVoloCmsKitPublicCommentsCmsUserDto),
-    concurrencyStamp: z.optional(z.union([
-        z.string(),
-        z.null()
-    ]))
-});
-
-export type CommentWithDetailsDtoZodType = z.infer<typeof zCommentWithDetailsDto>;
-
-export const zListResultDtoOfCommentWithDetailsDto = z.object({
-    items: z.optional(z.union([
-        z.array(zCommentWithDetailsDto),
-        z.null()
-    ]))
-});
-
-export type ListResultDtoOfCommentWithDetailsDtoZodType = z.infer<typeof zListResultDtoOfCommentWithDetailsDto>;
-
-export const zVoloCmsKitUsersCmsUserDto = z.object({
-    extraProperties: z.optional(z.union([
-        z.record(z.string(), z.unknown()).readonly(),
-        z.null()
-    ]).readonly()),
-    id: z.optional(z.uuid()),
-    tenantId: z.optional(z.union([
-        z.uuid(),
-        z.null()
-    ])),
-    userName: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    name: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    surname: z.optional(z.union([
-        z.string(),
-        z.null()
-    ]))
-});
-
-export type VoloCmsKitUsersCmsUserDtoZodType = z.infer<typeof zVoloCmsKitUsersCmsUserDto>;
-
-export const zBlogPostCommonDto = z.object({
-    extraProperties: z.optional(z.union([
-        z.record(z.string(), z.unknown()).readonly(),
-        z.null()
-    ]).readonly()),
-    id: z.optional(z.uuid()),
-    creationTime: z.optional(z.iso.datetime()),
-    creatorId: z.optional(z.union([
-        z.uuid(),
-        z.null()
-    ])),
-    lastModificationTime: z.optional(z.union([
-        z.iso.datetime(),
-        z.null()
-    ])),
-    lastModifierId: z.optional(z.union([
-        z.uuid(),
-        z.null()
-    ])),
-    blogId: z.optional(z.uuid()),
-    title: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    slug: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    shortDescription: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    content: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    coverImageMediaId: z.optional(z.union([
-        z.uuid(),
-        z.null()
-    ])),
-    author: z.optional(zVoloCmsKitUsersCmsUserDto)
-});
-
-export type BlogPostCommonDtoZodType = z.infer<typeof zBlogPostCommonDto>;
-
-export const zPagedResultDtoOfBlogPostCommonDto = z.object({
-    items: z.optional(z.union([
-        z.array(zBlogPostCommonDto),
-        z.null()
-    ])),
-    totalCount: z.optional(z.coerce.bigint())
-});
-
-export type PagedResultDtoOfBlogPostCommonDtoZodType = z.infer<typeof zPagedResultDtoOfBlogPostCommonDto>;
-
-export const zPagedResultDtoOfVoloCmsKitUsersCmsUserDto = z.object({
-    items: z.optional(z.union([
-        z.array(zVoloCmsKitUsersCmsUserDto),
-        z.null()
-    ])),
-    totalCount: z.optional(z.coerce.bigint())
-});
-
-export type PagedResultDtoOfVoloCmsKitUsersCmsUserDtoZodType = z.infer<typeof zPagedResultDtoOfVoloCmsKitUsersCmsUserDto>;
 
 export const zWindowsTimeZone = z.object({
     timeZoneId: z.optional(z.union([
@@ -2939,15 +1687,15 @@ export const zWindowsTimeZone = z.object({
 
 export type WindowsTimeZoneZodType = z.infer<typeof zWindowsTimeZone>;
 
-export const zVoloAbpAspNetCoreMvcApplicationConfigurationsTimeZone = z.object({
+export const zTimeZone = z.object({
     iana: z.optional(zIanaTimeZone),
     windows: z.optional(zWindowsTimeZone)
 });
 
-export type VoloAbpAspNetCoreMvcApplicationConfigurationsTimeZoneZodType = z.infer<typeof zVoloAbpAspNetCoreMvcApplicationConfigurationsTimeZone>;
+export type TimeZoneZodType = z.infer<typeof zTimeZone>;
 
 export const zTimingDto = z.object({
-    timeZone: z.optional(zVoloAbpAspNetCoreMvcApplicationConfigurationsTimeZone)
+    timeZone: z.optional(zTimeZone)
 });
 
 export type TimingDtoZodType = z.infer<typeof zTimingDto>;
@@ -2978,231 +1726,69 @@ export const zAbpLoginResultWritable = z.object({
 
 export type AbpLoginResultWritableZodType = z.infer<typeof zAbpLoginResultWritable>;
 
-export const zBlogDtoWritable = z.object({
-    id: z.optional(z.uuid()),
+export const zIValueValidatorWritable = z.record(z.string(), z.never());
+
+export type IValueValidatorWritableZodType = z.infer<typeof zIValueValidatorWritable>;
+
+export const zIStringValueTypeWritable = z.object({
+    validator: z.optional(zIValueValidatorWritable)
+});
+
+export type IStringValueTypeWritableZodType = z.infer<typeof zIStringValueTypeWritable>;
+
+export const zFeatureDtoWritable = z.object({
     name: z.optional(z.union([
         z.string(),
         z.null()
     ])),
-    slug: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    concurrencyStamp: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    blogPostCount: z.optional(z.int())
-});
-
-export type BlogDtoWritableZodType = z.infer<typeof zBlogDtoWritable>;
-
-export const zBlogFeatureDtoWritable = z.object({
-    id: z.optional(z.uuid()),
-    featureName: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    isEnabled: z.optional(z.boolean())
-});
-
-export type BlogFeatureDtoWritableZodType = z.infer<typeof zBlogFeatureDtoWritable>;
-
-export const zBlogPostDtoWritable = z.object({
-    id: z.optional(z.uuid()),
-    blogId: z.optional(z.uuid()),
-    title: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    slug: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    shortDescription: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    content: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    coverImageMediaId: z.optional(z.union([
-        z.uuid(),
-        z.null()
-    ])),
-    creationTime: z.optional(z.iso.datetime()),
-    lastModificationTime: z.optional(z.union([
-        z.iso.datetime(),
-        z.null()
-    ])),
-    concurrencyStamp: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    status: z.optional(zBlogPostStatus)
-});
-
-export type BlogPostDtoWritableZodType = z.infer<typeof zBlogPostDtoWritable>;
-
-export const zBlogPostListDtoWritable = z.object({
-    id: z.optional(z.uuid()),
-    blogId: z.optional(z.uuid()),
-    blogName: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    title: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    slug: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    shortDescription: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    content: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    coverImageMediaId: z.optional(z.union([
-        z.uuid(),
-        z.null()
-    ])),
-    creationTime: z.optional(z.iso.datetime()),
-    lastModificationTime: z.optional(z.union([
-        z.iso.datetime(),
-        z.null()
-    ])),
-    status: z.optional(zBlogPostStatus)
-});
-
-export type BlogPostListDtoWritableZodType = z.infer<typeof zBlogPostListDtoWritable>;
-
-export const zCreateBlogDtoWritable = z.object({
-    name: z.string().min(1).max(64),
-    slug: z.string().min(1).max(64)
-});
-
-export type CreateBlogDtoWritableZodType = z.infer<typeof zCreateBlogDtoWritable>;
-
-export const zCreateBlogPostDtoWritable = z.object({
-    blogId: z.uuid(),
-    title: z.string().min(1).max(64),
-    slug: z.string().min(2).max(256),
-    shortDescription: z.optional(z.union([
-        z.string().max(256),
-        z.null()
-    ])),
-    content: z.optional(z.union([
-        z.string().max(2147483647),
-        z.null()
-    ])),
-    coverImageMediaId: z.optional(z.union([
-        z.uuid(),
-        z.null()
-    ]))
-});
-
-export type CreateBlogPostDtoWritableZodType = z.infer<typeof zCreateBlogPostDtoWritable>;
-
-export const zCreateCommentInputWritable = z.object({
-    text: z.string().min(0).max(512),
-    repliedCommentId: z.optional(z.union([
-        z.uuid(),
-        z.null()
-    ])),
-    captchaToken: z.optional(z.union([
-        z.uuid(),
-        z.null()
-    ])),
-    captchaAnswer: z.optional(z.int()),
-    url: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    idempotencyToken: z.string().min(1)
-});
-
-export type CreateCommentInputWritableZodType = z.infer<typeof zCreateCommentInputWritable>;
-
-export const zCreatePageInputDtoWritable = z.object({
-    title: z.string().min(1).max(256),
-    slug: z.string().min(1).max(256),
-    layoutName: z.optional(z.union([
-        z.string().max(256),
-        z.null()
-    ])),
-    content: z.optional(z.union([
-        z.string().max(2147483647),
-        z.null()
-    ])),
-    script: z.optional(z.union([
-        z.string().max(2147483647),
-        z.null()
-    ])),
-    style: z.optional(z.union([
-        z.string().max(2147483647),
-        z.null()
-    ]))
-});
-
-export type CreatePageInputDtoWritableZodType = z.infer<typeof zCreatePageInputDtoWritable>;
-
-export const zGlobalResourceDtoWritable = z.object({
-    creationTime: z.optional(z.iso.datetime()),
-    creatorId: z.optional(z.union([
-        z.uuid(),
-        z.null()
-    ])),
-    lastModificationTime: z.optional(z.union([
-        z.iso.datetime(),
-        z.null()
-    ])),
-    lastModifierId: z.optional(z.union([
-        z.uuid(),
-        z.null()
-    ])),
-    name: z.optional(z.union([
+    displayName: z.optional(z.union([
         z.string(),
         z.null()
     ])),
     value: z.optional(z.union([
         z.string(),
         z.null()
-    ]))
-});
-
-export type GlobalResourceDtoWritableZodType = z.infer<typeof zGlobalResourceDtoWritable>;
-
-export const zGlobalResourcesDtoWritable = z.object({
-    styleContent: z.optional(z.union([
+    ])),
+    provider: z.optional(zFeatureProviderDto),
+    description: z.optional(z.union([
         z.string(),
         z.null()
     ])),
-    scriptContent: z.optional(z.union([
+    valueType: z.optional(zIStringValueTypeWritable),
+    depth: z.optional(z.int()),
+    parentName: z.optional(z.union([
         z.string(),
         z.null()
     ]))
 });
 
-export type GlobalResourcesDtoWritableZodType = z.infer<typeof zGlobalResourcesDtoWritable>;
+export type FeatureDtoWritableZodType = z.infer<typeof zFeatureDtoWritable>;
 
-export const zGlobalResourcesUpdateDtoWritable = z.object({
-    style: z.optional(z.union([
+export const zFeatureGroupDtoWritable = z.object({
+    name: z.optional(z.union([
         z.string(),
         z.null()
     ])),
-    script: z.optional(z.union([
+    displayName: z.optional(z.union([
         z.string(),
+        z.null()
+    ])),
+    features: z.optional(z.union([
+        z.array(zFeatureDtoWritable),
         z.null()
     ]))
 });
 
-export type GlobalResourcesUpdateDtoWritableZodType = z.infer<typeof zGlobalResourcesUpdateDtoWritable>;
+export type FeatureGroupDtoWritableZodType = z.infer<typeof zFeatureGroupDtoWritable>;
+
+export const zGetFeatureListResultDtoWritable = z.object({
+    groups: z.optional(z.union([
+        z.array(zFeatureGroupDtoWritable),
+        z.null()
+    ]))
+});
+
+export type GetFeatureListResultDtoWritableZodType = z.infer<typeof zGetFeatureListResultDtoWritable>;
 
 export const zIdentityRoleCreateDtoWritable = z.object({
     name: z.string().min(0).max(256),
@@ -3438,274 +2024,16 @@ export const zApplicationConfigurationDtoWritable = z.object({
 
 export type ApplicationConfigurationDtoWritableZodType = z.infer<typeof zApplicationConfigurationDtoWritable>;
 
-export const zListResultDtoOfBlogDtoWritable = z.object({
-    items: z.optional(z.union([
-        z.array(zBlogDtoWritable),
-        z.null()
-    ]))
-});
-
-export type ListResultDtoOfBlogDtoWritableZodType = z.infer<typeof zListResultDtoOfBlogDtoWritable>;
-
-export const zListResultDtoOfIdentityRoleDtoWritable = z.object({
+export const zListResultDto_IdentityRoleDto_Writable = z.object({
     items: z.optional(z.union([
         z.array(zIdentityRoleDtoWritable),
         z.null()
     ]))
 });
 
-export type ListResultDtoOfIdentityRoleDtoWritableZodType = z.infer<typeof zListResultDtoOfIdentityRoleDtoWritable>;
+export type ListResultDto_IdentityRoleDto_WritableZodType = z.infer<typeof zListResultDto_IdentityRoleDto_Writable>;
 
-export const zMediaDescriptorDtoWritable = z.object({
-    id: z.optional(z.uuid()),
-    name: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    mimeType: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    size: z.optional(z.int())
-});
-
-export type MediaDescriptorDtoWritableZodType = z.infer<typeof zMediaDescriptorDtoWritable>;
-
-export const zMenuItemCreateInputWritable = z.object({
-    parentId: z.optional(z.union([
-        z.uuid(),
-        z.null()
-    ])),
-    displayName: z.string().min(1),
-    isActive: z.optional(z.boolean()),
-    url: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    icon: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    order: z.optional(z.int()),
-    target: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    elementId: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    cssClass: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    pageId: z.optional(z.union([
-        z.uuid(),
-        z.null()
-    ])),
-    requiredPermissionName: z.optional(z.union([
-        z.string(),
-        z.null()
-    ]))
-});
-
-export type MenuItemCreateInputWritableZodType = z.infer<typeof zMenuItemCreateInputWritable>;
-
-export const zMenuItemDtoWritable = z.object({
-    id: z.optional(z.uuid()),
-    creationTime: z.optional(z.iso.datetime()),
-    creatorId: z.optional(z.union([
-        z.uuid(),
-        z.null()
-    ])),
-    lastModificationTime: z.optional(z.union([
-        z.iso.datetime(),
-        z.null()
-    ])),
-    lastModifierId: z.optional(z.union([
-        z.uuid(),
-        z.null()
-    ])),
-    parentId: z.optional(z.union([
-        z.uuid(),
-        z.null()
-    ])),
-    displayName: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    isActive: z.optional(z.boolean()),
-    url: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    icon: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    order: z.optional(z.int()),
-    target: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    elementId: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    cssClass: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    pageId: z.optional(z.union([
-        z.uuid(),
-        z.null()
-    ])),
-    requiredPermissionName: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    concurrencyStamp: z.optional(z.union([
-        z.string(),
-        z.null()
-    ]))
-});
-
-export type MenuItemDtoWritableZodType = z.infer<typeof zMenuItemDtoWritable>;
-
-export const zListResultDtoOfMenuItemDtoWritable = z.object({
-    items: z.optional(z.union([
-        z.array(zMenuItemDtoWritable),
-        z.null()
-    ]))
-});
-
-export type ListResultDtoOfMenuItemDtoWritableZodType = z.infer<typeof zListResultDtoOfMenuItemDtoWritable>;
-
-export const zMenuItemUpdateInputWritable = z.object({
-    displayName: z.string().min(1),
-    isActive: z.optional(z.boolean()),
-    url: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    icon: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    target: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    elementId: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    cssClass: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    pageId: z.optional(z.union([
-        z.uuid(),
-        z.null()
-    ])),
-    requiredPermissionName: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    concurrencyStamp: z.optional(z.union([
-        z.string(),
-        z.null()
-    ]))
-});
-
-export type MenuItemUpdateInputWritableZodType = z.infer<typeof zMenuItemUpdateInputWritable>;
-
-export const zMenuItemWithDetailsDtoWritable = z.object({
-    id: z.optional(z.uuid()),
-    creationTime: z.optional(z.iso.datetime()),
-    creatorId: z.optional(z.union([
-        z.uuid(),
-        z.null()
-    ])),
-    lastModificationTime: z.optional(z.union([
-        z.iso.datetime(),
-        z.null()
-    ])),
-    lastModifierId: z.optional(z.union([
-        z.uuid(),
-        z.null()
-    ])),
-    parentId: z.optional(z.union([
-        z.uuid(),
-        z.null()
-    ])),
-    displayName: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    isActive: z.optional(z.boolean()),
-    url: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    icon: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    order: z.optional(z.int()),
-    target: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    elementId: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    cssClass: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    pageId: z.optional(z.union([
-        z.uuid(),
-        z.null()
-    ])),
-    requiredPermissionName: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    concurrencyStamp: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    pageTitle: z.optional(z.union([
-        z.string(),
-        z.null()
-    ]))
-});
-
-export type MenuItemWithDetailsDtoWritableZodType = z.infer<typeof zMenuItemWithDetailsDtoWritable>;
-
-export const zPagedResultDtoOfBlogDtoWritable = z.object({
-    items: z.optional(z.union([
-        z.array(zBlogDtoWritable),
-        z.null()
-    ])),
-    totalCount: z.optional(z.coerce.bigint())
-});
-
-export type PagedResultDtoOfBlogDtoWritableZodType = z.infer<typeof zPagedResultDtoOfBlogDtoWritable>;
-
-export const zPagedResultDtoOfBlogPostListDtoWritable = z.object({
-    items: z.optional(z.union([
-        z.array(zBlogPostListDtoWritable),
-        z.null()
-    ])),
-    totalCount: z.optional(z.coerce.bigint())
-});
-
-export type PagedResultDtoOfBlogPostListDtoWritableZodType = z.infer<typeof zPagedResultDtoOfBlogPostListDtoWritable>;
-
-export const zPagedResultDtoOfIdentityRoleDtoWritable = z.object({
+export const zPagedResultDto_IdentityRoleDto_Writable = z.object({
     items: z.optional(z.union([
         z.array(zIdentityRoleDtoWritable),
         z.null()
@@ -3713,9 +2041,9 @@ export const zPagedResultDtoOfIdentityRoleDtoWritable = z.object({
     totalCount: z.optional(z.coerce.bigint())
 });
 
-export type PagedResultDtoOfIdentityRoleDtoWritableZodType = z.infer<typeof zPagedResultDtoOfIdentityRoleDtoWritable>;
+export type PagedResultDto_IdentityRoleDto_WritableZodType = z.infer<typeof zPagedResultDto_IdentityRoleDto_Writable>;
 
-export const zPagedResultDtoOfIdentityUserDtoWritable = z.object({
+export const zPagedResultDto_IdentityUserDto_Writable = z.object({
     items: z.optional(z.union([
         z.array(zIdentityUserDtoWritable),
         z.null()
@@ -3723,7 +2051,7 @@ export const zPagedResultDtoOfIdentityUserDtoWritable = z.object({
     totalCount: z.optional(z.coerce.bigint())
 });
 
-export type PagedResultDtoOfIdentityUserDtoWritableZodType = z.infer<typeof zPagedResultDtoOfIdentityUserDtoWritable>;
+export type PagedResultDto_IdentityUserDto_WritableZodType = z.infer<typeof zPagedResultDto_IdentityUserDto_Writable>;
 
 export const zProfileDtoWritable = z.object({
     userName: z.optional(z.union([
@@ -3765,51 +2093,6 @@ export const zRegisterDtoWritable = z.object({
 
 export type RegisterDtoWritableZodType = z.infer<typeof zRegisterDtoWritable>;
 
-export const zTagCreateDtoWritable = z.object({
-    entityType: z.string().min(1).max(64),
-    name: z.string().min(1).max(32)
-});
-
-export type TagCreateDtoWritableZodType = z.infer<typeof zTagCreateDtoWritable>;
-
-export const zTagDtoWritable = z.object({
-    id: z.optional(z.uuid()),
-    entityType: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    name: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    concurrencyStamp: z.optional(z.union([
-        z.string(),
-        z.null()
-    ]))
-});
-
-export type TagDtoWritableZodType = z.infer<typeof zTagDtoWritable>;
-
-export const zPagedResultDtoOfTagDtoWritable = z.object({
-    items: z.optional(z.union([
-        z.array(zTagDtoWritable),
-        z.null()
-    ])),
-    totalCount: z.optional(z.coerce.bigint())
-});
-
-export type PagedResultDtoOfTagDtoWritableZodType = z.infer<typeof zPagedResultDtoOfTagDtoWritable>;
-
-export const zTagUpdateDtoWritable = z.object({
-    name: z.string().min(1).max(32),
-    concurrencyStamp: z.optional(z.union([
-        z.string(),
-        z.null()
-    ]))
-});
-
-export type TagUpdateDtoWritableZodType = z.infer<typeof zTagUpdateDtoWritable>;
-
 export const zTenantCreateDtoWritable = z.object({
     name: z.string().min(0).max(64),
     adminEmailAddress: z.email().min(1).max(256),
@@ -3832,7 +2115,7 @@ export const zTenantDtoWritable = z.object({
 
 export type TenantDtoWritableZodType = z.infer<typeof zTenantDtoWritable>;
 
-export const zPagedResultDtoOfTenantDtoWritable = z.object({
+export const zPagedResultDto_TenantDto_Writable = z.object({
     items: z.optional(z.union([
         z.array(zTenantDtoWritable),
         z.null()
@@ -3840,7 +2123,7 @@ export const zPagedResultDtoOfTenantDtoWritable = z.object({
     totalCount: z.optional(z.coerce.bigint())
 });
 
-export type PagedResultDtoOfTenantDtoWritableZodType = z.infer<typeof zPagedResultDtoOfTenantDtoWritable>;
+export type PagedResultDto_TenantDto_WritableZodType = z.infer<typeof zPagedResultDto_TenantDto_Writable>;
 
 export const zTenantUpdateDtoWritable = z.object({
     name: z.string().min(0).max(64),
@@ -3851,82 +2134,6 @@ export const zTenantUpdateDtoWritable = z.object({
 });
 
 export type TenantUpdateDtoWritableZodType = z.infer<typeof zTenantUpdateDtoWritable>;
-
-export const zUpdateBlogDtoWritable = z.object({
-    name: z.string().min(1).max(64),
-    slug: z.string().min(1).max(64),
-    concurrencyStamp: z.optional(z.union([
-        z.string(),
-        z.null()
-    ]))
-});
-
-export type UpdateBlogDtoWritableZodType = z.infer<typeof zUpdateBlogDtoWritable>;
-
-export const zUpdateBlogPostDtoWritable = z.object({
-    title: z.string().min(1).max(64),
-    slug: z.string().min(2).max(256),
-    shortDescription: z.optional(z.union([
-        z.string().max(256),
-        z.null()
-    ])),
-    content: z.optional(z.union([
-        z.string().max(2147483647),
-        z.null()
-    ])),
-    coverImageMediaId: z.optional(z.union([
-        z.uuid(),
-        z.null()
-    ])),
-    concurrencyStamp: z.optional(z.union([
-        z.string(),
-        z.null()
-    ]))
-});
-
-export type UpdateBlogPostDtoWritableZodType = z.infer<typeof zUpdateBlogPostDtoWritable>;
-
-export const zUpdateCommentInputWritable = z.object({
-    text: z.string().min(0).max(512),
-    concurrencyStamp: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    captchaToken: z.optional(z.union([
-        z.uuid(),
-        z.null()
-    ])),
-    captchaAnswer: z.optional(z.int())
-});
-
-export type UpdateCommentInputWritableZodType = z.infer<typeof zUpdateCommentInputWritable>;
-
-export const zUpdatePageInputDtoWritable = z.object({
-    title: z.string().min(1).max(256),
-    slug: z.string().min(1).max(256),
-    layoutName: z.optional(z.union([
-        z.string().max(256),
-        z.null()
-    ])),
-    content: z.optional(z.union([
-        z.string().max(2147483647),
-        z.null()
-    ])),
-    script: z.optional(z.union([
-        z.string().max(2147483647),
-        z.null()
-    ])),
-    style: z.optional(z.union([
-        z.string().max(2147483647),
-        z.null()
-    ])),
-    concurrencyStamp: z.optional(z.union([
-        z.string(),
-        z.null()
-    ]))
-});
-
-export type UpdatePageInputDtoWritableZodType = z.infer<typeof zUpdatePageInputDtoWritable>;
 
 export const zUpdateProfileDtoWritable = z.object({
     userName: z.optional(z.union([
@@ -3990,401 +2197,16 @@ export const zUserDataWritable = z.object({
 
 export type UserDataWritableZodType = z.infer<typeof zUserDataWritable>;
 
-export const zListResultDtoOfUserDataWritable = z.object({
+export const zListResultDto_userData_Writable = z.object({
     items: z.optional(z.union([
         z.array(zUserDataWritable),
         z.null()
     ]))
 });
 
-export type ListResultDtoOfUserDataWritableZodType = z.infer<typeof zListResultDtoOfUserDataWritable>;
+export type ListResultDto_userData_WritableZodType = z.infer<typeof zListResultDto_userData_Writable>;
 
-export const zVoloAbpValidationStringValuesIValueValidatorWritable = z.record(z.string(), z.never());
-
-export type VoloAbpValidationStringValuesIValueValidatorWritableZodType = z.infer<typeof zVoloAbpValidationStringValuesIValueValidatorWritable>;
-
-export const zVoloAbpValidationStringValuesIStringValueTypeWritable = z.object({
-    validator: z.optional(zVoloAbpValidationStringValuesIValueValidatorWritable)
-});
-
-export type VoloAbpValidationStringValuesIStringValueTypeWritableZodType = z.infer<typeof zVoloAbpValidationStringValuesIStringValueTypeWritable>;
-
-export const zFeatureDtoWritable = z.object({
-    name: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    displayName: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    value: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    provider: z.optional(zFeatureProviderDto),
-    description: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    valueType: z.optional(zVoloAbpValidationStringValuesIStringValueTypeWritable),
-    depth: z.optional(z.int()),
-    parentName: z.optional(z.union([
-        z.string(),
-        z.null()
-    ]))
-});
-
-export type FeatureDtoWritableZodType = z.infer<typeof zFeatureDtoWritable>;
-
-export const zFeatureGroupDtoWritable = z.object({
-    name: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    displayName: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    features: z.optional(z.union([
-        z.array(zFeatureDtoWritable),
-        z.null()
-    ]))
-});
-
-export type FeatureGroupDtoWritableZodType = z.infer<typeof zFeatureGroupDtoWritable>;
-
-export const zGetFeatureListResultDtoWritable = z.object({
-    groups: z.optional(z.union([
-        z.array(zFeatureGroupDtoWritable),
-        z.null()
-    ]))
-});
-
-export type GetFeatureListResultDtoWritableZodType = z.infer<typeof zGetFeatureListResultDtoWritable>;
-
-export const zVoloCmsKitAdminCommentsCmsUserDtoWritable = z.object({
-    id: z.optional(z.uuid()),
-    userName: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    name: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    surname: z.optional(z.union([
-        z.string(),
-        z.null()
-    ]))
-});
-
-export type VoloCmsKitAdminCommentsCmsUserDtoWritableZodType = z.infer<typeof zVoloCmsKitAdminCommentsCmsUserDtoWritable>;
-
-export const zCommentWithAuthorDtoWritable = z.object({
-    id: z.optional(z.uuid()),
-    entityType: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    entityId: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    text: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    repliedCommentId: z.optional(z.union([
-        z.uuid(),
-        z.null()
-    ])),
-    creatorId: z.optional(z.uuid()),
-    creationTime: z.optional(z.iso.datetime()),
-    author: z.optional(zVoloCmsKitAdminCommentsCmsUserDtoWritable),
-    url: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    isApproved: z.optional(z.union([
-        z.boolean(),
-        z.null()
-    ]))
-});
-
-export type CommentWithAuthorDtoWritableZodType = z.infer<typeof zCommentWithAuthorDtoWritable>;
-
-export const zPagedResultDtoOfCommentWithAuthorDtoWritable = z.object({
-    items: z.optional(z.union([
-        z.array(zCommentWithAuthorDtoWritable),
-        z.null()
-    ])),
-    totalCount: z.optional(z.coerce.bigint())
-});
-
-export type PagedResultDtoOfCommentWithAuthorDtoWritableZodType = z.infer<typeof zPagedResultDtoOfCommentWithAuthorDtoWritable>;
-
-export const zVoloCmsKitAdminPagesPageDtoWritable = z.object({
-    id: z.optional(z.uuid()),
-    creationTime: z.optional(z.iso.datetime()),
-    creatorId: z.optional(z.union([
-        z.uuid(),
-        z.null()
-    ])),
-    lastModificationTime: z.optional(z.union([
-        z.iso.datetime(),
-        z.null()
-    ])),
-    lastModifierId: z.optional(z.union([
-        z.uuid(),
-        z.null()
-    ])),
-    title: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    slug: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    layoutName: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    content: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    script: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    style: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    isHomePage: z.optional(z.boolean()),
-    concurrencyStamp: z.optional(z.union([
-        z.string(),
-        z.null()
-    ]))
-});
-
-export type VoloCmsKitAdminPagesPageDtoWritableZodType = z.infer<typeof zVoloCmsKitAdminPagesPageDtoWritable>;
-
-export const zPagedResultDtoOfVoloCmsKitAdminPagesPageDtoWritable = z.object({
-    items: z.optional(z.union([
-        z.array(zVoloCmsKitAdminPagesPageDtoWritable),
-        z.null()
-    ])),
-    totalCount: z.optional(z.coerce.bigint())
-});
-
-export type PagedResultDtoOfVoloCmsKitAdminPagesPageDtoWritableZodType = z.infer<typeof zPagedResultDtoOfVoloCmsKitAdminPagesPageDtoWritable>;
-
-export const zVoloCmsKitContentsPageDtoWritable = z.object({
-    id: z.optional(z.uuid()),
-    title: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    slug: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    layoutName: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    content: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    script: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    style: z.optional(z.union([
-        z.string(),
-        z.null()
-    ]))
-});
-
-export type VoloCmsKitContentsPageDtoWritableZodType = z.infer<typeof zVoloCmsKitContentsPageDtoWritable>;
-
-export const zVoloCmsKitPublicCommentsCmsUserDtoWritable = z.object({
-    id: z.optional(z.uuid()),
-    userName: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    name: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    surname: z.optional(z.union([
-        z.string(),
-        z.null()
-    ]))
-});
-
-export type VoloCmsKitPublicCommentsCmsUserDtoWritableZodType = z.infer<typeof zVoloCmsKitPublicCommentsCmsUserDtoWritable>;
-
-export const zVoloCmsKitPublicCommentsCommentDtoWritable = z.object({
-    id: z.optional(z.uuid()),
-    entityType: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    entityId: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    text: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    repliedCommentId: z.optional(z.union([
-        z.uuid(),
-        z.null()
-    ])),
-    creatorId: z.optional(z.uuid()),
-    creationTime: z.optional(z.iso.datetime()),
-    author: z.optional(zVoloCmsKitPublicCommentsCmsUserDtoWritable),
-    concurrencyStamp: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    url: z.optional(z.union([
-        z.string(),
-        z.null()
-    ]))
-});
-
-export type VoloCmsKitPublicCommentsCommentDtoWritableZodType = z.infer<typeof zVoloCmsKitPublicCommentsCommentDtoWritable>;
-
-export const zCommentWithDetailsDtoWritable = z.object({
-    id: z.optional(z.uuid()),
-    entityType: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    entityId: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    text: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    creatorId: z.optional(z.uuid()),
-    creationTime: z.optional(z.iso.datetime()),
-    replies: z.optional(z.union([
-        z.array(zVoloCmsKitPublicCommentsCommentDtoWritable),
-        z.null()
-    ])),
-    author: z.optional(zVoloCmsKitPublicCommentsCmsUserDtoWritable),
-    concurrencyStamp: z.optional(z.union([
-        z.string(),
-        z.null()
-    ]))
-});
-
-export type CommentWithDetailsDtoWritableZodType = z.infer<typeof zCommentWithDetailsDtoWritable>;
-
-export const zListResultDtoOfCommentWithDetailsDtoWritable = z.object({
-    items: z.optional(z.union([
-        z.array(zCommentWithDetailsDtoWritable),
-        z.null()
-    ]))
-});
-
-export type ListResultDtoOfCommentWithDetailsDtoWritableZodType = z.infer<typeof zListResultDtoOfCommentWithDetailsDtoWritable>;
-
-export const zVoloCmsKitUsersCmsUserDtoWritable = z.object({
-    id: z.optional(z.uuid()),
-    tenantId: z.optional(z.union([
-        z.uuid(),
-        z.null()
-    ])),
-    userName: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    name: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    surname: z.optional(z.union([
-        z.string(),
-        z.null()
-    ]))
-});
-
-export type VoloCmsKitUsersCmsUserDtoWritableZodType = z.infer<typeof zVoloCmsKitUsersCmsUserDtoWritable>;
-
-export const zBlogPostCommonDtoWritable = z.object({
-    id: z.optional(z.uuid()),
-    creationTime: z.optional(z.iso.datetime()),
-    creatorId: z.optional(z.union([
-        z.uuid(),
-        z.null()
-    ])),
-    lastModificationTime: z.optional(z.union([
-        z.iso.datetime(),
-        z.null()
-    ])),
-    lastModifierId: z.optional(z.union([
-        z.uuid(),
-        z.null()
-    ])),
-    blogId: z.optional(z.uuid()),
-    title: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    slug: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    shortDescription: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    content: z.optional(z.union([
-        z.string(),
-        z.null()
-    ])),
-    coverImageMediaId: z.optional(z.union([
-        z.uuid(),
-        z.null()
-    ])),
-    author: z.optional(zVoloCmsKitUsersCmsUserDtoWritable)
-});
-
-export type BlogPostCommonDtoWritableZodType = z.infer<typeof zBlogPostCommonDtoWritable>;
-
-export const zPagedResultDtoOfBlogPostCommonDtoWritable = z.object({
-    items: z.optional(z.union([
-        z.array(zBlogPostCommonDtoWritable),
-        z.null()
-    ])),
-    totalCount: z.optional(z.coerce.bigint())
-});
-
-export type PagedResultDtoOfBlogPostCommonDtoWritableZodType = z.infer<typeof zPagedResultDtoOfBlogPostCommonDtoWritable>;
-
-export const zPagedResultDtoOfVoloCmsKitUsersCmsUserDtoWritable = z.object({
-    items: z.optional(z.union([
-        z.array(zVoloCmsKitUsersCmsUserDtoWritable),
-        z.null()
-    ])),
-    totalCount: z.optional(z.coerce.bigint())
-});
-
-export type PagedResultDtoOfVoloCmsKitUsersCmsUserDtoWritableZodType = z.infer<typeof zPagedResultDtoOfVoloCmsKitUsersCmsUserDtoWritable>;
-
-export const zAbpApiDefinitionGetData = z.object({
+export const zGetApiAbpApiDefinitionData = z.object({
     body: z.optional(z.never()),
     path: z.optional(z.never()),
     query: z.optional(z.object({
@@ -4392,16 +2214,16 @@ export const zAbpApiDefinitionGetData = z.object({
     }))
 });
 
-export type AbpApiDefinitionGetDataZodType = z.infer<typeof zAbpApiDefinitionGetData>;
+export type GetApiAbpApiDefinitionDataZodType = z.infer<typeof zGetApiAbpApiDefinitionData>;
 
 /**
  * OK
  */
-export const zAbpApiDefinitionGetResponse = zApplicationApiDescriptionModel;
+export const zGetApiAbpApiDefinitionResponse = zApplicationApiDescriptionModel;
 
-export type AbpApiDefinitionGetResponseZodType = z.infer<typeof zAbpApiDefinitionGetResponse>;
+export type GetApiAbpApiDefinitionResponseZodType = z.infer<typeof zGetApiAbpApiDefinitionResponse>;
 
-export const zAbpApplicationConfigurationGetData = z.object({
+export const zGetApiAbpApplicationConfigurationData = z.object({
     body: z.optional(z.never()),
     path: z.optional(z.never()),
     query: z.optional(z.object({
@@ -4409,16 +2231,16 @@ export const zAbpApplicationConfigurationGetData = z.object({
     }))
 });
 
-export type AbpApplicationConfigurationGetDataZodType = z.infer<typeof zAbpApplicationConfigurationGetData>;
+export type GetApiAbpApplicationConfigurationDataZodType = z.infer<typeof zGetApiAbpApplicationConfigurationData>;
 
 /**
  * OK
  */
-export const zAbpApplicationConfigurationGetResponse = zApplicationConfigurationDto;
+export const zGetApiAbpApplicationConfigurationResponse = zApplicationConfigurationDto;
 
-export type AbpApplicationConfigurationGetResponseZodType = z.infer<typeof zAbpApplicationConfigurationGetResponse>;
+export type GetApiAbpApplicationConfigurationResponseZodType = z.infer<typeof zGetApiAbpApplicationConfigurationResponse>;
 
-export const zAbpApplicationLocalizationGetData = z.object({
+export const zGetApiAbpApplicationLocalizationData = z.object({
     body: z.optional(z.never()),
     path: z.optional(z.never()),
     query: z.object({
@@ -4427,16 +2249,16 @@ export const zAbpApplicationLocalizationGetData = z.object({
     })
 });
 
-export type AbpApplicationLocalizationGetDataZodType = z.infer<typeof zAbpApplicationLocalizationGetData>;
+export type GetApiAbpApplicationLocalizationDataZodType = z.infer<typeof zGetApiAbpApplicationLocalizationData>;
 
 /**
  * OK
  */
-export const zAbpApplicationLocalizationGetResponse = zApplicationLocalizationDto;
+export const zGetApiAbpApplicationLocalizationResponse = zApplicationLocalizationDto;
 
-export type AbpApplicationLocalizationGetResponseZodType = z.infer<typeof zAbpApplicationLocalizationGetResponse>;
+export type GetApiAbpApplicationLocalizationResponseZodType = z.infer<typeof zGetApiAbpApplicationLocalizationResponse>;
 
-export const zAbpTenantFindTenantByNameData = z.object({
+export const zGetApiAbpMultiTenancyTenantsByNameByNameData = z.object({
     body: z.optional(z.never()),
     path: z.object({
         name: z.string()
@@ -4444,16 +2266,16 @@ export const zAbpTenantFindTenantByNameData = z.object({
     query: z.optional(z.never())
 });
 
-export type AbpTenantFindTenantByNameDataZodType = z.infer<typeof zAbpTenantFindTenantByNameData>;
+export type GetApiAbpMultiTenancyTenantsByNameByNameDataZodType = z.infer<typeof zGetApiAbpMultiTenancyTenantsByNameByNameData>;
 
 /**
  * OK
  */
-export const zAbpTenantFindTenantByNameResponse = zFindTenantResultDto;
+export const zGetApiAbpMultiTenancyTenantsByNameByNameResponse = zFindTenantResultDto;
 
-export type AbpTenantFindTenantByNameResponseZodType = z.infer<typeof zAbpTenantFindTenantByNameResponse>;
+export type GetApiAbpMultiTenancyTenantsByNameByNameResponseZodType = z.infer<typeof zGetApiAbpMultiTenancyTenantsByNameByNameResponse>;
 
-export const zAbpTenantFindTenantByIdData = z.object({
+export const zGetApiAbpMultiTenancyTenantsByIdByIdData = z.object({
     body: z.optional(z.never()),
     path: z.object({
         id: z.uuid()
@@ -4461,62 +2283,62 @@ export const zAbpTenantFindTenantByIdData = z.object({
     query: z.optional(z.never())
 });
 
-export type AbpTenantFindTenantByIdDataZodType = z.infer<typeof zAbpTenantFindTenantByIdData>;
+export type GetApiAbpMultiTenancyTenantsByIdByIdDataZodType = z.infer<typeof zGetApiAbpMultiTenancyTenantsByIdByIdData>;
 
 /**
  * OK
  */
-export const zAbpTenantFindTenantByIdResponse = zFindTenantResultDto;
+export const zGetApiAbpMultiTenancyTenantsByIdByIdResponse = zFindTenantResultDto;
 
-export type AbpTenantFindTenantByIdResponseZodType = z.infer<typeof zAbpTenantFindTenantByIdResponse>;
+export type GetApiAbpMultiTenancyTenantsByIdByIdResponseZodType = z.infer<typeof zGetApiAbpMultiTenancyTenantsByIdByIdResponse>;
 
-export const zAccountRegisterData = z.object({
+export const zPostApiAccountRegisterData = z.object({
     body: z.optional(zRegisterDtoWritable),
     path: z.optional(z.never()),
     query: z.optional(z.never())
 });
 
-export type AccountRegisterDataZodType = z.infer<typeof zAccountRegisterData>;
+export type PostApiAccountRegisterDataZodType = z.infer<typeof zPostApiAccountRegisterData>;
 
 /**
  * OK
  */
-export const zAccountRegisterResponse = zIdentityUserDto;
+export const zPostApiAccountRegisterResponse = zIdentityUserDto;
 
-export type AccountRegisterResponseZodType = z.infer<typeof zAccountRegisterResponse>;
+export type PostApiAccountRegisterResponseZodType = z.infer<typeof zPostApiAccountRegisterResponse>;
 
-export const zAccountSendPasswordResetCodeData = z.object({
+export const zPostApiAccountSendPasswordResetCodeData = z.object({
     body: z.optional(zSendPasswordResetCodeDto),
     path: z.optional(z.never()),
     query: z.optional(z.never())
 });
 
-export type AccountSendPasswordResetCodeDataZodType = z.infer<typeof zAccountSendPasswordResetCodeData>;
+export type PostApiAccountSendPasswordResetCodeDataZodType = z.infer<typeof zPostApiAccountSendPasswordResetCodeData>;
 
-export const zAccountVerifyPasswordResetTokenData = z.object({
+export const zPostApiAccountVerifyPasswordResetTokenData = z.object({
     body: z.optional(zVerifyPasswordResetTokenInput),
     path: z.optional(z.never()),
     query: z.optional(z.never())
 });
 
-export type AccountVerifyPasswordResetTokenDataZodType = z.infer<typeof zAccountVerifyPasswordResetTokenData>;
+export type PostApiAccountVerifyPasswordResetTokenDataZodType = z.infer<typeof zPostApiAccountVerifyPasswordResetTokenData>;
 
 /**
  * OK
  */
-export const zAccountVerifyPasswordResetTokenResponse = z.boolean();
+export const zPostApiAccountVerifyPasswordResetTokenResponse = z.boolean();
 
-export type AccountVerifyPasswordResetTokenResponseZodType = z.infer<typeof zAccountVerifyPasswordResetTokenResponse>;
+export type PostApiAccountVerifyPasswordResetTokenResponseZodType = z.infer<typeof zPostApiAccountVerifyPasswordResetTokenResponse>;
 
-export const zAccountResetPasswordData = z.object({
+export const zPostApiAccountResetPasswordData = z.object({
     body: z.optional(zResetPasswordDto),
     path: z.optional(z.never()),
     query: z.optional(z.never())
 });
 
-export type AccountResetPasswordDataZodType = z.infer<typeof zAccountResetPasswordData>;
+export type PostApiAccountResetPasswordDataZodType = z.infer<typeof zPostApiAccountResetPasswordData>;
 
-export const zBlogAdminDeleteData = z.object({
+export const zDeleteApiAppBookByIdData = z.object({
     body: z.optional(z.never()),
     path: z.object({
         id: z.uuid()
@@ -4524,9 +2346,9 @@ export const zBlogAdminDeleteData = z.object({
     query: z.optional(z.never())
 });
 
-export type BlogAdminDeleteDataZodType = z.infer<typeof zBlogAdminDeleteData>;
+export type DeleteApiAppBookByIdDataZodType = z.infer<typeof zDeleteApiAppBookByIdData>;
 
-export const zBlogAdminGetData = z.object({
+export const zGetApiAppBookByIdData = z.object({
     body: z.optional(z.never()),
     path: z.object({
         id: z.uuid()
@@ -4534,784 +2356,106 @@ export const zBlogAdminGetData = z.object({
     query: z.optional(z.never())
 });
 
-export type BlogAdminGetDataZodType = z.infer<typeof zBlogAdminGetData>;
+export type GetApiAppBookByIdDataZodType = z.infer<typeof zGetApiAppBookByIdData>;
 
 /**
  * OK
  */
-export const zBlogAdminGetResponse = zBlogDto;
+export const zGetApiAppBookByIdResponse = zBookDto;
 
-export type BlogAdminGetResponseZodType = z.infer<typeof zBlogAdminGetResponse>;
+export type GetApiAppBookByIdResponseZodType = z.infer<typeof zGetApiAppBookByIdResponse>;
 
-export const zBlogAdminUpdateData = z.object({
-    body: z.optional(zUpdateBlogDtoWritable),
+export const zPutApiAppBookByIdData = z.object({
+    body: z.optional(zCreateUpdateBookDto),
     path: z.object({
         id: z.uuid()
     }),
     query: z.optional(z.never())
 });
 
-export type BlogAdminUpdateDataZodType = z.infer<typeof zBlogAdminUpdateData>;
+export type PutApiAppBookByIdDataZodType = z.infer<typeof zPutApiAppBookByIdData>;
 
 /**
  * OK
  */
-export const zBlogAdminUpdateResponse = zBlogDto;
+export const zPutApiAppBookByIdResponse = zBookDto;
 
-export type BlogAdminUpdateResponseZodType = z.infer<typeof zBlogAdminUpdateResponse>;
+export type PutApiAppBookByIdResponseZodType = z.infer<typeof zPutApiAppBookByIdResponse>;
 
-export const zBlogAdminGetListData = z.object({
+export const zGetApiAppBookData = z.object({
     body: z.optional(z.never()),
     path: z.optional(z.never()),
     query: z.optional(z.object({
-        Filter: z.optional(z.string()),
         Sorting: z.optional(z.string()),
         SkipCount: z.optional(z.int().gte(0).lte(2147483647)),
         MaxResultCount: z.optional(z.int().gte(1).lte(2147483647))
     }))
 });
 
-export type BlogAdminGetListDataZodType = z.infer<typeof zBlogAdminGetListData>;
+export type GetApiAppBookDataZodType = z.infer<typeof zGetApiAppBookData>;
 
 /**
  * OK
  */
-export const zBlogAdminGetListResponse = zPagedResultDtoOfBlogDto;
+export const zGetApiAppBookResponse = zPagedResultDto_BookDto_;
 
-export type BlogAdminGetListResponseZodType = z.infer<typeof zBlogAdminGetListResponse>;
+export type GetApiAppBookResponseZodType = z.infer<typeof zGetApiAppBookResponse>;
 
-export const zBlogAdminCreateData = z.object({
-    body: z.optional(zCreateBlogDtoWritable),
+export const zPostApiAppBookData = z.object({
+    body: z.optional(zCreateUpdateBookDto),
     path: z.optional(z.never()),
     query: z.optional(z.never())
 });
 
-export type BlogAdminCreateDataZodType = z.infer<typeof zBlogAdminCreateData>;
+export type PostApiAppBookDataZodType = z.infer<typeof zPostApiAppBookData>;
 
 /**
  * OK
  */
-export const zBlogAdminCreateResponse = zBlogDto;
+export const zPostApiAppBookResponse = zBookDto;
 
-export type BlogAdminCreateResponseZodType = z.infer<typeof zBlogAdminCreateResponse>;
+export type PostApiAppBookResponseZodType = z.infer<typeof zPostApiAppBookResponse>;
 
-export const zBlogAdminGetAllListData = z.object({
-    body: z.optional(z.never()),
-    path: z.optional(z.never()),
-    query: z.optional(z.never())
-});
-
-export type BlogAdminGetAllListDataZodType = z.infer<typeof zBlogAdminGetAllListData>;
-
-/**
- * OK
- */
-export const zBlogAdminGetAllListResponse = zListResultDtoOfBlogDto;
-
-export type BlogAdminGetAllListResponseZodType = z.infer<typeof zBlogAdminGetAllListResponse>;
-
-export const zBlogAdminMoveAllBlogPostsData = z.object({
-    body: z.optional(z.never()),
-    path: z.object({
-        id: z.string()
-    }),
-    query: z.optional(z.object({
-        blogId: z.optional(z.uuid()),
-        assignToBlogId: z.optional(z.uuid())
-    }))
-});
-
-export type BlogAdminMoveAllBlogPostsDataZodType = z.infer<typeof zBlogAdminMoveAllBlogPostsData>;
-
-export const zBlogFeatureGetOrDefaultData = z.object({
-    body: z.optional(z.never()),
-    path: z.object({
-        blogId: z.uuid(),
-        featureName: z.string()
-    }),
-    query: z.optional(z.never())
-});
-
-export type BlogFeatureGetOrDefaultDataZodType = z.infer<typeof zBlogFeatureGetOrDefaultData>;
-
-/**
- * OK
- */
-export const zBlogFeatureGetOrDefaultResponse = zBlogFeatureDto;
-
-export type BlogFeatureGetOrDefaultResponseZodType = z.infer<typeof zBlogFeatureGetOrDefaultResponse>;
-
-export const zBlogFeatureAdminGetListData = z.object({
-    body: z.optional(z.never()),
-    path: z.object({
-        blogId: z.uuid()
-    }),
-    query: z.optional(z.never())
-});
-
-export type BlogFeatureAdminGetListDataZodType = z.infer<typeof zBlogFeatureAdminGetListData>;
-
-/**
- * OK
- */
-export const zBlogFeatureAdminGetListResponse = z.array(zBlogFeatureDto);
-
-export type BlogFeatureAdminGetListResponseZodType = z.infer<typeof zBlogFeatureAdminGetListResponse>;
-
-export const zBlogFeatureAdminSetData = z.object({
-    body: z.optional(zBlogFeatureInputDto),
-    path: z.object({
-        blogId: z.uuid()
-    }),
-    query: z.optional(z.never())
-});
-
-export type BlogFeatureAdminSetDataZodType = z.infer<typeof zBlogFeatureAdminSetData>;
-
-export const zBlogPostAdminGetListData = z.object({
-    body: z.optional(z.never()),
-    path: z.optional(z.never()),
-    query: z.optional(z.object({
-        Filter: z.optional(z.string()),
-        BlogId: z.optional(z.uuid()),
-        AuthorId: z.optional(z.uuid()),
-        TagId: z.optional(z.uuid()),
-        Status: z.optional(zBlogPostStatus),
-        Sorting: z.optional(z.string()),
-        SkipCount: z.optional(z.int().gte(0).lte(2147483647)),
-        MaxResultCount: z.optional(z.int().gte(1).lte(2147483647))
-    }))
-});
-
-export type BlogPostAdminGetListDataZodType = z.infer<typeof zBlogPostAdminGetListData>;
-
-/**
- * OK
- */
-export const zBlogPostAdminGetListResponse = zPagedResultDtoOfBlogPostListDto;
-
-export type BlogPostAdminGetListResponseZodType = z.infer<typeof zBlogPostAdminGetListResponse>;
-
-export const zBlogPostAdminCreateData = z.object({
-    body: z.optional(zCreateBlogPostDtoWritable),
-    path: z.optional(z.never()),
-    query: z.optional(z.never())
-});
-
-export type BlogPostAdminCreateDataZodType = z.infer<typeof zBlogPostAdminCreateData>;
-
-/**
- * OK
- */
-export const zBlogPostAdminCreateResponse = zBlogPostDto;
-
-export type BlogPostAdminCreateResponseZodType = z.infer<typeof zBlogPostAdminCreateResponse>;
-
-export const zBlogPostAdminDeleteData = z.object({
-    body: z.optional(z.never()),
-    path: z.object({
-        id: z.uuid()
-    }),
-    query: z.optional(z.never())
-});
-
-export type BlogPostAdminDeleteDataZodType = z.infer<typeof zBlogPostAdminDeleteData>;
-
-export const zBlogPostAdminGetData = z.object({
-    body: z.optional(z.never()),
-    path: z.object({
-        id: z.uuid()
-    }),
-    query: z.optional(z.never())
-});
-
-export type BlogPostAdminGetDataZodType = z.infer<typeof zBlogPostAdminGetData>;
-
-/**
- * OK
- */
-export const zBlogPostAdminGetResponse = zBlogPostDto;
-
-export type BlogPostAdminGetResponseZodType = z.infer<typeof zBlogPostAdminGetResponse>;
-
-export const zBlogPostAdminUpdateData = z.object({
-    body: z.optional(zUpdateBlogPostDtoWritable),
-    path: z.object({
-        id: z.uuid()
-    }),
-    query: z.optional(z.never())
-});
-
-export type BlogPostAdminUpdateDataZodType = z.infer<typeof zBlogPostAdminUpdateData>;
-
-/**
- * OK
- */
-export const zBlogPostAdminUpdateResponse = zBlogPostDto;
-
-export type BlogPostAdminUpdateResponseZodType = z.infer<typeof zBlogPostAdminUpdateResponse>;
-
-export const zBlogPostAdminPublishData = z.object({
-    body: z.optional(z.never()),
-    path: z.object({
-        id: z.uuid()
-    }),
-    query: z.optional(z.never())
-});
-
-export type BlogPostAdminPublishDataZodType = z.infer<typeof zBlogPostAdminPublishData>;
-
-export const zBlogPostAdminDraftData = z.object({
-    body: z.optional(z.never()),
-    path: z.object({
-        id: z.uuid()
-    }),
-    query: z.optional(z.never())
-});
-
-export type BlogPostAdminDraftDataZodType = z.infer<typeof zBlogPostAdminDraftData>;
-
-export const zBlogPostAdminCreateAndPublishData = z.object({
-    body: z.optional(zCreateBlogPostDtoWritable),
-    path: z.optional(z.never()),
-    query: z.optional(z.never())
-});
-
-export type BlogPostAdminCreateAndPublishDataZodType = z.infer<typeof zBlogPostAdminCreateAndPublishData>;
-
-/**
- * OK
- */
-export const zBlogPostAdminCreateAndPublishResponse = zBlogPostDto;
-
-export type BlogPostAdminCreateAndPublishResponseZodType = z.infer<typeof zBlogPostAdminCreateAndPublishResponse>;
-
-export const zBlogPostAdminSendToReviewData = z.object({
-    body: z.optional(z.never()),
-    path: z.object({
-        id: z.uuid()
-    }),
-    query: z.optional(z.never())
-});
-
-export type BlogPostAdminSendToReviewDataZodType = z.infer<typeof zBlogPostAdminSendToReviewData>;
-
-export const zBlogPostAdminCreateAndSendToReviewData = z.object({
-    body: z.optional(zCreateBlogPostDtoWritable),
-    path: z.optional(z.never()),
-    query: z.optional(z.never())
-});
-
-export type BlogPostAdminCreateAndSendToReviewDataZodType = z.infer<typeof zBlogPostAdminCreateAndSendToReviewData>;
-
-/**
- * OK
- */
-export const zBlogPostAdminCreateAndSendToReviewResponse = zBlogPostDto;
-
-export type BlogPostAdminCreateAndSendToReviewResponseZodType = z.infer<typeof zBlogPostAdminCreateAndSendToReviewResponse>;
-
-export const zBlogPostAdminHasBlogPostWaitingForReviewData = z.object({
+export const zPostApiAccountDynamicClaimsRefreshData = z.object({
     body: z.optional(z.never()),
     path: z.optional(z.never()),
     query: z.optional(z.never())
 });
 
-export type BlogPostAdminHasBlogPostWaitingForReviewDataZodType = z.infer<typeof zBlogPostAdminHasBlogPostWaitingForReviewData>;
+export type PostApiAccountDynamicClaimsRefreshDataZodType = z.infer<typeof zPostApiAccountDynamicClaimsRefreshData>;
 
-/**
- * OK
- */
-export const zBlogPostAdminHasBlogPostWaitingForReviewResponse = z.boolean();
-
-export type BlogPostAdminHasBlogPostWaitingForReviewResponseZodType = z.infer<typeof zBlogPostAdminHasBlogPostWaitingForReviewResponse>;
-
-export const zBlogPostPublicGetData = z.object({
-    body: z.optional(z.never()),
-    path: z.object({
-        blogSlug: z.string(),
-        blogPostSlug: z.string()
-    }),
-    query: z.optional(z.never())
-});
-
-export type BlogPostPublicGetDataZodType = z.infer<typeof zBlogPostPublicGetData>;
-
-/**
- * OK
- */
-export const zBlogPostPublicGetResponse = zBlogPostCommonDto;
-
-export type BlogPostPublicGetResponseZodType = z.infer<typeof zBlogPostPublicGetResponse>;
-
-export const zBlogPostPublicGetListData = z.object({
-    body: z.optional(z.never()),
-    path: z.object({
-        blogSlug: z.string()
-    }),
-    query: z.optional(z.object({
-        AuthorId: z.optional(z.uuid()),
-        TagId: z.optional(z.uuid()),
-        FilterOnFavorites: z.optional(z.boolean()),
-        Sorting: z.optional(z.string()),
-        SkipCount: z.optional(z.int().gte(0).lte(2147483647)),
-        MaxResultCount: z.optional(z.int().gte(1).lte(2147483647))
-    }))
-});
-
-export type BlogPostPublicGetListDataZodType = z.infer<typeof zBlogPostPublicGetListData>;
-
-/**
- * OK
- */
-export const zBlogPostPublicGetListResponse = zPagedResultDtoOfBlogPostCommonDto;
-
-export type BlogPostPublicGetListResponseZodType = z.infer<typeof zBlogPostPublicGetListResponse>;
-
-export const zBlogPostPublicGetAuthorsHasBlogPostsData = z.object({
-    body: z.optional(z.never()),
-    path: z.optional(z.never()),
-    query: z.optional(z.object({
-        Filter: z.optional(z.string()),
-        Sorting: z.optional(z.string()),
-        SkipCount: z.optional(z.int().gte(0).lte(2147483647)),
-        MaxResultCount: z.optional(z.int().gte(1).lte(2147483647))
-    }))
-});
-
-export type BlogPostPublicGetAuthorsHasBlogPostsDataZodType = z.infer<typeof zBlogPostPublicGetAuthorsHasBlogPostsData>;
-
-/**
- * OK
- */
-export const zBlogPostPublicGetAuthorsHasBlogPostsResponse = zPagedResultDtoOfVoloCmsKitUsersCmsUserDto;
-
-export type BlogPostPublicGetAuthorsHasBlogPostsResponseZodType = z.infer<typeof zBlogPostPublicGetAuthorsHasBlogPostsResponse>;
-
-export const zBlogPostPublicGetAuthorHasBlogPostData = z.object({
-    body: z.optional(z.never()),
-    path: z.object({
-        id: z.uuid()
-    }),
-    query: z.optional(z.never())
-});
-
-export type BlogPostPublicGetAuthorHasBlogPostDataZodType = z.infer<typeof zBlogPostPublicGetAuthorHasBlogPostData>;
-
-/**
- * OK
- */
-export const zBlogPostPublicGetAuthorHasBlogPostResponse = zVoloCmsKitUsersCmsUserDto;
-
-export type BlogPostPublicGetAuthorHasBlogPostResponseZodType = z.infer<typeof zBlogPostPublicGetAuthorHasBlogPostResponse>;
-
-export const zBlogPostPublicDeleteData = z.object({
-    body: z.optional(z.never()),
-    path: z.object({
-        id: z.uuid()
-    }),
-    query: z.optional(z.never())
-});
-
-export type BlogPostPublicDeleteDataZodType = z.infer<typeof zBlogPostPublicDeleteData>;
-
-export const zBlogPostPublicGetTagNameData = z.object({
-    body: z.optional(z.never()),
-    path: z.object({
-        id: z.string()
-    }),
-    query: z.optional(z.object({
-        tagId: z.optional(z.uuid())
-    }))
-});
-
-export type BlogPostPublicGetTagNameDataZodType = z.infer<typeof zBlogPostPublicGetTagNameData>;
-
-/**
- * OK
- */
-export const zBlogPostPublicGetTagNameResponse = z.string();
-
-export type BlogPostPublicGetTagNameResponseZodType = z.infer<typeof zBlogPostPublicGetTagNameResponse>;
-
-export const zClientGetListData = z.object({
+export const zGetApiSettingManagementEmailingData = z.object({
     body: z.optional(z.never()),
     path: z.optional(z.never()),
     query: z.optional(z.never())
 });
 
-export type ClientGetListDataZodType = z.infer<typeof zClientGetListData>;
+export type GetApiSettingManagementEmailingDataZodType = z.infer<typeof zGetApiSettingManagementEmailingData>;
 
 /**
  * OK
  */
-export const zClientGetListResponse = z.array(zClientDto);
+export const zGetApiSettingManagementEmailingResponse = zEmailSettingsDto;
 
-export type ClientGetListResponseZodType = z.infer<typeof zClientGetListResponse>;
+export type GetApiSettingManagementEmailingResponseZodType = z.infer<typeof zGetApiSettingManagementEmailingResponse>;
 
-export const zClientCreateData = z.object({
-    body: z.optional(z.never()),
-    path: z.optional(z.never()),
-    query: z.optional(z.object({
-        ClientId: z.optional(z.string()),
-        DisplayName: z.optional(z.string()),
-        PostLogoutRedirectUris: z.optional(z.string()),
-        RedirectUris: z.optional(z.string()),
-        Permissions: z.optional(z.string()),
-        Type: z.optional(z.string())
-    }))
-});
-
-export type ClientCreateDataZodType = z.infer<typeof zClientCreateData>;
-
-/**
- * OK
- */
-export const zClientCreateResponse = zClientDto;
-
-export type ClientCreateResponseZodType = z.infer<typeof zClientCreateResponse>;
-
-export const zClientDeleteData = z.object({
-    body: z.optional(z.never()),
-    path: z.object({
-        id: z.uuid()
-    }),
-    query: z.optional(z.never())
-});
-
-export type ClientDeleteDataZodType = z.infer<typeof zClientDeleteData>;
-
-export const zClientGetData = z.object({
-    body: z.optional(z.never()),
-    path: z.object({
-        id: z.uuid()
-    }),
-    query: z.optional(z.never())
-});
-
-export type ClientGetDataZodType = z.infer<typeof zClientGetData>;
-
-/**
- * OK
- */
-export const zClientGetResponse = zClientDto;
-
-export type ClientGetResponseZodType = z.infer<typeof zClientGetResponse>;
-
-export const zClientUpdateData = z.object({
-    body: z.optional(z.never()),
-    path: z.object({
-        id: z.uuid()
-    }),
-    query: z.optional(z.object({
-        ClientId: z.optional(z.string()),
-        DisplayName: z.optional(z.string()),
-        PostLogoutRedirectUris: z.optional(z.string()),
-        RedirectUris: z.optional(z.string()),
-        Permissions: z.optional(z.string()),
-        Type: z.optional(z.string())
-    }))
-});
-
-export type ClientUpdateDataZodType = z.infer<typeof zClientUpdateData>;
-
-/**
- * OK
- */
-export const zClientUpdateResponse = zClientDto;
-
-export type ClientUpdateResponseZodType = z.infer<typeof zClientUpdateResponse>;
-
-export const zClientAddRedirectUriData = z.object({
-    body: z.optional(z.never()),
-    path: z.object({
-        id: z.uuid()
-    }),
-    query: z.optional(z.object({
-        redirectUri: z.optional(z.string())
-    }))
-});
-
-export type ClientAddRedirectUriDataZodType = z.infer<typeof zClientAddRedirectUriData>;
-
-/**
- * OK
- */
-export const zClientAddRedirectUriResponse = zClientDto;
-
-export type ClientAddRedirectUriResponseZodType = z.infer<typeof zClientAddRedirectUriResponse>;
-
-export const zClientAddPostLogoutRedirectUriData = z.object({
-    body: z.optional(z.never()),
-    path: z.object({
-        id: z.uuid()
-    }),
-    query: z.optional(z.object({
-        redirectUri: z.optional(z.string())
-    }))
-});
-
-export type ClientAddPostLogoutRedirectUriDataZodType = z.infer<typeof zClientAddPostLogoutRedirectUriData>;
-
-/**
- * OK
- */
-export const zClientAddPostLogoutRedirectUriResponse = zClientDto;
-
-export type ClientAddPostLogoutRedirectUriResponseZodType = z.infer<typeof zClientAddPostLogoutRedirectUriResponse>;
-
-export const zClientUpdateClientTypeData = z.object({
-    body: z.optional(z.never()),
-    path: z.object({
-        id: z.uuid()
-    }),
-    query: z.optional(z.object({
-        clientType: z.optional(z.string())
-    }))
-});
-
-export type ClientUpdateClientTypeDataZodType = z.infer<typeof zClientUpdateClientTypeData>;
-
-/**
- * OK
- */
-export const zClientUpdateClientTypeResponse = zClientDto;
-
-export type ClientUpdateClientTypeResponseZodType = z.infer<typeof zClientUpdateClientTypeResponse>;
-
-export const zCmsKitPublicGlobalResourcesGetGlobalStyleData = z.object({
-    body: z.optional(z.never()),
-    path: z.optional(z.never()),
-    query: z.optional(z.never())
-});
-
-export type CmsKitPublicGlobalResourcesGetGlobalStyleDataZodType = z.infer<typeof zCmsKitPublicGlobalResourcesGetGlobalStyleData>;
-
-export const zCmsKitPublicGlobalResourcesGetGlobalScriptData = z.object({
-    body: z.optional(z.never()),
-    path: z.optional(z.never()),
-    query: z.optional(z.never())
-});
-
-export type CmsKitPublicGlobalResourcesGetGlobalScriptDataZodType = z.infer<typeof zCmsKitPublicGlobalResourcesGetGlobalScriptData>;
-
-export const zCommentAdminGetListData = z.object({
-    body: z.optional(z.never()),
-    path: z.optional(z.never()),
-    query: z.optional(z.object({
-        EntityType: z.optional(z.string()),
-        Text: z.optional(z.string()),
-        RepliedCommentId: z.optional(z.uuid()),
-        Author: z.optional(z.string()),
-        CreationStartDate: z.optional(z.iso.datetime()),
-        CreationEndDate: z.optional(z.iso.datetime()),
-        CommentApproveState: z.optional(zCommentApproveState),
-        Sorting: z.optional(z.string()),
-        SkipCount: z.optional(z.int().gte(0).lte(2147483647)),
-        MaxResultCount: z.optional(z.int().gte(1).lte(2147483647))
-    }))
-});
-
-export type CommentAdminGetListDataZodType = z.infer<typeof zCommentAdminGetListData>;
-
-/**
- * OK
- */
-export const zCommentAdminGetListResponse = zPagedResultDtoOfCommentWithAuthorDto;
-
-export type CommentAdminGetListResponseZodType = z.infer<typeof zCommentAdminGetListResponse>;
-
-export const zCommentAdminDeleteData = z.object({
-    body: z.optional(z.never()),
-    path: z.object({
-        id: z.uuid()
-    }),
-    query: z.optional(z.never())
-});
-
-export type CommentAdminDeleteDataZodType = z.infer<typeof zCommentAdminDeleteData>;
-
-export const zCommentAdminGetData = z.object({
-    body: z.optional(z.never()),
-    path: z.object({
-        id: z.uuid()
-    }),
-    query: z.optional(z.never())
-});
-
-export type CommentAdminGetDataZodType = z.infer<typeof zCommentAdminGetData>;
-
-/**
- * OK
- */
-export const zCommentAdminGetResponse = zCommentWithAuthorDto;
-
-export type CommentAdminGetResponseZodType = z.infer<typeof zCommentAdminGetResponse>;
-
-export const zCommentAdminUpdateApprovalStatusData = z.object({
-    body: z.optional(zCommentApprovalDto),
-    path: z.object({
-        id: z.uuid()
-    }),
-    query: z.optional(z.never())
-});
-
-export type CommentAdminUpdateApprovalStatusDataZodType = z.infer<typeof zCommentAdminUpdateApprovalStatusData>;
-
-export const zCommentAdminUpdateSettingsData = z.object({
-    body: z.optional(zCommentSettingsDto),
-    path: z.optional(z.never()),
-    query: z.optional(z.never())
-});
-
-export type CommentAdminUpdateSettingsDataZodType = z.infer<typeof zCommentAdminUpdateSettingsData>;
-
-export const zCommentAdminGetWaitingCountData = z.object({
-    body: z.optional(z.never()),
-    path: z.optional(z.never()),
-    query: z.optional(z.never())
-});
-
-export type CommentAdminGetWaitingCountDataZodType = z.infer<typeof zCommentAdminGetWaitingCountData>;
-
-/**
- * OK
- */
-export const zCommentAdminGetWaitingCountResponse = z.int();
-
-export type CommentAdminGetWaitingCountResponseZodType = z.infer<typeof zCommentAdminGetWaitingCountResponse>;
-
-export const zCommentPublicGetListData = z.object({
-    body: z.optional(z.never()),
-    path: z.object({
-        entityType: z.string(),
-        entityId: z.string()
-    }),
-    query: z.optional(z.never())
-});
-
-export type CommentPublicGetListDataZodType = z.infer<typeof zCommentPublicGetListData>;
-
-/**
- * OK
- */
-export const zCommentPublicGetListResponse = zListResultDtoOfCommentWithDetailsDto;
-
-export type CommentPublicGetListResponseZodType = z.infer<typeof zCommentPublicGetListResponse>;
-
-export const zCommentPublicCreateData = z.object({
-    body: z.optional(zCreateCommentInputWritable),
-    path: z.object({
-        entityType: z.string(),
-        entityId: z.string()
-    }),
-    query: z.optional(z.never())
-});
-
-export type CommentPublicCreateDataZodType = z.infer<typeof zCommentPublicCreateData>;
-
-/**
- * OK
- */
-export const zCommentPublicCreateResponse = zVoloCmsKitPublicCommentsCommentDto;
-
-export type CommentPublicCreateResponseZodType = z.infer<typeof zCommentPublicCreateResponse>;
-
-export const zCommentPublicDeleteData = z.object({
-    body: z.optional(z.never()),
-    path: z.object({
-        id: z.uuid()
-    }),
-    query: z.optional(z.never())
-});
-
-export type CommentPublicDeleteDataZodType = z.infer<typeof zCommentPublicDeleteData>;
-
-export const zCommentPublicUpdateData = z.object({
-    body: z.optional(zUpdateCommentInputWritable),
-    path: z.object({
-        id: z.uuid()
-    }),
-    query: z.optional(z.never())
-});
-
-export type CommentPublicUpdateDataZodType = z.infer<typeof zCommentPublicUpdateData>;
-
-/**
- * OK
- */
-export const zCommentPublicUpdateResponse = zVoloCmsKitPublicCommentsCommentDto;
-
-export type CommentPublicUpdateResponseZodType = z.infer<typeof zCommentPublicUpdateResponse>;
-
-export const zDynamicClaimsRefreshData = z.object({
-    body: z.optional(z.never()),
-    path: z.optional(z.never()),
-    query: z.optional(z.never())
-});
-
-export type DynamicClaimsRefreshDataZodType = z.infer<typeof zDynamicClaimsRefreshData>;
-
-export const zEmailSettingsGetData = z.object({
-    body: z.optional(z.never()),
-    path: z.optional(z.never()),
-    query: z.optional(z.never())
-});
-
-export type EmailSettingsGetDataZodType = z.infer<typeof zEmailSettingsGetData>;
-
-/**
- * OK
- */
-export const zEmailSettingsGetResponse = zEmailSettingsDto;
-
-export type EmailSettingsGetResponseZodType = z.infer<typeof zEmailSettingsGetResponse>;
-
-export const zEmailSettingsUpdateData = z.object({
+export const zPostApiSettingManagementEmailingData = z.object({
     body: z.optional(zUpdateEmailSettingsDto),
     path: z.optional(z.never()),
     query: z.optional(z.never())
 });
 
-export type EmailSettingsUpdateDataZodType = z.infer<typeof zEmailSettingsUpdateData>;
+export type PostApiSettingManagementEmailingDataZodType = z.infer<typeof zPostApiSettingManagementEmailingData>;
 
-export const zEmailSettingsSendTestEmailData = z.object({
+export const zPostApiSettingManagementEmailingSendTestEmailData = z.object({
     body: z.optional(zSendTestEmailInput),
     path: z.optional(z.never()),
     query: z.optional(z.never())
 });
 
-export type EmailSettingsSendTestEmailDataZodType = z.infer<typeof zEmailSettingsSendTestEmailData>;
+export type PostApiSettingManagementEmailingSendTestEmailDataZodType = z.infer<typeof zPostApiSettingManagementEmailingSendTestEmailData>;
 
-export const zEntityTagAdminRemoveTagFromEntityData = z.object({
-    body: z.optional(z.never()),
-    path: z.optional(z.never()),
-    query: z.object({
-        TagId: z.uuid(),
-        EntityType: z.string(),
-        EntityId: z.string()
-    })
-});
-
-export type EntityTagAdminRemoveTagFromEntityDataZodType = z.infer<typeof zEntityTagAdminRemoveTagFromEntityData>;
-
-export const zEntityTagAdminAddTagToEntityData = z.object({
-    body: z.optional(zEntityTagCreateDto),
-    path: z.optional(z.never()),
-    query: z.optional(z.never())
-});
-
-export type EntityTagAdminAddTagToEntityDataZodType = z.infer<typeof zEntityTagAdminAddTagToEntityData>;
-
-export const zEntityTagAdminSetEntityTagsData = z.object({
-    body: z.optional(zEntityTagSetDto),
-    path: z.optional(z.never()),
-    query: z.optional(z.never())
-});
-
-export type EntityTagAdminSetEntityTagsDataZodType = z.infer<typeof zEntityTagAdminSetEntityTagsData>;
-
-export const zFeaturesDeleteData = z.object({
+export const zDeleteApiFeatureManagementFeaturesData = z.object({
     body: z.optional(z.never()),
     path: z.optional(z.never()),
     query: z.optional(z.object({
@@ -5320,9 +2464,9 @@ export const zFeaturesDeleteData = z.object({
     }))
 });
 
-export type FeaturesDeleteDataZodType = z.infer<typeof zFeaturesDeleteData>;
+export type DeleteApiFeatureManagementFeaturesDataZodType = z.infer<typeof zDeleteApiFeatureManagementFeaturesData>;
 
-export const zFeaturesGetData = z.object({
+export const zGetApiFeatureManagementFeaturesData = z.object({
     body: z.optional(z.never()),
     path: z.optional(z.never()),
     query: z.optional(z.object({
@@ -5331,16 +2475,16 @@ export const zFeaturesGetData = z.object({
     }))
 });
 
-export type FeaturesGetDataZodType = z.infer<typeof zFeaturesGetData>;
+export type GetApiFeatureManagementFeaturesDataZodType = z.infer<typeof zGetApiFeatureManagementFeaturesData>;
 
 /**
  * OK
  */
-export const zFeaturesGetResponse = zGetFeatureListResultDto;
+export const zGetApiFeatureManagementFeaturesResponse = zGetFeatureListResultDto;
 
-export type FeaturesGetResponseZodType = z.infer<typeof zFeaturesGetResponse>;
+export type GetApiFeatureManagementFeaturesResponseZodType = z.infer<typeof zGetApiFeatureManagementFeaturesResponse>;
 
-export const zFeaturesUpdateData = z.object({
+export const zPutApiFeatureManagementFeaturesData = z.object({
     body: z.optional(zUpdateFeaturesDto),
     path: z.optional(z.never()),
     query: z.optional(z.object({
@@ -5349,458 +2493,47 @@ export const zFeaturesUpdateData = z.object({
     }))
 });
 
-export type FeaturesUpdateDataZodType = z.infer<typeof zFeaturesUpdateData>;
+export type PutApiFeatureManagementFeaturesDataZodType = z.infer<typeof zPutApiFeatureManagementFeaturesData>;
 
-export const zGlobalResourceAdminGetData = z.object({
+export const zPostApiAccountLoginData = z.object({
+    body: z.optional(zUserLoginInfo),
+    path: z.optional(z.never()),
+    query: z.optional(z.never())
+});
+
+export type PostApiAccountLoginDataZodType = z.infer<typeof zPostApiAccountLoginData>;
+
+/**
+ * OK
+ */
+export const zPostApiAccountLoginResponse = zAbpLoginResult;
+
+export type PostApiAccountLoginResponseZodType = z.infer<typeof zPostApiAccountLoginResponse>;
+
+export const zGetApiAccountLogoutData = z.object({
     body: z.optional(z.never()),
     path: z.optional(z.never()),
     query: z.optional(z.never())
 });
 
-export type GlobalResourceAdminGetDataZodType = z.infer<typeof zGlobalResourceAdminGetData>;
+export type GetApiAccountLogoutDataZodType = z.infer<typeof zGetApiAccountLogoutData>;
 
-/**
- * OK
- */
-export const zGlobalResourceAdminGetResponse = zGlobalResourcesDto;
-
-export type GlobalResourceAdminGetResponseZodType = z.infer<typeof zGlobalResourceAdminGetResponse>;
-
-export const zGlobalResourceAdminSetGlobalResourcesData = z.object({
-    body: z.optional(zGlobalResourcesUpdateDtoWritable),
+export const zPostApiAccountCheckPasswordData = z.object({
+    body: z.optional(zUserLoginInfo),
     path: z.optional(z.never()),
     query: z.optional(z.never())
 });
 
-export type GlobalResourceAdminSetGlobalResourcesDataZodType = z.infer<typeof zGlobalResourceAdminSetGlobalResourcesData>;
-
-export const zGlobalResourcePublicGetGlobalScriptData = z.object({
-    body: z.optional(z.never()),
-    path: z.optional(z.never()),
-    query: z.optional(z.never())
-});
-
-export type GlobalResourcePublicGetGlobalScriptDataZodType = z.infer<typeof zGlobalResourcePublicGetGlobalScriptData>;
+export type PostApiAccountCheckPasswordDataZodType = z.infer<typeof zPostApiAccountCheckPasswordData>;
 
 /**
  * OK
  */
-export const zGlobalResourcePublicGetGlobalScriptResponse = zGlobalResourceDto;
+export const zPostApiAccountCheckPasswordResponse = zAbpLoginResult;
 
-export type GlobalResourcePublicGetGlobalScriptResponseZodType = z.infer<typeof zGlobalResourcePublicGetGlobalScriptResponse>;
+export type PostApiAccountCheckPasswordResponseZodType = z.infer<typeof zPostApiAccountCheckPasswordResponse>;
 
-export const zGlobalResourcePublicGetGlobalStyleData = z.object({
-    body: z.optional(z.never()),
-    path: z.optional(z.never()),
-    query: z.optional(z.never())
-});
-
-export type GlobalResourcePublicGetGlobalStyleDataZodType = z.infer<typeof zGlobalResourcePublicGetGlobalStyleData>;
-
-/**
- * OK
- */
-export const zGlobalResourcePublicGetGlobalStyleResponse = zGlobalResourceDto;
-
-export type GlobalResourcePublicGetGlobalStyleResponseZodType = z.infer<typeof zGlobalResourcePublicGetGlobalStyleResponse>;
-
-export const zLoginLoginData = z.object({
-    body: z.optional(zVoloAbpAccountWebAreasAccountControllersModelsUserLoginInfo),
-    path: z.optional(z.never()),
-    query: z.optional(z.never())
-});
-
-export type LoginLoginDataZodType = z.infer<typeof zLoginLoginData>;
-
-/**
- * OK
- */
-export const zLoginLoginResponse = zAbpLoginResult;
-
-export type LoginLoginResponseZodType = z.infer<typeof zLoginLoginResponse>;
-
-export const zLoginLogoutData = z.object({
-    body: z.optional(z.never()),
-    path: z.optional(z.never()),
-    query: z.optional(z.never())
-});
-
-export type LoginLogoutDataZodType = z.infer<typeof zLoginLogoutData>;
-
-export const zLoginCheckPasswordData = z.object({
-    body: z.optional(zVoloAbpAccountWebAreasAccountControllersModelsUserLoginInfo),
-    path: z.optional(z.never()),
-    query: z.optional(z.never())
-});
-
-export type LoginCheckPasswordDataZodType = z.infer<typeof zLoginCheckPasswordData>;
-
-/**
- * OK
- */
-export const zLoginCheckPasswordResponse = zAbpLoginResult;
-
-export type LoginCheckPasswordResponseZodType = z.infer<typeof zLoginCheckPasswordResponse>;
-
-export const zMarkedItemPublicGetForUserData = z.object({
-    body: z.optional(z.never()),
-    path: z.object({
-        entityType: z.string(),
-        entityId: z.string()
-    }),
-    query: z.optional(z.never())
-});
-
-export type MarkedItemPublicGetForUserDataZodType = z.infer<typeof zMarkedItemPublicGetForUserData>;
-
-/**
- * OK
- */
-export const zMarkedItemPublicGetForUserResponse = zMarkedItemWithToggleDto;
-
-export type MarkedItemPublicGetForUserResponseZodType = z.infer<typeof zMarkedItemPublicGetForUserResponse>;
-
-export const zMarkedItemPublicToggleData = z.object({
-    body: z.optional(z.never()),
-    path: z.object({
-        entityType: z.string(),
-        entityId: z.string()
-    }),
-    query: z.optional(z.never())
-});
-
-export type MarkedItemPublicToggleDataZodType = z.infer<typeof zMarkedItemPublicToggleData>;
-
-/**
- * OK
- */
-export const zMarkedItemPublicToggleResponse = z.boolean();
-
-export type MarkedItemPublicToggleResponseZodType = z.infer<typeof zMarkedItemPublicToggleResponse>;
-
-export const zMediaDescriptorDownloadData = z.object({
-    body: z.optional(z.never()),
-    path: z.object({
-        id: z.uuid()
-    }),
-    query: z.optional(z.never())
-});
-
-export type MediaDescriptorDownloadDataZodType = z.infer<typeof zMediaDescriptorDownloadData>;
-
-/**
- * OK
- */
-export const zMediaDescriptorDownloadResponse = z.string();
-
-export type MediaDescriptorDownloadResponseZodType = z.infer<typeof zMediaDescriptorDownloadResponse>;
-
-export const zMediaDescriptorAdminCreateData = z.object({
-    body: z.optional(z.object({
-        File: z.optional(z.string())
-    })),
-    path: z.object({
-        entityType: z.string()
-    }),
-    query: z.object({
-        Name: z.string().min(0).max(255)
-    })
-});
-
-export type MediaDescriptorAdminCreateDataZodType = z.infer<typeof zMediaDescriptorAdminCreateData>;
-
-/**
- * OK
- */
-export const zMediaDescriptorAdminCreateResponse = zMediaDescriptorDto;
-
-export type MediaDescriptorAdminCreateResponseZodType = z.infer<typeof zMediaDescriptorAdminCreateResponse>;
-
-export const zMediaDescriptorAdminDeleteData = z.object({
-    body: z.optional(z.never()),
-    path: z.object({
-        id: z.uuid()
-    }),
-    query: z.optional(z.never())
-});
-
-export type MediaDescriptorAdminDeleteDataZodType = z.infer<typeof zMediaDescriptorAdminDeleteData>;
-
-export const zMenuItemAdminGetListData = z.object({
-    body: z.optional(z.never()),
-    path: z.optional(z.never()),
-    query: z.optional(z.never())
-});
-
-export type MenuItemAdminGetListDataZodType = z.infer<typeof zMenuItemAdminGetListData>;
-
-/**
- * OK
- */
-export const zMenuItemAdminGetListResponse = zListResultDtoOfMenuItemDto;
-
-export type MenuItemAdminGetListResponseZodType = z.infer<typeof zMenuItemAdminGetListResponse>;
-
-export const zMenuItemAdminCreateData = z.object({
-    body: z.optional(zMenuItemCreateInputWritable),
-    path: z.optional(z.never()),
-    query: z.optional(z.never())
-});
-
-export type MenuItemAdminCreateDataZodType = z.infer<typeof zMenuItemAdminCreateData>;
-
-/**
- * OK
- */
-export const zMenuItemAdminCreateResponse = zMenuItemDto;
-
-export type MenuItemAdminCreateResponseZodType = z.infer<typeof zMenuItemAdminCreateResponse>;
-
-export const zMenuItemAdminDeleteData = z.object({
-    body: z.optional(z.never()),
-    path: z.object({
-        id: z.uuid()
-    }),
-    query: z.optional(z.never())
-});
-
-export type MenuItemAdminDeleteDataZodType = z.infer<typeof zMenuItemAdminDeleteData>;
-
-export const zMenuItemAdminGetData = z.object({
-    body: z.optional(z.never()),
-    path: z.object({
-        id: z.uuid()
-    }),
-    query: z.optional(z.never())
-});
-
-export type MenuItemAdminGetDataZodType = z.infer<typeof zMenuItemAdminGetData>;
-
-/**
- * OK
- */
-export const zMenuItemAdminGetResponse = zMenuItemWithDetailsDto;
-
-export type MenuItemAdminGetResponseZodType = z.infer<typeof zMenuItemAdminGetResponse>;
-
-export const zMenuItemAdminUpdateData = z.object({
-    body: z.optional(zMenuItemUpdateInputWritable),
-    path: z.object({
-        id: z.uuid()
-    }),
-    query: z.optional(z.never())
-});
-
-export type MenuItemAdminUpdateDataZodType = z.infer<typeof zMenuItemAdminUpdateData>;
-
-/**
- * OK
- */
-export const zMenuItemAdminUpdateResponse = zMenuItemDto;
-
-export type MenuItemAdminUpdateResponseZodType = z.infer<typeof zMenuItemAdminUpdateResponse>;
-
-export const zMenuItemAdminMoveMenuItemData = z.object({
-    body: z.optional(zMenuItemMoveInput),
-    path: z.object({
-        id: z.uuid()
-    }),
-    query: z.optional(z.never())
-});
-
-export type MenuItemAdminMoveMenuItemDataZodType = z.infer<typeof zMenuItemAdminMoveMenuItemData>;
-
-export const zMenuItemAdminGetPageLookupData = z.object({
-    body: z.optional(z.never()),
-    path: z.optional(z.never()),
-    query: z.optional(z.object({
-        Filter: z.optional(z.string()),
-        Sorting: z.optional(z.string()),
-        SkipCount: z.optional(z.int().gte(0).lte(2147483647)),
-        MaxResultCount: z.optional(z.int().gte(1).lte(2147483647))
-    }))
-});
-
-export type MenuItemAdminGetPageLookupDataZodType = z.infer<typeof zMenuItemAdminGetPageLookupData>;
-
-/**
- * OK
- */
-export const zMenuItemAdminGetPageLookupResponse = zPagedResultDtoOfPageLookupDto;
-
-export type MenuItemAdminGetPageLookupResponseZodType = z.infer<typeof zMenuItemAdminGetPageLookupResponse>;
-
-export const zMenuItemAdminGetPermissionLookupData = z.object({
-    body: z.optional(z.never()),
-    path: z.optional(z.never()),
-    query: z.optional(z.object({
-        Filter: z.optional(z.string())
-    }))
-});
-
-export type MenuItemAdminGetPermissionLookupDataZodType = z.infer<typeof zMenuItemAdminGetPermissionLookupData>;
-
-/**
- * OK
- */
-export const zMenuItemAdminGetPermissionLookupResponse = zListResultDtoOfPermissionLookupDto;
-
-export type MenuItemAdminGetPermissionLookupResponseZodType = z.infer<typeof zMenuItemAdminGetPermissionLookupResponse>;
-
-export const zMenuItemPublicGetListData = z.object({
-    body: z.optional(z.never()),
-    path: z.optional(z.never()),
-    query: z.optional(z.never())
-});
-
-export type MenuItemPublicGetListDataZodType = z.infer<typeof zMenuItemPublicGetListData>;
-
-/**
- * OK
- */
-export const zMenuItemPublicGetListResponse = z.array(zMenuItemDto);
-
-export type MenuItemPublicGetListResponseZodType = z.infer<typeof zMenuItemPublicGetListResponse>;
-
-export const zPageAdminDeleteData = z.object({
-    body: z.optional(z.never()),
-    path: z.object({
-        id: z.uuid()
-    }),
-    query: z.optional(z.never())
-});
-
-export type PageAdminDeleteDataZodType = z.infer<typeof zPageAdminDeleteData>;
-
-export const zPageAdminGetData = z.object({
-    body: z.optional(z.never()),
-    path: z.object({
-        id: z.uuid()
-    }),
-    query: z.optional(z.never())
-});
-
-export type PageAdminGetDataZodType = z.infer<typeof zPageAdminGetData>;
-
-/**
- * OK
- */
-export const zPageAdminGetResponse = zVoloCmsKitAdminPagesPageDto;
-
-export type PageAdminGetResponseZodType = z.infer<typeof zPageAdminGetResponse>;
-
-export const zPageAdminUpdateData = z.object({
-    body: z.optional(zUpdatePageInputDtoWritable),
-    path: z.object({
-        id: z.uuid()
-    }),
-    query: z.optional(z.never())
-});
-
-export type PageAdminUpdateDataZodType = z.infer<typeof zPageAdminUpdateData>;
-
-/**
- * OK
- */
-export const zPageAdminUpdateResponse = zVoloCmsKitAdminPagesPageDto;
-
-export type PageAdminUpdateResponseZodType = z.infer<typeof zPageAdminUpdateResponse>;
-
-export const zPageAdminGetListData = z.object({
-    body: z.optional(z.never()),
-    path: z.optional(z.never()),
-    query: z.optional(z.object({
-        Filter: z.optional(z.string()),
-        Sorting: z.optional(z.string()),
-        SkipCount: z.optional(z.int().gte(0).lte(2147483647)),
-        MaxResultCount: z.optional(z.int().gte(1).lte(2147483647))
-    }))
-});
-
-export type PageAdminGetListDataZodType = z.infer<typeof zPageAdminGetListData>;
-
-/**
- * OK
- */
-export const zPageAdminGetListResponse = zPagedResultDtoOfVoloCmsKitAdminPagesPageDto;
-
-export type PageAdminGetListResponseZodType = z.infer<typeof zPageAdminGetListResponse>;
-
-export const zPageAdminCreateData = z.object({
-    body: z.optional(zCreatePageInputDtoWritable),
-    path: z.optional(z.never()),
-    query: z.optional(z.never())
-});
-
-export type PageAdminCreateDataZodType = z.infer<typeof zPageAdminCreateData>;
-
-/**
- * OK
- */
-export const zPageAdminCreateResponse = zVoloCmsKitAdminPagesPageDto;
-
-export type PageAdminCreateResponseZodType = z.infer<typeof zPageAdminCreateResponse>;
-
-export const zPageAdminSetAsHomePageData = z.object({
-    body: z.optional(z.never()),
-    path: z.object({
-        id: z.uuid()
-    }),
-    query: z.optional(z.never())
-});
-
-export type PageAdminSetAsHomePageDataZodType = z.infer<typeof zPageAdminSetAsHomePageData>;
-
-export const zPagesPublicFindBySlugData = z.object({
-    body: z.optional(z.never()),
-    path: z.optional(z.never()),
-    query: z.optional(z.object({
-        slug: z.optional(z.string())
-    }))
-});
-
-export type PagesPublicFindBySlugDataZodType = z.infer<typeof zPagesPublicFindBySlugData>;
-
-/**
- * OK
- */
-export const zPagesPublicFindBySlugResponse = zVoloCmsKitContentsPageDto;
-
-export type PagesPublicFindBySlugResponseZodType = z.infer<typeof zPagesPublicFindBySlugResponse>;
-
-export const zPagesPublicFindDefaultHomePageData = z.object({
-    body: z.optional(z.never()),
-    path: z.optional(z.never()),
-    query: z.optional(z.never())
-});
-
-export type PagesPublicFindDefaultHomePageDataZodType = z.infer<typeof zPagesPublicFindDefaultHomePageData>;
-
-/**
- * OK
- */
-export const zPagesPublicFindDefaultHomePageResponse = zVoloCmsKitContentsPageDto;
-
-export type PagesPublicFindDefaultHomePageResponseZodType = z.infer<typeof zPagesPublicFindDefaultHomePageResponse>;
-
-export const zPagesPublicDoesSlugExistData = z.object({
-    body: z.optional(z.never()),
-    path: z.optional(z.never()),
-    query: z.optional(z.object({
-        slug: z.optional(z.string())
-    }))
-});
-
-export type PagesPublicDoesSlugExistDataZodType = z.infer<typeof zPagesPublicDoesSlugExistData>;
-
-/**
- * OK
- */
-export const zPagesPublicDoesSlugExistResponse = z.boolean();
-
-export type PagesPublicDoesSlugExistResponseZodType = z.infer<typeof zPagesPublicDoesSlugExistResponse>;
-
-export const zPermissionsGetData = z.object({
+export const zGetApiPermissionManagementPermissionsData = z.object({
     body: z.optional(z.never()),
     path: z.optional(z.never()),
     query: z.optional(z.object({
@@ -5809,16 +2542,16 @@ export const zPermissionsGetData = z.object({
     }))
 });
 
-export type PermissionsGetDataZodType = z.infer<typeof zPermissionsGetData>;
+export type GetApiPermissionManagementPermissionsDataZodType = z.infer<typeof zGetApiPermissionManagementPermissionsData>;
 
 /**
  * OK
  */
-export const zPermissionsGetResponse = zGetPermissionListResultDto;
+export const zGetApiPermissionManagementPermissionsResponse = zGetPermissionListResultDto;
 
-export type PermissionsGetResponseZodType = z.infer<typeof zPermissionsGetResponse>;
+export type GetApiPermissionManagementPermissionsResponseZodType = z.infer<typeof zGetApiPermissionManagementPermissionsResponse>;
 
-export const zPermissionsUpdateData = z.object({
+export const zPutApiPermissionManagementPermissionsData = z.object({
     body: z.optional(zUpdatePermissionsDto),
     path: z.optional(z.never()),
     query: z.optional(z.object({
@@ -5827,151 +2560,81 @@ export const zPermissionsUpdateData = z.object({
     }))
 });
 
-export type PermissionsUpdateDataZodType = z.infer<typeof zPermissionsUpdateData>;
+export type PutApiPermissionManagementPermissionsDataZodType = z.infer<typeof zPutApiPermissionManagementPermissionsData>;
 
-export const zProfileGetData = z.object({
+export const zGetApiPermissionManagementPermissionsByGroupData = z.object({
+    body: z.optional(z.never()),
+    path: z.optional(z.never()),
+    query: z.optional(z.object({
+        groupName: z.optional(z.string()),
+        providerName: z.optional(z.string()),
+        providerKey: z.optional(z.string())
+    }))
+});
+
+export type GetApiPermissionManagementPermissionsByGroupDataZodType = z.infer<typeof zGetApiPermissionManagementPermissionsByGroupData>;
+
+/**
+ * OK
+ */
+export const zGetApiPermissionManagementPermissionsByGroupResponse = zGetPermissionListResultDto;
+
+export type GetApiPermissionManagementPermissionsByGroupResponseZodType = z.infer<typeof zGetApiPermissionManagementPermissionsByGroupResponse>;
+
+export const zGetApiAccountMyProfileData = z.object({
     body: z.optional(z.never()),
     path: z.optional(z.never()),
     query: z.optional(z.never())
 });
 
-export type ProfileGetDataZodType = z.infer<typeof zProfileGetData>;
+export type GetApiAccountMyProfileDataZodType = z.infer<typeof zGetApiAccountMyProfileData>;
 
 /**
  * OK
  */
-export const zProfileGetResponse = zProfileDto;
+export const zGetApiAccountMyProfileResponse = zProfileDto;
 
-export type ProfileGetResponseZodType = z.infer<typeof zProfileGetResponse>;
+export type GetApiAccountMyProfileResponseZodType = z.infer<typeof zGetApiAccountMyProfileResponse>;
 
-export const zProfileUpdateData = z.object({
+export const zPutApiAccountMyProfileData = z.object({
     body: z.optional(zUpdateProfileDtoWritable),
     path: z.optional(z.never()),
     query: z.optional(z.never())
 });
 
-export type ProfileUpdateDataZodType = z.infer<typeof zProfileUpdateData>;
+export type PutApiAccountMyProfileDataZodType = z.infer<typeof zPutApiAccountMyProfileData>;
 
 /**
  * OK
  */
-export const zProfileUpdateResponse = zProfileDto;
+export const zPutApiAccountMyProfileResponse = zProfileDto;
 
-export type ProfileUpdateResponseZodType = z.infer<typeof zProfileUpdateResponse>;
+export type PutApiAccountMyProfileResponseZodType = z.infer<typeof zPutApiAccountMyProfileResponse>;
 
-export const zProfileChangePasswordData = z.object({
+export const zPostApiAccountMyProfileChangePasswordData = z.object({
     body: z.optional(zChangePasswordInput),
     path: z.optional(z.never()),
     query: z.optional(z.never())
 });
 
-export type ProfileChangePasswordDataZodType = z.infer<typeof zProfileChangePasswordData>;
+export type PostApiAccountMyProfileChangePasswordDataZodType = z.infer<typeof zPostApiAccountMyProfileChangePasswordData>;
 
-export const zRatingPublicDeleteData = z.object({
-    body: z.optional(z.never()),
-    path: z.object({
-        entityType: z.string(),
-        entityId: z.string()
-    }),
-    query: z.optional(z.never())
-});
-
-export type RatingPublicDeleteDataZodType = z.infer<typeof zRatingPublicDeleteData>;
-
-export const zRatingPublicGetGroupedStarCountsData = z.object({
-    body: z.optional(z.never()),
-    path: z.object({
-        entityType: z.string(),
-        entityId: z.string()
-    }),
-    query: z.optional(z.never())
-});
-
-export type RatingPublicGetGroupedStarCountsDataZodType = z.infer<typeof zRatingPublicGetGroupedStarCountsData>;
-
-/**
- * OK
- */
-export const zRatingPublicGetGroupedStarCountsResponse = z.array(zRatingWithStarCountDto);
-
-export type RatingPublicGetGroupedStarCountsResponseZodType = z.infer<typeof zRatingPublicGetGroupedStarCountsResponse>;
-
-export const zRatingPublicCreateData = z.object({
-    body: z.optional(zCreateUpdateRatingInput),
-    path: z.object({
-        entityType: z.string(),
-        entityId: z.string()
-    }),
-    query: z.optional(z.never())
-});
-
-export type RatingPublicCreateDataZodType = z.infer<typeof zRatingPublicCreateData>;
-
-/**
- * OK
- */
-export const zRatingPublicCreateResponse = zRatingDto;
-
-export type RatingPublicCreateResponseZodType = z.infer<typeof zRatingPublicCreateResponse>;
-
-export const zReactionPublicGetForSelectionData = z.object({
-    body: z.optional(z.never()),
-    path: z.object({
-        entityType: z.string(),
-        entityId: z.string()
-    }),
-    query: z.optional(z.never())
-});
-
-export type ReactionPublicGetForSelectionDataZodType = z.infer<typeof zReactionPublicGetForSelectionData>;
-
-/**
- * OK
- */
-export const zReactionPublicGetForSelectionResponse = zListResultDtoOfReactionWithSelectionDto;
-
-export type ReactionPublicGetForSelectionResponseZodType = z.infer<typeof zReactionPublicGetForSelectionResponse>;
-
-export const zReactionPublicDeleteData = z.object({
-    body: z.optional(z.never()),
-    path: z.object({
-        entityType: z.string(),
-        entityId: z.string(),
-        reaction: z.string()
-    }),
-    query: z.optional(z.never())
-});
-
-export type ReactionPublicDeleteDataZodType = z.infer<typeof zReactionPublicDeleteData>;
-
-export const zReactionPublicCreateData = z.object({
-    body: z.optional(z.never()),
-    path: z.object({
-        entityType: z.string(),
-        entityId: z.string(),
-        reaction: z.string()
-    }),
-    query: z.optional(z.never())
-});
-
-export type ReactionPublicCreateDataZodType = z.infer<typeof zReactionPublicCreateData>;
-
-export const zRoleGetAllListData = z.object({
+export const zGetApiIdentityRolesAllData = z.object({
     body: z.optional(z.never()),
     path: z.optional(z.never()),
     query: z.optional(z.never())
 });
 
-export type RoleGetAllListDataZodType = z.infer<typeof zRoleGetAllListData>;
+export type GetApiIdentityRolesAllDataZodType = z.infer<typeof zGetApiIdentityRolesAllData>;
 
 /**
  * OK
  */
-export const zRoleGetAllListResponse = zListResultDtoOfIdentityRoleDto;
+export const zGetApiIdentityRolesAllResponse = zListResultDto_IdentityRoleDto_;
 
-export type RoleGetAllListResponseZodType = z.infer<typeof zRoleGetAllListResponse>;
+export type GetApiIdentityRolesAllResponseZodType = z.infer<typeof zGetApiIdentityRolesAllResponse>;
 
-export const zRoleGetListData = z.object({
+export const zGetApiIdentityRolesData = z.object({
     body: z.optional(z.never()),
     path: z.optional(z.never()),
     query: z.optional(z.object({
@@ -5983,31 +2646,31 @@ export const zRoleGetListData = z.object({
     }))
 });
 
-export type RoleGetListDataZodType = z.infer<typeof zRoleGetListData>;
+export type GetApiIdentityRolesDataZodType = z.infer<typeof zGetApiIdentityRolesData>;
 
 /**
  * OK
  */
-export const zRoleGetListResponse = zPagedResultDtoOfIdentityRoleDto;
+export const zGetApiIdentityRolesResponse = zPagedResultDto_IdentityRoleDto_;
 
-export type RoleGetListResponseZodType = z.infer<typeof zRoleGetListResponse>;
+export type GetApiIdentityRolesResponseZodType = z.infer<typeof zGetApiIdentityRolesResponse>;
 
-export const zRoleCreateData = z.object({
+export const zPostApiIdentityRolesData = z.object({
     body: z.optional(zIdentityRoleCreateDtoWritable),
     path: z.optional(z.never()),
     query: z.optional(z.never())
 });
 
-export type RoleCreateDataZodType = z.infer<typeof zRoleCreateData>;
+export type PostApiIdentityRolesDataZodType = z.infer<typeof zPostApiIdentityRolesData>;
 
 /**
  * OK
  */
-export const zRoleCreateResponse = zIdentityRoleDto;
+export const zPostApiIdentityRolesResponse = zIdentityRoleDto;
 
-export type RoleCreateResponseZodType = z.infer<typeof zRoleCreateResponse>;
+export type PostApiIdentityRolesResponseZodType = z.infer<typeof zPostApiIdentityRolesResponse>;
 
-export const zRoleDeleteData = z.object({
+export const zDeleteApiIdentityRolesByIdData = z.object({
     body: z.optional(z.never()),
     path: z.object({
         id: z.uuid()
@@ -6015,9 +2678,9 @@ export const zRoleDeleteData = z.object({
     query: z.optional(z.never())
 });
 
-export type RoleDeleteDataZodType = z.infer<typeof zRoleDeleteData>;
+export type DeleteApiIdentityRolesByIdDataZodType = z.infer<typeof zDeleteApiIdentityRolesByIdData>;
 
-export const zRoleGetData = z.object({
+export const zGetApiIdentityRolesByIdData = z.object({
     body: z.optional(z.never()),
     path: z.object({
         id: z.uuid()
@@ -6025,16 +2688,16 @@ export const zRoleGetData = z.object({
     query: z.optional(z.never())
 });
 
-export type RoleGetDataZodType = z.infer<typeof zRoleGetData>;
+export type GetApiIdentityRolesByIdDataZodType = z.infer<typeof zGetApiIdentityRolesByIdData>;
 
 /**
  * OK
  */
-export const zRoleGetResponse = zIdentityRoleDto;
+export const zGetApiIdentityRolesByIdResponse = zIdentityRoleDto;
 
-export type RoleGetResponseZodType = z.infer<typeof zRoleGetResponse>;
+export type GetApiIdentityRolesByIdResponseZodType = z.infer<typeof zGetApiIdentityRolesByIdResponse>;
 
-export const zRoleUpdateData = z.object({
+export const zPutApiIdentityRolesByIdData = z.object({
     body: z.optional(zIdentityRoleUpdateDtoWritable),
     path: z.object({
         id: z.uuid()
@@ -6042,51 +2705,16 @@ export const zRoleUpdateData = z.object({
     query: z.optional(z.never())
 });
 
-export type RoleUpdateDataZodType = z.infer<typeof zRoleUpdateData>;
+export type PutApiIdentityRolesByIdDataZodType = z.infer<typeof zPutApiIdentityRolesByIdData>;
 
 /**
  * OK
  */
-export const zRoleUpdateResponse = zIdentityRoleDto;
+export const zPutApiIdentityRolesByIdResponse = zIdentityRoleDto;
 
-export type RoleUpdateResponseZodType = z.infer<typeof zRoleUpdateResponse>;
+export type PutApiIdentityRolesByIdResponseZodType = z.infer<typeof zPutApiIdentityRolesByIdResponse>;
 
-export const zTagAdminGetListData = z.object({
-    body: z.optional(z.never()),
-    path: z.optional(z.never()),
-    query: z.optional(z.object({
-        Filter: z.optional(z.string()),
-        Sorting: z.optional(z.string()),
-        SkipCount: z.optional(z.int().gte(0).lte(2147483647)),
-        MaxResultCount: z.optional(z.int().gte(1).lte(2147483647))
-    }))
-});
-
-export type TagAdminGetListDataZodType = z.infer<typeof zTagAdminGetListData>;
-
-/**
- * OK
- */
-export const zTagAdminGetListResponse = zPagedResultDtoOfTagDto;
-
-export type TagAdminGetListResponseZodType = z.infer<typeof zTagAdminGetListResponse>;
-
-export const zTagAdminCreateData = z.object({
-    body: z.optional(zTagCreateDtoWritable),
-    path: z.optional(z.never()),
-    query: z.optional(z.never())
-});
-
-export type TagAdminCreateDataZodType = z.infer<typeof zTagAdminCreateData>;
-
-/**
- * OK
- */
-export const zTagAdminCreateResponse = zTagDto;
-
-export type TagAdminCreateResponseZodType = z.infer<typeof zTagAdminCreateResponse>;
-
-export const zTagAdminDeleteData = z.object({
+export const zDeleteApiMultiTenancyTenantsByIdData = z.object({
     body: z.optional(z.never()),
     path: z.object({
         id: z.uuid()
@@ -6094,9 +2722,9 @@ export const zTagAdminDeleteData = z.object({
     query: z.optional(z.never())
 });
 
-export type TagAdminDeleteDataZodType = z.infer<typeof zTagAdminDeleteData>;
+export type DeleteApiMultiTenancyTenantsByIdDataZodType = z.infer<typeof zDeleteApiMultiTenancyTenantsByIdData>;
 
-export const zTagAdminGetData = z.object({
+export const zGetApiMultiTenancyTenantsByIdData = z.object({
     body: z.optional(z.never()),
     path: z.object({
         id: z.uuid()
@@ -6104,163 +2732,16 @@ export const zTagAdminGetData = z.object({
     query: z.optional(z.never())
 });
 
-export type TagAdminGetDataZodType = z.infer<typeof zTagAdminGetData>;
+export type GetApiMultiTenancyTenantsByIdDataZodType = z.infer<typeof zGetApiMultiTenancyTenantsByIdData>;
 
 /**
  * OK
  */
-export const zTagAdminGetResponse = zTagDto;
+export const zGetApiMultiTenancyTenantsByIdResponse = zTenantDto;
 
-export type TagAdminGetResponseZodType = z.infer<typeof zTagAdminGetResponse>;
+export type GetApiMultiTenancyTenantsByIdResponseZodType = z.infer<typeof zGetApiMultiTenancyTenantsByIdResponse>;
 
-export const zTagAdminUpdateData = z.object({
-    body: z.optional(zTagUpdateDtoWritable),
-    path: z.object({
-        id: z.uuid()
-    }),
-    query: z.optional(z.never())
-});
-
-export type TagAdminUpdateDataZodType = z.infer<typeof zTagAdminUpdateData>;
-
-/**
- * OK
- */
-export const zTagAdminUpdateResponse = zTagDto;
-
-export type TagAdminUpdateResponseZodType = z.infer<typeof zTagAdminUpdateResponse>;
-
-export const zTagAdminGetTagDefinitionsData = z.object({
-    body: z.optional(z.never()),
-    path: z.optional(z.never()),
-    query: z.optional(z.never())
-});
-
-export type TagAdminGetTagDefinitionsDataZodType = z.infer<typeof zTagAdminGetTagDefinitionsData>;
-
-/**
- * OK
- */
-export const zTagAdminGetTagDefinitionsResponse = z.array(zTagDefinitionDto);
-
-export type TagAdminGetTagDefinitionsResponseZodType = z.infer<typeof zTagAdminGetTagDefinitionsResponse>;
-
-export const zTagPublicGetAllRelatedTagsData = z.object({
-    body: z.optional(z.never()),
-    path: z.object({
-        entityType: z.string(),
-        entityId: z.string()
-    }),
-    query: z.optional(z.never())
-});
-
-export type TagPublicGetAllRelatedTagsDataZodType = z.infer<typeof zTagPublicGetAllRelatedTagsData>;
-
-/**
- * OK
- */
-export const zTagPublicGetAllRelatedTagsResponse = z.array(zTagDto);
-
-export type TagPublicGetAllRelatedTagsResponseZodType = z.infer<typeof zTagPublicGetAllRelatedTagsResponse>;
-
-export const zTagPublicGetPopularTagsData = z.object({
-    body: z.optional(z.never()),
-    path: z.object({
-        entityType: z.string(),
-        maxCount: z.int()
-    }),
-    query: z.optional(z.never())
-});
-
-export type TagPublicGetPopularTagsDataZodType = z.infer<typeof zTagPublicGetPopularTagsData>;
-
-/**
- * OK
- */
-export const zTagPublicGetPopularTagsResponse = z.array(zPopularTagDto);
-
-export type TagPublicGetPopularTagsResponseZodType = z.infer<typeof zTagPublicGetPopularTagsResponse>;
-
-export const zTenantGetTenantGuidData = z.object({
-    body: z.optional(z.never()),
-    path: z.optional(z.never()),
-    query: z.optional(z.object({
-        host: z.optional(z.string())
-    }))
-});
-
-export type TenantGetTenantGuidDataZodType = z.infer<typeof zTenantGetTenantGuidData>;
-
-/**
- * OK
- */
-export const zTenantGetTenantGuidResponse = z.uuid();
-
-export type TenantGetTenantGuidResponseZodType = z.infer<typeof zTenantGetTenantGuidResponse>;
-
-export const zTenantAddHostData = z.object({
-    body: z.optional(z.never()),
-    path: z.optional(z.never()),
-    query: z.optional(z.object({
-        Id: z.optional(z.uuid()),
-        Host: z.optional(z.string())
-    }))
-});
-
-export type TenantAddHostDataZodType = z.infer<typeof zTenantAddHostData>;
-
-/**
- * OK
- */
-export const zTenantAddHostResponse = zCustomTenantDto;
-
-export type TenantAddHostResponseZodType = z.infer<typeof zTenantAddHostResponse>;
-
-export const zTenantGetTenantHostData = z.object({
-    body: z.optional(z.never()),
-    path: z.object({
-        id: z.uuid()
-    }),
-    query: z.optional(z.never())
-});
-
-export type TenantGetTenantHostDataZodType = z.infer<typeof zTenantGetTenantHostData>;
-
-/**
- * OK
- */
-export const zTenantGetTenantHostResponse = zCustomTenantDto;
-
-export type TenantGetTenantHostResponseZodType = z.infer<typeof zTenantGetTenantHostResponse>;
-
-export const zTenantDeleteData = z.object({
-    body: z.optional(z.never()),
-    path: z.object({
-        id: z.uuid()
-    }),
-    query: z.optional(z.never())
-});
-
-export type TenantDeleteDataZodType = z.infer<typeof zTenantDeleteData>;
-
-export const zTenantGetData = z.object({
-    body: z.optional(z.never()),
-    path: z.object({
-        id: z.uuid()
-    }),
-    query: z.optional(z.never())
-});
-
-export type TenantGetDataZodType = z.infer<typeof zTenantGetData>;
-
-/**
- * OK
- */
-export const zTenantGetResponse = zTenantDto;
-
-export type TenantGetResponseZodType = z.infer<typeof zTenantGetResponse>;
-
-export const zTenantUpdateData = z.object({
+export const zPutApiMultiTenancyTenantsByIdData = z.object({
     body: z.optional(zTenantUpdateDtoWritable),
     path: z.object({
         id: z.uuid()
@@ -6268,16 +2749,16 @@ export const zTenantUpdateData = z.object({
     query: z.optional(z.never())
 });
 
-export type TenantUpdateDataZodType = z.infer<typeof zTenantUpdateData>;
+export type PutApiMultiTenancyTenantsByIdDataZodType = z.infer<typeof zPutApiMultiTenancyTenantsByIdData>;
 
 /**
  * OK
  */
-export const zTenantUpdateResponse = zTenantDto;
+export const zPutApiMultiTenancyTenantsByIdResponse = zTenantDto;
 
-export type TenantUpdateResponseZodType = z.infer<typeof zTenantUpdateResponse>;
+export type PutApiMultiTenancyTenantsByIdResponseZodType = z.infer<typeof zPutApiMultiTenancyTenantsByIdResponse>;
 
-export const zTenantGetListData = z.object({
+export const zGetApiMultiTenancyTenantsData = z.object({
     body: z.optional(z.never()),
     path: z.optional(z.never()),
     query: z.optional(z.object({
@@ -6288,31 +2769,31 @@ export const zTenantGetListData = z.object({
     }))
 });
 
-export type TenantGetListDataZodType = z.infer<typeof zTenantGetListData>;
+export type GetApiMultiTenancyTenantsDataZodType = z.infer<typeof zGetApiMultiTenancyTenantsData>;
 
 /**
  * OK
  */
-export const zTenantGetListResponse = zPagedResultDtoOfTenantDto;
+export const zGetApiMultiTenancyTenantsResponse = zPagedResultDto_TenantDto_;
 
-export type TenantGetListResponseZodType = z.infer<typeof zTenantGetListResponse>;
+export type GetApiMultiTenancyTenantsResponseZodType = z.infer<typeof zGetApiMultiTenancyTenantsResponse>;
 
-export const zTenantCreateData = z.object({
+export const zPostApiMultiTenancyTenantsData = z.object({
     body: z.optional(zTenantCreateDtoWritable),
     path: z.optional(z.never()),
     query: z.optional(z.never())
 });
 
-export type TenantCreateDataZodType = z.infer<typeof zTenantCreateData>;
+export type PostApiMultiTenancyTenantsDataZodType = z.infer<typeof zPostApiMultiTenancyTenantsData>;
 
 /**
  * OK
  */
-export const zTenantCreateResponse = zTenantDto;
+export const zPostApiMultiTenancyTenantsResponse = zTenantDto;
 
-export type TenantCreateResponseZodType = z.infer<typeof zTenantCreateResponse>;
+export type PostApiMultiTenancyTenantsResponseZodType = z.infer<typeof zPostApiMultiTenancyTenantsResponse>;
 
-export const zTenantDeleteDefaultConnectionStringData = z.object({
+export const zDeleteApiMultiTenancyTenantsByIdDefaultConnectionStringData = z.object({
     body: z.optional(z.never()),
     path: z.object({
         id: z.uuid()
@@ -6320,9 +2801,9 @@ export const zTenantDeleteDefaultConnectionStringData = z.object({
     query: z.optional(z.never())
 });
 
-export type TenantDeleteDefaultConnectionStringDataZodType = z.infer<typeof zTenantDeleteDefaultConnectionStringData>;
+export type DeleteApiMultiTenancyTenantsByIdDefaultConnectionStringDataZodType = z.infer<typeof zDeleteApiMultiTenancyTenantsByIdDefaultConnectionStringData>;
 
-export const zTenantGetDefaultConnectionStringData = z.object({
+export const zGetApiMultiTenancyTenantsByIdDefaultConnectionStringData = z.object({
     body: z.optional(z.never()),
     path: z.object({
         id: z.uuid()
@@ -6330,16 +2811,16 @@ export const zTenantGetDefaultConnectionStringData = z.object({
     query: z.optional(z.never())
 });
 
-export type TenantGetDefaultConnectionStringDataZodType = z.infer<typeof zTenantGetDefaultConnectionStringData>;
+export type GetApiMultiTenancyTenantsByIdDefaultConnectionStringDataZodType = z.infer<typeof zGetApiMultiTenancyTenantsByIdDefaultConnectionStringData>;
 
 /**
  * OK
  */
-export const zTenantGetDefaultConnectionStringResponse = z.string();
+export const zGetApiMultiTenancyTenantsByIdDefaultConnectionStringResponse = z.string();
 
-export type TenantGetDefaultConnectionStringResponseZodType = z.infer<typeof zTenantGetDefaultConnectionStringResponse>;
+export type GetApiMultiTenancyTenantsByIdDefaultConnectionStringResponseZodType = z.infer<typeof zGetApiMultiTenancyTenantsByIdDefaultConnectionStringResponse>;
 
-export const zTenantUpdateDefaultConnectionStringData = z.object({
+export const zPutApiMultiTenancyTenantsByIdDefaultConnectionStringData = z.object({
     body: z.optional(z.never()),
     path: z.object({
         id: z.uuid()
@@ -6349,24 +2830,24 @@ export const zTenantUpdateDefaultConnectionStringData = z.object({
     }))
 });
 
-export type TenantUpdateDefaultConnectionStringDataZodType = z.infer<typeof zTenantUpdateDefaultConnectionStringData>;
+export type PutApiMultiTenancyTenantsByIdDefaultConnectionStringDataZodType = z.infer<typeof zPutApiMultiTenancyTenantsByIdDefaultConnectionStringData>;
 
-export const zTimeZoneSettingsGetData = z.object({
+export const zGetApiSettingManagementTimezoneData = z.object({
     body: z.optional(z.never()),
     path: z.optional(z.never()),
     query: z.optional(z.never())
 });
 
-export type TimeZoneSettingsGetDataZodType = z.infer<typeof zTimeZoneSettingsGetData>;
+export type GetApiSettingManagementTimezoneDataZodType = z.infer<typeof zGetApiSettingManagementTimezoneData>;
 
 /**
  * OK
  */
-export const zTimeZoneSettingsGetResponse = z.string();
+export const zGetApiSettingManagementTimezoneResponse = z.string();
 
-export type TimeZoneSettingsGetResponseZodType = z.infer<typeof zTimeZoneSettingsGetResponse>;
+export type GetApiSettingManagementTimezoneResponseZodType = z.infer<typeof zGetApiSettingManagementTimezoneResponse>;
 
-export const zTimeZoneSettingsUpdateData = z.object({
+export const zPostApiSettingManagementTimezoneData = z.object({
     body: z.optional(z.never()),
     path: z.optional(z.never()),
     query: z.optional(z.object({
@@ -6374,24 +2855,24 @@ export const zTimeZoneSettingsUpdateData = z.object({
     }))
 });
 
-export type TimeZoneSettingsUpdateDataZodType = z.infer<typeof zTimeZoneSettingsUpdateData>;
+export type PostApiSettingManagementTimezoneDataZodType = z.infer<typeof zPostApiSettingManagementTimezoneData>;
 
-export const zTimeZoneSettingsGetTimezonesData = z.object({
+export const zGetApiSettingManagementTimezoneTimezonesData = z.object({
     body: z.optional(z.never()),
     path: z.optional(z.never()),
     query: z.optional(z.never())
 });
 
-export type TimeZoneSettingsGetTimezonesDataZodType = z.infer<typeof zTimeZoneSettingsGetTimezonesData>;
+export type GetApiSettingManagementTimezoneTimezonesDataZodType = z.infer<typeof zGetApiSettingManagementTimezoneTimezonesData>;
 
 /**
  * OK
  */
-export const zTimeZoneSettingsGetTimezonesResponse = z.array(zNameValue);
+export const zGetApiSettingManagementTimezoneTimezonesResponse = z.array(zNameValue);
 
-export type TimeZoneSettingsGetTimezonesResponseZodType = z.infer<typeof zTimeZoneSettingsGetTimezonesResponse>;
+export type GetApiSettingManagementTimezoneTimezonesResponseZodType = z.infer<typeof zGetApiSettingManagementTimezoneTimezonesResponse>;
 
-export const zUserDeleteData = z.object({
+export const zDeleteApiIdentityUsersByIdData = z.object({
     body: z.optional(z.never()),
     path: z.object({
         id: z.uuid()
@@ -6399,9 +2880,9 @@ export const zUserDeleteData = z.object({
     query: z.optional(z.never())
 });
 
-export type UserDeleteDataZodType = z.infer<typeof zUserDeleteData>;
+export type DeleteApiIdentityUsersByIdDataZodType = z.infer<typeof zDeleteApiIdentityUsersByIdData>;
 
-export const zUserGetData = z.object({
+export const zGetApiIdentityUsersByIdData = z.object({
     body: z.optional(z.never()),
     path: z.object({
         id: z.uuid()
@@ -6409,16 +2890,16 @@ export const zUserGetData = z.object({
     query: z.optional(z.never())
 });
 
-export type UserGetDataZodType = z.infer<typeof zUserGetData>;
+export type GetApiIdentityUsersByIdDataZodType = z.infer<typeof zGetApiIdentityUsersByIdData>;
 
 /**
  * OK
  */
-export const zUserGetResponse = zIdentityUserDto;
+export const zGetApiIdentityUsersByIdResponse = zIdentityUserDto;
 
-export type UserGetResponseZodType = z.infer<typeof zUserGetResponse>;
+export type GetApiIdentityUsersByIdResponseZodType = z.infer<typeof zGetApiIdentityUsersByIdResponse>;
 
-export const zUserUpdateData = z.object({
+export const zPutApiIdentityUsersByIdData = z.object({
     body: z.optional(zIdentityUserUpdateDtoWritable),
     path: z.object({
         id: z.uuid()
@@ -6426,16 +2907,16 @@ export const zUserUpdateData = z.object({
     query: z.optional(z.never())
 });
 
-export type UserUpdateDataZodType = z.infer<typeof zUserUpdateData>;
+export type PutApiIdentityUsersByIdDataZodType = z.infer<typeof zPutApiIdentityUsersByIdData>;
 
 /**
  * OK
  */
-export const zUserUpdateResponse = zIdentityUserDto;
+export const zPutApiIdentityUsersByIdResponse = zIdentityUserDto;
 
-export type UserUpdateResponseZodType = z.infer<typeof zUserUpdateResponse>;
+export type PutApiIdentityUsersByIdResponseZodType = z.infer<typeof zPutApiIdentityUsersByIdResponse>;
 
-export const zUserGetListData = z.object({
+export const zGetApiIdentityUsersData = z.object({
     body: z.optional(z.never()),
     path: z.optional(z.never()),
     query: z.optional(z.object({
@@ -6447,31 +2928,31 @@ export const zUserGetListData = z.object({
     }))
 });
 
-export type UserGetListDataZodType = z.infer<typeof zUserGetListData>;
+export type GetApiIdentityUsersDataZodType = z.infer<typeof zGetApiIdentityUsersData>;
 
 /**
  * OK
  */
-export const zUserGetListResponse = zPagedResultDtoOfIdentityUserDto;
+export const zGetApiIdentityUsersResponse = zPagedResultDto_IdentityUserDto_;
 
-export type UserGetListResponseZodType = z.infer<typeof zUserGetListResponse>;
+export type GetApiIdentityUsersResponseZodType = z.infer<typeof zGetApiIdentityUsersResponse>;
 
-export const zUserCreateData = z.object({
+export const zPostApiIdentityUsersData = z.object({
     body: z.optional(zIdentityUserCreateDtoWritable),
     path: z.optional(z.never()),
     query: z.optional(z.never())
 });
 
-export type UserCreateDataZodType = z.infer<typeof zUserCreateData>;
+export type PostApiIdentityUsersDataZodType = z.infer<typeof zPostApiIdentityUsersData>;
 
 /**
  * OK
  */
-export const zUserCreateResponse = zIdentityUserDto;
+export const zPostApiIdentityUsersResponse = zIdentityUserDto;
 
-export type UserCreateResponseZodType = z.infer<typeof zUserCreateResponse>;
+export type PostApiIdentityUsersResponseZodType = z.infer<typeof zPostApiIdentityUsersResponse>;
 
-export const zUserGetRolesData = z.object({
+export const zGetApiIdentityUsersByIdRolesData = z.object({
     body: z.optional(z.never()),
     path: z.object({
         id: z.uuid()
@@ -6479,16 +2960,16 @@ export const zUserGetRolesData = z.object({
     query: z.optional(z.never())
 });
 
-export type UserGetRolesDataZodType = z.infer<typeof zUserGetRolesData>;
+export type GetApiIdentityUsersByIdRolesDataZodType = z.infer<typeof zGetApiIdentityUsersByIdRolesData>;
 
 /**
  * OK
  */
-export const zUserGetRolesResponse = zListResultDtoOfIdentityRoleDto;
+export const zGetApiIdentityUsersByIdRolesResponse = zListResultDto_IdentityRoleDto_;
 
-export type UserGetRolesResponseZodType = z.infer<typeof zUserGetRolesResponse>;
+export type GetApiIdentityUsersByIdRolesResponseZodType = z.infer<typeof zGetApiIdentityUsersByIdRolesResponse>;
 
-export const zUserUpdateRolesData = z.object({
+export const zPutApiIdentityUsersByIdRolesData = z.object({
     body: z.optional(zIdentityUserUpdateRolesDto),
     path: z.object({
         id: z.uuid()
@@ -6496,24 +2977,24 @@ export const zUserUpdateRolesData = z.object({
     query: z.optional(z.never())
 });
 
-export type UserUpdateRolesDataZodType = z.infer<typeof zUserUpdateRolesData>;
+export type PutApiIdentityUsersByIdRolesDataZodType = z.infer<typeof zPutApiIdentityUsersByIdRolesData>;
 
-export const zUserGetAssignableRolesData = z.object({
+export const zGetApiIdentityUsersAssignableRolesData = z.object({
     body: z.optional(z.never()),
     path: z.optional(z.never()),
     query: z.optional(z.never())
 });
 
-export type UserGetAssignableRolesDataZodType = z.infer<typeof zUserGetAssignableRolesData>;
+export type GetApiIdentityUsersAssignableRolesDataZodType = z.infer<typeof zGetApiIdentityUsersAssignableRolesData>;
 
 /**
  * OK
  */
-export const zUserGetAssignableRolesResponse = zListResultDtoOfIdentityRoleDto;
+export const zGetApiIdentityUsersAssignableRolesResponse = zListResultDto_IdentityRoleDto_;
 
-export type UserGetAssignableRolesResponseZodType = z.infer<typeof zUserGetAssignableRolesResponse>;
+export type GetApiIdentityUsersAssignableRolesResponseZodType = z.infer<typeof zGetApiIdentityUsersAssignableRolesResponse>;
 
-export const zUserFindByUsernameData = z.object({
+export const zGetApiIdentityUsersByUsernameByUserNameData = z.object({
     body: z.optional(z.never()),
     path: z.object({
         userName: z.string()
@@ -6521,16 +3002,16 @@ export const zUserFindByUsernameData = z.object({
     query: z.optional(z.never())
 });
 
-export type UserFindByUsernameDataZodType = z.infer<typeof zUserFindByUsernameData>;
+export type GetApiIdentityUsersByUsernameByUserNameDataZodType = z.infer<typeof zGetApiIdentityUsersByUsernameByUserNameData>;
 
 /**
  * OK
  */
-export const zUserFindByUsernameResponse = zIdentityUserDto;
+export const zGetApiIdentityUsersByUsernameByUserNameResponse = zIdentityUserDto;
 
-export type UserFindByUsernameResponseZodType = z.infer<typeof zUserFindByUsernameResponse>;
+export type GetApiIdentityUsersByUsernameByUserNameResponseZodType = z.infer<typeof zGetApiIdentityUsersByUsernameByUserNameResponse>;
 
-export const zUserFindByEmailData = z.object({
+export const zGetApiIdentityUsersByEmailByEmailData = z.object({
     body: z.optional(z.never()),
     path: z.object({
         email: z.string()
@@ -6538,16 +3019,16 @@ export const zUserFindByEmailData = z.object({
     query: z.optional(z.never())
 });
 
-export type UserFindByEmailDataZodType = z.infer<typeof zUserFindByEmailData>;
+export type GetApiIdentityUsersByEmailByEmailDataZodType = z.infer<typeof zGetApiIdentityUsersByEmailByEmailData>;
 
 /**
  * OK
  */
-export const zUserFindByEmailResponse = zIdentityUserDto;
+export const zGetApiIdentityUsersByEmailByEmailResponse = zIdentityUserDto;
 
-export type UserFindByEmailResponseZodType = z.infer<typeof zUserFindByEmailResponse>;
+export type GetApiIdentityUsersByEmailByEmailResponseZodType = z.infer<typeof zGetApiIdentityUsersByEmailByEmailResponse>;
 
-export const zUserLookupFindByIdData = z.object({
+export const zGetApiIdentityUsersLookupByIdData = z.object({
     body: z.optional(z.never()),
     path: z.object({
         id: z.uuid()
@@ -6555,16 +3036,16 @@ export const zUserLookupFindByIdData = z.object({
     query: z.optional(z.never())
 });
 
-export type UserLookupFindByIdDataZodType = z.infer<typeof zUserLookupFindByIdData>;
+export type GetApiIdentityUsersLookupByIdDataZodType = z.infer<typeof zGetApiIdentityUsersLookupByIdData>;
 
 /**
  * OK
  */
-export const zUserLookupFindByIdResponse = zUserData;
+export const zGetApiIdentityUsersLookupByIdResponse = zUserData;
 
-export type UserLookupFindByIdResponseZodType = z.infer<typeof zUserLookupFindByIdResponse>;
+export type GetApiIdentityUsersLookupByIdResponseZodType = z.infer<typeof zGetApiIdentityUsersLookupByIdResponse>;
 
-export const zUserLookupFindByUserNameData = z.object({
+export const zGetApiIdentityUsersLookupByUsernameByUserNameData = z.object({
     body: z.optional(z.never()),
     path: z.object({
         userName: z.string()
@@ -6572,16 +3053,16 @@ export const zUserLookupFindByUserNameData = z.object({
     query: z.optional(z.never())
 });
 
-export type UserLookupFindByUserNameDataZodType = z.infer<typeof zUserLookupFindByUserNameData>;
+export type GetApiIdentityUsersLookupByUsernameByUserNameDataZodType = z.infer<typeof zGetApiIdentityUsersLookupByUsernameByUserNameData>;
 
 /**
  * OK
  */
-export const zUserLookupFindByUserNameResponse = zUserData;
+export const zGetApiIdentityUsersLookupByUsernameByUserNameResponse = zUserData;
 
-export type UserLookupFindByUserNameResponseZodType = z.infer<typeof zUserLookupFindByUserNameResponse>;
+export type GetApiIdentityUsersLookupByUsernameByUserNameResponseZodType = z.infer<typeof zGetApiIdentityUsersLookupByUsernameByUserNameResponse>;
 
-export const zUserLookupSearchData = z.object({
+export const zGetApiIdentityUsersLookupSearchData = z.object({
     body: z.optional(z.never()),
     path: z.optional(z.never()),
     query: z.optional(z.object({
@@ -6593,16 +3074,16 @@ export const zUserLookupSearchData = z.object({
     }))
 });
 
-export type UserLookupSearchDataZodType = z.infer<typeof zUserLookupSearchData>;
+export type GetApiIdentityUsersLookupSearchDataZodType = z.infer<typeof zGetApiIdentityUsersLookupSearchData>;
 
 /**
  * OK
  */
-export const zUserLookupSearchResponse = zListResultDtoOfUserData;
+export const zGetApiIdentityUsersLookupSearchResponse = zListResultDto_userData_;
 
-export type UserLookupSearchResponseZodType = z.infer<typeof zUserLookupSearchResponse>;
+export type GetApiIdentityUsersLookupSearchResponseZodType = z.infer<typeof zGetApiIdentityUsersLookupSearchResponse>;
 
-export const zUserLookupGetCountData = z.object({
+export const zGetApiIdentityUsersLookupCountData = z.object({
     body: z.optional(z.never()),
     path: z.optional(z.never()),
     query: z.optional(z.object({
@@ -6610,11 +3091,11 @@ export const zUserLookupGetCountData = z.object({
     }))
 });
 
-export type UserLookupGetCountDataZodType = z.infer<typeof zUserLookupGetCountData>;
+export type GetApiIdentityUsersLookupCountDataZodType = z.infer<typeof zGetApiIdentityUsersLookupCountData>;
 
 /**
  * OK
  */
-export const zUserLookupGetCountResponse = z.coerce.bigint();
+export const zGetApiIdentityUsersLookupCountResponse = z.coerce.bigint();
 
-export type UserLookupGetCountResponseZodType = z.infer<typeof zUserLookupGetCountResponse>;
+export type GetApiIdentityUsersLookupCountResponseZodType = z.infer<typeof zGetApiIdentityUsersLookupCountResponse>;

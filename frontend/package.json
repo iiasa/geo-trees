@@ -25,7 +25,7 @@
     "check-file-naming": "node scripts/check-file-naming.js",
     "find-unused-files": "node scripts/find-unused-files.js",
     "typecheck": "tsc --noEmit",
-    "generate-api": "openapi-ts --file hey-api.config.ts",
+    "generate-api": "NODE_TLS_REJECT_UNAUTHORIZED=0 openapi-ts --file hey-api.config.ts",
     "docker:build": "docker build -t abp-react-tanstack .",
     "docker:run": "docker run -p 3000:3000 abp-react-tanstack",
     "docker:up": "docker build -t abp-react-tanstack . && docker run -p 3000:3000 abp-react-tanstack",
