@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using IIASA.GeoTrees.Data;
 using IIASA.GeoTrees.HealthChecks;
 using IIASA.GeoTrees.Localization;
@@ -329,7 +330,9 @@ public class GeoTreesModule : AbpModule
         {
             options.SwaggerDoc("v1", new OpenApiInfo { Title = "GeoTrees API", Version = "v1" });
             options.DocInclusionPredicate((docName, description) => true);
-            options.CustomSchemaIds(type => type.FullName);
+            options.CustomSchemaIds(type => type.IsGenericType
+                ? $"{type.Name.Split('`')[0]}<{string.Join(",", type.GenericTypeArguments.Select(t => t.Name))}>"
+                : type.Name);
         });
     }
 

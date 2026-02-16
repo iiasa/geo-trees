@@ -8,7 +8,7 @@ import { defineConfig } from '@hey-api/openapi-ts';
  */
 export default defineConfig({
   // Input OpenAPI specification URL
-  input: process.env.VITE_OPENAPI_SPEC_URL || 'https://abp.antosubash.com/swagger/v1/swagger.json',
+  input: process.env.VITE_OPENAPI_SPEC_URL || 'https://localhost:44324/swagger/v1/swagger.json',
 
   // Output configuration
   output: {
