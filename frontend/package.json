@@ -1,5 +1,5 @@
 {
-  "name": "abp-react-tanstack",
+  "name": "geo-trees",
   "version": "0.0.21",
   "private": true,
   "type": "module",
@@ -26,9 +26,9 @@
     "find-unused-files": "node scripts/find-unused-files.js",
     "typecheck": "tsc --noEmit",
     "generate-api": "NODE_TLS_REJECT_UNAUTHORIZED=0 openapi-ts --file hey-api.config.ts",
-    "docker:build": "docker build -t abp-react-tanstack .",
-    "docker:run": "docker run -p 3000:3000 abp-react-tanstack",
-    "docker:up": "docker build -t abp-react-tanstack . && docker run -p 3000:3000 abp-react-tanstack",
+    "docker:build": "docker build -t geo-trees .",
+    "docker:run": "docker run -p 3000:3000 geo-trees",
+    "docker:up": "docker build -t geo-trees . && docker run -p 3000:3000 geo-trees",
     "docker:compose:up": "docker-compose up --build",
     "docker:compose:down": "docker-compose down"
   },

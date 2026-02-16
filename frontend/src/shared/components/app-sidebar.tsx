@@ -42,7 +42,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 					<SidebarMenuItem>
 						<SidebarMenuButton
 							asChild
-							tooltip="TanStack Start"
+							tooltip="Geo Trees"
 							className="data-[slot=sidebar-menu-button]:!p-1.5 group-data-[collapsible=icon]:!justify-center group-data-[collapsible=icon]:!px-2"
 						>
 							<div className="flex items-center gap-2 group-data-[collapsible=icon]:gap-0 group-data-[collapsible=icon]:justify-center">

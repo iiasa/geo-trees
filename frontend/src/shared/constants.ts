@@ -25,7 +25,7 @@ export const API_CONSTANTS = {
 
 	// Custom headers to add to all proxied requests
 	CUSTOM_HEADERS: {
-		"X-Proxy-Source": import.meta.env.VITE_APP_NAME || "abp-react-tanstack",
+		"X-Proxy-Source": import.meta.env.VITE_APP_NAME || "geo-trees",
 		"X-Requested-With": "XMLHttpRequest",
 		"X-API-Version": import.meta.env.VITE_APP_VERSION || "v1",
 		// Add any other custom headers you need

@@ -37,12 +37,11 @@ export default function Header() {
 						<Menu size={24} />
 					</button>
 					<h1 className="ml-4 text-xl font-semibold">
-						<Link to="/">
-							<img
-								src="/tanstack-word-logo-white.svg"
-								alt="TanStack Logo"
-								className="h-10"
-							/>
+						<Link
+							to="/"
+							className="text-foreground hover:text-primary transition-colors"
+						>
+							Geo Trees
 						</Link>
 					</h1>
 				</div>

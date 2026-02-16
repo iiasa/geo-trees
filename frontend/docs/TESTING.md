@@ -1,6 +1,6 @@
 # Testing Guide
 
-This document provides comprehensive information about the testing infrastructure and practices for the ABP React TanStack application.
+This document provides comprehensive information about the testing infrastructure and practices for the Geo Trees application.
 
 ## 📋 Overview
 

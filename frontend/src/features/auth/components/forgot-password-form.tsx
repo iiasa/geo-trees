@@ -27,7 +27,7 @@ import {
 	PASSWORD_RESET_VALIDATION,
 } from "../constants";
 
-const DEFAULT_APP_NAME = "ABP React TanStack";
+const DEFAULT_APP_NAME = "Geo Trees";
 
 export function ForgotPasswordForm() {
 	const emailId = useId();

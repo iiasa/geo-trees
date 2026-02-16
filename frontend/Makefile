@@ -1,4 +1,4 @@
-# Makefile for abp-react-tanstack project
+# Makefile for geo-trees project
 
 .PHONY: help install dev build serve test test-unit test-watch test-coverage test-e2e lint format check type-check generate-api clean kill
 
@@ -85,10 +85,10 @@ dev-full: generate-api dev ## Generate API and start dev server
 
 # Docker (if needed in future)
 # docker-build: ## Build Docker image
-#	docker build -t abp-react-tanstack .
+#	docker build -t geo-trees .
 
 # docker-run: ## Run Docker container
-#	docker run -p 3000:3000 abp-react-tanstack
+#	docker run -p 3000:3000 geo-trees
 
 # Verify file organization
 check-organization: ## Verify file organization follows feature-based structure

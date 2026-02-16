@@ -79,7 +79,7 @@ function Home() {
 							Todo List with Server Functions
 						</h2>
 						<p className="text-muted-foreground mb-4">
-							Add and manage todos using TanStack Start server functions
+							Add and manage todos using server functions
 						</p>
 						<div className="space-y-4">
 							{todos && todos.length > 0 && (
