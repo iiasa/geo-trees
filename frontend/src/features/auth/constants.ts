@@ -12,6 +12,7 @@ export const AUTH_ROUTES = {
 	FORGOT_PASSWORD: "/auth/forgot-password",
 	RESET_PASSWORD: "/auth/reset-password",
 	REGISTER: "/auth/register",
+	CONFIRM_EMAIL: "/auth/confirm-email",
 } as const;
 
 // Forgot Password Labels
