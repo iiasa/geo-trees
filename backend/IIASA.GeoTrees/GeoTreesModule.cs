@@ -1,69 +1,69 @@
-using Microsoft.AspNetCore.Cors;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.AspNetCore.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
-using Microsoft.OpenApi.Models;
-using Microsoft.AspNetCore.Mvc.RazorPages;
+using System;
 using IIASA.GeoTrees.Data;
+using IIASA.GeoTrees.HealthChecks;
 using IIASA.GeoTrees.Localization;
 using IIASA.GeoTrees.Menus;
 using IIASA.GeoTrees.Permissions;
-using IIASA.GeoTrees.HealthChecks;
+using Localization.Resources.AbpUi;
+using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.OpenApi.Models;
 using OpenIddict.Validation.AspNetCore;
-using System;
 using Volo.Abp;
-using Volo.Abp.Studio;
 using Volo.Abp.Account;
 using Volo.Abp.Account.Web;
 using Volo.Abp.AspNetCore.Mvc;
 using Volo.Abp.AspNetCore.Mvc.Localization;
 using Volo.Abp.AspNetCore.Mvc.UI.Bundling;
+using Volo.Abp.AspNetCore.Mvc.UI.Theme.LeptonXLite;
+using Volo.Abp.AspNetCore.Mvc.UI.Theme.LeptonXLite.Bundling;
 using Volo.Abp.AspNetCore.Mvc.UI.Theme.Shared;
 using Volo.Abp.AspNetCore.Mvc.UI.Theme.Shared.Toolbars;
 using Volo.Abp.AspNetCore.Serilog;
+using Volo.Abp.AuditLogging.EntityFrameworkCore;
 using Volo.Abp.Autofac;
-using Volo.Abp.Mapperly;
+using Volo.Abp.BackgroundJobs.EntityFrameworkCore;
+using Volo.Abp.BlobStoring.Database.EntityFrameworkCore;
 using Volo.Abp.Caching;
-using Volo.Abp.FeatureManagement;
-using Volo.Abp.Identity;
-using Volo.Abp.Identity.Web;
-using Volo.Abp.Uow;
-using Volo.Abp.TenantManagement;
-using Volo.Abp.TenantManagement.Web;
 using Volo.Abp.Emailing;
+using Volo.Abp.EntityFrameworkCore;
+using Volo.Abp.EntityFrameworkCore.PostgreSql;
+using Volo.Abp.FeatureManagement;
+using Volo.Abp.FeatureManagement.EntityFrameworkCore;
+using Volo.Abp.Identity;
+using Volo.Abp.Identity.EntityFrameworkCore;
+using Volo.Abp.Identity.Web;
 using Volo.Abp.Localization;
 using Volo.Abp.Localization.ExceptionHandling;
-using Localization.Resources.AbpUi;
+using Volo.Abp.Mapperly;
 using Volo.Abp.Modularity;
 using Volo.Abp.MultiTenancy;
+using Volo.Abp.OpenIddict;
+using Volo.Abp.OpenIddict.EntityFrameworkCore;
 using Volo.Abp.PermissionManagement;
+using Volo.Abp.PermissionManagement.EntityFrameworkCore;
 using Volo.Abp.PermissionManagement.HttpApi;
 using Volo.Abp.PermissionManagement.Identity;
+using Volo.Abp.PermissionManagement.OpenIddict;
 using Volo.Abp.PermissionManagement.Web;
+using Volo.Abp.Security.Claims;
 using Volo.Abp.SettingManagement;
-using Volo.Abp.AspNetCore.Mvc.UI.Theme.LeptonXLite;
-using Volo.Abp.AspNetCore.Mvc.UI.Theme.LeptonXLite.Bundling;
+using Volo.Abp.SettingManagement.EntityFrameworkCore;
 using Volo.Abp.SettingManagement.Web;
+using Volo.Abp.Studio;
+using Volo.Abp.Studio.Client.AspNetCore;
 using Volo.Abp.Swashbuckle;
+using Volo.Abp.TenantManagement;
+using Volo.Abp.TenantManagement.EntityFrameworkCore;
+using Volo.Abp.TenantManagement.Web;
 using Volo.Abp.UI.Navigation;
 using Volo.Abp.UI.Navigation.Urls;
+using Volo.Abp.Uow;
 using Volo.Abp.Validation.Localization;
 using Volo.Abp.VirtualFileSystem;
-using Volo.Abp.OpenIddict;
-using Volo.Abp.PermissionManagement.OpenIddict;
-using Volo.Abp.Security.Claims;
-using Volo.Abp.EntityFrameworkCore;
-using Volo.Abp.TenantManagement.EntityFrameworkCore;
-using Volo.Abp.OpenIddict.EntityFrameworkCore;
-using Volo.Abp.SettingManagement.EntityFrameworkCore;
-using Volo.Abp.PermissionManagement.EntityFrameworkCore;
-using Volo.Abp.AuditLogging.EntityFrameworkCore;
-using Volo.Abp.BlobStoring.Database.EntityFrameworkCore;
-using Volo.Abp.BackgroundJobs.EntityFrameworkCore;
-using Volo.Abp.Identity.EntityFrameworkCore;
-using Volo.Abp.FeatureManagement.EntityFrameworkCore;
-using Volo.Abp.EntityFrameworkCore.PostgreSql;
-using Volo.Abp.Studio.Client.AspNetCore;
 
 namespace IIASA.GeoTrees;
 
@@ -76,42 +76,34 @@ namespace IIASA.GeoTrees;
     typeof(AbpSwashbuckleModule),
     typeof(AbpAspNetCoreSerilogModule),
     typeof(AbpStudioClientAspNetCoreModule),
-
     // lepton-theme
     typeof(AbpAspNetCoreMvcUiLeptonXLiteThemeModule),
-
     // Account module packages
     typeof(AbpAccountWebOpenIddictModule),
     typeof(AbpAccountHttpApiModule),
     typeof(AbpAccountApplicationModule),
-        
     // Tenant Management module packages
     typeof(AbpTenantManagementWebModule),
     typeof(AbpTenantManagementHttpApiModule),
     typeof(AbpTenantManagementApplicationModule),
-
     // Identity module packages
     typeof(AbpPermissionManagementDomainIdentityModule),
     typeof(AbpPermissionManagementDomainOpenIddictModule),
     typeof(AbpIdentityWebModule),
     typeof(AbpIdentityHttpApiModule),
     typeof(AbpIdentityApplicationModule),
-
     // Permission Management module packages
     typeof(AbpPermissionManagementWebModule),
     typeof(AbpPermissionManagementApplicationModule),
     typeof(AbpPermissionManagementHttpApiModule),
-
     // Feature Management module packages
     typeof(AbpFeatureManagementWebModule),
     typeof(AbpFeatureManagementHttpApiModule),
     typeof(AbpFeatureManagementApplicationModule),
-
     // Setting Management module packages
     typeof(AbpSettingManagementWebModule),
     typeof(AbpSettingManagementHttpApiModule),
     typeof(AbpSettingManagementApplicationModule),
-
     // Entity Framework Core packages for the used modules
     typeof(AbpAuditLoggingEntityFrameworkCoreModule),
     typeof(AbpFeatureManagementEntityFrameworkCoreModule),
@@ -136,9 +128,7 @@ public class GeoTreesModule : AbpModule
 
         context.Services.PreConfigure<AbpMvcDataAnnotationsLocalizationOptions>(options =>
         {
-            options.AddAssemblyResource(
-                typeof(GeoTreesResource)
-            );
+            options.AddAssemblyResource(typeof(GeoTreesResource));
         });
 
         PreConfigure<OpenIddictBuilder>(builder =>
@@ -160,7 +150,10 @@ public class GeoTreesModule : AbpModule
 
             PreConfigure<OpenIddictServerBuilder>(serverBuilder =>
             {
-                serverBuilder.AddProductionEncryptionAndSigningCertificate("openiddict.pfx", configuration["AuthServer:CertificatePassPhrase"]!);
+                serverBuilder.AddProductionEncryptionAndSigningCertificate(
+                    "openiddict.pfx",
+                    configuration["AuthServer:CertificatePassPhrase"]!
+                );
             });
         }
 
@@ -191,11 +184,14 @@ public class GeoTreesModule : AbpModule
         ConfigureLocalization();
         ConfigureNavigationServices();
         ConfigureEfCore(context);
-        
+
         Configure<RazorPagesOptions>(options =>
         {
             options.Conventions.AuthorizePage("/Books/Index", GeoTreesPermissions.Books.Default);
-            options.Conventions.AuthorizePage("/Books/CreateModal", GeoTreesPermissions.Books.Create);
+            options.Conventions.AuthorizePage(
+                "/Books/CreateModal",
+                GeoTreesPermissions.Books.Create
+            );
             options.Conventions.AuthorizePage("/Books/EditModal", GeoTreesPermissions.Books.Edit);
         });
     }
@@ -218,7 +214,9 @@ public class GeoTreesModule : AbpModule
 
     private void ConfigureAuthentication(ServiceConfigurationContext context)
     {
-        context.Services.ForwardIdentityAuthenticationForBearer(OpenIddictValidationAspNetCoreDefaults.AuthenticationScheme);
+        context.Services.ForwardIdentityAuthenticationForBearer(
+            OpenIddictValidationAspNetCoreDefaults.AuthenticationScheme
+        );
         context.Services.Configure<AbpClaimsPrincipalFactoryOptions>(options =>
         {
             options.IsDynamicClaimsEnabled = true;
@@ -267,34 +265,33 @@ public class GeoTreesModule : AbpModule
     {
         Configure<AbpLocalizationOptions>(options =>
         {
-            options.Resources
-                .Add<GeoTreesResource>("en")
+            options
+                .Resources.Add<GeoTreesResource>("en")
                 .AddBaseTypes(typeof(AbpValidationResource), typeof(AbpUiResource))
                 .AddVirtualJson("/Localization/GeoTrees");
 
             options.DefaultResourceType = typeof(GeoTreesResource);
-            
-            options.Languages.Add(new LanguageInfo("en", "en", "English")); 
-            options.Languages.Add(new LanguageInfo("ar", "ar", "Arabic")); 
-            options.Languages.Add(new LanguageInfo("zh-Hans", "zh-Hans", "Chinese (Simplified)")); 
-            options.Languages.Add(new LanguageInfo("zh-Hant", "zh-Hant", "Chinese (Traditional)")); 
-            options.Languages.Add(new LanguageInfo("cs", "cs", "Czech")); 
-            options.Languages.Add(new LanguageInfo("en-GB", "en-GB", "English (United Kingdom)")); 
-            options.Languages.Add(new LanguageInfo("fi", "fi", "Finnish")); 
-            options.Languages.Add(new LanguageInfo("fr", "fr", "French")); 
-            options.Languages.Add(new LanguageInfo("de-DE", "de-DE", "German (Germany)")); 
-            options.Languages.Add(new LanguageInfo("hi", "hi", "Hindi ")); 
-            options.Languages.Add(new LanguageInfo("hu", "hu", "Hungarian")); 
-            options.Languages.Add(new LanguageInfo("is", "is", "Icelandic")); 
-            options.Languages.Add(new LanguageInfo("it", "it", "Italian")); 
-            options.Languages.Add(new LanguageInfo("pt-BR", "pt-BR", "Portuguese (Brazil)")); 
-            options.Languages.Add(new LanguageInfo("ro-RO", "ro-RO", "Romanian (Romania)")); 
-            options.Languages.Add(new LanguageInfo("ru", "ru", "Russian")); 
-            options.Languages.Add(new LanguageInfo("sk", "sk", "Slovak")); 
-            options.Languages.Add(new LanguageInfo("es", "es", "Spanish")); 
-            options.Languages.Add(new LanguageInfo("sv", "sv", "Swedish")); 
-            options.Languages.Add(new LanguageInfo("tr", "tr", "Turkish")); 
 
+            options.Languages.Add(new LanguageInfo("en", "en", "English"));
+            options.Languages.Add(new LanguageInfo("ar", "ar", "Arabic"));
+            options.Languages.Add(new LanguageInfo("zh-Hans", "zh-Hans", "Chinese (Simplified)"));
+            options.Languages.Add(new LanguageInfo("zh-Hant", "zh-Hant", "Chinese (Traditional)"));
+            options.Languages.Add(new LanguageInfo("cs", "cs", "Czech"));
+            options.Languages.Add(new LanguageInfo("en-GB", "en-GB", "English (United Kingdom)"));
+            options.Languages.Add(new LanguageInfo("fi", "fi", "Finnish"));
+            options.Languages.Add(new LanguageInfo("fr", "fr", "French"));
+            options.Languages.Add(new LanguageInfo("de-DE", "de-DE", "German (Germany)"));
+            options.Languages.Add(new LanguageInfo("hi", "hi", "Hindi "));
+            options.Languages.Add(new LanguageInfo("hu", "hu", "Hungarian"));
+            options.Languages.Add(new LanguageInfo("is", "is", "Icelandic"));
+            options.Languages.Add(new LanguageInfo("it", "it", "Italian"));
+            options.Languages.Add(new LanguageInfo("pt-BR", "pt-BR", "Portuguese (Brazil)"));
+            options.Languages.Add(new LanguageInfo("ro-RO", "ro-RO", "Romanian (Romania)"));
+            options.Languages.Add(new LanguageInfo("ru", "ru", "Russian"));
+            options.Languages.Add(new LanguageInfo("sk", "sk", "Slovak"));
+            options.Languages.Add(new LanguageInfo("es", "es", "Spanish"));
+            options.Languages.Add(new LanguageInfo("sv", "sv", "Swedish"));
+            options.Languages.Add(new LanguageInfo("tr", "tr", "Turkish"));
         });
 
         Configure<AbpExceptionLocalizationOptions>(options =>
@@ -311,7 +308,9 @@ public class GeoTreesModule : AbpModule
             if (hostingEnvironment.IsDevelopment())
             {
                 /* Using physical files in development, so we don't need to recompile on changes */
-                options.FileSets.ReplaceEmbeddedByPhysical<GeoTreesModule>(hostingEnvironment.ContentRootPath);
+                options.FileSets.ReplaceEmbeddedByPhysical<GeoTreesModule>(
+                    hostingEnvironment.ContentRootPath
+                );
             }
         });
     }
@@ -326,14 +325,12 @@ public class GeoTreesModule : AbpModule
 
     private void ConfigureSwagger(IServiceCollection services)
     {
-        services.AddAbpSwaggerGen(
-            options =>
-            {
-                options.SwaggerDoc("v1", new OpenApiInfo { Title = "GeoTrees API", Version = "v1" });
-                options.DocInclusionPredicate((docName, description) => true);
-                options.CustomSchemaIds(type => type.FullName);
-            }
-        );
+        services.AddAbpSwaggerGen(options =>
+        {
+            options.SwaggerDoc("v1", new OpenApiInfo { Title = "GeoTrees API", Version = "v1" });
+            options.DocInclusionPredicate((docName, description) => true);
+            options.CustomSchemaIds(type => type.FullName);
+        });
     }
 
     private void ConfigureNavigationServices()
@@ -348,7 +345,7 @@ public class GeoTreesModule : AbpModule
             options.Contributors.Add(new GeoTreesToolbarContributor());
         });
     }
-    
+
     private void ConfigureEfCore(ServiceConfigurationContext context)
     {
         context.Services.AddAbpDbContext<GeoTreesDbContext>(options =>
@@ -367,7 +364,6 @@ public class GeoTreesModule : AbpModule
                 configurationContext.UseNpgsql();
             });
         });
-        
     }
 
     public override void OnApplicationInitialization(ApplicationInitializationContext context)

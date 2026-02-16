@@ -9,7 +9,10 @@ public static class HealthChecksBuilderExtensions
     {
         // Add your health checks here
         var healthChecksBuilder = services.AddHealthChecks();
-        healthChecksBuilder.AddCheck<GeoTreesDatabaseCheck>("GeoTrees DbContext Check", tags: new string[] { "database" });
+        healthChecksBuilder.AddCheck<GeoTreesDatabaseCheck>(
+            "GeoTrees DbContext Check",
+            tags: new string[] { "database" }
+        );
 
         var configuration = services.GetConfiguration();
         var healthCheckUrl = configuration["App:HealthCheckUrl"];
@@ -18,7 +21,7 @@ public static class HealthChecksBuilderExtensions
         {
             healthCheckUrl = "/health-status";
         }
-        
+
         services.ConfigureHealthCheckEndpoint("/health-status");
 
         var healthChecksUiBuilder = services.AddHealthChecksUI(settings =>
@@ -36,7 +39,10 @@ public static class HealthChecksBuilderExtensions
         });
     }
 
-    private static IServiceCollection ConfigureHealthCheckEndpoint(this IServiceCollection services, string path)
+    private static IServiceCollection ConfigureHealthCheckEndpoint(
+        this IServiceCollection services,
+        string path
+    )
     {
         services.Configure<AbpEndpointRouterOptions>(options =>
         {
@@ -49,14 +55,18 @@ public static class HealthChecksBuilderExtensions
                         Predicate = _ => true,
                         ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse,
                         AllowCachingResponses = false,
-                    });
+                    }
+                );
             });
         });
 
         return services;
     }
 
-    private static IServiceCollection MapHealthChecksUiEndpoints(this IServiceCollection services, Action<global::HealthChecks.UI.Configuration.Options>? setupOption = null)
+    private static IServiceCollection MapHealthChecksUiEndpoints(
+        this IServiceCollection services,
+        Action<global::HealthChecks.UI.Configuration.Options>? setupOption = null
+    )
     {
         services.Configure<AbpEndpointRouterOptions>(routerOptions =>
         {

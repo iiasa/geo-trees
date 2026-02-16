@@ -12,12 +12,13 @@ public class GeoTreesDbContextFactory : IDesignTimeDbContextFactory<GeoTreesDbCo
 
         // https://www.npgsql.org/efcore/release-notes/6.0.html#opting-out-of-the-new-timestamp-mapping-logic
         AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
-        
+
         GeoTreesEfCoreEntityExtensionMappings.Configure();
         var configuration = BuildConfiguration();
 
-        var builder = new DbContextOptionsBuilder<GeoTreesDbContext>()
-            .UseNpgsql(configuration.GetConnectionString("Default"));
+        var builder = new DbContextOptionsBuilder<GeoTreesDbContext>().UseNpgsql(
+            configuration.GetConnectionString("Default")
+        );
 
         return new GeoTreesDbContext(builder.Options);
     }

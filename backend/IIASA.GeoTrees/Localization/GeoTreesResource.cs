@@ -3,7 +3,4 @@
 namespace IIASA.GeoTrees.Localization;
 
 [LocalizationResourceName("GeoTrees")]
-public class GeoTreesResource
-{
-    
-}
+public class GeoTreesResource { }
