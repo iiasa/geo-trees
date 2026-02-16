@@ -1,0 +1,18 @@
+export const FEATURE_FLAGS_LABELS = {
+	TITLE: "Feature Flags",
+	DESCRIPTION: "Toggle and configure application feature flags",
+	SEARCH_PLACEHOLDER: "Search features...",
+	GROUP_EMPTY: "No features available.",
+	GROUP_EMPTY_FILTERED: "No features match your search.",
+	SAVE: "Save Changes",
+	SAVING: "Saving...",
+	RESET: "Reset",
+	VALUE_PLACEHOLDER: "Enter value",
+	BOOL_ON: "On",
+	BOOL_OFF: "Off",
+	UNGROUPED: "Ungrouped",
+	SUCCESS: "Feature flags updated",
+	ERROR: "Failed to update features",
+	PROVIDER_NAME: "Provider Name",
+	PROVIDER_KEY: "Provider Key",
+} as const;
