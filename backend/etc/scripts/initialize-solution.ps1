@@ -32,7 +32,7 @@ Run-Step "DbMigrator" {
 
 Run-Step "DevCert" {
     Set-Location (Join-Path $scriptRoot "../../IIASA.GeoTrees")
-    dotnet dev-certs https -v -ep openiddict.pfx -p bbbfd3b8-a1d7-4fa2-80f8-83a73c26d8cf
+    dotnet dev-certs https -v -ep openiddict.pfx -p d564ffaf-2a7d-4e14-bc7b-1f4ab0e9793b
 }
 
 exit 0

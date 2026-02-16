@@ -3,7 +3,5 @@
         <Platform Name="Any CPU" />
     </Configurations>
 
-    <Project Path="IIASA.GeoTrees.Contracts/IIASA.GeoTrees.Contracts.csproj" />
-    <Project Path="IIASA.GeoTrees.Client/IIASA.GeoTrees.Client.csproj" />
     <Project Path="IIASA.GeoTrees/IIASA.GeoTrees.csproj" />
 </Solution>

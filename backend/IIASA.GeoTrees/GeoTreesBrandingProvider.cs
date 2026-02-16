@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Localization;
+using Microsoft.Extensions.Localization;
 using IIASA.GeoTrees.Localization;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.Ui.Branding;

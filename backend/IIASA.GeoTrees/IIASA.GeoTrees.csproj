@@ -2,17 +2,23 @@
 
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
-  	<Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <GenerateEmbeddedFilesManifest>true</GenerateEmbeddedFilesManifest>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);CS1591</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="10.0.0" />
-    <ProjectReference Include="..\IIASA.GeoTrees.Client\IIASA.GeoTrees.Client.csproj" />
     <PackageReference Include="Serilog.AspNetCore" Version="9.0.0" />
     <PackageReference Include="Serilog.Sinks.Async" Version="2.1.0" />
-    <PackageReference Include="Blazorise.Bootstrap5" Version="1.8.8" />
-    <PackageReference Include="Blazorise.Icons.FontAwesome" Version="1.8.8" />
+    <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="10.0.0" />
+    <PackageReference Include="AspNetCore.HealthChecks.UI" Version="9.0.0" />
+    <PackageReference Include="KubernetesClient" Version="18.0.5"/>
+    <PackageReference Include="IdentityModel" Version="7.0.0" />
+    <PackageReference Include="AspNetCore.HealthChecks.UI.Client" Version="9.0.0" />
+    <PackageReference Include="AspNetCore.HealthChecks.UI.InMemory.Storage" Version="9.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="10.0.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -31,41 +37,38 @@
 
   <ItemGroup>
     <PackageReference Include="Volo.Abp.PermissionManagement.Domain.Identity" Version="10.0.2" />
-    <PackageReference Include="Volo.Abp.Identity.Blazor.Server" Version="10.0.2" />
+    <PackageReference Include="Volo.Abp.Identity.Web" Version="10.0.2" />
     <PackageReference Include="Volo.Abp.Identity.HttpApi" Version="10.0.2" />
     <PackageReference Include="Volo.Abp.Identity.Application" Version="10.0.2" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Volo.Abp.PermissionManagement.Domain.OpenIddict" Version="10.0.2" />
-    <PackageReference Include="Volo.Abp.PermissionManagement.Blazor.Server" Version="10.0.2" />
+    <PackageReference Include="Volo.Abp.PermissionManagement.Web" Version="10.0.2" />
     <PackageReference Include="Volo.Abp.PermissionManagement.HttpApi" Version="10.0.2" />
     <PackageReference Include="Volo.Abp.PermissionManagement.Application" Version="10.0.2" />
   </ItemGroup>
 
-  
-  <ItemGroup>
-    <PackageReference Include="Volo.Abp.TenantManagement.Blazor.Server" Version="10.0.2" />
+  <ItemGroup>   
+    <PackageReference Include="Volo.Abp.TenantManagement.Web" Version="10.0.2" />
     <PackageReference Include="Volo.Abp.TenantManagement.HttpApi" Version="10.0.2" />
     <PackageReference Include="Volo.Abp.TenantManagement.Application" Version="10.0.2" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Volo.Abp.FeatureManagement.Blazor.Server" Version="10.0.2" />
+    <PackageReference Include="Volo.Abp.FeatureManagement.Web" Version="10.0.2" />
     <PackageReference Include="Volo.Abp.FeatureManagement.HttpApi" Version="10.0.2" />
     <PackageReference Include="Volo.Abp.FeatureManagement.Application" Version="10.0.2" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Volo.Abp.SettingManagement.Blazor.Server" Version="10.0.2" />
+    <PackageReference Include="Volo.Abp.SettingManagement.Web" Version="10.0.2" />
     <PackageReference Include="Volo.Abp.SettingManagement.HttpApi" Version="10.0.2" />
     <PackageReference Include="Volo.Abp.SettingManagement.Application" Version="10.0.2" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Volo.Abp.AspNetCore.Mvc.UI.Theme.LeptonXLite" Version="5.0.2" />
-    <PackageReference Include="Volo.Abp.AspNetCore.Components.Server.LeptonXLiteTheme" Version="5.0.2" />
-    <PackageReference Include="Volo.Abp.AspNetCore.Components.WebAssembly.LeptonXLiteTheme.Bundling" Version="5.0.2" />
   </ItemGroup>
 
   <ItemGroup>
@@ -91,12 +94,17 @@
       <PrivateAssets>compile; contentFiles; build; buildMultitargeting; buildTransitive; analyzers; native</PrivateAssets>
     </PackageReference>
   </ItemGroup>
-
+  
   <ItemGroup Condition="Exists('./openiddict.pfx')">
     <None Remove="openiddict.pfx" />
     <EmbeddedResource Include="openiddict.pfx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="Localization\GeoTrees\*.json" />
+    <EmbeddedResource Include="Localization\GeoTrees\*.json" />
   </ItemGroup>
 
   <ItemGroup>

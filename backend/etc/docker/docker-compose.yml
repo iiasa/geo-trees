@@ -1,5 +1,5 @@
 services:
-  geotrees:
+  geotrees-web:
     image: iiasa/geotrees:latest
     container_name: geotrees
     build:
@@ -12,11 +12,11 @@ services:
       - App__HealthCheckUrl=http://geotrees:8080/health-status
       - ConnectionStrings__Default=User ID=postgres;Password=myPassw0rd;Host=postgres;Port=5432;Database=GeoTrees;Pooling=false;
     ports:
-      - "44311:8081"
+      - "44324:8081"
     depends_on:
       postgres:
         condition: service_healthy
-    restart: on-failure    
+    restart: on-failure  
     volumes:
       - ./certs:/app/certs
     networks:
@@ -54,7 +54,6 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
-
 volumes:
   postgres_data:
     name: geotrees_postgres_data
