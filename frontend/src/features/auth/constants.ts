@@ -11,6 +11,7 @@ export const AUTH_ROUTES = {
 	CALLBACK: "/auth/callback",
 	FORGOT_PASSWORD: "/auth/forgot-password",
 	RESET_PASSWORD: "/auth/reset-password",
+	REGISTER: "/auth/register",
 } as const;
 
 // Forgot Password Labels
@@ -72,5 +73,60 @@ export const PASSWORD_RESET_VALIDATION = {
 			"Password must contain uppercase, lowercase, and number characters",
 		CONFIRM_REQUIRED: "Please confirm your password",
 		MISMATCH: "Passwords do not match",
+	},
+} as const;
+
+// Registration Labels
+export const REGISTER_LABELS = {
+	TITLE: "Create Account",
+	DESCRIPTION: "Sign up for a Geo Trees account",
+	USERNAME: "Username",
+	EMAIL: "Email Address",
+	PASSWORD: "Password",
+	CONFIRM_PASSWORD: "Confirm Password",
+	INSTITUTION: "Institution",
+	COUNTRY: "Country",
+	TERMS: "I accept the",
+	TERMS_LINK: "Terms and Conditions",
+	SUBMIT: "Create Account",
+	BACK_TO_LOGIN: "Back to Login",
+	SUCCESS_TITLE: "Account Created",
+	SUCCESS_MESSAGE:
+		"Your account has been created successfully. You can now sign in.",
+	ALREADY_HAVE_ACCOUNT: "Already have an account?",
+	SIGN_IN: "Sign In",
+} as const;
+
+// Registration Messages
+export const REGISTER_MESSAGES = {
+	SUCCESS: "Account created successfully",
+	ERROR: "Failed to create account",
+} as const;
+
+// Registration Validation
+export const REGISTER_VALIDATION = {
+	USERNAME: {
+		REQUIRED: "Username is required",
+	},
+	EMAIL: {
+		REQUIRED: "Email is required",
+		INVALID: "Invalid email address",
+	},
+	PASSWORD: {
+		REQUIRED: "Password is required",
+		MIN_LENGTH: "Password must be at least 6 characters",
+		COMPLEXITY:
+			"Password must contain uppercase, lowercase, and number characters",
+		CONFIRM_REQUIRED: "Please confirm your password",
+		MISMATCH: "Passwords do not match",
+	},
+	INSTITUTION: {
+		REQUIRED: "Institution is required",
+	},
+	COUNTRY: {
+		REQUIRED: "Country is required",
+	},
+	TERMS: {
+		REQUIRED: "You must accept the Terms and Conditions",
 	},
 } as const;
