@@ -15,6 +15,7 @@ public static class GeoTreesGlobalFeatureConfigurator
             {
                 cmsKit.Pages.Enable();
                 cmsKit.Comments.Enable();
+                cmsKit.Menu.Enable();
             });
         });
     }
