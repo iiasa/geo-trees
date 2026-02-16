@@ -129,7 +129,7 @@ export function RegisterForm() {
 					Institution: institution,
 					Country: country,
 				},
-			} as Record<string, unknown>,
+			} as unknown as Parameters<typeof register.mutate>[0]["body"],
 		});
 	};
 
