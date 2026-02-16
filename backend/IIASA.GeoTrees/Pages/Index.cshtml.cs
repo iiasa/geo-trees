@@ -2,7 +2,4 @@
 
 namespace IIASA.GeoTrees.Pages;
 
-public class IndexModel : AbpPageModel
-{
-    
-}
+public class IndexModel : AbpPageModel { }

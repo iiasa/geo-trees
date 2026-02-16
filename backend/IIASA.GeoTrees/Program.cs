@@ -8,7 +8,7 @@ namespace IIASA.GeoTrees;
 
 public class Program
 {
-    public async static Task<int> Main(string[] args)
+    public static async Task<int> Main(string[] args)
     {
         Log.Logger = new LoggerConfiguration()
             .WriteTo.Async(c => c.File("Logs/logs.txt"))
@@ -20,33 +20,41 @@ public class Program
         try
         {
             var builder = WebApplication.CreateBuilder(args);
-            builder.Host.AddAppSettingsSecretsJson()
+            builder
+                .Host.AddAppSettingsSecretsJson()
                 .UseAutofac()
-                .UseSerilog((context, services, loggerConfiguration) =>
-                {
-                    if (IsMigrateDatabase(args))
+                .UseSerilog(
+                    (context, services, loggerConfiguration) =>
                     {
-                        loggerConfiguration
-                            .MinimumLevel.Override("Volo.Abp", LogEventLevel.Warning)
-                            .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
-                            .WriteTo.Async(c => c.Console(standardErrorFromLevel: LogEventLevel.Error));
+                        if (IsMigrateDatabase(args))
+                        {
+                            loggerConfiguration
+                                .MinimumLevel.Override("Volo.Abp", LogEventLevel.Warning)
+                                .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
+                                .WriteTo.Async(c =>
+                                    c.Console(standardErrorFromLevel: LogEventLevel.Error)
+                                );
+                        }
+                        else
+                        {
+                            loggerConfiguration
+#if DEBUG
+                                .MinimumLevel.Debug()
+#else
+                                .MinimumLevel.Information()
+#endif
+                                .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
+                                .MinimumLevel.Override(
+                                    "Microsoft.EntityFrameworkCore",
+                                    LogEventLevel.Warning
+                                )
+                                .Enrich.FromLogContext()
+                                .WriteTo.Async(c => c.File("Logs/logs.txt"))
+                                .WriteTo.Async(c => c.Console())
+                                .WriteTo.Async(c => c.AbpStudio(services));
+                        }
                     }
-                    else
-                    {
-                        loggerConfiguration
-                        #if DEBUG
-                            .MinimumLevel.Debug()
-                        #else
-                            .MinimumLevel.Information()
-                        #endif
-                            .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
-                            .MinimumLevel.Override("Microsoft.EntityFrameworkCore", LogEventLevel.Warning)
-                            .Enrich.FromLogContext()
-                            .WriteTo.Async(c => c.File("Logs/logs.txt"))
-                            .WriteTo.Async(c => c.Console())
-                            .WriteTo.Async(c => c.AbpStudio(services));
-                    }
-                });
+                );
             if (IsMigrateDatabase(args))
             {
                 builder.Services.AddDataMigrationEnvironment();

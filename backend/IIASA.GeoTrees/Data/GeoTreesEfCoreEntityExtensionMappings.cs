@@ -11,8 +11,7 @@ public static class GeoTreesEfCoreEntityExtensionMappings
         GeoTreesGlobalFeatureConfigurator.Configure();
         GeoTreesModuleExtensionConfigurator.Configure();
 
-        OneTimeRunner.Run(() =>
-        {
+        OneTimeRunner.Run(() => {
             /* You can configure extra properties for the
              * entities defined in the modules used by your application.
              *

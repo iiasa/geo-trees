@@ -7,8 +7,7 @@ using Volo.Abp.Domain.Repositories;
 
 namespace IIASA.GeoTrees.Data;
 
-public class GeoTreesDataSeederContributor
-    : IDataSeedContributor, ITransientDependency
+public class GeoTreesDataSeederContributor : IDataSeedContributor, ITransientDependency
 {
     private readonly IRepository<Book, Guid> _bookRepository;
 
@@ -27,7 +26,7 @@ public class GeoTreesDataSeederContributor
                     Name = "1984",
                     Type = BookType.Dystopia,
                     PublishDate = new DateTime(1949, 6, 8),
-                    Price = 19.84f
+                    Price = 19.84f,
                 },
                 autoSave: true
             );
@@ -38,7 +37,7 @@ public class GeoTreesDataSeederContributor
                     Name = "The Hitchhiker's Guide to the Galaxy",
                     Type = BookType.ScienceFiction,
                     PublishDate = new DateTime(1995, 9, 27),
-                    Price = 42.0f
+                    Price = 42.0f,
                 },
                 autoSave: true
             );

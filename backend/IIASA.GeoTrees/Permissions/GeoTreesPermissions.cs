@@ -4,7 +4,6 @@ public static class GeoTreesPermissions
 {
     public const string GroupName = "GeoTrees";
 
-
     public static class Books
     {
         public const string Default = GroupName + ".Books";
