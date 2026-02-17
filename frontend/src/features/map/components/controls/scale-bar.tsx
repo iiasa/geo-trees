@@ -20,8 +20,7 @@ export function ScaleBar({ map }: ScaleBarProps) {
 			const center = map.getCenter();
 			const zoom = map.getZoom();
 			const metersPerPixel =
-				(156543.03392 * Math.cos((center.lat * Math.PI) / 180)) /
-				2 ** zoom;
+				(156543.03392 * Math.cos((center.lat * Math.PI) / 180)) / 2 ** zoom;
 			const scaleMeters = metersPerPixel * 100;
 			setScale(formatScale(scaleMeters));
 		};

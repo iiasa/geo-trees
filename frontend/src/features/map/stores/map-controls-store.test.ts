@@ -32,8 +32,7 @@ describe("map-controls-store", () => {
 		]);
 		useMapControlsStore.getState().toggleControl("a");
 		expect(
-			useMapControlsStore.getState().controls.find((c) => c.id === "a")
-				?.isOpen,
+			useMapControlsStore.getState().controls.find((c) => c.id === "a")?.isOpen,
 		).toBe(true);
 	});
 

@@ -139,7 +139,7 @@ export function MapControlContainer() {
 		const groups: Partial<Record<ControlPosition, MapControl[]>> = {};
 		for (const control of controls) {
 			if (!groups[control.position]) groups[control.position] = [];
-			groups[control.position]!.push(control);
+			groups[control.position]?.push(control);
 		}
 		return groups;
 	}, [controls]);

@@ -1,23 +1,17 @@
 import { useState, useEffect } from "react";
 import type maplibregl from "maplibre-gl";
-import { Download } from "lucide-react";
-import { BasemapSwitcher } from "./basemap-switcher";
 import { MapHeader } from "./map-header";
 import { MapView } from "./map-view";
-import { LayerPanel } from "./layer-panel";
-import { MapLegend } from "./map-legend";
 import { BrmLayer } from "./brm-layer";
 import { BrmPopup } from "./brm-popup";
 import { AlsLayer } from "./als-layer";
-import { StatusLegend } from "./status-legend";
-import { DownloadPanel } from "./download-panel";
+import { MapControls } from "./map-controls";
+import { MapControlContainer } from "./map-control-container";
 import { useMapLayers } from "../hooks/use-map-layers";
 import { useMapStore } from "../stores/map-store";
 
 export function MapPage() {
 	const { layers, isLoading } = useMapLayers();
-	const [panelOpen, setPanelOpen] = useState(true);
-	const [downloadOpen, setDownloadOpen] = useState(false);
 	const [mapInstance, setMapInstance] = useState<maplibregl.Map | null>(null);
 	const { setLayerVisibility, layerVisibility, activeBasemap } = useMapStore();
 
@@ -58,35 +52,8 @@ export function MapPage() {
 				map={mapInstance}
 				visible={alsVisible}
 			/>
-			<LayerPanel
-				layers={layers}
-				isOpen={panelOpen}
-				onToggle={() => setPanelOpen(!panelOpen)}
-			/>
-			<BasemapSwitcher />
-
-			{/* Download button */}
-			<div className="absolute bottom-24 right-4 z-10">
-				<button
-					type="button"
-					onClick={() => setDownloadOpen(!downloadOpen)}
-					className="bg-white/95 backdrop-blur-sm rounded-lg border border-gray-200 shadow-lg p-2.5 hover:bg-gray-50 transition-colors"
-				>
-					<Download className="size-4 text-gray-700" />
-				</button>
-				{downloadOpen && (
-					<div className="absolute bottom-12 right-0">
-						<DownloadPanel />
-					</div>
-				)}
-			</div>
-
-			{/* Status legend */}
-			<div className="absolute bottom-8 right-4 z-10">
-				<StatusLegend visible={brmVisible} />
-			</div>
-
-			<MapLegend layers={layers} />
+			<MapControls map={mapInstance} />
+			<MapControlContainer />
 		</div>
 	);
 }

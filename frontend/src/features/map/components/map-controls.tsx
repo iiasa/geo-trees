@@ -1,5 +1,12 @@
 import { useEffect } from "react";
-import { BookOpen, Download, Layers, Map, Minus, Plus } from "lucide-react";
+import {
+	BookOpen,
+	Download,
+	Layers,
+	Map as MapIcon,
+	Minus,
+	Plus,
+} from "lucide-react";
 import { useMapControlsStore } from "../stores/map-controls-store";
 import { BasemapPanel } from "./basemap-switcher";
 import { LayerPanel } from "./layer-panel";
@@ -19,7 +26,7 @@ export function MapControls({ map }: MapControlsProps) {
 		setControls([
 			{
 				id: "basemap",
-				icon: Map,
+				icon: MapIcon,
 				title: "Base Maps",
 				position: "top-right",
 				panel: <BasemapPanel />,
