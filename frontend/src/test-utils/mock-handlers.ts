@@ -15,7 +15,7 @@ import {
 } from "./mock-data";
 
 // Base URL for API calls
-const API_BASE = "https://abp.antosubash.com";
+const API_BASE = "http://localhost:44349";
 
 // Auth endpoints
 export const authHandlers = [

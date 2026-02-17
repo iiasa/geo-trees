@@ -57,7 +57,7 @@ export const DEMO_CONSTANTS = {
 		API_CLIENT_INFO: {
 			TITLE: "API Client Info",
 			GENERATED_FROM: "Generated from:",
-			OPENAPI_URL: "https://abp.antosubash.com/swagger/v1/swagger.json",
+			OPENAPI_URL: "http://localhost:44349/swagger/v1/swagger.json",
 			TYPESCRIPT_TYPES: "TypeScript types:",
 			TYPESCRIPT_DESCRIPTION: "Generated with full type safety",
 			TANSTACK_QUERY: "TanStack Query hooks:",

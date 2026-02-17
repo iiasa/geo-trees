@@ -48,8 +48,8 @@ Create a `.env` file in the root directory:
 
 ```bash
 # API Configuration
-VITE_API_BASE_URL=https://abp.antosubash.com
-VITE_OPENAPI_SPEC_URL=https://abp.antosubash.com/swagger/v1/swagger.json
+VITE_API_BASE_URL=http://localhost:44349
+VITE_OPENAPI_SPEC_URL=http://localhost:44349/swagger/v1/swagger.json
 VITE_API_PROXY_PATH=/api/proxy
 
 # OIDC Configuration

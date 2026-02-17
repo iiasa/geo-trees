@@ -1,8 +1,8 @@
 const DEFAULT_APP_BASE_URL = "http://localhost:3000";
-const DEFAULT_API_BASE_URL = "https://abp.antosubash.com";
+const DEFAULT_API_BASE_URL = "http://localhost:44349";
 const DEFAULT_PROXY_PATH = "/api/proxy";
 const DEFAULT_OPENAPI_SPEC_URL =
-	"https://abp.antosubash.com/swagger/v1/swagger.json";
+	"http://localhost:44349/swagger/v1/swagger.json";
 const appBaseUrl = import.meta.env.VITE_BASE_URL || DEFAULT_APP_BASE_URL;
 const proxyPath = import.meta.env.VITE_API_PROXY_PATH || DEFAULT_PROXY_PATH;
 const apiBaseUrl = import.meta.env.VITE_API_BASE_URL || DEFAULT_API_BASE_URL;

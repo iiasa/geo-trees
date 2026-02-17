@@ -10,5 +10,5 @@ export const APP_CONSTANTS = {
 	BASE_URL: import.meta.env.VITE_BASE_URL || "http://localhost:3000",
 	// API Base URL
 	API_BASE_URL:
-		import.meta.env.VITE_API_BASE_URL || "https://abp.antosubash.com",
+		import.meta.env.VITE_API_BASE_URL || "http://localhost:44349",
 } as const;
