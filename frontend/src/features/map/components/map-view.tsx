@@ -36,7 +36,10 @@ export function MapView({ layers }: MapViewProps) {
 			zoom: MAP_DEFAULTS.ZOOM,
 		});
 
-		map.addControl(new maplibregl.NavigationControl(), "top-right");
+		map.addControl(
+			new maplibregl.NavigationControl({ showCompass: true }),
+			"top-right",
+		);
 		mapRef.current = map;
 
 		map.on("load", () => {

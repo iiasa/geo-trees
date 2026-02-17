@@ -1,7 +1,7 @@
 export const MAP_DEFAULTS = {
 	CENTER: [0, 20] as [number, number],
 	ZOOM: 2,
-	STYLE: "positron",
+	STYLE: "satellite",
 } as const;
 
 export type BasemapId =

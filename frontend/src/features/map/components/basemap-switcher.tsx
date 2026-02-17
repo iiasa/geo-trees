@@ -21,7 +21,7 @@ export function BasemapSwitcher() {
 							}}
 							className={`flex flex-col items-center gap-1 p-1 rounded-md transition-colors ${
 								basemap.id === activeBasemap
-									? "ring-2 ring-teal-500"
+									? "ring-2 ring-primary"
 									: "hover:bg-gray-100"
 							}`}
 						>
@@ -45,7 +45,7 @@ export function BasemapSwitcher() {
 				<img
 					src={current.thumbnail}
 					alt={current.label}
-					className="w-[48px] h-[48px] rounded object-cover"
+					className="w-12 h-12 rounded object-cover"
 				/>
 				<span className="text-xs font-medium text-gray-700 pr-1">
 					{current.label}

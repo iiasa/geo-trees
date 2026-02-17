@@ -1,4 +1,6 @@
+import { Layers } from "lucide-react";
 import type { MapLayerDto } from "@/infrastructure/api/types.gen";
+import { Checkbox } from "@/shared/components/ui/checkbox";
 import { useMapStore } from "../stores/map-store";
 
 interface LayerPanelProps {
@@ -26,33 +28,41 @@ export function LayerPanel({ layers, isOpen, onToggle }: LayerPanelProps) {
 			<button
 				type="button"
 				onClick={onToggle}
-				className="absolute -left-8 top-2 bg-white/90 text-gray-700 p-1.5 rounded-l-md text-xs shadow"
+				className="absolute -left-10 top-2 bg-white/90 text-gray-700 p-2 rounded-l-md shadow hover:bg-white transition-colors"
 			>
-				{isOpen ? ">" : "<"}
+				<Layers className="size-4" />
 			</button>
 			<div className="bg-white/95 backdrop-blur-sm rounded-lg p-4 w-64 max-h-[calc(100vh-8rem)] overflow-y-auto border border-gray-200 shadow-lg">
 				<h3 className="text-sm font-semibold text-gray-900 mb-3">
 					Display Layers
 				</h3>
 				{Object.entries(grouped).map(([groupName, groupLayers]) => (
-					<div key={groupName} className="mb-3">
-						<h4 className="text-xs font-medium text-gray-500 uppercase tracking-wider mb-1.5">
+					<div key={groupName} className="mb-3 last:mb-0">
+						<h4 className="text-[10px] font-semibold text-gray-400 uppercase tracking-wider mb-2">
 							{groupName}
 						</h4>
-						{groupLayers.map((layer) => (
-							<label
-								key={layer.id}
-								className="flex items-center gap-2 py-1 cursor-pointer hover:bg-gray-100 rounded px-1"
-							>
-								<input
-									type="checkbox"
-									checked={layerVisibility[layer.id ?? ""] ?? false}
-									onChange={() => layer.id && toggleLayer(layer.id)}
-									className="rounded border-gray-300"
-								/>
-								<span className="text-sm text-gray-700">{layer.name}</span>
-							</label>
-						))}
+						{groupLayers.map((layer) => {
+							const checked = layerVisibility[layer.id ?? ""] ?? false;
+							const checkboxId = `layer-${layer.id}`;
+							return (
+								<div
+									key={layer.id}
+									className="flex items-center gap-2.5 py-1.5 cursor-pointer hover:bg-gray-50 rounded px-1 transition-colors"
+								>
+									<Checkbox
+										id={checkboxId}
+										checked={checked}
+										onCheckedChange={() => layer.id && toggleLayer(layer.id)}
+									/>
+									<label
+										htmlFor={checkboxId}
+										className="text-sm text-gray-700 cursor-pointer"
+									>
+										{layer.name}
+									</label>
+								</div>
+							);
+						})}
 					</div>
 				))}
 			</div>
