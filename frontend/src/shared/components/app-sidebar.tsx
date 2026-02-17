@@ -89,6 +89,33 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 
 						<SidebarGroup>
 							<SidebarGroupLabel className="group-data-[collapsible=icon]:hidden group-data-[collapsible=icon]:opacity-0">
+								Map Management
+							</SidebarGroupLabel>
+							<SidebarGroupContent>
+								<SidebarMenu>
+									{NAV_ITEMS.mapManagement.map((item) => {
+										const IconComponent = item.icon;
+										return (
+											<SidebarMenuItem key={item.title}>
+												<SidebarMenuButton asChild tooltip={item.title}>
+													<Link to={item.url}>
+														{IconComponent ? (
+															<IconComponent className="size-4 shrink-0" />
+														) : null}
+														<span className="group-data-[collapsible=icon]:hidden group-data-[collapsible=icon]:w-0">
+															{item.title}
+														</span>
+													</Link>
+												</SidebarMenuButton>
+											</SidebarMenuItem>
+										);
+									})}
+								</SidebarMenu>
+							</SidebarGroupContent>
+						</SidebarGroup>
+
+						<SidebarGroup>
+							<SidebarGroupLabel className="group-data-[collapsible=icon]:hidden group-data-[collapsible=icon]:opacity-0">
 								CMS
 							</SidebarGroupLabel>
 							<SidebarGroupContent>

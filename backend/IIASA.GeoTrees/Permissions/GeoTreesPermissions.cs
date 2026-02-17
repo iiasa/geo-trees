@@ -25,4 +25,12 @@ public static class GeoTreesPermissions
     {
         public const string Default = GroupName + ".Downloads";
     }
+
+    public static class MapLayers
+    {
+        public const string Default = GroupName + ".MapLayers";
+        public const string Create = Default + ".Create";
+        public const string Edit = Default + ".Edit";
+        public const string Delete = Default + ".Delete";
+    }
 }

@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SettingsRouteImport } from './routes/settings'
 import { Route as ProfileRouteImport } from './routes/profile'
+import { Route as MapRouteImport } from './routes/map'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ProfileIndexRouteImport } from './routes/profile.index'
@@ -29,6 +30,7 @@ import { Route as ApiHealthRouteImport } from './routes/api.health'
 import { Route as AdminUsersRouteImport } from './routes/admin/users'
 import { Route as AdminTenantsRouteImport } from './routes/admin/tenants'
 import { Route as AdminRolesRouteImport } from './routes/admin/roles'
+import { Route as AdminMapLayersRouteImport } from './routes/admin/map-layers'
 import { Route as DemoStartServerFuncsRouteImport } from './routes/demo/start.server-funcs'
 import { Route as DemoStartApiRequestRouteImport } from './routes/demo/start.api-request'
 import { Route as DemoApiNamesRouteImport } from './routes/demo/api.names'
@@ -52,6 +54,11 @@ const SettingsRoute = SettingsRouteImport.update({
 const ProfileRoute = ProfileRouteImport.update({
   id: '/profile',
   path: '/profile',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MapRoute = MapRouteImport.update({
+  id: '/map',
+  path: '/map',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DashboardRoute = DashboardRouteImport.update({
@@ -144,6 +151,11 @@ const AdminRolesRoute = AdminRolesRouteImport.update({
   path: '/admin/roles',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminMapLayersRoute = AdminMapLayersRouteImport.update({
+  id: '/admin/map-layers',
+  path: '/admin/map-layers',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const DemoStartServerFuncsRoute = DemoStartServerFuncsRouteImport.update({
   id: '/demo/start/server-funcs',
   path: '/demo/start/server-funcs',
@@ -218,8 +230,10 @@ const AdminCmsPagesIdEditRoute = AdminCmsPagesIdEditRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/dashboard': typeof DashboardRoute
+  '/map': typeof MapRoute
   '/profile': typeof ProfileRouteWithChildren
   '/settings': typeof SettingsRoute
+  '/admin/map-layers': typeof AdminMapLayersRoute
   '/admin/roles': typeof AdminRolesRoute
   '/admin/tenants': typeof AdminTenantsRoute
   '/admin/users': typeof AdminUsersRoute
@@ -254,7 +268,9 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/dashboard': typeof DashboardRoute
+  '/map': typeof MapRoute
   '/settings': typeof SettingsRoute
+  '/admin/map-layers': typeof AdminMapLayersRoute
   '/admin/roles': typeof AdminRolesRoute
   '/admin/tenants': typeof AdminTenantsRoute
   '/admin/users': typeof AdminUsersRoute
@@ -289,8 +305,10 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/dashboard': typeof DashboardRoute
+  '/map': typeof MapRoute
   '/profile': typeof ProfileRouteWithChildren
   '/settings': typeof SettingsRoute
+  '/admin/map-layers': typeof AdminMapLayersRoute
   '/admin/roles': typeof AdminRolesRoute
   '/admin/tenants': typeof AdminTenantsRoute
   '/admin/users': typeof AdminUsersRoute
@@ -327,8 +345,10 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/dashboard'
+    | '/map'
     | '/profile'
     | '/settings'
+    | '/admin/map-layers'
     | '/admin/roles'
     | '/admin/tenants'
     | '/admin/users'
@@ -363,7 +383,9 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/dashboard'
+    | '/map'
     | '/settings'
+    | '/admin/map-layers'
     | '/admin/roles'
     | '/admin/tenants'
     | '/admin/users'
@@ -397,8 +419,10 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/dashboard'
+    | '/map'
     | '/profile'
     | '/settings'
+    | '/admin/map-layers'
     | '/admin/roles'
     | '/admin/tenants'
     | '/admin/users'
@@ -434,8 +458,10 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   DashboardRoute: typeof DashboardRoute
+  MapRoute: typeof MapRoute
   ProfileRoute: typeof ProfileRouteWithChildren
   SettingsRoute: typeof SettingsRoute
+  AdminMapLayersRoute: typeof AdminMapLayersRoute
   AdminRolesRoute: typeof AdminRolesRoute
   AdminTenantsRoute: typeof AdminTenantsRoute
   AdminUsersRoute: typeof AdminUsersRoute
@@ -477,6 +503,13 @@ declare module '@tanstack/react-router' {
       path: '/profile'
       fullPath: '/profile'
       preLoaderRoute: typeof ProfileRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/map': {
+      id: '/map'
+      path: '/map'
+      fullPath: '/map'
+      preLoaderRoute: typeof MapRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/dashboard': {
@@ -603,6 +636,13 @@ declare module '@tanstack/react-router' {
       path: '/admin/roles'
       fullPath: '/admin/roles'
       preLoaderRoute: typeof AdminRolesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/map-layers': {
+      id: '/admin/map-layers'
+      path: '/admin/map-layers'
+      fullPath: '/admin/map-layers'
+      preLoaderRoute: typeof AdminMapLayersRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/demo/start/server-funcs': {
@@ -738,8 +778,10 @@ const AdminCmsPagesRouteWithChildren = AdminCmsPagesRoute._addFileChildren(
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   DashboardRoute: DashboardRoute,
+  MapRoute: MapRoute,
   ProfileRoute: ProfileRouteWithChildren,
   SettingsRoute: SettingsRoute,
+  AdminMapLayersRoute: AdminMapLayersRoute,
   AdminRolesRoute: AdminRolesRoute,
   AdminTenantsRoute: AdminTenantsRoute,
   AdminUsersRoute: AdminUsersRoute,

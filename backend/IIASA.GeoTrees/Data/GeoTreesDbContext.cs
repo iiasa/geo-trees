@@ -1,4 +1,5 @@
 ﻿using IIASA.GeoTrees.Entities.Books;
+using IIASA.GeoTrees.Entities.MapLayers;
 using IIASA.GeoTrees.Entities.Plots;
 using Microsoft.EntityFrameworkCore;
 using Volo.Abp.AuditLogging.EntityFrameworkCore;
@@ -21,6 +22,7 @@ public class GeoTreesDbContext : AbpDbContext<GeoTreesDbContext>
     public DbSet<Book> Books { get; set; }
     public DbSet<Plot> Plots { get; set; }
     public DbSet<Download> Downloads { get; set; }
+    public DbSet<MapLayer> MapLayers { get; set; }
 
     public const string DbTablePrefix = "App";
     public const string DbSchema = null;
@@ -73,6 +75,21 @@ public class GeoTreesDbContext : AbpDbContext<GeoTreesDbContext>
             b.Property(x => x.Name).IsRequired().HasMaxLength(256);
             b.Property(x => x.Purpose).IsRequired().HasMaxLength(1024);
             b.Property(x => x.Format).IsRequired().HasMaxLength(64);
+        });
+
+        builder.Entity<MapLayer>(b =>
+        {
+            b.ToTable(DbTablePrefix + "MapLayers", DbSchema);
+            b.ConfigureByConvention();
+            b.Property(x => x.Name).IsRequired().HasMaxLength(256);
+            b.Property(x => x.GroupName).IsRequired().HasMaxLength(256);
+            b.Property(x => x.Url).HasMaxLength(1024);
+            b.Property(x => x.SourceEndpoint).HasMaxLength(256);
+            b.Property(x => x.Layers).HasMaxLength(256);
+            b.Property(x => x.Format).HasMaxLength(64);
+            b.Property(x => x.LegendUrl).HasMaxLength(1024);
+            b.Property(x => x.Attribution).HasMaxLength(512);
+            b.HasIndex(x => x.Order);
         });
 
         /* Configure your own entities here */

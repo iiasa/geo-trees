@@ -3,8 +3,8 @@
 import { type DefaultError, queryOptions, type UseMutationOptions } from '@tanstack/react-query';
 
 import { client } from '../client.gen';
-import { deleteApiAppBookById, deleteApiCmsKitAdminCommentsById, deleteApiCmsKitAdminMenuItemsById, deleteApiCmsKitAdminPagesById, deleteApiCmsKitPublicCommentsById, deleteApiFeatureManagementFeatures, deleteApiIdentityRolesById, deleteApiIdentityUsersById, deleteApiMultiTenancyTenantsById, deleteApiMultiTenancyTenantsByIdDefaultConnectionString, getApiAbpApiDefinition, getApiAbpApplicationConfiguration, getApiAbpApplicationLocalization, getApiAbpMultiTenancyTenantsByIdById, getApiAbpMultiTenancyTenantsByNameByName, getApiAccountLogout, getApiAccountMyProfile, getApiAppBook, getApiAppBookById, getApiAppSafeTimeZoneSettings, getApiAppSafeTimeZoneSettingsTimezones, getApiCmsKitAdminComments, getApiCmsKitAdminCommentsById, getApiCmsKitAdminCommentsWaitingCount, getApiCmsKitAdminMenuItems, getApiCmsKitAdminMenuItemsAvailableOrder, getApiCmsKitAdminMenuItemsById, getApiCmsKitAdminMenuItemsLookupPages, getApiCmsKitAdminMenuItemsLookupPermissions, getApiCmsKitAdminPages, getApiCmsKitAdminPagesById, getApiCmsKitPublicCommentsByEntityTypeByEntityId, getApiCmsKitPublicMenuItems, getApiCmsKitPublicPagesBySlug, getApiCmsKitPublicPagesExist, getApiCmsKitPublicPagesHome, getApiFeatureManagementFeatures, getApiIdentityRoles, getApiIdentityRolesAll, getApiIdentityRolesById, getApiIdentityUsers, getApiIdentityUsersAssignableRoles, getApiIdentityUsersByEmailByEmail, getApiIdentityUsersById, getApiIdentityUsersByIdRoles, getApiIdentityUsersByUsernameByUserName, getApiIdentityUsersLookupById, getApiIdentityUsersLookupByUsernameByUserName, getApiIdentityUsersLookupCount, getApiIdentityUsersLookupSearch, getApiMultiTenancyTenants, getApiMultiTenancyTenantsById, getApiMultiTenancyTenantsByIdDefaultConnectionString, getApiPermissionManagementPermissions, getApiPermissionManagementPermissionsByGroup, getApiSettingManagementEmailing, getApiSettingManagementTimezone, getApiSettingManagementTimezoneTimezones, getCmsKitGlobalResourcesScript, getCmsKitGlobalResourcesStyle, type Options, postApiAccountCheckPassword, postApiAccountDynamicClaimsRefresh, postApiAccountLogin, postApiAccountMyProfileChangePassword, postApiAccountRegister, postApiAccountResetPassword, postApiAccountSendPasswordResetCode, postApiAccountVerifyPasswordResetToken, postApiAppBook, postApiCmsKitAdminCommentsSettings, postApiCmsKitAdminMenuItems, postApiCmsKitAdminPages, postApiCmsKitPublicCommentsByEntityTypeByEntityId, postApiIdentityRoles, postApiIdentityUsers, postApiMultiTenancyTenants, postApiSettingManagementEmailing, postApiSettingManagementEmailingSendTestEmail, postApiSettingManagementTimezone, putApiAccountMyProfile, putApiAppBookById, putApiAppSafeTimeZoneSettings, putApiCmsKitAdminCommentsByIdApprovalStatus, putApiCmsKitAdminMenuItemsById, putApiCmsKitAdminMenuItemsByIdMove, putApiCmsKitAdminPagesById, putApiCmsKitAdminPagesSetashomepageById, putApiCmsKitPublicCommentsById, putApiFeatureManagementFeatures, putApiIdentityRolesById, putApiIdentityUsersById, putApiIdentityUsersByIdRoles, putApiMultiTenancyTenantsById, putApiMultiTenancyTenantsByIdDefaultConnectionString, putApiPermissionManagementPermissions } from '../sdk.gen';
-import type { DeleteApiAppBookByIdData, DeleteApiAppBookByIdError, DeleteApiCmsKitAdminCommentsByIdData, DeleteApiCmsKitAdminCommentsByIdError, DeleteApiCmsKitAdminMenuItemsByIdData, DeleteApiCmsKitAdminMenuItemsByIdError, DeleteApiCmsKitAdminPagesByIdData, DeleteApiCmsKitAdminPagesByIdError, DeleteApiCmsKitPublicCommentsByIdData, DeleteApiCmsKitPublicCommentsByIdError, DeleteApiFeatureManagementFeaturesData, DeleteApiFeatureManagementFeaturesError, DeleteApiIdentityRolesByIdData, DeleteApiIdentityRolesByIdError, DeleteApiIdentityUsersByIdData, DeleteApiIdentityUsersByIdError, DeleteApiMultiTenancyTenantsByIdData, DeleteApiMultiTenancyTenantsByIdDefaultConnectionStringData, DeleteApiMultiTenancyTenantsByIdDefaultConnectionStringError, DeleteApiMultiTenancyTenantsByIdError, GetApiAbpApiDefinitionData, GetApiAbpApiDefinitionError, GetApiAbpApiDefinitionResponse, GetApiAbpApplicationConfigurationData, GetApiAbpApplicationConfigurationError, GetApiAbpApplicationConfigurationResponse, GetApiAbpApplicationLocalizationData, GetApiAbpApplicationLocalizationError, GetApiAbpApplicationLocalizationResponse, GetApiAbpMultiTenancyTenantsByIdByIdData, GetApiAbpMultiTenancyTenantsByIdByIdError, GetApiAbpMultiTenancyTenantsByIdByIdResponse, GetApiAbpMultiTenancyTenantsByNameByNameData, GetApiAbpMultiTenancyTenantsByNameByNameError, GetApiAbpMultiTenancyTenantsByNameByNameResponse, GetApiAccountLogoutData, GetApiAccountLogoutError, GetApiAccountMyProfileData, GetApiAccountMyProfileError, GetApiAccountMyProfileResponse, GetApiAppBookByIdData, GetApiAppBookByIdError, GetApiAppBookByIdResponse, GetApiAppBookData, GetApiAppBookError, GetApiAppBookResponse, GetApiAppSafeTimeZoneSettingsData, GetApiAppSafeTimeZoneSettingsError, GetApiAppSafeTimeZoneSettingsResponse, GetApiAppSafeTimeZoneSettingsTimezonesData, GetApiAppSafeTimeZoneSettingsTimezonesError, GetApiAppSafeTimeZoneSettingsTimezonesResponse, GetApiCmsKitAdminCommentsByIdData, GetApiCmsKitAdminCommentsByIdError, GetApiCmsKitAdminCommentsByIdResponse, GetApiCmsKitAdminCommentsData, GetApiCmsKitAdminCommentsError, GetApiCmsKitAdminCommentsResponse, GetApiCmsKitAdminCommentsWaitingCountData, GetApiCmsKitAdminCommentsWaitingCountError, GetApiCmsKitAdminCommentsWaitingCountResponse, GetApiCmsKitAdminMenuItemsAvailableOrderData, GetApiCmsKitAdminMenuItemsAvailableOrderError, GetApiCmsKitAdminMenuItemsAvailableOrderResponse, GetApiCmsKitAdminMenuItemsByIdData, GetApiCmsKitAdminMenuItemsByIdError, GetApiCmsKitAdminMenuItemsByIdResponse, GetApiCmsKitAdminMenuItemsData, GetApiCmsKitAdminMenuItemsError, GetApiCmsKitAdminMenuItemsLookupPagesData, GetApiCmsKitAdminMenuItemsLookupPagesError, GetApiCmsKitAdminMenuItemsLookupPagesResponse, GetApiCmsKitAdminMenuItemsLookupPermissionsData, GetApiCmsKitAdminMenuItemsLookupPermissionsError, GetApiCmsKitAdminMenuItemsLookupPermissionsResponse, GetApiCmsKitAdminMenuItemsResponse, GetApiCmsKitAdminPagesByIdData, GetApiCmsKitAdminPagesByIdError, GetApiCmsKitAdminPagesByIdResponse, GetApiCmsKitAdminPagesData, GetApiCmsKitAdminPagesError, GetApiCmsKitAdminPagesResponse, GetApiCmsKitPublicCommentsByEntityTypeByEntityIdData, GetApiCmsKitPublicCommentsByEntityTypeByEntityIdError, GetApiCmsKitPublicCommentsByEntityTypeByEntityIdResponse, GetApiCmsKitPublicMenuItemsData, GetApiCmsKitPublicMenuItemsError, GetApiCmsKitPublicMenuItemsResponse, GetApiCmsKitPublicPagesBySlugData, GetApiCmsKitPublicPagesBySlugError, GetApiCmsKitPublicPagesBySlugResponse, GetApiCmsKitPublicPagesExistData, GetApiCmsKitPublicPagesExistError, GetApiCmsKitPublicPagesExistResponse, GetApiCmsKitPublicPagesHomeData, GetApiCmsKitPublicPagesHomeError, GetApiCmsKitPublicPagesHomeResponse, GetApiFeatureManagementFeaturesData, GetApiFeatureManagementFeaturesError, GetApiFeatureManagementFeaturesResponse, GetApiIdentityRolesAllData, GetApiIdentityRolesAllError, GetApiIdentityRolesAllResponse, GetApiIdentityRolesByIdData, GetApiIdentityRolesByIdError, GetApiIdentityRolesByIdResponse, GetApiIdentityRolesData, GetApiIdentityRolesError, GetApiIdentityRolesResponse, GetApiIdentityUsersAssignableRolesData, GetApiIdentityUsersAssignableRolesError, GetApiIdentityUsersAssignableRolesResponse, GetApiIdentityUsersByEmailByEmailData, GetApiIdentityUsersByEmailByEmailError, GetApiIdentityUsersByEmailByEmailResponse, GetApiIdentityUsersByIdData, GetApiIdentityUsersByIdError, GetApiIdentityUsersByIdResponse, GetApiIdentityUsersByIdRolesData, GetApiIdentityUsersByIdRolesError, GetApiIdentityUsersByIdRolesResponse, GetApiIdentityUsersByUsernameByUserNameData, GetApiIdentityUsersByUsernameByUserNameError, GetApiIdentityUsersByUsernameByUserNameResponse, GetApiIdentityUsersData, GetApiIdentityUsersError, GetApiIdentityUsersLookupByIdData, GetApiIdentityUsersLookupByIdError, GetApiIdentityUsersLookupByIdResponse, GetApiIdentityUsersLookupByUsernameByUserNameData, GetApiIdentityUsersLookupByUsernameByUserNameError, GetApiIdentityUsersLookupByUsernameByUserNameResponse, GetApiIdentityUsersLookupCountData, GetApiIdentityUsersLookupCountError, GetApiIdentityUsersLookupCountResponse, GetApiIdentityUsersLookupSearchData, GetApiIdentityUsersLookupSearchError, GetApiIdentityUsersLookupSearchResponse, GetApiIdentityUsersResponse, GetApiMultiTenancyTenantsByIdData, GetApiMultiTenancyTenantsByIdDefaultConnectionStringData, GetApiMultiTenancyTenantsByIdDefaultConnectionStringError, GetApiMultiTenancyTenantsByIdDefaultConnectionStringResponse, GetApiMultiTenancyTenantsByIdError, GetApiMultiTenancyTenantsByIdResponse, GetApiMultiTenancyTenantsData, GetApiMultiTenancyTenantsError, GetApiMultiTenancyTenantsResponse, GetApiPermissionManagementPermissionsByGroupData, GetApiPermissionManagementPermissionsByGroupError, GetApiPermissionManagementPermissionsByGroupResponse, GetApiPermissionManagementPermissionsData, GetApiPermissionManagementPermissionsError, GetApiPermissionManagementPermissionsResponse, GetApiSettingManagementEmailingData, GetApiSettingManagementEmailingError, GetApiSettingManagementEmailingResponse, GetApiSettingManagementTimezoneData, GetApiSettingManagementTimezoneError, GetApiSettingManagementTimezoneResponse, GetApiSettingManagementTimezoneTimezonesData, GetApiSettingManagementTimezoneTimezonesError, GetApiSettingManagementTimezoneTimezonesResponse, GetCmsKitGlobalResourcesScriptData, GetCmsKitGlobalResourcesStyleData, PostApiAccountCheckPasswordData, PostApiAccountCheckPasswordError, PostApiAccountCheckPasswordResponse, PostApiAccountDynamicClaimsRefreshData, PostApiAccountDynamicClaimsRefreshError, PostApiAccountLoginData, PostApiAccountLoginError, PostApiAccountLoginResponse, PostApiAccountMyProfileChangePasswordData, PostApiAccountMyProfileChangePasswordError, PostApiAccountRegisterData, PostApiAccountRegisterError, PostApiAccountRegisterResponse, PostApiAccountResetPasswordData, PostApiAccountResetPasswordError, PostApiAccountSendPasswordResetCodeData, PostApiAccountSendPasswordResetCodeError, PostApiAccountVerifyPasswordResetTokenData, PostApiAccountVerifyPasswordResetTokenError, PostApiAccountVerifyPasswordResetTokenResponse, PostApiAppBookData, PostApiAppBookError, PostApiAppBookResponse, PostApiCmsKitAdminCommentsSettingsData, PostApiCmsKitAdminCommentsSettingsError, PostApiCmsKitAdminMenuItemsData, PostApiCmsKitAdminMenuItemsError, PostApiCmsKitAdminMenuItemsResponse, PostApiCmsKitAdminPagesData, PostApiCmsKitAdminPagesError, PostApiCmsKitAdminPagesResponse, PostApiCmsKitPublicCommentsByEntityTypeByEntityIdData, PostApiCmsKitPublicCommentsByEntityTypeByEntityIdError, PostApiCmsKitPublicCommentsByEntityTypeByEntityIdResponse, PostApiIdentityRolesData, PostApiIdentityRolesError, PostApiIdentityRolesResponse, PostApiIdentityUsersData, PostApiIdentityUsersError, PostApiIdentityUsersResponse, PostApiMultiTenancyTenantsData, PostApiMultiTenancyTenantsError, PostApiMultiTenancyTenantsResponse, PostApiSettingManagementEmailingData, PostApiSettingManagementEmailingError, PostApiSettingManagementEmailingSendTestEmailData, PostApiSettingManagementEmailingSendTestEmailError, PostApiSettingManagementTimezoneData, PostApiSettingManagementTimezoneError, PutApiAccountMyProfileData, PutApiAccountMyProfileError, PutApiAccountMyProfileResponse, PutApiAppBookByIdData, PutApiAppBookByIdError, PutApiAppBookByIdResponse, PutApiAppSafeTimeZoneSettingsData, PutApiAppSafeTimeZoneSettingsError, PutApiCmsKitAdminCommentsByIdApprovalStatusData, PutApiCmsKitAdminCommentsByIdApprovalStatusError, PutApiCmsKitAdminMenuItemsByIdData, PutApiCmsKitAdminMenuItemsByIdError, PutApiCmsKitAdminMenuItemsByIdMoveData, PutApiCmsKitAdminMenuItemsByIdMoveError, PutApiCmsKitAdminMenuItemsByIdResponse, PutApiCmsKitAdminPagesByIdData, PutApiCmsKitAdminPagesByIdError, PutApiCmsKitAdminPagesByIdResponse, PutApiCmsKitAdminPagesSetashomepageByIdData, PutApiCmsKitAdminPagesSetashomepageByIdError, PutApiCmsKitPublicCommentsByIdData, PutApiCmsKitPublicCommentsByIdError, PutApiCmsKitPublicCommentsByIdResponse, PutApiFeatureManagementFeaturesData, PutApiFeatureManagementFeaturesError, PutApiIdentityRolesByIdData, PutApiIdentityRolesByIdError, PutApiIdentityRolesByIdResponse, PutApiIdentityUsersByIdData, PutApiIdentityUsersByIdError, PutApiIdentityUsersByIdResponse, PutApiIdentityUsersByIdRolesData, PutApiIdentityUsersByIdRolesError, PutApiMultiTenancyTenantsByIdData, PutApiMultiTenancyTenantsByIdDefaultConnectionStringData, PutApiMultiTenancyTenantsByIdDefaultConnectionStringError, PutApiMultiTenancyTenantsByIdError, PutApiMultiTenancyTenantsByIdResponse, PutApiPermissionManagementPermissionsData, PutApiPermissionManagementPermissionsError } from '../types.gen';
+import { deleteApiAppBookById, deleteApiAppMapLayerById, deleteApiAppPlotById, deleteApiCmsKitAdminCommentsById, deleteApiCmsKitAdminMenuItemsById, deleteApiCmsKitAdminPagesById, deleteApiCmsKitPublicCommentsById, deleteApiFeatureManagementFeatures, deleteApiIdentityRolesById, deleteApiIdentityUsersById, deleteApiMultiTenancyTenantsById, deleteApiMultiTenancyTenantsByIdDefaultConnectionString, getApiAbpApiDefinition, getApiAbpApplicationConfiguration, getApiAbpApplicationLocalization, getApiAbpMultiTenancyTenantsByIdById, getApiAbpMultiTenancyTenantsByNameByName, getApiAccountLogout, getApiAccountMyProfile, getApiAppBook, getApiAppBookById, getApiAppExternalDataGoogleSheetGeoJson, getApiAppGeoTreesProfile, getApiAppMapLayer, getApiAppMapLayerById, getApiAppPlot, getApiAppPlotAvailableCountries, getApiAppPlotAvailableVersions, getApiAppPlotById, getApiAppPlotByPlotIdByPlotId, getApiAppPlotDownload, getApiAppPlotGeoJson, getApiAppRegistrationSettings, getApiAppSafeTimeZoneSettings, getApiAppSafeTimeZoneSettingsTimezones, getApiCmsKitAdminComments, getApiCmsKitAdminCommentsById, getApiCmsKitAdminCommentsWaitingCount, getApiCmsKitAdminMenuItems, getApiCmsKitAdminMenuItemsAvailableOrder, getApiCmsKitAdminMenuItemsById, getApiCmsKitAdminMenuItemsLookupPages, getApiCmsKitAdminMenuItemsLookupPermissions, getApiCmsKitAdminPages, getApiCmsKitAdminPagesById, getApiCmsKitPublicCommentsByEntityTypeByEntityId, getApiCmsKitPublicMenuItems, getApiCmsKitPublicPagesBySlug, getApiCmsKitPublicPagesExist, getApiCmsKitPublicPagesHome, getApiFeatureManagementFeatures, getApiIdentityRoles, getApiIdentityRolesAll, getApiIdentityRolesById, getApiIdentityUsers, getApiIdentityUsersAssignableRoles, getApiIdentityUsersByEmailByEmail, getApiIdentityUsersById, getApiIdentityUsersByIdRoles, getApiIdentityUsersByUsernameByUserName, getApiIdentityUsersLookupById, getApiIdentityUsersLookupByUsernameByUserName, getApiIdentityUsersLookupCount, getApiIdentityUsersLookupSearch, getApiMultiTenancyTenants, getApiMultiTenancyTenantsById, getApiMultiTenancyTenantsByIdDefaultConnectionString, getApiPermissionManagementPermissions, getApiPermissionManagementPermissionsByGroup, getApiSettingManagementEmailing, getApiSettingManagementTimezone, getApiSettingManagementTimezoneTimezones, getCmsKitGlobalResourcesScript, getCmsKitGlobalResourcesStyle, type Options, postApiAccountCheckPassword, postApiAccountDynamicClaimsRefresh, postApiAccountLogin, postApiAccountMyProfileChangePassword, postApiAccountRegister, postApiAccountResetPassword, postApiAccountSendPasswordResetCode, postApiAccountVerifyPasswordResetToken, postApiAppBook, postApiAppEmailConfirmationConfirm, postApiAppGeoTreesProfileChangePassword, postApiAppMapLayer, postApiAppPlot, postApiCmsKitAdminCommentsSettings, postApiCmsKitAdminMenuItems, postApiCmsKitAdminPages, postApiCmsKitPublicCommentsByEntityTypeByEntityId, postApiIdentityRoles, postApiIdentityUsers, postApiMultiTenancyTenants, postApiSettingManagementEmailing, postApiSettingManagementEmailingSendTestEmail, postApiSettingManagementTimezone, putApiAccountMyProfile, putApiAppBookById, putApiAppGeoTreesProfile, putApiAppMapLayerById, putApiAppPlotById, putApiAppSafeTimeZoneSettings, putApiCmsKitAdminCommentsByIdApprovalStatus, putApiCmsKitAdminMenuItemsById, putApiCmsKitAdminMenuItemsByIdMove, putApiCmsKitAdminPagesById, putApiCmsKitAdminPagesSetashomepageById, putApiCmsKitPublicCommentsById, putApiFeatureManagementFeatures, putApiIdentityRolesById, putApiIdentityUsersById, putApiIdentityUsersByIdRoles, putApiMultiTenancyTenantsById, putApiMultiTenancyTenantsByIdDefaultConnectionString, putApiPermissionManagementPermissions } from '../sdk.gen';
+import type { DeleteApiAppBookByIdData, DeleteApiAppBookByIdError, DeleteApiAppMapLayerByIdData, DeleteApiAppMapLayerByIdError, DeleteApiAppPlotByIdData, DeleteApiAppPlotByIdError, DeleteApiCmsKitAdminCommentsByIdData, DeleteApiCmsKitAdminCommentsByIdError, DeleteApiCmsKitAdminMenuItemsByIdData, DeleteApiCmsKitAdminMenuItemsByIdError, DeleteApiCmsKitAdminPagesByIdData, DeleteApiCmsKitAdminPagesByIdError, DeleteApiCmsKitPublicCommentsByIdData, DeleteApiCmsKitPublicCommentsByIdError, DeleteApiFeatureManagementFeaturesData, DeleteApiFeatureManagementFeaturesError, DeleteApiIdentityRolesByIdData, DeleteApiIdentityRolesByIdError, DeleteApiIdentityUsersByIdData, DeleteApiIdentityUsersByIdError, DeleteApiMultiTenancyTenantsByIdData, DeleteApiMultiTenancyTenantsByIdDefaultConnectionStringData, DeleteApiMultiTenancyTenantsByIdDefaultConnectionStringError, DeleteApiMultiTenancyTenantsByIdError, GetApiAbpApiDefinitionData, GetApiAbpApiDefinitionError, GetApiAbpApiDefinitionResponse, GetApiAbpApplicationConfigurationData, GetApiAbpApplicationConfigurationError, GetApiAbpApplicationConfigurationResponse, GetApiAbpApplicationLocalizationData, GetApiAbpApplicationLocalizationError, GetApiAbpApplicationLocalizationResponse, GetApiAbpMultiTenancyTenantsByIdByIdData, GetApiAbpMultiTenancyTenantsByIdByIdError, GetApiAbpMultiTenancyTenantsByIdByIdResponse, GetApiAbpMultiTenancyTenantsByNameByNameData, GetApiAbpMultiTenancyTenantsByNameByNameError, GetApiAbpMultiTenancyTenantsByNameByNameResponse, GetApiAccountLogoutData, GetApiAccountLogoutError, GetApiAccountMyProfileData, GetApiAccountMyProfileError, GetApiAccountMyProfileResponse, GetApiAppBookByIdData, GetApiAppBookByIdError, GetApiAppBookByIdResponse, GetApiAppBookData, GetApiAppBookError, GetApiAppBookResponse, GetApiAppExternalDataGoogleSheetGeoJsonData, GetApiAppExternalDataGoogleSheetGeoJsonError, GetApiAppGeoTreesProfileData, GetApiAppGeoTreesProfileError, GetApiAppGeoTreesProfileResponse, GetApiAppMapLayerByIdData, GetApiAppMapLayerByIdError, GetApiAppMapLayerByIdResponse, GetApiAppMapLayerData, GetApiAppMapLayerError, GetApiAppMapLayerResponse, GetApiAppPlotAvailableCountriesData, GetApiAppPlotAvailableCountriesError, GetApiAppPlotAvailableCountriesResponse, GetApiAppPlotAvailableVersionsData, GetApiAppPlotAvailableVersionsError, GetApiAppPlotAvailableVersionsResponse, GetApiAppPlotByIdData, GetApiAppPlotByIdError, GetApiAppPlotByIdResponse, GetApiAppPlotByPlotIdByPlotIdData, GetApiAppPlotByPlotIdByPlotIdError, GetApiAppPlotByPlotIdByPlotIdResponse, GetApiAppPlotData, GetApiAppPlotDownloadData, GetApiAppPlotError, GetApiAppPlotGeoJsonData, GetApiAppPlotGeoJsonError, GetApiAppPlotResponse, GetApiAppRegistrationSettingsData, GetApiAppRegistrationSettingsError, GetApiAppRegistrationSettingsResponse, GetApiAppSafeTimeZoneSettingsData, GetApiAppSafeTimeZoneSettingsError, GetApiAppSafeTimeZoneSettingsResponse, GetApiAppSafeTimeZoneSettingsTimezonesData, GetApiAppSafeTimeZoneSettingsTimezonesError, GetApiAppSafeTimeZoneSettingsTimezonesResponse, GetApiCmsKitAdminCommentsByIdData, GetApiCmsKitAdminCommentsByIdError, GetApiCmsKitAdminCommentsByIdResponse, GetApiCmsKitAdminCommentsData, GetApiCmsKitAdminCommentsError, GetApiCmsKitAdminCommentsResponse, GetApiCmsKitAdminCommentsWaitingCountData, GetApiCmsKitAdminCommentsWaitingCountError, GetApiCmsKitAdminCommentsWaitingCountResponse, GetApiCmsKitAdminMenuItemsAvailableOrderData, GetApiCmsKitAdminMenuItemsAvailableOrderError, GetApiCmsKitAdminMenuItemsAvailableOrderResponse, GetApiCmsKitAdminMenuItemsByIdData, GetApiCmsKitAdminMenuItemsByIdError, GetApiCmsKitAdminMenuItemsByIdResponse, GetApiCmsKitAdminMenuItemsData, GetApiCmsKitAdminMenuItemsError, GetApiCmsKitAdminMenuItemsLookupPagesData, GetApiCmsKitAdminMenuItemsLookupPagesError, GetApiCmsKitAdminMenuItemsLookupPagesResponse, GetApiCmsKitAdminMenuItemsLookupPermissionsData, GetApiCmsKitAdminMenuItemsLookupPermissionsError, GetApiCmsKitAdminMenuItemsLookupPermissionsResponse, GetApiCmsKitAdminMenuItemsResponse, GetApiCmsKitAdminPagesByIdData, GetApiCmsKitAdminPagesByIdError, GetApiCmsKitAdminPagesByIdResponse, GetApiCmsKitAdminPagesData, GetApiCmsKitAdminPagesError, GetApiCmsKitAdminPagesResponse, GetApiCmsKitPublicCommentsByEntityTypeByEntityIdData, GetApiCmsKitPublicCommentsByEntityTypeByEntityIdError, GetApiCmsKitPublicCommentsByEntityTypeByEntityIdResponse, GetApiCmsKitPublicMenuItemsData, GetApiCmsKitPublicMenuItemsError, GetApiCmsKitPublicMenuItemsResponse, GetApiCmsKitPublicPagesBySlugData, GetApiCmsKitPublicPagesBySlugError, GetApiCmsKitPublicPagesBySlugResponse, GetApiCmsKitPublicPagesExistData, GetApiCmsKitPublicPagesExistError, GetApiCmsKitPublicPagesExistResponse, GetApiCmsKitPublicPagesHomeData, GetApiCmsKitPublicPagesHomeError, GetApiCmsKitPublicPagesHomeResponse, GetApiFeatureManagementFeaturesData, GetApiFeatureManagementFeaturesError, GetApiFeatureManagementFeaturesResponse, GetApiIdentityRolesAllData, GetApiIdentityRolesAllError, GetApiIdentityRolesAllResponse, GetApiIdentityRolesByIdData, GetApiIdentityRolesByIdError, GetApiIdentityRolesByIdResponse, GetApiIdentityRolesData, GetApiIdentityRolesError, GetApiIdentityRolesResponse, GetApiIdentityUsersAssignableRolesData, GetApiIdentityUsersAssignableRolesError, GetApiIdentityUsersAssignableRolesResponse, GetApiIdentityUsersByEmailByEmailData, GetApiIdentityUsersByEmailByEmailError, GetApiIdentityUsersByEmailByEmailResponse, GetApiIdentityUsersByIdData, GetApiIdentityUsersByIdError, GetApiIdentityUsersByIdResponse, GetApiIdentityUsersByIdRolesData, GetApiIdentityUsersByIdRolesError, GetApiIdentityUsersByIdRolesResponse, GetApiIdentityUsersByUsernameByUserNameData, GetApiIdentityUsersByUsernameByUserNameError, GetApiIdentityUsersByUsernameByUserNameResponse, GetApiIdentityUsersData, GetApiIdentityUsersError, GetApiIdentityUsersLookupByIdData, GetApiIdentityUsersLookupByIdError, GetApiIdentityUsersLookupByIdResponse, GetApiIdentityUsersLookupByUsernameByUserNameData, GetApiIdentityUsersLookupByUsernameByUserNameError, GetApiIdentityUsersLookupByUsernameByUserNameResponse, GetApiIdentityUsersLookupCountData, GetApiIdentityUsersLookupCountError, GetApiIdentityUsersLookupCountResponse, GetApiIdentityUsersLookupSearchData, GetApiIdentityUsersLookupSearchError, GetApiIdentityUsersLookupSearchResponse, GetApiIdentityUsersResponse, GetApiMultiTenancyTenantsByIdData, GetApiMultiTenancyTenantsByIdDefaultConnectionStringData, GetApiMultiTenancyTenantsByIdDefaultConnectionStringError, GetApiMultiTenancyTenantsByIdDefaultConnectionStringResponse, GetApiMultiTenancyTenantsByIdError, GetApiMultiTenancyTenantsByIdResponse, GetApiMultiTenancyTenantsData, GetApiMultiTenancyTenantsError, GetApiMultiTenancyTenantsResponse, GetApiPermissionManagementPermissionsByGroupData, GetApiPermissionManagementPermissionsByGroupError, GetApiPermissionManagementPermissionsByGroupResponse, GetApiPermissionManagementPermissionsData, GetApiPermissionManagementPermissionsError, GetApiPermissionManagementPermissionsResponse, GetApiSettingManagementEmailingData, GetApiSettingManagementEmailingError, GetApiSettingManagementEmailingResponse, GetApiSettingManagementTimezoneData, GetApiSettingManagementTimezoneError, GetApiSettingManagementTimezoneResponse, GetApiSettingManagementTimezoneTimezonesData, GetApiSettingManagementTimezoneTimezonesError, GetApiSettingManagementTimezoneTimezonesResponse, GetCmsKitGlobalResourcesScriptData, GetCmsKitGlobalResourcesStyleData, PostApiAccountCheckPasswordData, PostApiAccountCheckPasswordError, PostApiAccountCheckPasswordResponse, PostApiAccountDynamicClaimsRefreshData, PostApiAccountDynamicClaimsRefreshError, PostApiAccountLoginData, PostApiAccountLoginError, PostApiAccountLoginResponse, PostApiAccountMyProfileChangePasswordData, PostApiAccountMyProfileChangePasswordError, PostApiAccountRegisterData, PostApiAccountRegisterError, PostApiAccountRegisterResponse, PostApiAccountResetPasswordData, PostApiAccountResetPasswordError, PostApiAccountSendPasswordResetCodeData, PostApiAccountSendPasswordResetCodeError, PostApiAccountVerifyPasswordResetTokenData, PostApiAccountVerifyPasswordResetTokenError, PostApiAccountVerifyPasswordResetTokenResponse, PostApiAppBookData, PostApiAppBookError, PostApiAppBookResponse, PostApiAppEmailConfirmationConfirmData, PostApiAppEmailConfirmationConfirmError, PostApiAppGeoTreesProfileChangePasswordData, PostApiAppGeoTreesProfileChangePasswordError, PostApiAppMapLayerData, PostApiAppMapLayerError, PostApiAppMapLayerResponse, PostApiAppPlotData, PostApiAppPlotError, PostApiAppPlotResponse, PostApiCmsKitAdminCommentsSettingsData, PostApiCmsKitAdminCommentsSettingsError, PostApiCmsKitAdminMenuItemsData, PostApiCmsKitAdminMenuItemsError, PostApiCmsKitAdminMenuItemsResponse, PostApiCmsKitAdminPagesData, PostApiCmsKitAdminPagesError, PostApiCmsKitAdminPagesResponse, PostApiCmsKitPublicCommentsByEntityTypeByEntityIdData, PostApiCmsKitPublicCommentsByEntityTypeByEntityIdError, PostApiCmsKitPublicCommentsByEntityTypeByEntityIdResponse, PostApiIdentityRolesData, PostApiIdentityRolesError, PostApiIdentityRolesResponse, PostApiIdentityUsersData, PostApiIdentityUsersError, PostApiIdentityUsersResponse, PostApiMultiTenancyTenantsData, PostApiMultiTenancyTenantsError, PostApiMultiTenancyTenantsResponse, PostApiSettingManagementEmailingData, PostApiSettingManagementEmailingError, PostApiSettingManagementEmailingSendTestEmailData, PostApiSettingManagementEmailingSendTestEmailError, PostApiSettingManagementTimezoneData, PostApiSettingManagementTimezoneError, PutApiAccountMyProfileData, PutApiAccountMyProfileError, PutApiAccountMyProfileResponse, PutApiAppBookByIdData, PutApiAppBookByIdError, PutApiAppBookByIdResponse, PutApiAppGeoTreesProfileData, PutApiAppGeoTreesProfileError, PutApiAppGeoTreesProfileResponse, PutApiAppMapLayerByIdData, PutApiAppMapLayerByIdError, PutApiAppMapLayerByIdResponse, PutApiAppPlotByIdData, PutApiAppPlotByIdError, PutApiAppPlotByIdResponse, PutApiAppSafeTimeZoneSettingsData, PutApiAppSafeTimeZoneSettingsError, PutApiCmsKitAdminCommentsByIdApprovalStatusData, PutApiCmsKitAdminCommentsByIdApprovalStatusError, PutApiCmsKitAdminMenuItemsByIdData, PutApiCmsKitAdminMenuItemsByIdError, PutApiCmsKitAdminMenuItemsByIdMoveData, PutApiCmsKitAdminMenuItemsByIdMoveError, PutApiCmsKitAdminMenuItemsByIdResponse, PutApiCmsKitAdminPagesByIdData, PutApiCmsKitAdminPagesByIdError, PutApiCmsKitAdminPagesByIdResponse, PutApiCmsKitAdminPagesSetashomepageByIdData, PutApiCmsKitAdminPagesSetashomepageByIdError, PutApiCmsKitPublicCommentsByIdData, PutApiCmsKitPublicCommentsByIdError, PutApiCmsKitPublicCommentsByIdResponse, PutApiFeatureManagementFeaturesData, PutApiFeatureManagementFeaturesError, PutApiIdentityRolesByIdData, PutApiIdentityRolesByIdError, PutApiIdentityRolesByIdResponse, PutApiIdentityUsersByIdData, PutApiIdentityUsersByIdError, PutApiIdentityUsersByIdResponse, PutApiIdentityUsersByIdRolesData, PutApiIdentityUsersByIdRolesError, PutApiMultiTenancyTenantsByIdData, PutApiMultiTenancyTenantsByIdDefaultConnectionStringData, PutApiMultiTenancyTenantsByIdDefaultConnectionStringError, PutApiMultiTenancyTenantsByIdError, PutApiMultiTenancyTenantsByIdResponse, PutApiPermissionManagementPermissionsData, PutApiPermissionManagementPermissionsError } from '../types.gen';
 
 export type QueryKey<TOptions extends Options> = [
     Pick<TOptions, 'baseUrl' | 'body' | 'headers' | 'path' | 'query'> & {
@@ -430,6 +430,20 @@ export const postApiAccountDynamicClaimsRefreshMutation = (options?: Partial<Opt
     return mutationOptions;
 };
 
+export const postApiAppEmailConfirmationConfirmMutation = (options?: Partial<Options<PostApiAppEmailConfirmationConfirmData>>): UseMutationOptions<unknown, PostApiAppEmailConfirmationConfirmError, Options<PostApiAppEmailConfirmationConfirmData>> => {
+    const mutationOptions: UseMutationOptions<unknown, PostApiAppEmailConfirmationConfirmError, Options<PostApiAppEmailConfirmationConfirmData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await postApiAppEmailConfirmationConfirm({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
 export const getApiSettingManagementEmailingQueryKey = (options?: Options<GetApiSettingManagementEmailingData>) => createQueryKey('getApiSettingManagementEmailing', options);
 
 export const getApiSettingManagementEmailingOptions = (options?: Options<GetApiSettingManagementEmailingData>) => queryOptions<GetApiSettingManagementEmailingResponse, GetApiSettingManagementEmailingError, GetApiSettingManagementEmailingResponse, ReturnType<typeof getApiSettingManagementEmailingQueryKey>>({
@@ -472,6 +486,21 @@ export const postApiSettingManagementEmailingSendTestEmailMutation = (options?: 
     };
     return mutationOptions;
 };
+
+export const getApiAppExternalDataGoogleSheetGeoJsonQueryKey = (options?: Options<GetApiAppExternalDataGoogleSheetGeoJsonData>) => createQueryKey('getApiAppExternalDataGoogleSheetGeoJson', options);
+
+export const getApiAppExternalDataGoogleSheetGeoJsonOptions = (options?: Options<GetApiAppExternalDataGoogleSheetGeoJsonData>) => queryOptions<unknown, GetApiAppExternalDataGoogleSheetGeoJsonError, unknown, ReturnType<typeof getApiAppExternalDataGoogleSheetGeoJsonQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await getApiAppExternalDataGoogleSheetGeoJson({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: getApiAppExternalDataGoogleSheetGeoJsonQueryKey(options)
+});
 
 export const deleteApiFeatureManagementFeaturesMutation = (options?: Partial<Options<DeleteApiFeatureManagementFeaturesData>>): UseMutationOptions<unknown, DeleteApiFeatureManagementFeaturesError, Options<DeleteApiFeatureManagementFeaturesData>> => {
     const mutationOptions: UseMutationOptions<unknown, DeleteApiFeatureManagementFeaturesError, Options<DeleteApiFeatureManagementFeaturesData>> = {
@@ -516,6 +545,49 @@ export const putApiFeatureManagementFeaturesMutation = (options?: Partial<Option
     return mutationOptions;
 };
 
+export const postApiAppGeoTreesProfileChangePasswordMutation = (options?: Partial<Options<PostApiAppGeoTreesProfileChangePasswordData>>): UseMutationOptions<unknown, PostApiAppGeoTreesProfileChangePasswordError, Options<PostApiAppGeoTreesProfileChangePasswordData>> => {
+    const mutationOptions: UseMutationOptions<unknown, PostApiAppGeoTreesProfileChangePasswordError, Options<PostApiAppGeoTreesProfileChangePasswordData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await postApiAppGeoTreesProfileChangePassword({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+export const getApiAppGeoTreesProfileQueryKey = (options?: Options<GetApiAppGeoTreesProfileData>) => createQueryKey('getApiAppGeoTreesProfile', options);
+
+export const getApiAppGeoTreesProfileOptions = (options?: Options<GetApiAppGeoTreesProfileData>) => queryOptions<GetApiAppGeoTreesProfileResponse, GetApiAppGeoTreesProfileError, GetApiAppGeoTreesProfileResponse, ReturnType<typeof getApiAppGeoTreesProfileQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await getApiAppGeoTreesProfile({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: getApiAppGeoTreesProfileQueryKey(options)
+});
+
+export const putApiAppGeoTreesProfileMutation = (options?: Partial<Options<PutApiAppGeoTreesProfileData>>): UseMutationOptions<PutApiAppGeoTreesProfileResponse, PutApiAppGeoTreesProfileError, Options<PutApiAppGeoTreesProfileData>> => {
+    const mutationOptions: UseMutationOptions<PutApiAppGeoTreesProfileResponse, PutApiAppGeoTreesProfileError, Options<PutApiAppGeoTreesProfileData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await putApiAppGeoTreesProfile({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
 export const postApiAccountLoginMutation = (options?: Partial<Options<PostApiAccountLoginData>>): UseMutationOptions<PostApiAccountLoginResponse, PostApiAccountLoginError, Options<PostApiAccountLoginData>> => {
     const mutationOptions: UseMutationOptions<PostApiAccountLoginResponse, PostApiAccountLoginError, Options<PostApiAccountLoginData>> = {
         mutationFn: async (fnOptions) => {
@@ -549,6 +621,78 @@ export const postApiAccountCheckPasswordMutation = (options?: Partial<Options<Po
     const mutationOptions: UseMutationOptions<PostApiAccountCheckPasswordResponse, PostApiAccountCheckPasswordError, Options<PostApiAccountCheckPasswordData>> = {
         mutationFn: async (fnOptions) => {
             const { data } = await postApiAccountCheckPassword({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+export const deleteApiAppMapLayerByIdMutation = (options?: Partial<Options<DeleteApiAppMapLayerByIdData>>): UseMutationOptions<unknown, DeleteApiAppMapLayerByIdError, Options<DeleteApiAppMapLayerByIdData>> => {
+    const mutationOptions: UseMutationOptions<unknown, DeleteApiAppMapLayerByIdError, Options<DeleteApiAppMapLayerByIdData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await deleteApiAppMapLayerById({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+export const getApiAppMapLayerByIdQueryKey = (options: Options<GetApiAppMapLayerByIdData>) => createQueryKey('getApiAppMapLayerById', options);
+
+export const getApiAppMapLayerByIdOptions = (options: Options<GetApiAppMapLayerByIdData>) => queryOptions<GetApiAppMapLayerByIdResponse, GetApiAppMapLayerByIdError, GetApiAppMapLayerByIdResponse, ReturnType<typeof getApiAppMapLayerByIdQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await getApiAppMapLayerById({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: getApiAppMapLayerByIdQueryKey(options)
+});
+
+export const putApiAppMapLayerByIdMutation = (options?: Partial<Options<PutApiAppMapLayerByIdData>>): UseMutationOptions<PutApiAppMapLayerByIdResponse, PutApiAppMapLayerByIdError, Options<PutApiAppMapLayerByIdData>> => {
+    const mutationOptions: UseMutationOptions<PutApiAppMapLayerByIdResponse, PutApiAppMapLayerByIdError, Options<PutApiAppMapLayerByIdData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await putApiAppMapLayerById({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+export const getApiAppMapLayerQueryKey = (options?: Options<GetApiAppMapLayerData>) => createQueryKey('getApiAppMapLayer', options);
+
+export const getApiAppMapLayerOptions = (options?: Options<GetApiAppMapLayerData>) => queryOptions<GetApiAppMapLayerResponse, GetApiAppMapLayerError, GetApiAppMapLayerResponse, ReturnType<typeof getApiAppMapLayerQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await getApiAppMapLayer({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: getApiAppMapLayerQueryKey(options)
+});
+
+export const postApiAppMapLayerMutation = (options?: Partial<Options<PostApiAppMapLayerData>>): UseMutationOptions<PostApiAppMapLayerResponse, PostApiAppMapLayerError, Options<PostApiAppMapLayerData>> => {
+    const mutationOptions: UseMutationOptions<PostApiAppMapLayerResponse, PostApiAppMapLayerError, Options<PostApiAppMapLayerData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await postApiAppMapLayer({
                 ...options,
                 ...fnOptions,
                 throwOnError: true
@@ -880,6 +1024,153 @@ export const getApiPermissionManagementPermissionsByGroupOptions = (options?: Op
     queryKey: getApiPermissionManagementPermissionsByGroupQueryKey(options)
 });
 
+export const getApiAppPlotDownloadQueryKey = (options?: Options<GetApiAppPlotDownloadData>) => createQueryKey('getApiAppPlotDownload', options);
+
+export const getApiAppPlotDownloadOptions = (options?: Options<GetApiAppPlotDownloadData>) => queryOptions<unknown, DefaultError, unknown, ReturnType<typeof getApiAppPlotDownloadQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await getApiAppPlotDownload({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: getApiAppPlotDownloadQueryKey(options)
+});
+
+export const deleteApiAppPlotByIdMutation = (options?: Partial<Options<DeleteApiAppPlotByIdData>>): UseMutationOptions<unknown, DeleteApiAppPlotByIdError, Options<DeleteApiAppPlotByIdData>> => {
+    const mutationOptions: UseMutationOptions<unknown, DeleteApiAppPlotByIdError, Options<DeleteApiAppPlotByIdData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await deleteApiAppPlotById({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+export const getApiAppPlotByIdQueryKey = (options: Options<GetApiAppPlotByIdData>) => createQueryKey('getApiAppPlotById', options);
+
+export const getApiAppPlotByIdOptions = (options: Options<GetApiAppPlotByIdData>) => queryOptions<GetApiAppPlotByIdResponse, GetApiAppPlotByIdError, GetApiAppPlotByIdResponse, ReturnType<typeof getApiAppPlotByIdQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await getApiAppPlotById({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: getApiAppPlotByIdQueryKey(options)
+});
+
+export const putApiAppPlotByIdMutation = (options?: Partial<Options<PutApiAppPlotByIdData>>): UseMutationOptions<PutApiAppPlotByIdResponse, PutApiAppPlotByIdError, Options<PutApiAppPlotByIdData>> => {
+    const mutationOptions: UseMutationOptions<PutApiAppPlotByIdResponse, PutApiAppPlotByIdError, Options<PutApiAppPlotByIdData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await putApiAppPlotById({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+export const getApiAppPlotQueryKey = (options?: Options<GetApiAppPlotData>) => createQueryKey('getApiAppPlot', options);
+
+export const getApiAppPlotOptions = (options?: Options<GetApiAppPlotData>) => queryOptions<GetApiAppPlotResponse, GetApiAppPlotError, GetApiAppPlotResponse, ReturnType<typeof getApiAppPlotQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await getApiAppPlot({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: getApiAppPlotQueryKey(options)
+});
+
+export const postApiAppPlotMutation = (options?: Partial<Options<PostApiAppPlotData>>): UseMutationOptions<PostApiAppPlotResponse, PostApiAppPlotError, Options<PostApiAppPlotData>> => {
+    const mutationOptions: UseMutationOptions<PostApiAppPlotResponse, PostApiAppPlotError, Options<PostApiAppPlotData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await postApiAppPlot({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+export const getApiAppPlotByPlotIdByPlotIdQueryKey = (options: Options<GetApiAppPlotByPlotIdByPlotIdData>) => createQueryKey('getApiAppPlotByPlotIdByPlotId', options);
+
+export const getApiAppPlotByPlotIdByPlotIdOptions = (options: Options<GetApiAppPlotByPlotIdByPlotIdData>) => queryOptions<GetApiAppPlotByPlotIdByPlotIdResponse, GetApiAppPlotByPlotIdByPlotIdError, GetApiAppPlotByPlotIdByPlotIdResponse, ReturnType<typeof getApiAppPlotByPlotIdByPlotIdQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await getApiAppPlotByPlotIdByPlotId({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: getApiAppPlotByPlotIdByPlotIdQueryKey(options)
+});
+
+export const getApiAppPlotAvailableCountriesQueryKey = (options?: Options<GetApiAppPlotAvailableCountriesData>) => createQueryKey('getApiAppPlotAvailableCountries', options);
+
+export const getApiAppPlotAvailableCountriesOptions = (options?: Options<GetApiAppPlotAvailableCountriesData>) => queryOptions<GetApiAppPlotAvailableCountriesResponse, GetApiAppPlotAvailableCountriesError, GetApiAppPlotAvailableCountriesResponse, ReturnType<typeof getApiAppPlotAvailableCountriesQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await getApiAppPlotAvailableCountries({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: getApiAppPlotAvailableCountriesQueryKey(options)
+});
+
+export const getApiAppPlotAvailableVersionsQueryKey = (options?: Options<GetApiAppPlotAvailableVersionsData>) => createQueryKey('getApiAppPlotAvailableVersions', options);
+
+export const getApiAppPlotAvailableVersionsOptions = (options?: Options<GetApiAppPlotAvailableVersionsData>) => queryOptions<GetApiAppPlotAvailableVersionsResponse, GetApiAppPlotAvailableVersionsError, GetApiAppPlotAvailableVersionsResponse, ReturnType<typeof getApiAppPlotAvailableVersionsQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await getApiAppPlotAvailableVersions({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: getApiAppPlotAvailableVersionsQueryKey(options)
+});
+
+export const getApiAppPlotGeoJsonQueryKey = (options?: Options<GetApiAppPlotGeoJsonData>) => createQueryKey('getApiAppPlotGeoJson', options);
+
+export const getApiAppPlotGeoJsonOptions = (options?: Options<GetApiAppPlotGeoJsonData>) => queryOptions<unknown, GetApiAppPlotGeoJsonError, unknown, ReturnType<typeof getApiAppPlotGeoJsonQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await getApiAppPlotGeoJson({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: getApiAppPlotGeoJsonQueryKey(options)
+});
+
 export const getApiAccountMyProfileQueryKey = (options?: Options<GetApiAccountMyProfileData>) => createQueryKey('getApiAccountMyProfile', options);
 
 export const getApiAccountMyProfileOptions = (options?: Options<GetApiAccountMyProfileData>) => queryOptions<GetApiAccountMyProfileResponse, GetApiAccountMyProfileError, GetApiAccountMyProfileResponse, ReturnType<typeof getApiAccountMyProfileQueryKey>>({
@@ -922,6 +1213,21 @@ export const postApiAccountMyProfileChangePasswordMutation = (options?: Partial<
     };
     return mutationOptions;
 };
+
+export const getApiAppRegistrationSettingsQueryKey = (options?: Options<GetApiAppRegistrationSettingsData>) => createQueryKey('getApiAppRegistrationSettings', options);
+
+export const getApiAppRegistrationSettingsOptions = (options?: Options<GetApiAppRegistrationSettingsData>) => queryOptions<GetApiAppRegistrationSettingsResponse, GetApiAppRegistrationSettingsError, GetApiAppRegistrationSettingsResponse, ReturnType<typeof getApiAppRegistrationSettingsQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await getApiAppRegistrationSettings({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: getApiAppRegistrationSettingsQueryKey(options)
+});
 
 export const getApiIdentityRolesAllQueryKey = (options?: Options<GetApiIdentityRolesAllData>) => createQueryKey('getApiIdentityRolesAll', options);
 

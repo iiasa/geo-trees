@@ -32,6 +32,14 @@ public class GeoTreesPermissionDefinitionProvider : PermissionDefinitionProvider
             GeoTreesPermissions.Downloads.Default,
             L("Permission:Downloads")
         );
+
+        var mapLayersPermission = myGroup.AddPermission(
+            GeoTreesPermissions.MapLayers.Default,
+            L("Permission:MapLayers")
+        );
+        mapLayersPermission.AddChild(GeoTreesPermissions.MapLayers.Create, L("Permission:MapLayers.Create"));
+        mapLayersPermission.AddChild(GeoTreesPermissions.MapLayers.Edit, L("Permission:MapLayers.Edit"));
+        mapLayersPermission.AddChild(GeoTreesPermissions.MapLayers.Delete, L("Permission:MapLayers.Delete"));
     }
 
     private static LocalizableString L(string name)

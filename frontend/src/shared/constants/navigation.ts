@@ -7,6 +7,7 @@ import {
 	IconHome,
 	IconInnerShadowTop,
 	IconListDetails,
+	IconMap,
 	IconMessage,
 	IconNetwork,
 	IconNote,
@@ -35,6 +36,8 @@ const NAV_LABELS = {
 	SSR_SPA_MODE: "SPA Mode",
 	SSR_FULL: "Full SSR",
 	SSR_DATA_ONLY: "Data Only",
+	MAP_LAYERS: "Map Layers",
+	MAP: "Map",
 	BRAND: "Geo Trees",
 } as const;
 
@@ -49,6 +52,7 @@ export const NAV_ITEMS: {
 	main: NavItem[];
 	identityManagement: NavItem[];
 	cms: NavItem[];
+	mapManagement: NavItem[];
 	system: NavItem[];
 	demos: NavItem[];
 } = {
@@ -62,6 +66,11 @@ export const NAV_ITEMS: {
 			title: NAV_LABELS.DASHBOARD,
 			url: "/dashboard",
 			icon: IconDashboard,
+		},
+		{
+			title: NAV_LABELS.MAP,
+			url: "/map",
+			icon: IconMap,
 		},
 	],
 	identityManagement: [
@@ -79,6 +88,13 @@ export const NAV_ITEMS: {
 			title: NAV_LABELS.TENANTS,
 			url: "/admin/tenants",
 			icon: IconBuilding,
+		},
+	],
+	mapManagement: [
+		{
+			title: NAV_LABELS.MAP_LAYERS,
+			url: "/admin/map-layers",
+			icon: IconMap,
 		},
 	],
 	cms: [

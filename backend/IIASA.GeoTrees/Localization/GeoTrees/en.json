@@ -39,6 +39,10 @@
     "Permission:Plots.Edit": "Editing plots",
     "Permission:Plots.Delete": "Deleting plots",
     "Permission:Plots.Download": "Downloading plot data",
-    "Permission:Downloads": "Download Audit Logs"
+    "Permission:Downloads": "Download Audit Logs",
+    "Permission:MapLayers": "Map Layer Management",
+    "Permission:MapLayers.Create": "Creating map layers",
+    "Permission:MapLayers.Edit": "Editing map layers",
+    "Permission:MapLayers.Delete": "Deleting map layers"
   }
 }

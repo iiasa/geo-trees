@@ -137,6 +137,13 @@ export const zCommentSettingsDto = z.object({
 
 export type CommentSettingsDtoZodType = z.infer<typeof zCommentSettingsDto>;
 
+export const zConfirmEmailInput = z.object({
+    userId: z.string().min(1),
+    token: z.string().min(1)
+});
+
+export type ConfirmEmailInputZodType = z.infer<typeof zConfirmEmailInput>;
+
 export const zCreateCommentInput = z.object({
     extraProperties: z.optional(z.union([
         z.record(z.string(), z.unknown()).readonly(),
@@ -196,6 +203,196 @@ export const zCreateUpdateBookDto = z.object({
 });
 
 export type CreateUpdateBookDtoZodType = z.infer<typeof zCreateUpdateBookDto>;
+
+export const zCreateUpdatePlotDto = z.object({
+    plotId: z.string().min(0).max(256),
+    subPlotId: z.string().min(0).max(256),
+    countryName: z.string().min(0).max(256),
+    network: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    institution: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    link: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    yearEstablished: z.optional(z.union([
+        z.int(),
+        z.null()
+    ])),
+    yearCensus: z.optional(z.union([
+        z.int(),
+        z.null()
+    ])),
+    piTeam: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    confidential: z.optional(z.boolean()),
+    latCnt: z.optional(z.union([
+        z.number(),
+        z.null()
+    ])),
+    lonCnt: z.optional(z.union([
+        z.number(),
+        z.null()
+    ])),
+    latSw: z.optional(z.union([
+        z.number(),
+        z.null()
+    ])),
+    lonSw: z.optional(z.union([
+        z.number(),
+        z.null()
+    ])),
+    latNw: z.optional(z.union([
+        z.number(),
+        z.null()
+    ])),
+    lonNw: z.optional(z.union([
+        z.number(),
+        z.null()
+    ])),
+    latSe: z.optional(z.union([
+        z.number(),
+        z.null()
+    ])),
+    lonSe: z.optional(z.union([
+        z.number(),
+        z.null()
+    ])),
+    latNe: z.optional(z.union([
+        z.number(),
+        z.null()
+    ])),
+    lonNe: z.optional(z.union([
+        z.number(),
+        z.null()
+    ])),
+    altitude: z.optional(z.union([
+        z.number(),
+        z.null()
+    ])),
+    slopeDegree: z.optional(z.union([
+        z.number(),
+        z.null()
+    ])),
+    plotArea: z.optional(z.union([
+        z.number(),
+        z.null()
+    ])),
+    plotShape: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    forestStatus: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    minDbh: z.optional(z.union([
+        z.number(),
+        z.null()
+    ])),
+    hLoreyLocal: z.optional(z.union([
+        z.number(),
+        z.null()
+    ])),
+    hLoreyChave: z.optional(z.union([
+        z.number(),
+        z.null()
+    ])),
+    hLoreyFeldpausch: z.optional(z.union([
+        z.number(),
+        z.null()
+    ])),
+    hMaxLocal: z.optional(z.union([
+        z.number(),
+        z.null()
+    ])),
+    hMaxChave: z.optional(z.union([
+        z.number(),
+        z.null()
+    ])),
+    hMaxFeldpausch: z.optional(z.union([
+        z.number(),
+        z.null()
+    ])),
+    agbLocal: z.optional(z.union([
+        z.number(),
+        z.null()
+    ])),
+    agbLocalCred25: z.optional(z.union([
+        z.number(),
+        z.null()
+    ])),
+    agbLocal975: z.optional(z.union([
+        z.number(),
+        z.null()
+    ])),
+    agbFeldpausch: z.optional(z.union([
+        z.number(),
+        z.null()
+    ])),
+    agbFeldpauschCred25: z.optional(z.union([
+        z.number(),
+        z.null()
+    ])),
+    agbFeldpauschCred975: z.optional(z.union([
+        z.number(),
+        z.null()
+    ])),
+    agbChave: z.optional(z.union([
+        z.number(),
+        z.null()
+    ])),
+    agbChaveCred25: z.optional(z.union([
+        z.number(),
+        z.null()
+    ])),
+    agbChaveCred975: z.optional(z.union([
+        z.number(),
+        z.null()
+    ])),
+    woodDensity: z.optional(z.union([
+        z.number(),
+        z.null()
+    ])),
+    gsv: z.optional(z.union([
+        z.number(),
+        z.null()
+    ])),
+    ba: z.optional(z.union([
+        z.number(),
+        z.null()
+    ])),
+    ndens: z.optional(z.union([
+        z.number(),
+        z.null()
+    ])),
+    reference: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    otherMeasurements: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    biomassProcessingProtocol: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    status: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    version: z.optional(z.int())
+});
+
+export type CreateUpdatePlotDtoZodType = z.infer<typeof zCreateUpdatePlotDto>;
 
 export const zCurrentTenantDto = z.object({
     id: z.optional(z.union([
@@ -867,6 +1064,103 @@ export const zAbpLoginResult = z.object({
 
 export type AbpLoginResultZodType = z.infer<typeof zAbpLoginResult>;
 
+export const zMapLayerType = z.union([
+    z.literal(0),
+    z.literal(1),
+    z.literal(2),
+    z.literal(3)
+]);
+
+export type MapLayerTypeZodType = z.infer<typeof zMapLayerType>;
+
+export const zCreateUpdateMapLayerDto = z.object({
+    name: z.string().min(0).max(256),
+    type: zMapLayerType,
+    url: z.optional(z.union([
+        z.string().min(0).max(1024),
+        z.null()
+    ])),
+    sourceEndpoint: z.optional(z.union([
+        z.string().min(0).max(256),
+        z.null()
+    ])),
+    layers: z.optional(z.union([
+        z.string().min(0).max(256),
+        z.null()
+    ])),
+    format: z.optional(z.union([
+        z.string().min(0).max(64),
+        z.null()
+    ])),
+    isVisible: z.optional(z.boolean()),
+    legendUrl: z.optional(z.union([
+        z.string().min(0).max(1024),
+        z.null()
+    ])),
+    attribution: z.optional(z.union([
+        z.string().min(0).max(512),
+        z.null()
+    ])),
+    order: z.optional(z.int()),
+    groupName: z.string().min(0).max(256)
+});
+
+export type CreateUpdateMapLayerDtoZodType = z.infer<typeof zCreateUpdateMapLayerDto>;
+
+export const zMapLayerDto = z.object({
+    id: z.optional(z.uuid()),
+    creationTime: z.optional(z.iso.datetime()),
+    creatorId: z.optional(z.union([
+        z.uuid(),
+        z.null()
+    ])),
+    lastModificationTime: z.optional(z.union([
+        z.iso.datetime(),
+        z.null()
+    ])),
+    lastModifierId: z.optional(z.union([
+        z.uuid(),
+        z.null()
+    ])),
+    name: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    type: z.optional(zMapLayerType),
+    url: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    sourceEndpoint: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    layers: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    format: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    isVisible: z.optional(z.boolean()),
+    legendUrl: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    attribution: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    order: z.optional(z.int()),
+    groupName: z.optional(z.union([
+        z.string(),
+        z.null()
+    ]))
+});
+
+export type MapLayerDtoZodType = z.infer<typeof zMapLayerDto>;
+
 export const zMenuItemCreateInput = z.object({
     extraProperties: z.optional(z.union([
         z.record(z.string(), z.unknown()).readonly(),
@@ -1249,6 +1543,16 @@ export const zPagedResultDtoIdentityUserDto = z.object({
 
 export type PagedResultDtoIdentityUserDtoZodType = z.infer<typeof zPagedResultDtoIdentityUserDto>;
 
+export const zPagedResultDtoMapLayerDto = z.object({
+    items: z.optional(z.union([
+        z.array(zMapLayerDto),
+        z.null()
+    ])),
+    totalCount: z.optional(z.coerce.bigint())
+});
+
+export type PagedResultDtoMapLayerDtoZodType = z.infer<typeof zPagedResultDtoMapLayerDto>;
+
 export const zPagedResultDtoPageLookupDto = z.object({
     items: z.optional(z.union([
         z.array(zPageLookupDto),
@@ -1319,6 +1623,197 @@ export const zListResultDtoPermissionLookupDto = z.object({
 });
 
 export type ListResultDtoPermissionLookupDtoZodType = z.infer<typeof zListResultDtoPermissionLookupDto>;
+
+export const zPlotDto = z.object({
+    id: z.optional(z.uuid()),
+    creationTime: z.optional(z.iso.datetime()),
+    creatorId: z.optional(z.union([
+        z.uuid(),
+        z.null()
+    ])),
+    lastModificationTime: z.optional(z.union([
+        z.iso.datetime(),
+        z.null()
+    ])),
+    lastModifierId: z.optional(z.union([
+        z.uuid(),
+        z.null()
+    ])),
+    plotId: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    subPlotId: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    countryName: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    network: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    institution: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    link: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    yearEstablished: z.optional(z.union([
+        z.int(),
+        z.null()
+    ])),
+    yearCensus: z.optional(z.union([
+        z.int(),
+        z.null()
+    ])),
+    piTeam: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    reference: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    confidential: z.optional(z.boolean()),
+    otherMeasurements: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    roundLocation: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    biomassProcessingProtocol: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    version: z.optional(z.int()),
+    altitude: z.optional(z.union([
+        z.number(),
+        z.null()
+    ])),
+    slopeDegree: z.optional(z.union([
+        z.number(),
+        z.null()
+    ])),
+    plotArea: z.optional(z.union([
+        z.number(),
+        z.null()
+    ])),
+    subPlotArea: z.optional(z.union([
+        z.number(),
+        z.null()
+    ])),
+    plotShape: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    forestStatus: z.optional(z.union([
+        z.string(),
+        z.null()
+    ])),
+    minDbh: z.optional(z.union([
+        z.number(),
+        z.null()
+    ])),
+    hLoreyLocal: z.optional(z.union([
+        z.number(),
+        z.null()
+    ])),
+    hLoreyChave: z.optional(z.union([
+        z.number(),
+        z.null()
+    ])),
+    hLoreyFeldpausch: z.optional(z.union([
+        z.number(),
+        z.null()
+    ])),
+    hMaxLocal: z.optional(z.union([
+        z.number(),
+        z.null()
+    ])),
+    hMaxChave: z.optional(z.union([
+        z.number(),
+        z.null()
+    ])),
+    hMaxFeldpausch: z.optional(z.union([
+        z.number(),
+        z.null()
+    ])),
+    agbLocal: z.optional(z.union([
+        z.number(),
+        z.null()
+    ])),
+    agbLocalCred25: z.optional(z.union([
+        z.number(),
+        z.null()
+    ])),
+    agbLocal975: z.optional(z.union([
+        z.number(),
+        z.null()
+    ])),
+    agbFeldpausch: z.optional(z.union([
+        z.number(),
+        z.null()
+    ])),
+    agbFeldpauschCred25: z.optional(z.union([
+        z.number(),
+        z.null()
+    ])),
+    agbFeldpauschCred975: z.optional(z.union([
+        z.number(),
+        z.null()
+    ])),
+    agbChave: z.optional(z.union([
+        z.number(),
+        z.null()
+    ])),
+    agbChaveCred25: z.optional(z.union([
+        z.number(),
+        z.null()
+    ])),
+    agbChaveCred975: z.optional(z.union([
+        z.number(),
+        z.null()
+    ])),
+    woodDensity: z.optional(z.union([
+        z.number(),
+        z.null()
+    ])),
+    gsv: z.optional(z.union([
+        z.number(),
+        z.null()
+    ])),
+    ba: z.optional(z.union([
+        z.number(),
+        z.null()
+    ])),
+    ndens: z.optional(z.union([
+        z.number(),
+        z.null()
+    ])),
+    status: z.optional(z.union([
+        z.string(),
+        z.null()
+    ]))
+});
+
+export type PlotDtoZodType = z.infer<typeof zPlotDto>;
+
+export const zPagedResultDtoPlotDto = z.object({
+    items: z.optional(z.union([
+        z.array(zPlotDto),
+        z.null()
+    ])),
+    totalCount: z.optional(z.coerce.bigint())
+});
+
+export type PagedResultDtoPlotDtoZodType = z.infer<typeof zPagedResultDtoPlotDto>;
 
 export const zProfileDto = z.object({
     extraProperties: z.optional(z.union([
@@ -1487,6 +1982,15 @@ export const zRegisterDto = z.object({
 });
 
 export type RegisterDtoZodType = z.infer<typeof zRegisterDto>;
+
+export const zRegistrationSettingsDto = z.object({
+    termsAndConditionsUrl: z.optional(z.union([
+        z.string(),
+        z.null()
+    ]))
+});
+
+export type RegistrationSettingsDtoZodType = z.infer<typeof zRegistrationSettingsDto>;
 
 export const zRemoteServiceValidationErrorInfo = z.object({
     message: z.optional(z.union([
@@ -3800,6 +4304,14 @@ export const zPostApiAccountDynamicClaimsRefreshData = z.object({
 
 export type PostApiAccountDynamicClaimsRefreshDataZodType = z.infer<typeof zPostApiAccountDynamicClaimsRefreshData>;
 
+export const zPostApiAppEmailConfirmationConfirmData = z.object({
+    body: z.optional(zConfirmEmailInput),
+    path: z.optional(z.never()),
+    query: z.optional(z.never())
+});
+
+export type PostApiAppEmailConfirmationConfirmDataZodType = z.infer<typeof zPostApiAppEmailConfirmationConfirmData>;
+
 export const zGetApiSettingManagementEmailingData = z.object({
     body: z.optional(z.never()),
     path: z.optional(z.never()),
@@ -3830,6 +4342,14 @@ export const zPostApiSettingManagementEmailingSendTestEmailData = z.object({
 });
 
 export type PostApiSettingManagementEmailingSendTestEmailDataZodType = z.infer<typeof zPostApiSettingManagementEmailingSendTestEmailData>;
+
+export const zGetApiAppExternalDataGoogleSheetGeoJsonData = z.object({
+    body: z.optional(z.never()),
+    path: z.optional(z.never()),
+    query: z.optional(z.never())
+});
+
+export type GetApiAppExternalDataGoogleSheetGeoJsonDataZodType = z.infer<typeof zGetApiAppExternalDataGoogleSheetGeoJsonData>;
 
 export const zDeleteApiFeatureManagementFeaturesData = z.object({
     body: z.optional(z.never()),
@@ -3871,6 +4391,44 @@ export const zPutApiFeatureManagementFeaturesData = z.object({
 
 export type PutApiFeatureManagementFeaturesDataZodType = z.infer<typeof zPutApiFeatureManagementFeaturesData>;
 
+export const zPostApiAppGeoTreesProfileChangePasswordData = z.object({
+    body: z.optional(zChangePasswordInput),
+    path: z.optional(z.never()),
+    query: z.optional(z.never())
+});
+
+export type PostApiAppGeoTreesProfileChangePasswordDataZodType = z.infer<typeof zPostApiAppGeoTreesProfileChangePasswordData>;
+
+export const zGetApiAppGeoTreesProfileData = z.object({
+    body: z.optional(z.never()),
+    path: z.optional(z.never()),
+    query: z.optional(z.never())
+});
+
+export type GetApiAppGeoTreesProfileDataZodType = z.infer<typeof zGetApiAppGeoTreesProfileData>;
+
+/**
+ * OK
+ */
+export const zGetApiAppGeoTreesProfileResponse = zProfileDto;
+
+export type GetApiAppGeoTreesProfileResponseZodType = z.infer<typeof zGetApiAppGeoTreesProfileResponse>;
+
+export const zPutApiAppGeoTreesProfileData = z.object({
+    body: z.optional(zUpdateProfileDtoWritable),
+    path: z.optional(z.never()),
+    query: z.optional(z.never())
+});
+
+export type PutApiAppGeoTreesProfileDataZodType = z.infer<typeof zPutApiAppGeoTreesProfileData>;
+
+/**
+ * OK
+ */
+export const zPutApiAppGeoTreesProfileResponse = zProfileDto;
+
+export type PutApiAppGeoTreesProfileResponseZodType = z.infer<typeof zPutApiAppGeoTreesProfileResponse>;
+
 export const zPostApiAccountLoginData = z.object({
     body: z.optional(zVoloAbpAccountWebAreasAccountControllersModelsUserLoginInfo),
     path: z.optional(z.never()),
@@ -3908,6 +4466,84 @@ export type PostApiAccountCheckPasswordDataZodType = z.infer<typeof zPostApiAcco
 export const zPostApiAccountCheckPasswordResponse = zAbpLoginResult;
 
 export type PostApiAccountCheckPasswordResponseZodType = z.infer<typeof zPostApiAccountCheckPasswordResponse>;
+
+export const zDeleteApiAppMapLayerByIdData = z.object({
+    body: z.optional(z.never()),
+    path: z.object({
+        id: z.uuid()
+    }),
+    query: z.optional(z.never())
+});
+
+export type DeleteApiAppMapLayerByIdDataZodType = z.infer<typeof zDeleteApiAppMapLayerByIdData>;
+
+export const zGetApiAppMapLayerByIdData = z.object({
+    body: z.optional(z.never()),
+    path: z.object({
+        id: z.uuid()
+    }),
+    query: z.optional(z.never())
+});
+
+export type GetApiAppMapLayerByIdDataZodType = z.infer<typeof zGetApiAppMapLayerByIdData>;
+
+/**
+ * OK
+ */
+export const zGetApiAppMapLayerByIdResponse = zMapLayerDto;
+
+export type GetApiAppMapLayerByIdResponseZodType = z.infer<typeof zGetApiAppMapLayerByIdResponse>;
+
+export const zPutApiAppMapLayerByIdData = z.object({
+    body: z.optional(zCreateUpdateMapLayerDto),
+    path: z.object({
+        id: z.uuid()
+    }),
+    query: z.optional(z.never())
+});
+
+export type PutApiAppMapLayerByIdDataZodType = z.infer<typeof zPutApiAppMapLayerByIdData>;
+
+/**
+ * OK
+ */
+export const zPutApiAppMapLayerByIdResponse = zMapLayerDto;
+
+export type PutApiAppMapLayerByIdResponseZodType = z.infer<typeof zPutApiAppMapLayerByIdResponse>;
+
+export const zGetApiAppMapLayerData = z.object({
+    body: z.optional(z.never()),
+    path: z.optional(z.never()),
+    query: z.optional(z.object({
+        Sorting: z.optional(z.string()),
+        SkipCount: z.optional(z.int().gte(0).lte(2147483647)),
+        MaxResultCount: z.optional(z.int().gte(1).lte(2147483647))
+    }))
+});
+
+export type GetApiAppMapLayerDataZodType = z.infer<typeof zGetApiAppMapLayerData>;
+
+/**
+ * OK
+ */
+export const zGetApiAppMapLayerResponse = zPagedResultDtoMapLayerDto;
+
+export type GetApiAppMapLayerResponseZodType = z.infer<typeof zGetApiAppMapLayerResponse>;
+
+export const zPostApiAppMapLayerData = z.object({
+    body: z.optional(zCreateUpdateMapLayerDto),
+    path: z.optional(z.never()),
+    query: z.optional(z.never())
+});
+
+export type PostApiAppMapLayerDataZodType = z.infer<typeof zPostApiAppMapLayerData>;
+
+/**
+ * OK
+ */
+export const zPostApiAppMapLayerResponse = zMapLayerDto;
+
+export type PostApiAppMapLayerResponseZodType = z.infer<typeof zPostApiAppMapLayerResponse>;
 
 export const zGetApiCmsKitAdminMenuItemsData = z.object({
     body: z.optional(z.never()),
@@ -4248,6 +4884,158 @@ export const zGetApiPermissionManagementPermissionsByGroupResponse = zGetPermiss
 
 export type GetApiPermissionManagementPermissionsByGroupResponseZodType = z.infer<typeof zGetApiPermissionManagementPermissionsByGroupResponse>;
 
+export const zGetApiAppPlotDownloadData = z.object({
+    body: z.optional(z.never()),
+    path: z.optional(z.never()),
+    query: z.optional(z.object({
+        format: z.optional(z.string()),
+        purpose: z.optional(z.string()),
+        email: z.optional(z.string()),
+        name: z.optional(z.string()),
+        country: z.optional(z.string())
+    }))
+});
+
+export type GetApiAppPlotDownloadDataZodType = z.infer<typeof zGetApiAppPlotDownloadData>;
+
+export const zDeleteApiAppPlotByIdData = z.object({
+    body: z.optional(z.never()),
+    path: z.object({
+        id: z.uuid()
+    }),
+    query: z.optional(z.never())
+});
+
+export type DeleteApiAppPlotByIdDataZodType = z.infer<typeof zDeleteApiAppPlotByIdData>;
+
+export const zGetApiAppPlotByIdData = z.object({
+    body: z.optional(z.never()),
+    path: z.object({
+        id: z.uuid()
+    }),
+    query: z.optional(z.never())
+});
+
+export type GetApiAppPlotByIdDataZodType = z.infer<typeof zGetApiAppPlotByIdData>;
+
+/**
+ * OK
+ */
+export const zGetApiAppPlotByIdResponse = zPlotDto;
+
+export type GetApiAppPlotByIdResponseZodType = z.infer<typeof zGetApiAppPlotByIdResponse>;
+
+export const zPutApiAppPlotByIdData = z.object({
+    body: z.optional(zCreateUpdatePlotDto),
+    path: z.object({
+        id: z.uuid()
+    }),
+    query: z.optional(z.never())
+});
+
+export type PutApiAppPlotByIdDataZodType = z.infer<typeof zPutApiAppPlotByIdData>;
+
+/**
+ * OK
+ */
+export const zPutApiAppPlotByIdResponse = zPlotDto;
+
+export type PutApiAppPlotByIdResponseZodType = z.infer<typeof zPutApiAppPlotByIdResponse>;
+
+export const zGetApiAppPlotData = z.object({
+    body: z.optional(z.never()),
+    path: z.optional(z.never()),
+    query: z.optional(z.object({
+        Version: z.optional(z.int()),
+        Sorting: z.optional(z.string()),
+        SkipCount: z.optional(z.int().gte(0).lte(2147483647)),
+        MaxResultCount: z.optional(z.int().gte(1).lte(2147483647))
+    }))
+});
+
+export type GetApiAppPlotDataZodType = z.infer<typeof zGetApiAppPlotData>;
+
+/**
+ * OK
+ */
+export const zGetApiAppPlotResponse = zPagedResultDtoPlotDto;
+
+export type GetApiAppPlotResponseZodType = z.infer<typeof zGetApiAppPlotResponse>;
+
+export const zPostApiAppPlotData = z.object({
+    body: z.optional(zCreateUpdatePlotDto),
+    path: z.optional(z.never()),
+    query: z.optional(z.never())
+});
+
+export type PostApiAppPlotDataZodType = z.infer<typeof zPostApiAppPlotData>;
+
+/**
+ * OK
+ */
+export const zPostApiAppPlotResponse = zPlotDto;
+
+export type PostApiAppPlotResponseZodType = z.infer<typeof zPostApiAppPlotResponse>;
+
+export const zGetApiAppPlotByPlotIdByPlotIdData = z.object({
+    body: z.optional(z.never()),
+    path: z.object({
+        plotId: z.string()
+    }),
+    query: z.optional(z.object({
+        version: z.optional(z.int())
+    }))
+});
+
+export type GetApiAppPlotByPlotIdByPlotIdDataZodType = z.infer<typeof zGetApiAppPlotByPlotIdByPlotIdData>;
+
+/**
+ * OK
+ */
+export const zGetApiAppPlotByPlotIdByPlotIdResponse = zPlotDto;
+
+export type GetApiAppPlotByPlotIdByPlotIdResponseZodType = z.infer<typeof zGetApiAppPlotByPlotIdByPlotIdResponse>;
+
+export const zGetApiAppPlotAvailableCountriesData = z.object({
+    body: z.optional(z.never()),
+    path: z.optional(z.never()),
+    query: z.optional(z.never())
+});
+
+export type GetApiAppPlotAvailableCountriesDataZodType = z.infer<typeof zGetApiAppPlotAvailableCountriesData>;
+
+/**
+ * OK
+ */
+export const zGetApiAppPlotAvailableCountriesResponse = z.array(z.string());
+
+export type GetApiAppPlotAvailableCountriesResponseZodType = z.infer<typeof zGetApiAppPlotAvailableCountriesResponse>;
+
+export const zGetApiAppPlotAvailableVersionsData = z.object({
+    body: z.optional(z.never()),
+    path: z.optional(z.never()),
+    query: z.optional(z.never())
+});
+
+export type GetApiAppPlotAvailableVersionsDataZodType = z.infer<typeof zGetApiAppPlotAvailableVersionsData>;
+
+/**
+ * OK
+ */
+export const zGetApiAppPlotAvailableVersionsResponse = z.array(z.int());
+
+export type GetApiAppPlotAvailableVersionsResponseZodType = z.infer<typeof zGetApiAppPlotAvailableVersionsResponse>;
+
+export const zGetApiAppPlotGeoJsonData = z.object({
+    body: z.optional(z.never()),
+    path: z.optional(z.never()),
+    query: z.optional(z.object({
+        status: z.optional(z.string())
+    }))
+});
+
+export type GetApiAppPlotGeoJsonDataZodType = z.infer<typeof zGetApiAppPlotGeoJsonData>;
+
 export const zGetApiAccountMyProfileData = z.object({
     body: z.optional(z.never()),
     path: z.optional(z.never()),
@@ -4285,6 +5073,21 @@ export const zPostApiAccountMyProfileChangePasswordData = z.object({
 });
 
 export type PostApiAccountMyProfileChangePasswordDataZodType = z.infer<typeof zPostApiAccountMyProfileChangePasswordData>;
+
+export const zGetApiAppRegistrationSettingsData = z.object({
+    body: z.optional(z.never()),
+    path: z.optional(z.never()),
+    query: z.optional(z.never())
+});
+
+export type GetApiAppRegistrationSettingsDataZodType = z.infer<typeof zGetApiAppRegistrationSettingsData>;
+
+/**
+ * OK
+ */
+export const zGetApiAppRegistrationSettingsResponse = zRegistrationSettingsDto;
+
+export type GetApiAppRegistrationSettingsResponseZodType = z.infer<typeof zGetApiAppRegistrationSettingsResponse>;
 
 export const zGetApiIdentityRolesAllData = z.object({
     body: z.optional(z.never()),
