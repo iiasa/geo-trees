@@ -26,31 +26,31 @@ export function LayerPanel({ layers, isOpen, onToggle }: LayerPanelProps) {
 			<button
 				type="button"
 				onClick={onToggle}
-				className="absolute -left-8 top-2 bg-gray-800/90 text-white p-1.5 rounded-l-md text-xs"
+				className="absolute -left-8 top-2 bg-white/90 text-gray-700 p-1.5 rounded-l-md text-xs shadow"
 			>
 				{isOpen ? ">" : "<"}
 			</button>
-			<div className="bg-gray-900/95 backdrop-blur-sm rounded-lg p-4 w-64 max-h-[calc(100vh-8rem)] overflow-y-auto border border-gray-700">
-				<h3 className="text-sm font-semibold text-white mb-3">
+			<div className="bg-white/95 backdrop-blur-sm rounded-lg p-4 w-64 max-h-[calc(100vh-8rem)] overflow-y-auto border border-gray-200 shadow-lg">
+				<h3 className="text-sm font-semibold text-gray-900 mb-3">
 					Display Layers
 				</h3>
 				{Object.entries(grouped).map(([groupName, groupLayers]) => (
 					<div key={groupName} className="mb-3">
-						<h4 className="text-xs font-medium text-gray-400 uppercase tracking-wider mb-1.5">
+						<h4 className="text-xs font-medium text-gray-500 uppercase tracking-wider mb-1.5">
 							{groupName}
 						</h4>
 						{groupLayers.map((layer) => (
 							<label
 								key={layer.id}
-								className="flex items-center gap-2 py-1 cursor-pointer hover:bg-gray-800/50 rounded px-1"
+								className="flex items-center gap-2 py-1 cursor-pointer hover:bg-gray-100 rounded px-1"
 							>
 								<input
 									type="checkbox"
 									checked={layerVisibility[layer.id ?? ""] ?? false}
 									onChange={() => layer.id && toggleLayer(layer.id)}
-									className="rounded border-gray-600"
+									className="rounded border-gray-300"
 								/>
-								<span className="text-sm text-gray-200">{layer.name}</span>
+								<span className="text-sm text-gray-700">{layer.name}</span>
 							</label>
 						))}
 					</div>

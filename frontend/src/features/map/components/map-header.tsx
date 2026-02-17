@@ -9,20 +9,20 @@ export function MapHeader() {
 			<div className="flex items-center gap-6">
 				<Link
 					to="/map"
-					className="text-sm font-semibold text-white hover:text-gray-200 transition-colors"
+					className="text-sm font-semibold text-gray-900 hover:text-gray-600 transition-colors"
 				>
 					GEO TREES
 				</Link>
 				<nav className="flex items-center gap-4">
 					<Link
 						to="/map"
-						className="text-sm text-gray-300 hover:text-white transition-colors"
+						className="text-sm text-gray-600 hover:text-gray-900 transition-colors"
 					>
 						Map
 					</Link>
 					<Link
 						to="/"
-						className="text-sm text-gray-300 hover:text-white transition-colors"
+						className="text-sm text-gray-600 hover:text-gray-900 transition-colors"
 					>
 						About
 					</Link>
@@ -31,13 +31,13 @@ export function MapHeader() {
 			<div className="flex items-center gap-3">
 				{isAuthenticated ? (
 					<>
-						<span className="text-sm text-gray-300">
+						<span className="text-sm text-gray-600">
 							{user?.name || user?.email || "User"}
 						</span>
 						<button
 							type="button"
 							onClick={logout}
-							className="px-4 py-1.5 text-sm text-gray-300 border border-gray-600 rounded-md hover:bg-gray-800 transition-colors"
+							className="px-4 py-1.5 text-sm text-gray-600 border border-gray-300 rounded-md hover:bg-gray-100 transition-colors"
 						>
 							Logout
 						</button>
@@ -47,7 +47,7 @@ export function MapHeader() {
 						<button
 							type="button"
 							onClick={login}
-							className="px-4 py-1.5 text-sm text-gray-300 border border-gray-600 rounded-md hover:bg-gray-800 transition-colors"
+							className="px-4 py-1.5 text-sm text-gray-600 border border-gray-300 rounded-md hover:bg-gray-100 transition-colors"
 						>
 							Login
 						</button>

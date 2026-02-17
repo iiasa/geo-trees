@@ -111,7 +111,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 	return (
 		<QueryClientProvider client={queryClient}>
 			<AuthProvider>
-				<html lang="en" className="dark">
+				<html lang="en" className="light">
 					<head>
 						<HeadContent />
 					</head>
