@@ -17,6 +17,19 @@ const badgeVariants = cva(
 					"border-transparent bg-destructive text-white [a&]:hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60",
 				outline:
 					"text-foreground [a&]:hover:bg-accent [a&]:hover:text-accent-foreground",
+				"tag-dark-green": "border-transparent bg-tag-dark-green text-white",
+				"tag-light-green": "border-transparent bg-tag-light-green text-white",
+				"tag-turquoise": "border-transparent bg-tag-turquoise text-white",
+				"tag-dark-turquoise":
+					"border-transparent bg-tag-dark-turquoise text-white",
+				"tag-dark-blue": "border-transparent bg-tag-dark-blue text-white",
+				"tag-light-purple": "border-transparent bg-tag-light-purple text-white",
+				"tag-purple": "border-transparent bg-tag-purple text-white",
+				"tag-dark-purple": "border-transparent bg-tag-dark-purple text-white",
+				"tag-pink": "border-transparent bg-tag-pink text-white",
+				"tag-blue": "border-transparent bg-tag-blue text-white",
+				"tag-orange": "border-transparent bg-tag-orange text-white",
+				"tag-yellow": "border-transparent bg-tag-yellow text-white",
 			},
 		},
 		defaultVariants: {

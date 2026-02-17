@@ -130,7 +130,7 @@ export function MapView({ layers }: MapViewProps) {
 
 		for (const layer of layers) {
 			const layerId = `layer-${layer.id}`;
-			const isVisible = layerVisibility[layer.id!] ?? false;
+			const isVisible = layerVisibility[layer.id ?? ""] ?? false;
 
 			if (isVisible) {
 				if (!map.getLayer(layerId)) {
@@ -142,7 +142,7 @@ export function MapView({ layers }: MapViewProps) {
 				map.setLayoutProperty(layerId, "visibility", "none");
 			}
 		}
-	}, [layers, layerVisibility, mapLoaded, mapRef, addLayerToMap]);
+	}, [layers, layerVisibility, mapLoaded, addLayerToMap]);
 
 	useEffect(() => {
 		const map = mapRef.current;
@@ -154,7 +154,7 @@ export function MapView({ layers }: MapViewProps) {
 					(l) =>
 						(l.type === MAP_LAYER_TYPE.BACKEND_GEOJSON ||
 							l.type === MAP_LAYER_TYPE.EXTERNAL_GEOJSON) &&
-						(layerVisibility[l.id!] ?? false),
+						(l.id ? layerVisibility[l.id] : false),
 				)
 				.map((l) => `layer-${l.id}`)
 				.filter((id) => map.getLayer(id));
@@ -196,7 +196,7 @@ export function MapView({ layers }: MapViewProps) {
 		return () => {
 			map.off("click", handleClick);
 		};
-	}, [layers, layerVisibility, mapLoaded, mapRef, setSelectedFeature]);
+	}, [layers, layerVisibility, mapLoaded, setSelectedFeature]);
 
 	return (
 		<div

@@ -46,8 +46,8 @@ export function LayerPanel({ layers, isOpen, onToggle }: LayerPanelProps) {
 							>
 								<input
 									type="checkbox"
-									checked={layerVisibility[layer.id!] ?? false}
-									onChange={() => toggleLayer(layer.id!)}
+									checked={layerVisibility[layer.id ?? ""] ?? false}
+									onChange={() => layer.id && toggleLayer(layer.id)}
 									className="rounded border-gray-600"
 								/>
 								<span className="text-sm text-gray-200">{layer.name}</span>

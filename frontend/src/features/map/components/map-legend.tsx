@@ -8,7 +8,9 @@ interface MapLegendProps {
 export function MapLegend({ layers }: MapLegendProps) {
 	const { layerVisibility } = useMapStore();
 
-	const visibleLayers = layers.filter((l) => layerVisibility[l.id!]);
+	const visibleLayers = layers.filter((l) =>
+		l.id ? layerVisibility[l.id] : false,
+	);
 	if (visibleLayers.length === 0) return null;
 
 	return (
