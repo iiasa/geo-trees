@@ -42,9 +42,7 @@ export function DownloadPanel() {
 
 		const csv = [
 			headers.join(","),
-			...rows.map((r) =>
-				r.map((v) => `"${v.replace(/"/g, '""')}"`).join(","),
-			),
+			...rows.map((r) => r.map((v) => `"${v.replace(/"/g, '""')}"`).join(",")),
 		].join("\n");
 		const blob = new Blob([csv], { type: "text/csv" });
 		const url = URL.createObjectURL(blob);

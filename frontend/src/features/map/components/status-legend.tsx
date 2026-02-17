@@ -25,9 +25,9 @@ export function StatusLegend({ visible }: StatusLegendProps) {
 		counts[status]++;
 	}
 
-	const entries = (
-		Object.entries(counts) as [GeoTreesStatus, number][]
-	).filter(([, count]) => count > 0);
+	const entries = (Object.entries(counts) as [GeoTreesStatus, number][]).filter(
+		([, count]) => count > 0,
+	);
 
 	if (entries.length === 0) return null;
 
