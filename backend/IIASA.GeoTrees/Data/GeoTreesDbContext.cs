@@ -1,5 +1,4 @@
-﻿using IIASA.GeoTrees.Entities.Books;
-using IIASA.GeoTrees.Entities.MapLayers;
+﻿using IIASA.GeoTrees.Entities.MapLayers;
 using IIASA.GeoTrees.Entities.Plots;
 using Microsoft.EntityFrameworkCore;
 using Volo.Abp.AuditLogging.EntityFrameworkCore;
@@ -19,7 +18,6 @@ namespace IIASA.GeoTrees.Data;
 
 public class GeoTreesDbContext : AbpDbContext<GeoTreesDbContext>
 {
-    public DbSet<Book> Books { get; set; }
     public DbSet<Plot> Plots { get; set; }
     public DbSet<Download> Downloads { get; set; }
     public DbSet<MapLayer> MapLayers { get; set; }
@@ -46,13 +44,6 @@ public class GeoTreesDbContext : AbpDbContext<GeoTreesDbContext>
         builder.ConfigureOpenIddict();
         builder.ConfigureTenantManagement();
         builder.ConfigureCmsKit();
-
-        builder.Entity<Book>(b =>
-        {
-            b.ToTable(DbTablePrefix + "Books", DbSchema);
-            b.ConfigureByConvention(); //auto configure for the base class props
-            b.Property(x => x.Name).IsRequired().HasMaxLength(128);
-        });
 
         builder.Entity<Plot>(b =>
         {
