@@ -8,6 +8,7 @@ import { LayerPanel } from "./layer-panel";
 import { MapLegend } from "./map-legend";
 import { BrmLayer } from "./brm-layer";
 import { BrmPopup } from "./brm-popup";
+import { AlsLayer } from "./als-layer";
 import { StatusLegend } from "./status-legend";
 import { DownloadPanel } from "./download-panel";
 import { useMapLayers } from "../hooks/use-map-layers";
@@ -21,10 +22,14 @@ export function MapPage() {
 	const { setLayerVisibility, layerVisibility } = useMapStore();
 
 	const brmVisible = layerVisibility["brm-sites"] ?? true;
+	const alsVisible = layerVisibility["als-data"] ?? false;
 
 	useEffect(() => {
 		if (layers.length > 0) {
-			const initial: Record<string, boolean> = { "brm-sites": true };
+			const initial: Record<string, boolean> = {
+				"brm-sites": true,
+				"als-data": false,
+			};
 			for (const layer of layers) {
 				if (layer.id) {
 					initial[layer.id] = layer.isVisible ?? false;
@@ -40,6 +45,7 @@ export function MapPage() {
 			{!isLoading && <MapView layers={layers} onMapReady={setMapInstance} />}
 			<BrmLayer map={mapInstance} visible={brmVisible} />
 			<BrmPopup map={mapInstance} pointLayerId="brm-points" />
+			<AlsLayer map={mapInstance} visible={alsVisible} />
 			<LayerPanel
 				layers={layers}
 				isOpen={panelOpen}
