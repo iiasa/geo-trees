@@ -33,6 +33,12 @@
     "Permission:Books.Create": "Creating new books",
     "Permission:Books.Edit": "Editing the books",
     "Permission:Books.Delete": "Deleting the books",
-    "Menu:Home": "Home"
+    "Menu:Home": "Home",
+    "Permission:Plots": "Plot Management",
+    "Permission:Plots.Create": "Creating new plots",
+    "Permission:Plots.Edit": "Editing plots",
+    "Permission:Plots.Delete": "Deleting plots",
+    "Permission:Plots.Download": "Downloading plot data",
+    "Permission:Downloads": "Download Audit Logs"
   }
 }

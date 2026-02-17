@@ -19,8 +19,19 @@ public class GeoTreesPermissionDefinitionProvider : PermissionDefinitionProvider
         booksPermission.AddChild(GeoTreesPermissions.Books.Edit, L("Permission:Books.Edit"));
         booksPermission.AddChild(GeoTreesPermissions.Books.Delete, L("Permission:Books.Delete"));
 
-        //Define your own permissions here. Example:
-        //myGroup.AddPermission(GeoTreesPermissions.MyPermission1, L("Permission:MyPermission1"));
+        var plotsPermission = myGroup.AddPermission(
+            GeoTreesPermissions.Plots.Default,
+            L("Permission:Plots")
+        );
+        plotsPermission.AddChild(GeoTreesPermissions.Plots.Create, L("Permission:Plots.Create"));
+        plotsPermission.AddChild(GeoTreesPermissions.Plots.Edit, L("Permission:Plots.Edit"));
+        plotsPermission.AddChild(GeoTreesPermissions.Plots.Delete, L("Permission:Plots.Delete"));
+        plotsPermission.AddChild(GeoTreesPermissions.Plots.Download, L("Permission:Plots.Download"));
+
+        myGroup.AddPermission(
+            GeoTreesPermissions.Downloads.Default,
+            L("Permission:Downloads")
+        );
     }
 
     private static LocalizableString L(string name)

@@ -200,6 +200,8 @@ public class GeoTreesModule : AbpModule
         ConfigureNavigationServices();
         ConfigureEfCore(context);
 
+        context.Services.AddHttpClient();
+
         // Override ABP's TimeZoneSettingsAppService to handle deprecated IANA timezone IDs on Linux
         context.Services.Replace(
             ServiceDescriptor.Transient<ITimeZoneSettingsAppService, SafeTimeZoneSettingsAppService>()
