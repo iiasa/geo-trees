@@ -4,10 +4,10 @@ FRONTEND_DIR := frontend
 BACKEND_DIR := backend/IIASA.GeoTrees
 BACKEND_DOCKER_DIR := backend/etc/docker
 
-.PHONY: help install dev build test lint format typecheck clean \
+.PHONY: help install dev build test lint format typecheck clean kill \
         fe-install fe-dev fe-build fe-test fe-test-watch fe-test-coverage fe-test-e2e \
         fe-lint fe-lint-fix fe-format fe-check fe-typecheck fe-generate-api fe-clean fe-kill \
-        be-run be-build be-migrate be-install-libs \
+        be-run be-build be-migrate be-install-libs be-kill \
         docker-fe-up docker-fe-down docker-be-up docker-be-down docker-up docker-down
 
 # ─── Default ────────────────────────────────────────────────────────────────────
@@ -32,6 +32,8 @@ format: fe-format ## Format frontend
 typecheck: fe-typecheck ## Type-check frontend
 
 clean: fe-clean ## Clean frontend build artifacts
+
+kill: fe-kill be-kill ## Kill all frontend and backend processes
 
 # ─── Frontend ───────────────────────────────────────────────────────────────────
 
@@ -77,8 +79,8 @@ fe-generate-api: ## Regenerate API client from backend OpenAPI spec
 fe-clean: ## Clean frontend build artifacts
 	rm -rf $(FRONTEND_DIR)/dist $(FRONTEND_DIR)/.output $(FRONTEND_DIR)/.tanstack
 
-fe-kill: ## Kill Vite dev server
-	pkill -f vite || true
+fe-kill: ## Kill frontend dev server (Vite/Node)
+	lsof -ti:3000 | xargs -r kill -9 || true
 
 # ─── Backend ────────────────────────────────────────────────────────────────────
 
@@ -93,6 +95,9 @@ be-migrate: ## Run backend database migrations
 
 be-install-libs: ## Install ABP client-side libraries
 	cd $(BACKEND_DIR) && abp install-libs
+
+be-kill: ## Kill backend dotnet process
+	lsof -ti:44324 | xargs -r kill -9 || true
 
 # ─── Docker ─────────────────────────────────────────────────────────────────────
 
