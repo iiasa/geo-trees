@@ -1,0 +1,22 @@
+{
+	"$schema": "https://unpkg.com/knip@5/schema.json",
+	"entry": [
+		"src/router.tsx",
+		"src/routes/**/*.{ts,tsx}",
+		"vite.config.ts",
+		"scripts/**/*.js"
+	],
+	"project": ["src/**/*.{ts,tsx}"],
+	"ignore": [
+		"src/infrastructure/api/**/*.gen.ts",
+		"src/infrastructure/api/**/*.gen.tsx",
+		"src/routeTree.gen.ts",
+		"src/shared/components/ui/**"
+	],
+	"ignoreDependencies": [
+		"@tanstack/react-router",
+		"@tanstack/react-start",
+		"@tanstack/start-server-core"
+	]
+}
+
