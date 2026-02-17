@@ -78,7 +78,7 @@ The backend serves as both the API server and the identity/auth provider. Swagge
 
 ## API Client Regeneration
 
-Run `pnpm generate-api` after backend API changes. This fetches the OpenAPI spec from `VITE_OPENAPI_SPEC_URL` (defaults to `https://abp.antosubash.com/swagger/v1/swagger.json`), generates types + SDK + Zod schemas + TanStack Query hooks into `src/infrastructure/api/`, then use the generated query options:
+Run `pnpm generate-api` after backend API changes. This fetches the OpenAPI spec from `VITE_OPENAPI_SPEC_URL` (defaults to `http://localhost:44349/swagger/v1/swagger.json`), generates types + SDK + Zod schemas + TanStack Query hooks into `src/infrastructure/api/`, then use the generated query options:
 
 ```typescript
 import { userGetListOptions } from "@/infrastructure/api/@tanstack/react-query.gen";

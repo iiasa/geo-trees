@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as ProfileRouteImport } from './routes/profile'
 import { Route as MapRouteImport } from './routes/map'
 import { Route as AuthedRouteImport } from './routes/_authed'
 import { Route as IndexRouteImport } from './routes/index'
@@ -47,6 +48,11 @@ import { Route as AuthedAdminCmsPagesIndexRouteImport } from './routes/_authed/a
 import { Route as AuthedAdminCmsPagesNewRouteImport } from './routes/_authed/admin/cms/pages/new'
 import { Route as AuthedAdminCmsPagesIdEditRouteImport } from './routes/_authed/admin/cms/pages/$id/edit'
 
+const ProfileRoute = ProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const MapRoute = MapRouteImport.update({
   id: '/map',
   path: '/map',
@@ -238,8 +244,8 @@ const AuthedAdminCmsPagesIdEditRoute =
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/map': typeof MapRoute
-  '/dashboard': typeof AuthedDashboardRoute
   '/profile': typeof AuthedProfileRouteWithChildren
+  '/dashboard': typeof AuthedDashboardRoute
   '/settings': typeof AuthedSettingsRoute
   '/api/health': typeof ApiHealthRoute
   '/auth/callback': typeof AuthCallbackRoute
@@ -276,6 +282,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/map': typeof MapRoute
+  '/profile': typeof AuthedProfileIndexRoute
   '/dashboard': typeof AuthedDashboardRoute
   '/settings': typeof AuthedSettingsRoute
   '/api/health': typeof ApiHealthRoute
@@ -298,7 +305,6 @@ export interface FileRoutesByTo {
   '/demo/api/names': typeof DemoApiNamesRoute
   '/demo/start/api-request': typeof DemoStartApiRequestRoute
   '/demo/start/server-funcs': typeof DemoStartServerFuncsRoute
-  '/profile': typeof AuthedProfileIndexRoute
   '/admin/cms/comments': typeof AuthedAdminCmsCommentsRoute
   '/admin/cms/navigation': typeof AuthedAdminCmsNavigationRoute
   '/demo/start/ssr/data-only': typeof DemoStartSsrDataOnlyRoute
@@ -314,6 +320,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_authed': typeof AuthedRouteWithChildren
   '/map': typeof MapRoute
+  '/profile': typeof ProfileRoute
   '/_authed/dashboard': typeof AuthedDashboardRoute
   '/_authed/profile': typeof AuthedProfileRouteWithChildren
   '/_authed/settings': typeof AuthedSettingsRoute
@@ -354,8 +361,8 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/map'
-    | '/dashboard'
     | '/profile'
+    | '/dashboard'
     | '/settings'
     | '/api/health'
     | '/auth/callback'
@@ -392,6 +399,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/map'
+    | '/profile'
     | '/dashboard'
     | '/settings'
     | '/api/health'
@@ -414,7 +422,6 @@ export interface FileRouteTypes {
     | '/demo/api/names'
     | '/demo/start/api-request'
     | '/demo/start/server-funcs'
-    | '/profile'
     | '/admin/cms/comments'
     | '/admin/cms/navigation'
     | '/demo/start/ssr/data-only'
@@ -429,6 +436,7 @@ export interface FileRouteTypes {
     | '/'
     | '/_authed'
     | '/map'
+    | '/profile'
     | '/_authed/dashboard'
     | '/_authed/profile'
     | '/_authed/settings'
@@ -469,6 +477,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthedRoute: typeof AuthedRouteWithChildren
   MapRoute: typeof MapRoute
+  ProfileRoute: typeof ProfileRoute
   ApiHealthRoute: typeof ApiHealthRoute
   AuthCallbackRoute: typeof AuthCallbackRoute
   AuthConfirmEmailRoute: typeof AuthConfirmEmailRoute
@@ -492,6 +501,13 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/profile': {
+      id: '/profile'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof ProfileRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/map': {
       id: '/map'
       path: '/map'
@@ -816,6 +832,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthedRoute: AuthedRouteWithChildren,
   MapRoute: MapRoute,
+  ProfileRoute: ProfileRoute,
   ApiHealthRoute: ApiHealthRoute,
   AuthCallbackRoute: AuthCallbackRoute,
   AuthConfirmEmailRoute: AuthConfirmEmailRoute,

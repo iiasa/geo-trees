@@ -111,7 +111,7 @@ src/
 
 ### `hey-api.config.ts`
 - **Purpose**: Configures automated API client generation
-- **Input**: OpenAPI spec from ABP backend (`https://abp.antosubash.com/swagger/v1/swagger.json`)
+- **Input**: OpenAPI spec from ABP backend (`http://localhost:44349/swagger/v1/swagger.json`)
 - **Output**: TypeScript client in `src/infrastructure/api/`
 - **Plugins**:
   - `@hey-api/client-fetch`: HTTP client
