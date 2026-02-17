@@ -13,7 +13,7 @@ import { PAGE_ACTION_MESSAGES, PAGE_EDIT_CONSTANTS } from "../constants";
 import { PageForm, type PageFormData } from "./page-form";
 
 export function EditPage() {
-	const { id } = useParams({ from: "/admin/cms/pages/$id/edit" });
+	const { id } = useParams({ from: "/_authed/admin/cms/pages/$id/edit" });
 	const queryClient = useQueryClient();
 
 	const {

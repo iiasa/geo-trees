@@ -5,7 +5,7 @@ import { PageHeader } from "@/shared/components/page-header";
 import { PageLayout } from "@/shared/components/page-layout";
 import { Tabs, TabsList, TabsTrigger } from "@/shared/components/ui/tabs";
 
-export const Route = createFileRoute("/profile")({
+export const Route = createFileRoute("/_authed/profile")({
 	component: ProfileLayout,
 });
 

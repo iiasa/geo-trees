@@ -19,7 +19,7 @@ import {
 	TabsTrigger,
 } from "@/shared/components/ui/tabs";
 
-export const Route = createFileRoute("/settings")({
+export const Route = createFileRoute("/_authed/settings")({
 	component: SettingsPage,
 });
 

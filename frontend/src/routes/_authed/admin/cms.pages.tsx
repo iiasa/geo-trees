@@ -1,6 +1,6 @@
 import { createFileRoute, Outlet } from "@tanstack/react-router";
 
-export const Route = createFileRoute("/admin/cms/pages")({
+export const Route = createFileRoute("/_authed/admin/cms/pages")({
 	component: PagesLayout,
 });
 

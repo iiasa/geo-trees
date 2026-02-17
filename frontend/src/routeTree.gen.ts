@@ -9,13 +9,9 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as SettingsRouteImport } from './routes/settings'
-import { Route as ProfileRouteImport } from './routes/profile'
 import { Route as MapRouteImport } from './routes/map'
-import { Route as DashboardRouteImport } from './routes/dashboard'
+import { Route as AuthedRouteImport } from './routes/_authed'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as ProfileIndexRouteImport } from './routes/profile.index'
-import { Route as ProfileSecurityRouteImport } from './routes/profile.security'
 import { Route as PageSlugRouteImport } from './routes/page.$slug'
 import { Route as DemoClientRouteImport } from './routes/demo/client'
 import { Route as AuthResetPasswordRouteImport } from './routes/auth/reset-password'
@@ -27,59 +23,43 @@ import { Route as AuthForgotPasswordRouteImport } from './routes/auth/forgot-pas
 import { Route as AuthConfirmEmailRouteImport } from './routes/auth/confirm-email'
 import { Route as AuthCallbackRouteImport } from './routes/auth/callback'
 import { Route as ApiHealthRouteImport } from './routes/api.health'
-import { Route as AdminUsersRouteImport } from './routes/admin/users'
-import { Route as AdminTenantsRouteImport } from './routes/admin/tenants'
-import { Route as AdminRolesRouteImport } from './routes/admin/roles'
-import { Route as AdminMapLayersRouteImport } from './routes/admin/map-layers'
+import { Route as AuthedSettingsRouteImport } from './routes/_authed/settings'
+import { Route as AuthedProfileRouteImport } from './routes/_authed/profile'
+import { Route as AuthedDashboardRouteImport } from './routes/_authed/dashboard'
+import { Route as AuthedProfileIndexRouteImport } from './routes/_authed/profile/index'
 import { Route as DemoStartServerFuncsRouteImport } from './routes/demo/start.server-funcs'
 import { Route as DemoStartApiRequestRouteImport } from './routes/demo/start.api-request'
 import { Route as DemoApiNamesRouteImport } from './routes/demo/api.names'
 import { Route as ApiProxySplatRouteImport } from './routes/api.proxy.$'
-import { Route as AdminCmsPagesRouteImport } from './routes/admin/cms.pages'
-import { Route as AdminCmsNavigationRouteImport } from './routes/admin/cms.navigation'
-import { Route as AdminCmsCommentsRouteImport } from './routes/admin/cms.comments'
+import { Route as AuthedProfileSecurityRouteImport } from './routes/_authed/profile/security'
+import { Route as AuthedAdminUsersRouteImport } from './routes/_authed/admin/users'
+import { Route as AuthedAdminTenantsRouteImport } from './routes/_authed/admin/tenants'
+import { Route as AuthedAdminRolesRouteImport } from './routes/_authed/admin/roles'
+import { Route as AuthedAdminMapLayersRouteImport } from './routes/_authed/admin/map-layers'
 import { Route as DemoStartSsrIndexRouteImport } from './routes/demo/start.ssr.index'
-import { Route as AdminCmsPagesIndexRouteImport } from './routes/admin/cms.pages.index'
 import { Route as DemoStartSsrSpaModeRouteImport } from './routes/demo/start.ssr.spa-mode'
 import { Route as DemoStartSsrFullSsrRouteImport } from './routes/demo/start.ssr.full-ssr'
 import { Route as DemoStartSsrDataOnlyRouteImport } from './routes/demo/start.ssr.data-only'
-import { Route as AdminCmsPagesNewRouteImport } from './routes/admin/cms.pages.new'
-import { Route as AdminCmsPagesIdEditRouteImport } from './routes/admin/cms.pages.$id.edit'
+import { Route as AuthedAdminCmsPagesRouteImport } from './routes/_authed/admin/cms.pages'
+import { Route as AuthedAdminCmsNavigationRouteImport } from './routes/_authed/admin/cms.navigation'
+import { Route as AuthedAdminCmsCommentsRouteImport } from './routes/_authed/admin/cms.comments'
+import { Route as AuthedAdminCmsPagesIndexRouteImport } from './routes/_authed/admin/cms.pages.index'
+import { Route as AuthedAdminCmsPagesNewRouteImport } from './routes/_authed/admin/cms.pages.new'
+import { Route as AuthedAdminCmsPagesIdEditRouteImport } from './routes/_authed/admin/cms.pages.$id.edit'
 
-const SettingsRoute = SettingsRouteImport.update({
-  id: '/settings',
-  path: '/settings',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ProfileRoute = ProfileRouteImport.update({
-  id: '/profile',
-  path: '/profile',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const MapRoute = MapRouteImport.update({
   id: '/map',
   path: '/map',
   getParentRoute: () => rootRouteImport,
 } as any)
-const DashboardRoute = DashboardRouteImport.update({
-  id: '/dashboard',
-  path: '/dashboard',
+const AuthedRoute = AuthedRouteImport.update({
+  id: '/_authed',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
-} as any)
-const ProfileIndexRoute = ProfileIndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => ProfileRoute,
-} as any)
-const ProfileSecurityRoute = ProfileSecurityRouteImport.update({
-  id: '/security',
-  path: '/security',
-  getParentRoute: () => ProfileRoute,
 } as any)
 const PageSlugRoute = PageSlugRouteImport.update({
   id: '/page/$slug',
@@ -136,25 +116,25 @@ const ApiHealthRoute = ApiHealthRouteImport.update({
   path: '/api/health',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AdminUsersRoute = AdminUsersRouteImport.update({
-  id: '/admin/users',
-  path: '/admin/users',
-  getParentRoute: () => rootRouteImport,
+const AuthedSettingsRoute = AuthedSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => AuthedRoute,
 } as any)
-const AdminTenantsRoute = AdminTenantsRouteImport.update({
-  id: '/admin/tenants',
-  path: '/admin/tenants',
-  getParentRoute: () => rootRouteImport,
+const AuthedProfileRoute = AuthedProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => AuthedRoute,
 } as any)
-const AdminRolesRoute = AdminRolesRouteImport.update({
-  id: '/admin/roles',
-  path: '/admin/roles',
-  getParentRoute: () => rootRouteImport,
+const AuthedDashboardRoute = AuthedDashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => AuthedRoute,
 } as any)
-const AdminMapLayersRoute = AdminMapLayersRouteImport.update({
-  id: '/admin/map-layers',
-  path: '/admin/map-layers',
-  getParentRoute: () => rootRouteImport,
+const AuthedProfileIndexRoute = AuthedProfileIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AuthedProfileRoute,
 } as any)
 const DemoStartServerFuncsRoute = DemoStartServerFuncsRouteImport.update({
   id: '/demo/start/server-funcs',
@@ -176,30 +156,35 @@ const ApiProxySplatRoute = ApiProxySplatRouteImport.update({
   path: '/api/proxy/$',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AdminCmsPagesRoute = AdminCmsPagesRouteImport.update({
-  id: '/admin/cms/pages',
-  path: '/admin/cms/pages',
-  getParentRoute: () => rootRouteImport,
+const AuthedProfileSecurityRoute = AuthedProfileSecurityRouteImport.update({
+  id: '/security',
+  path: '/security',
+  getParentRoute: () => AuthedProfileRoute,
 } as any)
-const AdminCmsNavigationRoute = AdminCmsNavigationRouteImport.update({
-  id: '/admin/cms/navigation',
-  path: '/admin/cms/navigation',
-  getParentRoute: () => rootRouteImport,
+const AuthedAdminUsersRoute = AuthedAdminUsersRouteImport.update({
+  id: '/admin/users',
+  path: '/admin/users',
+  getParentRoute: () => AuthedRoute,
 } as any)
-const AdminCmsCommentsRoute = AdminCmsCommentsRouteImport.update({
-  id: '/admin/cms/comments',
-  path: '/admin/cms/comments',
-  getParentRoute: () => rootRouteImport,
+const AuthedAdminTenantsRoute = AuthedAdminTenantsRouteImport.update({
+  id: '/admin/tenants',
+  path: '/admin/tenants',
+  getParentRoute: () => AuthedRoute,
+} as any)
+const AuthedAdminRolesRoute = AuthedAdminRolesRouteImport.update({
+  id: '/admin/roles',
+  path: '/admin/roles',
+  getParentRoute: () => AuthedRoute,
+} as any)
+const AuthedAdminMapLayersRoute = AuthedAdminMapLayersRouteImport.update({
+  id: '/admin/map-layers',
+  path: '/admin/map-layers',
+  getParentRoute: () => AuthedRoute,
 } as any)
 const DemoStartSsrIndexRoute = DemoStartSsrIndexRouteImport.update({
   id: '/demo/start/ssr/',
   path: '/demo/start/ssr/',
   getParentRoute: () => rootRouteImport,
-} as any)
-const AdminCmsPagesIndexRoute = AdminCmsPagesIndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => AdminCmsPagesRoute,
 } as any)
 const DemoStartSsrSpaModeRoute = DemoStartSsrSpaModeRouteImport.update({
   id: '/demo/start/ssr/spa-mode',
@@ -216,27 +201,46 @@ const DemoStartSsrDataOnlyRoute = DemoStartSsrDataOnlyRouteImport.update({
   path: '/demo/start/ssr/data-only',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AdminCmsPagesNewRoute = AdminCmsPagesNewRouteImport.update({
+const AuthedAdminCmsPagesRoute = AuthedAdminCmsPagesRouteImport.update({
+  id: '/admin/cms/pages',
+  path: '/admin/cms/pages',
+  getParentRoute: () => AuthedRoute,
+} as any)
+const AuthedAdminCmsNavigationRoute =
+  AuthedAdminCmsNavigationRouteImport.update({
+    id: '/admin/cms/navigation',
+    path: '/admin/cms/navigation',
+    getParentRoute: () => AuthedRoute,
+  } as any)
+const AuthedAdminCmsCommentsRoute = AuthedAdminCmsCommentsRouteImport.update({
+  id: '/admin/cms/comments',
+  path: '/admin/cms/comments',
+  getParentRoute: () => AuthedRoute,
+} as any)
+const AuthedAdminCmsPagesIndexRoute =
+  AuthedAdminCmsPagesIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => AuthedAdminCmsPagesRoute,
+  } as any)
+const AuthedAdminCmsPagesNewRoute = AuthedAdminCmsPagesNewRouteImport.update({
   id: '/new',
   path: '/new',
-  getParentRoute: () => AdminCmsPagesRoute,
+  getParentRoute: () => AuthedAdminCmsPagesRoute,
 } as any)
-const AdminCmsPagesIdEditRoute = AdminCmsPagesIdEditRouteImport.update({
-  id: '/$id/edit',
-  path: '/$id/edit',
-  getParentRoute: () => AdminCmsPagesRoute,
-} as any)
+const AuthedAdminCmsPagesIdEditRoute =
+  AuthedAdminCmsPagesIdEditRouteImport.update({
+    id: '/$id/edit',
+    path: '/$id/edit',
+    getParentRoute: () => AuthedAdminCmsPagesRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/dashboard': typeof DashboardRoute
   '/map': typeof MapRoute
-  '/profile': typeof ProfileRouteWithChildren
-  '/settings': typeof SettingsRoute
-  '/admin/map-layers': typeof AdminMapLayersRoute
-  '/admin/roles': typeof AdminRolesRoute
-  '/admin/tenants': typeof AdminTenantsRoute
-  '/admin/users': typeof AdminUsersRoute
+  '/dashboard': typeof AuthedDashboardRoute
+  '/profile': typeof AuthedProfileRouteWithChildren
+  '/settings': typeof AuthedSettingsRoute
   '/api/health': typeof ApiHealthRoute
   '/auth/callback': typeof AuthCallbackRoute
   '/auth/confirm-email': typeof AuthConfirmEmailRoute
@@ -248,32 +252,32 @@ export interface FileRoutesByFullPath {
   '/auth/reset-password': typeof AuthResetPasswordRoute
   '/demo/client': typeof DemoClientRoute
   '/page/$slug': typeof PageSlugRoute
-  '/profile/security': typeof ProfileSecurityRoute
-  '/profile/': typeof ProfileIndexRoute
-  '/admin/cms/comments': typeof AdminCmsCommentsRoute
-  '/admin/cms/navigation': typeof AdminCmsNavigationRoute
-  '/admin/cms/pages': typeof AdminCmsPagesRouteWithChildren
+  '/admin/map-layers': typeof AuthedAdminMapLayersRoute
+  '/admin/roles': typeof AuthedAdminRolesRoute
+  '/admin/tenants': typeof AuthedAdminTenantsRoute
+  '/admin/users': typeof AuthedAdminUsersRoute
+  '/profile/security': typeof AuthedProfileSecurityRoute
   '/api/proxy/$': typeof ApiProxySplatRoute
   '/demo/api/names': typeof DemoApiNamesRoute
   '/demo/start/api-request': typeof DemoStartApiRequestRoute
   '/demo/start/server-funcs': typeof DemoStartServerFuncsRoute
-  '/admin/cms/pages/new': typeof AdminCmsPagesNewRoute
+  '/profile/': typeof AuthedProfileIndexRoute
+  '/admin/cms/comments': typeof AuthedAdminCmsCommentsRoute
+  '/admin/cms/navigation': typeof AuthedAdminCmsNavigationRoute
+  '/admin/cms/pages': typeof AuthedAdminCmsPagesRouteWithChildren
   '/demo/start/ssr/data-only': typeof DemoStartSsrDataOnlyRoute
   '/demo/start/ssr/full-ssr': typeof DemoStartSsrFullSsrRoute
   '/demo/start/ssr/spa-mode': typeof DemoStartSsrSpaModeRoute
-  '/admin/cms/pages/': typeof AdminCmsPagesIndexRoute
-  '/demo/start/ssr': typeof DemoStartSsrIndexRoute
-  '/admin/cms/pages/$id/edit': typeof AdminCmsPagesIdEditRoute
+  '/demo/start/ssr/': typeof DemoStartSsrIndexRoute
+  '/admin/cms/pages/new': typeof AuthedAdminCmsPagesNewRoute
+  '/admin/cms/pages/': typeof AuthedAdminCmsPagesIndexRoute
+  '/admin/cms/pages/$id/edit': typeof AuthedAdminCmsPagesIdEditRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/dashboard': typeof DashboardRoute
   '/map': typeof MapRoute
-  '/settings': typeof SettingsRoute
-  '/admin/map-layers': typeof AdminMapLayersRoute
-  '/admin/roles': typeof AdminRolesRoute
-  '/admin/tenants': typeof AdminTenantsRoute
-  '/admin/users': typeof AdminUsersRoute
+  '/dashboard': typeof AuthedDashboardRoute
+  '/settings': typeof AuthedSettingsRoute
   '/api/health': typeof ApiHealthRoute
   '/auth/callback': typeof AuthCallbackRoute
   '/auth/confirm-email': typeof AuthConfirmEmailRoute
@@ -285,33 +289,34 @@ export interface FileRoutesByTo {
   '/auth/reset-password': typeof AuthResetPasswordRoute
   '/demo/client': typeof DemoClientRoute
   '/page/$slug': typeof PageSlugRoute
-  '/profile/security': typeof ProfileSecurityRoute
-  '/profile': typeof ProfileIndexRoute
-  '/admin/cms/comments': typeof AdminCmsCommentsRoute
-  '/admin/cms/navigation': typeof AdminCmsNavigationRoute
+  '/admin/map-layers': typeof AuthedAdminMapLayersRoute
+  '/admin/roles': typeof AuthedAdminRolesRoute
+  '/admin/tenants': typeof AuthedAdminTenantsRoute
+  '/admin/users': typeof AuthedAdminUsersRoute
+  '/profile/security': typeof AuthedProfileSecurityRoute
   '/api/proxy/$': typeof ApiProxySplatRoute
   '/demo/api/names': typeof DemoApiNamesRoute
   '/demo/start/api-request': typeof DemoStartApiRequestRoute
   '/demo/start/server-funcs': typeof DemoStartServerFuncsRoute
-  '/admin/cms/pages/new': typeof AdminCmsPagesNewRoute
+  '/profile': typeof AuthedProfileIndexRoute
+  '/admin/cms/comments': typeof AuthedAdminCmsCommentsRoute
+  '/admin/cms/navigation': typeof AuthedAdminCmsNavigationRoute
   '/demo/start/ssr/data-only': typeof DemoStartSsrDataOnlyRoute
   '/demo/start/ssr/full-ssr': typeof DemoStartSsrFullSsrRoute
   '/demo/start/ssr/spa-mode': typeof DemoStartSsrSpaModeRoute
-  '/admin/cms/pages': typeof AdminCmsPagesIndexRoute
   '/demo/start/ssr': typeof DemoStartSsrIndexRoute
-  '/admin/cms/pages/$id/edit': typeof AdminCmsPagesIdEditRoute
+  '/admin/cms/pages/new': typeof AuthedAdminCmsPagesNewRoute
+  '/admin/cms/pages': typeof AuthedAdminCmsPagesIndexRoute
+  '/admin/cms/pages/$id/edit': typeof AuthedAdminCmsPagesIdEditRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/dashboard': typeof DashboardRoute
+  '/_authed': typeof AuthedRouteWithChildren
   '/map': typeof MapRoute
-  '/profile': typeof ProfileRouteWithChildren
-  '/settings': typeof SettingsRoute
-  '/admin/map-layers': typeof AdminMapLayersRoute
-  '/admin/roles': typeof AdminRolesRoute
-  '/admin/tenants': typeof AdminTenantsRoute
-  '/admin/users': typeof AdminUsersRoute
+  '/_authed/dashboard': typeof AuthedDashboardRoute
+  '/_authed/profile': typeof AuthedProfileRouteWithChildren
+  '/_authed/settings': typeof AuthedSettingsRoute
   '/api/health': typeof ApiHealthRoute
   '/auth/callback': typeof AuthCallbackRoute
   '/auth/confirm-email': typeof AuthConfirmEmailRoute
@@ -323,35 +328,35 @@ export interface FileRoutesById {
   '/auth/reset-password': typeof AuthResetPasswordRoute
   '/demo/client': typeof DemoClientRoute
   '/page/$slug': typeof PageSlugRoute
-  '/profile/security': typeof ProfileSecurityRoute
-  '/profile/': typeof ProfileIndexRoute
-  '/admin/cms/comments': typeof AdminCmsCommentsRoute
-  '/admin/cms/navigation': typeof AdminCmsNavigationRoute
-  '/admin/cms/pages': typeof AdminCmsPagesRouteWithChildren
+  '/_authed/admin/map-layers': typeof AuthedAdminMapLayersRoute
+  '/_authed/admin/roles': typeof AuthedAdminRolesRoute
+  '/_authed/admin/tenants': typeof AuthedAdminTenantsRoute
+  '/_authed/admin/users': typeof AuthedAdminUsersRoute
+  '/_authed/profile/security': typeof AuthedProfileSecurityRoute
   '/api/proxy/$': typeof ApiProxySplatRoute
   '/demo/api/names': typeof DemoApiNamesRoute
   '/demo/start/api-request': typeof DemoStartApiRequestRoute
   '/demo/start/server-funcs': typeof DemoStartServerFuncsRoute
-  '/admin/cms/pages/new': typeof AdminCmsPagesNewRoute
+  '/_authed/profile/': typeof AuthedProfileIndexRoute
+  '/_authed/admin/cms/comments': typeof AuthedAdminCmsCommentsRoute
+  '/_authed/admin/cms/navigation': typeof AuthedAdminCmsNavigationRoute
+  '/_authed/admin/cms/pages': typeof AuthedAdminCmsPagesRouteWithChildren
   '/demo/start/ssr/data-only': typeof DemoStartSsrDataOnlyRoute
   '/demo/start/ssr/full-ssr': typeof DemoStartSsrFullSsrRoute
   '/demo/start/ssr/spa-mode': typeof DemoStartSsrSpaModeRoute
-  '/admin/cms/pages/': typeof AdminCmsPagesIndexRoute
   '/demo/start/ssr/': typeof DemoStartSsrIndexRoute
-  '/admin/cms/pages/$id/edit': typeof AdminCmsPagesIdEditRoute
+  '/_authed/admin/cms/pages/new': typeof AuthedAdminCmsPagesNewRoute
+  '/_authed/admin/cms/pages/': typeof AuthedAdminCmsPagesIndexRoute
+  '/_authed/admin/cms/pages/$id/edit': typeof AuthedAdminCmsPagesIdEditRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
-    | '/dashboard'
     | '/map'
+    | '/dashboard'
     | '/profile'
     | '/settings'
-    | '/admin/map-layers'
-    | '/admin/roles'
-    | '/admin/tenants'
-    | '/admin/users'
     | '/api/health'
     | '/auth/callback'
     | '/auth/confirm-email'
@@ -363,32 +368,32 @@ export interface FileRouteTypes {
     | '/auth/reset-password'
     | '/demo/client'
     | '/page/$slug'
+    | '/admin/map-layers'
+    | '/admin/roles'
+    | '/admin/tenants'
+    | '/admin/users'
     | '/profile/security'
-    | '/profile/'
-    | '/admin/cms/comments'
-    | '/admin/cms/navigation'
-    | '/admin/cms/pages'
     | '/api/proxy/$'
     | '/demo/api/names'
     | '/demo/start/api-request'
     | '/demo/start/server-funcs'
-    | '/admin/cms/pages/new'
+    | '/profile/'
+    | '/admin/cms/comments'
+    | '/admin/cms/navigation'
+    | '/admin/cms/pages'
     | '/demo/start/ssr/data-only'
     | '/demo/start/ssr/full-ssr'
     | '/demo/start/ssr/spa-mode'
+    | '/demo/start/ssr/'
+    | '/admin/cms/pages/new'
     | '/admin/cms/pages/'
-    | '/demo/start/ssr'
     | '/admin/cms/pages/$id/edit'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/dashboard'
     | '/map'
+    | '/dashboard'
     | '/settings'
-    | '/admin/map-layers'
-    | '/admin/roles'
-    | '/admin/tenants'
-    | '/admin/users'
     | '/api/health'
     | '/auth/callback'
     | '/auth/confirm-email'
@@ -400,32 +405,33 @@ export interface FileRouteTypes {
     | '/auth/reset-password'
     | '/demo/client'
     | '/page/$slug'
+    | '/admin/map-layers'
+    | '/admin/roles'
+    | '/admin/tenants'
+    | '/admin/users'
     | '/profile/security'
-    | '/profile'
-    | '/admin/cms/comments'
-    | '/admin/cms/navigation'
     | '/api/proxy/$'
     | '/demo/api/names'
     | '/demo/start/api-request'
     | '/demo/start/server-funcs'
-    | '/admin/cms/pages/new'
+    | '/profile'
+    | '/admin/cms/comments'
+    | '/admin/cms/navigation'
     | '/demo/start/ssr/data-only'
     | '/demo/start/ssr/full-ssr'
     | '/demo/start/ssr/spa-mode'
-    | '/admin/cms/pages'
     | '/demo/start/ssr'
+    | '/admin/cms/pages/new'
+    | '/admin/cms/pages'
     | '/admin/cms/pages/$id/edit'
   id:
     | '__root__'
     | '/'
-    | '/dashboard'
+    | '/_authed'
     | '/map'
-    | '/profile'
-    | '/settings'
-    | '/admin/map-layers'
-    | '/admin/roles'
-    | '/admin/tenants'
-    | '/admin/users'
+    | '/_authed/dashboard'
+    | '/_authed/profile'
+    | '/_authed/settings'
     | '/api/health'
     | '/auth/callback'
     | '/auth/confirm-email'
@@ -437,34 +443,32 @@ export interface FileRouteTypes {
     | '/auth/reset-password'
     | '/demo/client'
     | '/page/$slug'
-    | '/profile/security'
-    | '/profile/'
-    | '/admin/cms/comments'
-    | '/admin/cms/navigation'
-    | '/admin/cms/pages'
+    | '/_authed/admin/map-layers'
+    | '/_authed/admin/roles'
+    | '/_authed/admin/tenants'
+    | '/_authed/admin/users'
+    | '/_authed/profile/security'
     | '/api/proxy/$'
     | '/demo/api/names'
     | '/demo/start/api-request'
     | '/demo/start/server-funcs'
-    | '/admin/cms/pages/new'
+    | '/_authed/profile/'
+    | '/_authed/admin/cms/comments'
+    | '/_authed/admin/cms/navigation'
+    | '/_authed/admin/cms/pages'
     | '/demo/start/ssr/data-only'
     | '/demo/start/ssr/full-ssr'
     | '/demo/start/ssr/spa-mode'
-    | '/admin/cms/pages/'
     | '/demo/start/ssr/'
-    | '/admin/cms/pages/$id/edit'
+    | '/_authed/admin/cms/pages/new'
+    | '/_authed/admin/cms/pages/'
+    | '/_authed/admin/cms/pages/$id/edit'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  DashboardRoute: typeof DashboardRoute
+  AuthedRoute: typeof AuthedRouteWithChildren
   MapRoute: typeof MapRoute
-  ProfileRoute: typeof ProfileRouteWithChildren
-  SettingsRoute: typeof SettingsRoute
-  AdminMapLayersRoute: typeof AdminMapLayersRoute
-  AdminRolesRoute: typeof AdminRolesRoute
-  AdminTenantsRoute: typeof AdminTenantsRoute
-  AdminUsersRoute: typeof AdminUsersRoute
   ApiHealthRoute: typeof ApiHealthRoute
   AuthCallbackRoute: typeof AuthCallbackRoute
   AuthConfirmEmailRoute: typeof AuthConfirmEmailRoute
@@ -476,9 +480,6 @@ export interface RootRouteChildren {
   AuthResetPasswordRoute: typeof AuthResetPasswordRoute
   DemoClientRoute: typeof DemoClientRoute
   PageSlugRoute: typeof PageSlugRoute
-  AdminCmsCommentsRoute: typeof AdminCmsCommentsRoute
-  AdminCmsNavigationRoute: typeof AdminCmsNavigationRoute
-  AdminCmsPagesRoute: typeof AdminCmsPagesRouteWithChildren
   ApiProxySplatRoute: typeof ApiProxySplatRoute
   DemoApiNamesRoute: typeof DemoApiNamesRoute
   DemoStartApiRequestRoute: typeof DemoStartApiRequestRoute
@@ -491,20 +492,6 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/settings': {
-      id: '/settings'
-      path: '/settings'
-      fullPath: '/settings'
-      preLoaderRoute: typeof SettingsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/profile': {
-      id: '/profile'
-      path: '/profile'
-      fullPath: '/profile'
-      preLoaderRoute: typeof ProfileRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/map': {
       id: '/map'
       path: '/map'
@@ -512,11 +499,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MapRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/dashboard': {
-      id: '/dashboard'
-      path: '/dashboard'
-      fullPath: '/dashboard'
-      preLoaderRoute: typeof DashboardRouteImport
+    '/_authed': {
+      id: '/_authed'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthedRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -525,20 +512,6 @@ declare module '@tanstack/react-router' {
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
-    }
-    '/profile/': {
-      id: '/profile/'
-      path: '/'
-      fullPath: '/profile/'
-      preLoaderRoute: typeof ProfileIndexRouteImport
-      parentRoute: typeof ProfileRoute
-    }
-    '/profile/security': {
-      id: '/profile/security'
-      path: '/security'
-      fullPath: '/profile/security'
-      preLoaderRoute: typeof ProfileSecurityRouteImport
-      parentRoute: typeof ProfileRoute
     }
     '/page/$slug': {
       id: '/page/$slug'
@@ -617,33 +590,33 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiHealthRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/admin/users': {
-      id: '/admin/users'
-      path: '/admin/users'
-      fullPath: '/admin/users'
-      preLoaderRoute: typeof AdminUsersRouteImport
-      parentRoute: typeof rootRouteImport
+    '/_authed/settings': {
+      id: '/_authed/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof AuthedSettingsRouteImport
+      parentRoute: typeof AuthedRoute
     }
-    '/admin/tenants': {
-      id: '/admin/tenants'
-      path: '/admin/tenants'
-      fullPath: '/admin/tenants'
-      preLoaderRoute: typeof AdminTenantsRouteImport
-      parentRoute: typeof rootRouteImport
+    '/_authed/profile': {
+      id: '/_authed/profile'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof AuthedProfileRouteImport
+      parentRoute: typeof AuthedRoute
     }
-    '/admin/roles': {
-      id: '/admin/roles'
-      path: '/admin/roles'
-      fullPath: '/admin/roles'
-      preLoaderRoute: typeof AdminRolesRouteImport
-      parentRoute: typeof rootRouteImport
+    '/_authed/dashboard': {
+      id: '/_authed/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof AuthedDashboardRouteImport
+      parentRoute: typeof AuthedRoute
     }
-    '/admin/map-layers': {
-      id: '/admin/map-layers'
-      path: '/admin/map-layers'
-      fullPath: '/admin/map-layers'
-      preLoaderRoute: typeof AdminMapLayersRouteImport
-      parentRoute: typeof rootRouteImport
+    '/_authed/profile/': {
+      id: '/_authed/profile/'
+      path: '/'
+      fullPath: '/profile/'
+      preLoaderRoute: typeof AuthedProfileIndexRouteImport
+      parentRoute: typeof AuthedProfileRoute
     }
     '/demo/start/server-funcs': {
       id: '/demo/start/server-funcs'
@@ -673,40 +646,47 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiProxySplatRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/admin/cms/pages': {
-      id: '/admin/cms/pages'
-      path: '/admin/cms/pages'
-      fullPath: '/admin/cms/pages'
-      preLoaderRoute: typeof AdminCmsPagesRouteImport
-      parentRoute: typeof rootRouteImport
+    '/_authed/profile/security': {
+      id: '/_authed/profile/security'
+      path: '/security'
+      fullPath: '/profile/security'
+      preLoaderRoute: typeof AuthedProfileSecurityRouteImport
+      parentRoute: typeof AuthedProfileRoute
     }
-    '/admin/cms/navigation': {
-      id: '/admin/cms/navigation'
-      path: '/admin/cms/navigation'
-      fullPath: '/admin/cms/navigation'
-      preLoaderRoute: typeof AdminCmsNavigationRouteImport
-      parentRoute: typeof rootRouteImport
+    '/_authed/admin/users': {
+      id: '/_authed/admin/users'
+      path: '/admin/users'
+      fullPath: '/admin/users'
+      preLoaderRoute: typeof AuthedAdminUsersRouteImport
+      parentRoute: typeof AuthedRoute
     }
-    '/admin/cms/comments': {
-      id: '/admin/cms/comments'
-      path: '/admin/cms/comments'
-      fullPath: '/admin/cms/comments'
-      preLoaderRoute: typeof AdminCmsCommentsRouteImport
-      parentRoute: typeof rootRouteImport
+    '/_authed/admin/tenants': {
+      id: '/_authed/admin/tenants'
+      path: '/admin/tenants'
+      fullPath: '/admin/tenants'
+      preLoaderRoute: typeof AuthedAdminTenantsRouteImport
+      parentRoute: typeof AuthedRoute
+    }
+    '/_authed/admin/roles': {
+      id: '/_authed/admin/roles'
+      path: '/admin/roles'
+      fullPath: '/admin/roles'
+      preLoaderRoute: typeof AuthedAdminRolesRouteImport
+      parentRoute: typeof AuthedRoute
+    }
+    '/_authed/admin/map-layers': {
+      id: '/_authed/admin/map-layers'
+      path: '/admin/map-layers'
+      fullPath: '/admin/map-layers'
+      preLoaderRoute: typeof AuthedAdminMapLayersRouteImport
+      parentRoute: typeof AuthedRoute
     }
     '/demo/start/ssr/': {
       id: '/demo/start/ssr/'
       path: '/demo/start/ssr'
-      fullPath: '/demo/start/ssr'
+      fullPath: '/demo/start/ssr/'
       preLoaderRoute: typeof DemoStartSsrIndexRouteImport
       parentRoute: typeof rootRouteImport
-    }
-    '/admin/cms/pages/': {
-      id: '/admin/cms/pages/'
-      path: '/'
-      fullPath: '/admin/cms/pages/'
-      preLoaderRoute: typeof AdminCmsPagesIndexRouteImport
-      parentRoute: typeof AdminCmsPagesRoute
     }
     '/demo/start/ssr/spa-mode': {
       id: '/demo/start/ssr/spa-mode'
@@ -729,62 +709,113 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DemoStartSsrDataOnlyRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/admin/cms/pages/new': {
-      id: '/admin/cms/pages/new'
+    '/_authed/admin/cms/pages': {
+      id: '/_authed/admin/cms/pages'
+      path: '/admin/cms/pages'
+      fullPath: '/admin/cms/pages'
+      preLoaderRoute: typeof AuthedAdminCmsPagesRouteImport
+      parentRoute: typeof AuthedRoute
+    }
+    '/_authed/admin/cms/navigation': {
+      id: '/_authed/admin/cms/navigation'
+      path: '/admin/cms/navigation'
+      fullPath: '/admin/cms/navigation'
+      preLoaderRoute: typeof AuthedAdminCmsNavigationRouteImport
+      parentRoute: typeof AuthedRoute
+    }
+    '/_authed/admin/cms/comments': {
+      id: '/_authed/admin/cms/comments'
+      path: '/admin/cms/comments'
+      fullPath: '/admin/cms/comments'
+      preLoaderRoute: typeof AuthedAdminCmsCommentsRouteImport
+      parentRoute: typeof AuthedRoute
+    }
+    '/_authed/admin/cms/pages/': {
+      id: '/_authed/admin/cms/pages/'
+      path: '/'
+      fullPath: '/admin/cms/pages/'
+      preLoaderRoute: typeof AuthedAdminCmsPagesIndexRouteImport
+      parentRoute: typeof AuthedAdminCmsPagesRoute
+    }
+    '/_authed/admin/cms/pages/new': {
+      id: '/_authed/admin/cms/pages/new'
       path: '/new'
       fullPath: '/admin/cms/pages/new'
-      preLoaderRoute: typeof AdminCmsPagesNewRouteImport
-      parentRoute: typeof AdminCmsPagesRoute
+      preLoaderRoute: typeof AuthedAdminCmsPagesNewRouteImport
+      parentRoute: typeof AuthedAdminCmsPagesRoute
     }
-    '/admin/cms/pages/$id/edit': {
-      id: '/admin/cms/pages/$id/edit'
+    '/_authed/admin/cms/pages/$id/edit': {
+      id: '/_authed/admin/cms/pages/$id/edit'
       path: '/$id/edit'
       fullPath: '/admin/cms/pages/$id/edit'
-      preLoaderRoute: typeof AdminCmsPagesIdEditRouteImport
-      parentRoute: typeof AdminCmsPagesRoute
+      preLoaderRoute: typeof AuthedAdminCmsPagesIdEditRouteImport
+      parentRoute: typeof AuthedAdminCmsPagesRoute
     }
   }
 }
 
-interface ProfileRouteChildren {
-  ProfileSecurityRoute: typeof ProfileSecurityRoute
-  ProfileIndexRoute: typeof ProfileIndexRoute
+interface AuthedProfileRouteChildren {
+  AuthedProfileSecurityRoute: typeof AuthedProfileSecurityRoute
+  AuthedProfileIndexRoute: typeof AuthedProfileIndexRoute
 }
 
-const ProfileRouteChildren: ProfileRouteChildren = {
-  ProfileSecurityRoute: ProfileSecurityRoute,
-  ProfileIndexRoute: ProfileIndexRoute,
+const AuthedProfileRouteChildren: AuthedProfileRouteChildren = {
+  AuthedProfileSecurityRoute: AuthedProfileSecurityRoute,
+  AuthedProfileIndexRoute: AuthedProfileIndexRoute,
 }
 
-const ProfileRouteWithChildren =
-  ProfileRoute._addFileChildren(ProfileRouteChildren)
-
-interface AdminCmsPagesRouteChildren {
-  AdminCmsPagesNewRoute: typeof AdminCmsPagesNewRoute
-  AdminCmsPagesIndexRoute: typeof AdminCmsPagesIndexRoute
-  AdminCmsPagesIdEditRoute: typeof AdminCmsPagesIdEditRoute
-}
-
-const AdminCmsPagesRouteChildren: AdminCmsPagesRouteChildren = {
-  AdminCmsPagesNewRoute: AdminCmsPagesNewRoute,
-  AdminCmsPagesIndexRoute: AdminCmsPagesIndexRoute,
-  AdminCmsPagesIdEditRoute: AdminCmsPagesIdEditRoute,
-}
-
-const AdminCmsPagesRouteWithChildren = AdminCmsPagesRoute._addFileChildren(
-  AdminCmsPagesRouteChildren,
+const AuthedProfileRouteWithChildren = AuthedProfileRoute._addFileChildren(
+  AuthedProfileRouteChildren,
 )
+
+interface AuthedAdminCmsPagesRouteChildren {
+  AuthedAdminCmsPagesNewRoute: typeof AuthedAdminCmsPagesNewRoute
+  AuthedAdminCmsPagesIndexRoute: typeof AuthedAdminCmsPagesIndexRoute
+  AuthedAdminCmsPagesIdEditRoute: typeof AuthedAdminCmsPagesIdEditRoute
+}
+
+const AuthedAdminCmsPagesRouteChildren: AuthedAdminCmsPagesRouteChildren = {
+  AuthedAdminCmsPagesNewRoute: AuthedAdminCmsPagesNewRoute,
+  AuthedAdminCmsPagesIndexRoute: AuthedAdminCmsPagesIndexRoute,
+  AuthedAdminCmsPagesIdEditRoute: AuthedAdminCmsPagesIdEditRoute,
+}
+
+const AuthedAdminCmsPagesRouteWithChildren =
+  AuthedAdminCmsPagesRoute._addFileChildren(AuthedAdminCmsPagesRouteChildren)
+
+interface AuthedRouteChildren {
+  AuthedDashboardRoute: typeof AuthedDashboardRoute
+  AuthedProfileRoute: typeof AuthedProfileRouteWithChildren
+  AuthedSettingsRoute: typeof AuthedSettingsRoute
+  AuthedAdminMapLayersRoute: typeof AuthedAdminMapLayersRoute
+  AuthedAdminRolesRoute: typeof AuthedAdminRolesRoute
+  AuthedAdminTenantsRoute: typeof AuthedAdminTenantsRoute
+  AuthedAdminUsersRoute: typeof AuthedAdminUsersRoute
+  AuthedAdminCmsCommentsRoute: typeof AuthedAdminCmsCommentsRoute
+  AuthedAdminCmsNavigationRoute: typeof AuthedAdminCmsNavigationRoute
+  AuthedAdminCmsPagesRoute: typeof AuthedAdminCmsPagesRouteWithChildren
+}
+
+const AuthedRouteChildren: AuthedRouteChildren = {
+  AuthedDashboardRoute: AuthedDashboardRoute,
+  AuthedProfileRoute: AuthedProfileRouteWithChildren,
+  AuthedSettingsRoute: AuthedSettingsRoute,
+  AuthedAdminMapLayersRoute: AuthedAdminMapLayersRoute,
+  AuthedAdminRolesRoute: AuthedAdminRolesRoute,
+  AuthedAdminTenantsRoute: AuthedAdminTenantsRoute,
+  AuthedAdminUsersRoute: AuthedAdminUsersRoute,
+  AuthedAdminCmsCommentsRoute: AuthedAdminCmsCommentsRoute,
+  AuthedAdminCmsNavigationRoute: AuthedAdminCmsNavigationRoute,
+  AuthedAdminCmsPagesRoute: AuthedAdminCmsPagesRouteWithChildren,
+}
+
+const AuthedRouteWithChildren =
+  AuthedRoute._addFileChildren(AuthedRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  DashboardRoute: DashboardRoute,
+  AuthedRoute: AuthedRouteWithChildren,
   MapRoute: MapRoute,
-  ProfileRoute: ProfileRouteWithChildren,
-  SettingsRoute: SettingsRoute,
-  AdminMapLayersRoute: AdminMapLayersRoute,
-  AdminRolesRoute: AdminRolesRoute,
-  AdminTenantsRoute: AdminTenantsRoute,
-  AdminUsersRoute: AdminUsersRoute,
   ApiHealthRoute: ApiHealthRoute,
   AuthCallbackRoute: AuthCallbackRoute,
   AuthConfirmEmailRoute: AuthConfirmEmailRoute,
@@ -796,9 +827,6 @@ const rootRouteChildren: RootRouteChildren = {
   AuthResetPasswordRoute: AuthResetPasswordRoute,
   DemoClientRoute: DemoClientRoute,
   PageSlugRoute: PageSlugRoute,
-  AdminCmsCommentsRoute: AdminCmsCommentsRoute,
-  AdminCmsNavigationRoute: AdminCmsNavigationRoute,
-  AdminCmsPagesRoute: AdminCmsPagesRouteWithChildren,
   ApiProxySplatRoute: ApiProxySplatRoute,
   DemoApiNamesRoute: DemoApiNamesRoute,
   DemoStartApiRequestRoute: DemoStartApiRequestRoute,

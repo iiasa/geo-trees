@@ -17,8 +17,7 @@ import {
 } from "@/shared/components/ui/dropdown-menu";
 
 const NAV_LINKS = [
-	{ to: "/", label: "Home" },
-	{ to: "/map", label: "Map" },
+	{ to: "/", label: "Map" },
 	{ to: "/dashboard", label: "Dashboard" },
 ] as const;
 
@@ -37,9 +36,9 @@ export function MapHeader() {
 	return (
 		<header className="absolute top-0 left-0 right-0 z-20 flex h-14 items-center justify-between gap-4 px-4 bg-white/80 backdrop-blur-md border-b border-black/5 shadow-sm">
 			<div className="flex items-center gap-3">
-				<Link to="/map" className="flex items-center gap-2">
+				<Link to="/" className="flex items-center gap-2">
 					<img
-						src="/logo192.png"
+						src="/geo-trees-logo.png"
 						alt="GEO TREES"
 						className="h-8 w-8 object-contain"
 					/>

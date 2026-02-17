@@ -136,7 +136,10 @@ export function PagesList() {
 
 	const handleEditPage = (page: VoloCmsKitAdminPagesPageDto) => {
 		if (!page.id) return;
-		navigate({ to: "/admin/cms/pages/$id/edit", params: { id: page.id } });
+		navigate({
+			to: "/admin/cms/pages/$id/edit",
+			params: { id: page.id },
+		});
 	};
 
 	const handleCreateNewPage = () => {

@@ -69,7 +69,7 @@ export const NAV_ITEMS: {
 		},
 		{
 			title: NAV_LABELS.MAP,
-			url: "/map",
+			url: "/",
 			icon: IconMap,
 		},
 	],
