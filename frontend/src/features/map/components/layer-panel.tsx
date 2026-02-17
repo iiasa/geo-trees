@@ -1,6 +1,7 @@
 import { Layers } from "lucide-react";
 import type { MapLayerDto } from "@/infrastructure/api/types.gen";
 import { Checkbox } from "@/shared/components/ui/checkbox";
+import { Slider } from "@/shared/components/ui/slider";
 import { useMapStore } from "../stores/map-store";
 
 interface LayerPanelProps {
@@ -10,7 +11,8 @@ interface LayerPanelProps {
 }
 
 export function LayerPanel({ layers, isOpen, onToggle }: LayerPanelProps) {
-	const { layerVisibility, toggleLayer } = useMapStore();
+	const { layerVisibility, toggleLayer, layerOpacity, setLayerOpacity } =
+		useMapStore();
 
 	const grouped = layers.reduce<Record<string, MapLayerDto[]>>((acc, layer) => {
 		const group = layer.groupName || "Other";
@@ -45,21 +47,34 @@ export function LayerPanel({ layers, isOpen, onToggle }: LayerPanelProps) {
 							const checked = layerVisibility[layer.id ?? ""] ?? false;
 							const checkboxId = `layer-${layer.id}`;
 							return (
-								<div
-									key={layer.id}
-									className="flex items-center gap-2.5 py-1.5 cursor-pointer hover:bg-gray-50 rounded px-1 transition-colors"
-								>
-									<Checkbox
-										id={checkboxId}
-										checked={checked}
-										onCheckedChange={() => layer.id && toggleLayer(layer.id)}
-									/>
-									<label
-										htmlFor={checkboxId}
-										className="text-sm text-gray-700 cursor-pointer"
-									>
-										{layer.name}
-									</label>
+								<div key={layer.id}>
+									<div className="flex items-center gap-2.5 py-1.5 cursor-pointer hover:bg-gray-50 rounded px-1 transition-colors">
+										<Checkbox
+											id={checkboxId}
+											checked={checked}
+											onCheckedChange={() => layer.id && toggleLayer(layer.id)}
+										/>
+										<label
+											htmlFor={checkboxId}
+											className="text-sm text-gray-700 cursor-pointer"
+										>
+											{layer.name}
+										</label>
+									</div>
+									{checked && (
+										<div className="pl-7 pr-1 pb-1">
+											<Slider
+												value={[layerOpacity[layer.id ?? ""] ?? 70]}
+												onValueChange={([v]) =>
+													layer.id && setLayerOpacity(layer.id, v)
+												}
+												min={0}
+												max={100}
+												step={5}
+												className="w-full"
+											/>
+										</div>
+									)}
 								</div>
 							);
 						})}
