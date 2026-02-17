@@ -59,10 +59,28 @@ function setupStructuredClone() {
 	}
 }
 
+function setupMatchMedia() {
+	Object.defineProperty(window, "matchMedia", {
+		writable: true,
+		configurable: true,
+		value: (query: string) => ({
+			matches: false,
+			media: query,
+			onchange: null,
+			addListener: () => {},
+			removeListener: () => {},
+			addEventListener: () => {},
+			removeEventListener: () => {},
+			dispatchEvent: () => false,
+		}),
+	});
+}
+
 // Apply all mocks
 setupURL();
 setupResizeObserver();
 setupStructuredClone();
+setupMatchMedia();
 
 // Extend expect with jest-dom matchers
 expect.extend(matchers);

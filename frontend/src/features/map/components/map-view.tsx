@@ -18,6 +18,8 @@ interface MapViewProps {
 export function MapView({ layers, onMapReady }: MapViewProps) {
 	const containerRef = useRef<HTMLDivElement>(null);
 	const mapRef = useRef<maplibregl.Map | null>(null);
+	const onMapReadyRef = useRef(onMapReady);
+	onMapReadyRef.current = onMapReady;
 	const { layerVisibility, layerOpacity, activeBasemap, setSelectedFeature } =
 		useMapStore();
 	const [mapReady, setMapReady] = useState(false);
@@ -47,7 +49,7 @@ export function MapView({ layers, onMapReady }: MapViewProps) {
 		map.on("load", () => {
 			setMapReady(true);
 			setStyleVersion(1);
-			onMapReady?.(map);
+			onMapReadyRef.current?.(map);
 		});
 
 		return () => {
