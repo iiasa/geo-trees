@@ -4,6 +4,7 @@ import "maplibre-gl/dist/maplibre-gl.css";
 import type { MapLayerDto } from "@/infrastructure/api/types.gen";
 import { useMapStore } from "../stores/map-store";
 import {
+	BASEMAPS,
 	MAP_DEFAULTS,
 	MAP_LAYER_TYPE,
 	SOURCE_ENDPOINT_MAP,
@@ -16,17 +17,21 @@ interface MapViewProps {
 export function MapView({ layers }: MapViewProps) {
 	const containerRef = useRef<HTMLDivElement>(null);
 	const mapRef = useRef<maplibregl.Map | null>(null);
-	const { layerVisibility, setSelectedFeature } = useMapStore();
-	const [mapLoaded, setMapLoaded] = useState(false);
+	const { layerVisibility, activeBasemap, setSelectedFeature } = useMapStore();
+	const [mapReady, setMapReady] = useState(false);
 	const popupRef = useRef<maplibregl.Popup | null>(null);
+	const [styleVersion, setStyleVersion] = useState(0);
 
 	useEffect(() => {
 		const container = containerRef.current;
 		if (!container || mapRef.current) return;
 
+		const initialBasemap =
+			BASEMAPS.find((b) => b.id === MAP_DEFAULTS.STYLE) ?? BASEMAPS[0];
+
 		const map = new maplibregl.Map({
 			container,
-			style: MAP_DEFAULTS.STYLE,
+			style: initialBasemap.style,
 			center: MAP_DEFAULTS.CENTER,
 			zoom: MAP_DEFAULTS.ZOOM,
 		});
@@ -34,14 +39,33 @@ export function MapView({ layers }: MapViewProps) {
 		map.addControl(new maplibregl.NavigationControl(), "top-right");
 		mapRef.current = map;
 
-		map.on("load", () => setMapLoaded(true));
+		map.on("load", () => {
+			setMapReady(true);
+			setStyleVersion(1);
+		});
 
 		return () => {
 			map.remove();
 			mapRef.current = null;
-			setMapLoaded(false);
+			setMapReady(false);
 		};
 	}, []);
+
+	const prevBasemapRef = useRef(activeBasemap);
+	useEffect(() => {
+		const map = mapRef.current;
+		if (!map || !mapReady) return;
+		if (prevBasemapRef.current === activeBasemap) return;
+		prevBasemapRef.current = activeBasemap;
+
+		const basemap = BASEMAPS.find((b) => b.id === activeBasemap);
+		if (!basemap) return;
+
+		map.setStyle(basemap.style);
+		map.once("style.load", () => {
+			setStyleVersion((v) => v + 1);
+		});
+	}, [activeBasemap, mapReady]);
 
 	const addLayerToMap = useCallback(
 		async (map: maplibregl.Map, layer: MapLayerDto) => {
@@ -126,7 +150,7 @@ export function MapView({ layers }: MapViewProps) {
 
 	useEffect(() => {
 		const map = mapRef.current;
-		if (!map || !mapLoaded) return;
+		if (!map || styleVersion === 0) return;
 
 		for (const layer of layers) {
 			const layerId = `layer-${layer.id}`;
@@ -142,11 +166,11 @@ export function MapView({ layers }: MapViewProps) {
 				map.setLayoutProperty(layerId, "visibility", "none");
 			}
 		}
-	}, [layers, layerVisibility, mapLoaded, addLayerToMap]);
+	}, [layers, layerVisibility, styleVersion, addLayerToMap]);
 
 	useEffect(() => {
 		const map = mapRef.current;
-		if (!map || !mapLoaded) return;
+		if (!map || styleVersion === 0) return;
 
 		const handleClick = (e: maplibregl.MapMouseEvent) => {
 			const clickableLayers = layers
@@ -196,7 +220,7 @@ export function MapView({ layers }: MapViewProps) {
 		return () => {
 			map.off("click", handleClick);
 		};
-	}, [layers, layerVisibility, mapLoaded, setSelectedFeature]);
+	}, [layers, layerVisibility, styleVersion, setSelectedFeature]);
 
 	return (
 		<div

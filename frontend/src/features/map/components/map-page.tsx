@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { BasemapSwitcher } from "./basemap-switcher";
 import { MapHeader } from "./map-header";
 import { MapView } from "./map-view";
 import { LayerPanel } from "./layer-panel";
@@ -32,6 +33,7 @@ export function MapPage() {
 				isOpen={panelOpen}
 				onToggle={() => setPanelOpen(!panelOpen)}
 			/>
+			<BasemapSwitcher />
 			<MapLegend layers={layers} />
 		</div>
 	);
