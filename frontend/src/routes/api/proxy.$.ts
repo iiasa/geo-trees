@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { json } from "@tanstack/react-start";
-import { APP_CONSTANTS } from "../constants";
-import { getUserSession } from "../infrastructure/auth/auth-server";
+import { APP_CONSTANTS } from "@/constants";
+import { getUserSession } from "@/infrastructure/auth/auth-server";
 
 export const Route = createFileRoute("/api/proxy/$")({
 	server: {
