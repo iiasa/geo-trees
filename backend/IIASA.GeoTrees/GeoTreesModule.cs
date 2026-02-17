@@ -209,12 +209,6 @@ public class GeoTreesModule : AbpModule
 
         Configure<RazorPagesOptions>(options =>
         {
-            options.Conventions.AuthorizePage("/Books/Index", GeoTreesPermissions.Books.Default);
-            options.Conventions.AuthorizePage(
-                "/Books/CreateModal",
-                GeoTreesPermissions.Books.Create
-            );
-            options.Conventions.AuthorizePage("/Books/EditModal", GeoTreesPermissions.Books.Edit);
         });
     }
 

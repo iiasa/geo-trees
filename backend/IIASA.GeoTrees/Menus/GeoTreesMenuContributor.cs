@@ -1,7 +1,4 @@
 using IIASA.GeoTrees.Localization;
-using IIASA.GeoTrees.Permissions;
-using Volo.Abp.Authorization.Permissions;
-using Volo.Abp.Identity.Web.Navigation;
 using Volo.Abp.Identity.Web.Navigation;
 using Volo.Abp.SettingManagement.Web.Navigation;
 using Volo.Abp.TenantManagement.Web.Navigation;
@@ -43,16 +40,6 @@ public class GeoTreesMenuContributor : IMenuContributor
 
         //Administration->Settings
         administration.SetSubItemOrder(SettingManagementMenuNames.GroupName, 8);
-
-        context.Menu.AddItem(
-            new ApplicationMenuItem("BooksStore", l["Menu:GeoTrees"], icon: "fa fa-book").AddItem(
-                new ApplicationMenuItem(
-                    "BooksStore.Books",
-                    l["Menu:Books"],
-                    url: "/Books"
-                ).RequirePermissions(GeoTreesPermissions.Books.Default)
-            )
-        );
 
         return Task.CompletedTask;
     }
