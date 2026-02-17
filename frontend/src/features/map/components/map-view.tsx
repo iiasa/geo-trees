@@ -17,7 +17,8 @@ interface MapViewProps {
 export function MapView({ layers }: MapViewProps) {
 	const containerRef = useRef<HTMLDivElement>(null);
 	const mapRef = useRef<maplibregl.Map | null>(null);
-	const { layerVisibility, activeBasemap, setSelectedFeature } = useMapStore();
+	const { layerVisibility, layerOpacity, activeBasemap, setSelectedFeature } =
+		useMapStore();
 	const [mapReady, setMapReady] = useState(false);
 	const popupRef = useRef<maplibregl.Popup | null>(null);
 	const [styleVersion, setStyleVersion] = useState(0);
@@ -170,6 +171,23 @@ export function MapView({ layers }: MapViewProps) {
 			}
 		}
 	}, [layers, layerVisibility, styleVersion, addLayerToMap]);
+
+	useEffect(() => {
+		const map = mapRef.current;
+		if (!map || styleVersion === 0) return;
+
+		for (const [id, opacity] of Object.entries(layerOpacity)) {
+			const layerId = `layer-${id}`;
+			if (map.getLayer(layerId)) {
+				const layerType = map.getLayer(layerId)?.type;
+				if (layerType === "raster") {
+					map.setPaintProperty(layerId, "raster-opacity", opacity / 100);
+				} else if (layerType === "circle") {
+					map.setPaintProperty(layerId, "circle-opacity", opacity / 100);
+				}
+			}
+		}
+	}, [layerOpacity, styleVersion]);
 
 	useEffect(() => {
 		const map = mapRef.current;
