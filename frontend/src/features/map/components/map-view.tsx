@@ -1,6 +1,7 @@
 import { useEffect, useCallback, useRef, useState } from "react";
 import maplibregl from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
+import type { FeatureCollection, Point } from "geojson";
 import type { MapLayerDto } from "@/infrastructure/api/types.gen";
 import { useMapStore } from "../stores/map-store";
 import {
@@ -9,10 +10,46 @@ import {
 	MAP_LAYER_TYPE,
 	SOURCE_ENDPOINT_MAP,
 } from "../constants";
+import { ALS_POSITIONS } from "../constants/als-positions";
+import { getStatusFromRaw, STATUS_COLORS } from "../utils/status-mapping";
+import { buildBrmPopupHtml } from "../utils/brm-popup-html";
 
 interface MapViewProps {
 	layers: MapLayerDto[];
 	onMapReady?: (map: maplibregl.Map) => void;
+}
+
+function buildAlsGeoJson(): FeatureCollection<Point> {
+	return {
+		type: "FeatureCollection",
+		features: ALS_POSITIONS.map((pos, i) => ({
+			type: "Feature" as const,
+			properties: { name: pos.label, id: i },
+			geometry: {
+				type: "Point" as const,
+				coordinates: [pos.lng, pos.lat],
+			},
+		})),
+	};
+}
+
+function processBrmFeatures(data: FeatureCollection): FeatureCollection<Point> {
+	const features = (data.features ?? [])
+		.filter((f) => f.geometry?.type === "Point")
+		.map((f) => ({
+			...f,
+			geometry: f.geometry as Point,
+			properties: {
+				...f.properties,
+				_statusColor: getStatusFromRaw(f.properties?.Status),
+			},
+		}));
+	return { type: "FeatureCollection", features } as FeatureCollection<Point>;
+}
+
+/** Extra layer IDs created for ALS clustering (beyond the main layer-{id}) */
+function alsExtraLayerIds(layerId: string) {
+	return [`${layerId}-clusters`, `${layerId}-cluster-count`];
 }
 
 export function MapView({ layers, onMapReady }: MapViewProps) {
@@ -25,6 +62,7 @@ export function MapView({ layers, onMapReady }: MapViewProps) {
 	const [mapReady, setMapReady] = useState(false);
 	const popupRef = useRef<maplibregl.Popup | null>(null);
 	const [styleVersion, setStyleVersion] = useState(0);
+	const endpointMapRef = useRef<Record<string, string>>({});
 
 	useEffect(() => {
 		const container = containerRef.current;
@@ -66,6 +104,7 @@ export function MapView({ layers, onMapReady }: MapViewProps) {
 		const basemap = BASEMAPS.find((b) => b.id === activeBasemap);
 		if (!basemap) return;
 
+		endpointMapRef.current = {};
 		map.setStyle(basemap.style);
 		map.once("style.load", () => {
 			setStyleVersion((v) => v + 1);
@@ -99,23 +138,15 @@ export function MapView({ layers, onMapReady }: MapViewProps) {
 			) {
 				const endpoint = SOURCE_ENDPOINT_MAP[layer.sourceEndpoint];
 				if (!endpoint) return;
-				try {
-					const res = await fetch(endpoint);
-					const geojson = await res.json();
-					map.addSource(sourceId, { type: "geojson", data: geojson });
-					map.addLayer({
-						id: layerId,
-						type: "circle",
-						source: sourceId,
-						paint: {
-							"circle-radius": 6,
-							"circle-color": "#4ade80",
-							"circle-stroke-width": 1,
-							"circle-stroke-color": "#166534",
-						},
-					});
-				} catch {
-					// silently fail - data may not be available
+
+				endpointMapRef.current[layer.id ?? ""] = layer.sourceEndpoint;
+
+				if (layer.sourceEndpoint === "als-geojson") {
+					addAlsLayers(map, sourceId, layerId);
+				} else if (layer.sourceEndpoint === "external-data-geojson") {
+					await addBrmLayers(map, sourceId, layerId, endpoint);
+				} else {
+					await addDefaultGeojsonLayer(map, sourceId, layerId, endpoint);
 				}
 			} else if (layer.type === MAP_LAYER_TYPE.EXTERNAL_GEOJSON && layer.url) {
 				try {
@@ -160,15 +191,24 @@ export function MapView({ layers, onMapReady }: MapViewProps) {
 		for (const layer of layers) {
 			const layerId = `layer-${layer.id}`;
 			const isVisible = layerVisibility[layer.id ?? ""] ?? false;
+			const vis = isVisible ? "visible" : "none";
 
-			if (isVisible) {
-				if (!map.getLayer(layerId)) {
-					addLayerToMap(map, layer);
-				} else {
-					map.setLayoutProperty(layerId, "visibility", "visible");
+			if (isVisible && !map.getLayer(layerId)) {
+				addLayerToMap(map, layer);
+				continue;
+			}
+
+			if (!map.getLayer(layerId)) continue;
+
+			map.setLayoutProperty(layerId, "visibility", vis);
+
+			const ep = endpointMapRef.current[layer.id ?? ""];
+			if (ep === "als-geojson") {
+				for (const extraId of alsExtraLayerIds(layerId)) {
+					if (map.getLayer(extraId)) {
+						map.setLayoutProperty(extraId, "visibility", vis);
+					}
 				}
-			} else if (map.getLayer(layerId)) {
-				map.setLayoutProperty(layerId, "visibility", "none");
 			}
 		}
 	}, [layers, layerVisibility, styleVersion, addLayerToMap]);
@@ -179,12 +219,20 @@ export function MapView({ layers, onMapReady }: MapViewProps) {
 
 		for (const [id, opacity] of Object.entries(layerOpacity)) {
 			const layerId = `layer-${id}`;
-			if (map.getLayer(layerId)) {
-				const layerType = map.getLayer(layerId)?.type;
-				if (layerType === "raster") {
-					map.setPaintProperty(layerId, "raster-opacity", opacity / 100);
-				} else if (layerType === "circle") {
-					map.setPaintProperty(layerId, "circle-opacity", opacity / 100);
+			if (!map.getLayer(layerId)) continue;
+
+			const layerType = map.getLayer(layerId)?.type;
+			if (layerType === "raster") {
+				map.setPaintProperty(layerId, "raster-opacity", opacity / 100);
+			} else if (layerType === "circle") {
+				map.setPaintProperty(layerId, "circle-opacity", opacity / 100);
+
+				const ep = endpointMapRef.current[id];
+				if (ep === "als-geojson") {
+					const clusterId = `${layerId}-clusters`;
+					if (map.getLayer(clusterId)) {
+						map.setPaintProperty(clusterId, "circle-opacity", opacity / 100);
+					}
 				}
 			}
 		}
@@ -211,31 +259,40 @@ export function MapView({ layers, onMapReady }: MapViewProps) {
 				layers: clickableLayers,
 			});
 
-			if (features.length > 0) {
-				const feature = features[0];
-				setSelectedFeature(feature as unknown as GeoJSON.Feature);
+			if (features.length === 0) return;
 
-				if (popupRef.current) popupRef.current.remove();
+			const feature = features[0];
+			setSelectedFeature(feature as unknown as GeoJSON.Feature);
 
+			if (popupRef.current) popupRef.current.remove();
+
+			const matchedLayerId = feature.layer?.id ?? "";
+			const matchedDbId = matchedLayerId.replace("layer-", "");
+			const ep = endpointMapRef.current[matchedDbId];
+
+			let html: string;
+			if (ep === "external-data-geojson") {
+				html = buildBrmPopupHtml(feature.properties || {});
+			} else {
 				const properties = feature.properties || {};
 				const name = properties.name || properties.PlotId || "Feature";
 				const entries = Object.entries(properties)
 					.filter(([key]) => key !== "name" && key !== "PlotId")
 					.slice(0, 6);
-
-				let html = `<div class="p-2 max-w-xs"><h3 class="font-semibold text-sm mb-1">${name}</h3>`;
+				html = `<div class="p-2 max-w-xs"><h3 class="font-semibold text-sm mb-1">${name}</h3>`;
 				for (const [key, value] of entries) {
 					html += `<div class="text-xs"><span class="text-gray-500">${key}:</span> ${value}</div>`;
 				}
 				html += "</div>";
-
-				popupRef.current = new maplibregl.Popup({
-					closeOnClick: true,
-				})
-					.setLngLat(e.lngLat)
-					.setHTML(html)
-					.addTo(map);
 			}
+
+			popupRef.current = new maplibregl.Popup({
+				closeOnClick: true,
+				maxWidth: ep === "external-data-geojson" ? "360px" : undefined,
+			})
+				.setLngLat(e.lngLat)
+				.setHTML(html)
+				.addTo(map);
 		};
 
 		map.on("click", handleClick);
@@ -251,4 +308,124 @@ export function MapView({ layers, onMapReady }: MapViewProps) {
 			style={{ width: "100%", height: "100%" }}
 		/>
 	);
+}
+
+function addAlsLayers(map: maplibregl.Map, sourceId: string, layerId: string) {
+	map.addSource(sourceId, {
+		type: "geojson",
+		data: buildAlsGeoJson(),
+		cluster: true,
+		clusterMaxZoom: 14,
+		clusterRadius: 50,
+	});
+
+	map.addLayer({
+		id: `${layerId}-clusters`,
+		type: "circle",
+		source: sourceId,
+		filter: ["has", "point_count"],
+		paint: {
+			"circle-color": "#16a34a",
+			"circle-radius": 20,
+			"circle-stroke-width": 3,
+			"circle-stroke-color": "#ffffff",
+		},
+	});
+
+	map.addLayer({
+		id: `${layerId}-cluster-count`,
+		type: "symbol",
+		source: sourceId,
+		filter: ["has", "point_count"],
+		layout: {
+			"text-field": ["get", "point_count_abbreviated"],
+			"text-size": 12,
+			"text-font": ["Open Sans Bold", "Arial Unicode MS Bold"],
+		},
+		paint: { "text-color": "#ffffff" },
+	});
+
+	map.addLayer({
+		id: layerId,
+		type: "circle",
+		source: sourceId,
+		filter: ["!", ["has", "point_count"]],
+		paint: {
+			"circle-radius": 6,
+			"circle-color": "#22c55e",
+			"circle-stroke-width": 2,
+			"circle-stroke-color": "#ffffff",
+		},
+	});
+}
+
+async function addBrmLayers(
+	map: maplibregl.Map,
+	sourceId: string,
+	layerId: string,
+	endpoint: string,
+) {
+	try {
+		const res = await fetch(endpoint);
+		const raw = (await res.json()) as FeatureCollection;
+		const geojson = processBrmFeatures(raw);
+
+		map.addSource(sourceId, { type: "geojson", data: geojson });
+		map.addLayer({
+			id: layerId,
+			type: "circle",
+			source: sourceId,
+			paint: {
+				"circle-radius": 7,
+				"circle-color": [
+					"match",
+					["get", "_statusColor"],
+					"completed",
+					STATUS_COLORS.completed,
+					"ongoing",
+					STATUS_COLORS.ongoing,
+					"planned",
+					STATUS_COLORS.planned,
+					STATUS_COLORS.planned,
+				],
+				"circle-stroke-width": 2,
+				"circle-stroke-color": "#ffffff",
+			},
+		});
+
+		map.on("mouseenter", layerId, () => {
+			map.getCanvas().style.cursor = "pointer";
+		});
+		map.on("mouseleave", layerId, () => {
+			map.getCanvas().style.cursor = "";
+		});
+	} catch {
+		// silently fail - data may not be available
+	}
+}
+
+async function addDefaultGeojsonLayer(
+	map: maplibregl.Map,
+	sourceId: string,
+	layerId: string,
+	endpoint: string,
+) {
+	try {
+		const res = await fetch(endpoint);
+		const geojson = await res.json();
+		map.addSource(sourceId, { type: "geojson", data: geojson });
+		map.addLayer({
+			id: layerId,
+			type: "circle",
+			source: sourceId,
+			paint: {
+				"circle-radius": 6,
+				"circle-color": "#4ade80",
+				"circle-stroke-width": 1,
+				"circle-stroke-color": "#166534",
+			},
+		});
+	} catch {
+		// silently fail - data may not be available
+	}
 }

@@ -1,4 +1,5 @@
 import type { Resolver } from "react-hook-form";
+import type { UseFormReturn } from "react-hook-form";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -149,6 +150,7 @@ export function MapLayerForm({
 							: "Update map layer configuration."}
 					</DialogDescription>
 				</DialogHeader>
+				{mode === "create" && <LayerPresets form={form} />}
 				<Form {...form}>
 					<form
 						onSubmit={form.handleSubmit(handleSubmit)}
@@ -241,7 +243,10 @@ export function MapLayerForm({
 													plot-geojson
 												</SelectItem>
 												<SelectItem value="external-data-geojson">
-													external-data-geojson
+													external-data-geojson (BRM Sites)
+												</SelectItem>
+												<SelectItem value="als-geojson">
+													als-geojson (ALS Data)
 												</SelectItem>
 											</SelectContent>
 										</Select>
@@ -407,5 +412,60 @@ export function MapLayerForm({
 				</Form>
 			</DialogContent>
 		</Dialog>
+	);
+}
+
+const LAYER_PRESETS: { label: string; values: MapLayerFormData }[] = [
+	{
+		label: "BRM Sites",
+		values: {
+			name: "BRM Sites",
+			type: 1,
+			sourceEndpoint: "external-data-geojson",
+			groupName: "GEO-TREES",
+			isVisible: true,
+			order: 0,
+			url: "",
+			layers: "",
+			format: "",
+			legendUrl: "",
+			attribution: "",
+		},
+	},
+	{
+		label: "ALS Data",
+		values: {
+			name: "ALS Data",
+			type: 1,
+			sourceEndpoint: "als-geojson",
+			groupName: "GEO-TREES",
+			isVisible: false,
+			order: 1,
+			url: "",
+			layers: "",
+			format: "",
+			legendUrl: "",
+			attribution: "",
+		},
+	},
+];
+
+function LayerPresets({ form }: { form: UseFormReturn<MapLayerFormData> }) {
+	return (
+		<div className="flex items-center gap-2 pb-2 border-b">
+			<span className="text-xs text-muted-foreground">Quick add:</span>
+			{LAYER_PRESETS.map((preset) => (
+				<Button
+					key={preset.label}
+					type="button"
+					variant="outline"
+					size="sm"
+					className="h-7 text-xs"
+					onClick={() => form.reset(preset.values)}
+				>
+					{preset.label}
+				</Button>
+			))}
+		</div>
 	);
 }

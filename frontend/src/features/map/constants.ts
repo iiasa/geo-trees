@@ -98,4 +98,5 @@ export const SOURCE_ENDPOINT_MAP: Record<string, string> = {
 	"plot-geojson": "/api/proxy/api/app/plot/geo-json",
 	"external-data-geojson":
 		"/api/proxy/api/app/external-data/google-sheet-geo-json",
+	"als-geojson": "__local__/als",
 } as const;

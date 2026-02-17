@@ -1,6 +1,6 @@
 import { useMapStore } from "../stores/map-store";
 import { useMapLayers } from "../hooks/use-map-layers";
-import { useBrmData } from "./brm-layer";
+import { useBrmData } from "../hooks/use-brm-data";
 import {
 	getStatusFromRaw,
 	STATUS_COLORS,
@@ -18,8 +18,14 @@ const DEFAULT_GRADIENT = [
 
 function BrmLegendSection() {
 	const { layerVisibility } = useMapStore();
+	const { layers } = useMapLayers();
 	const { data } = useBrmData();
-	const brmVisible = layerVisibility["brm-sites"] ?? false;
+	const brmLayer = layers.find(
+		(l) => l.sourceEndpoint === "external-data-geojson",
+	);
+	const brmVisible = brmLayer?.id
+		? (layerVisibility[brmLayer.id] ?? false)
+		: false;
 
 	if (!brmVisible || !data) return null;
 

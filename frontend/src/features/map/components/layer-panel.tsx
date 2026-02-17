@@ -16,58 +16,12 @@ export function LayerPanel() {
 		return acc;
 	}, {});
 
-	const specialLayers = [
-		{ id: "brm-sites", name: "BRM Sites", group: "GEO-TREES" },
-		{ id: "als-data", name: "ALS Data", group: "GEO-TREES" },
-	];
-
 	return (
 		<div className="bg-white/95 backdrop-blur-sm rounded-lg p-4 w-64 max-h-[60vh] overflow-y-auto border border-gray-200 shadow-lg">
 			<h3 className="text-sm font-semibold text-gray-900 mb-3">
 				Overlay Layers
 			</h3>
 
-			{/* Special GEO-TREES layers */}
-			<div className="mb-3">
-				<h4 className="text-[10px] font-semibold text-gray-400 uppercase tracking-wider mb-2">
-					GEO-TREES
-				</h4>
-				{specialLayers.map((sl) => {
-					const checked = layerVisibility[sl.id] ?? false;
-					const checkboxId = `layer-${sl.id}`;
-					return (
-						<div key={sl.id}>
-							<div className="flex items-center gap-2.5 py-1.5 cursor-pointer hover:bg-gray-50 rounded px-1 transition-colors">
-								<Checkbox
-									id={checkboxId}
-									checked={checked}
-									onCheckedChange={() => toggleLayer(sl.id)}
-								/>
-								<label
-									htmlFor={checkboxId}
-									className="text-sm text-gray-700 cursor-pointer"
-								>
-									{sl.name}
-								</label>
-							</div>
-							{checked && (
-								<div className="pl-7 pr-1 pb-1">
-									<Slider
-										value={[layerOpacity[sl.id] ?? 70]}
-										onValueChange={([v]) => setLayerOpacity(sl.id, v)}
-										min={0}
-										max={100}
-										step={5}
-										className="w-full"
-									/>
-								</div>
-							)}
-						</div>
-					);
-				})}
-			</div>
-
-			{/* Backend-configured layers */}
 			{Object.entries(grouped).map(([groupName, groupLayers]) => (
 				<div key={groupName} className="mb-3 last:mb-0">
 					<h4 className="text-[10px] font-semibold text-gray-400 uppercase tracking-wider mb-2">
