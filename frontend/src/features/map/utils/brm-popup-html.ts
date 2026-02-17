@@ -8,13 +8,6 @@ export function buildBrmPopupHtml(properties: Record<string, string>): string {
 	const status = getStatusFromRaw(properties.Status);
 	const statusLabel = STATUS_LABELS[status];
 	const statusColor = STATUS_COLORS[status];
-	const lat = properties.Latitude
-		? Number.parseFloat(properties.Latitude).toFixed(2)
-		: "";
-	const lng = properties.Longitude
-		? Number.parseFloat(properties.Longitude).toFixed(2)
-		: "";
-
 	const measurements = [
 		properties.ForestInventory === "1" ? "Forest plot inventory" : null,
 		properties.ALS_Measurements === "1" ? "ALS" : null,
@@ -41,10 +34,7 @@ export function buildBrmPopupHtml(properties: Record<string, string>): string {
 			</div>
 			<div style="padding:12px 16px 16px">
 				<div style="font-style:italic;color:#6b7280;font-size:13px;margin-bottom:2px">${properties.Country || ""}</div>
-				<div style="font-weight:800;font-size:18px;color:#111;margin-bottom:2px">${properties.Site || "BRM Site"}</div>
-				<div style="font-size:11px;color:#9ca3af;margin-bottom:10px">
-					LAT: <span style="color:#374151">${lat}</span> &nbsp; LNG: <span style="color:#374151">${lng}</span>
-				</div>
+				<div style="font-weight:800;font-size:18px;color:#111;margin-bottom:10px">${properties.Site || "BRM Site"}</div>
 				${properties.SiteDescription ? `<div style="font-size:13px;color:#374151;line-height:1.5;margin-bottom:12px;white-space:pre-line">${properties.SiteDescription}</div>` : ""}
 				<hr style="border:none;border-top:1px solid #e5e7eb;margin:12px 0"/>
 				<div style="font-size:13px;font-weight:600;color:#374151;margin-bottom:8px">Completed measurements:</div>
