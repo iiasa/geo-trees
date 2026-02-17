@@ -54,7 +54,7 @@ export function MapControls({ map }: MapControlsProps) {
 				title: "Legend",
 				position: "bottom-right",
 				panel: <LegendPanel />,
-				isOpen: false,
+				isOpen: true,
 			},
 			{
 				id: "zoom-in",

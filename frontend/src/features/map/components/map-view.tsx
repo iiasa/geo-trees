@@ -38,6 +38,7 @@ export function MapView({ layers, onMapReady }: MapViewProps) {
 			style: initialBasemap.style,
 			center: MAP_DEFAULTS.CENTER,
 			zoom: MAP_DEFAULTS.ZOOM,
+			renderWorldCopies: false,
 		});
 
 		mapRef.current = map;

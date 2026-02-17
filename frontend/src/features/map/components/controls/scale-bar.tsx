@@ -38,8 +38,8 @@ export function ScaleBar({ map }: ScaleBarProps) {
 	if (!scale) return null;
 
 	return (
-		<div className="flex items-center justify-center size-11 rounded-full bg-white/95 backdrop-blur-sm border border-gray-200 shadow-lg">
-			<span className="text-[9px] font-semibold text-gray-600 leading-tight text-center">
+		<div className="flex items-center justify-center px-2.5 h-7 rounded bg-white/95 backdrop-blur-sm border border-gray-200 shadow-lg">
+			<span className="text-[10px] font-semibold text-gray-600 whitespace-nowrap">
 				{scale}
 			</span>
 		</div>

@@ -1,4 +1,3 @@
-import { TanStackDevtools } from "@tanstack/react-devtools";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import {
 	createRootRoute,
@@ -6,7 +5,6 @@ import {
 	Scripts,
 	useLocation,
 } from "@tanstack/react-router";
-import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
 import { AuthProvider } from "@/features/auth/hooks/use-auth";
 import { PagesLayout } from "@/shared/components/pages-layout";
 import { SidebarLayout } from "@/shared/components/sidebar-layout";
@@ -118,17 +116,6 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 					<body className="min-h-screen bg-background text-foreground">
 						<ConditionalLayout>{children}</ConditionalLayout>
 						<Toaster />
-						<TanStackDevtools
-							config={{
-								position: "bottom-right",
-							}}
-							plugins={[
-								{
-									name: "Tanstack Router",
-									render: <TanStackRouterDevtoolsPanel />,
-								},
-							]}
-						/>
 						<Scripts />
 					</body>
 				</html>

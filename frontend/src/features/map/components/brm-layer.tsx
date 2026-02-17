@@ -5,8 +5,6 @@ import type { FeatureCollection, Point } from "geojson";
 import { getStatusFromRaw, STATUS_COLORS } from "../utils/status-mapping";
 
 const SOURCE_ID = "brm-sites";
-const CLUSTER_LAYER = "brm-clusters";
-const CLUSTER_COUNT_LAYER = "brm-cluster-count";
 const POINT_LAYER = "brm-points";
 
 interface BrmLayerProps {
@@ -58,52 +56,12 @@ export function BrmLayer({ map, visible }: BrmLayerProps) {
 			map.addSource(SOURCE_ID, {
 				type: "geojson",
 				data,
-				cluster: true,
-				clusterMaxZoom: 14,
-				clusterRadius: 60,
-			});
-
-			map.addLayer({
-				id: CLUSTER_LAYER,
-				type: "circle",
-				source: SOURCE_ID,
-				filter: ["has", "point_count"],
-				paint: {
-					"circle-color": [
-						"step",
-						["get", "point_count"],
-						"#22c55e",
-						10,
-						"#16a34a",
-						50,
-						"#15803d",
-					],
-					"circle-radius": ["step", ["get", "point_count"], 18, 10, 24, 50, 32],
-					"circle-stroke-width": 3,
-					"circle-stroke-color": "#ffffff",
-				},
-			});
-
-			map.addLayer({
-				id: CLUSTER_COUNT_LAYER,
-				type: "symbol",
-				source: SOURCE_ID,
-				filter: ["has", "point_count"],
-				layout: {
-					"text-field": ["get", "point_count_abbreviated"],
-					"text-size": 13,
-					"text-font": ["Open Sans Bold", "Arial Unicode MS Bold"],
-				},
-				paint: {
-					"text-color": "#ffffff",
-				},
 			});
 
 			map.addLayer({
 				id: POINT_LAYER,
 				type: "circle",
 				source: SOURCE_ID,
-				filter: ["!", ["has", "point_count"]],
 				paint: {
 					"circle-radius": 7,
 					"circle-color": [
@@ -122,32 +80,7 @@ export function BrmLayer({ map, visible }: BrmLayerProps) {
 				},
 			});
 
-			// Click on cluster to zoom
-			map.on("click", CLUSTER_LAYER, (e) => {
-				const features = map.queryRenderedFeatures(e.point, {
-					layers: [CLUSTER_LAYER],
-				});
-				if (!features.length) return;
-				const clusterId = features[0].properties?.cluster_id;
-				const source = map.getSource(SOURCE_ID) as maplibregl.GeoJSONSource;
-				source.getClusterExpansionZoom(clusterId).then((zoom) => {
-					map.easeTo({
-						center: (features[0].geometry as Point).coordinates as [
-							number,
-							number,
-						],
-						zoom,
-					});
-				});
-			});
-
-			// Pointer cursor on clusters and points
-			map.on("mouseenter", CLUSTER_LAYER, () => {
-				map.getCanvas().style.cursor = "pointer";
-			});
-			map.on("mouseleave", CLUSTER_LAYER, () => {
-				map.getCanvas().style.cursor = "";
-			});
+			// Pointer cursor on points
 			map.on("mouseenter", POINT_LAYER, () => {
 				map.getCanvas().style.cursor = "pointer";
 			});
@@ -164,9 +97,7 @@ export function BrmLayer({ map, visible }: BrmLayerProps) {
 
 		return () => {
 			if (!addedRef.current || !map.getSource(SOURCE_ID)) return;
-			[CLUSTER_COUNT_LAYER, CLUSTER_LAYER, POINT_LAYER].forEach((id) => {
-				if (map.getLayer(id)) map.removeLayer(id);
-			});
+			if (map.getLayer(POINT_LAYER)) map.removeLayer(POINT_LAYER);
 			if (map.getSource(SOURCE_ID)) map.removeSource(SOURCE_ID);
 			addedRef.current = false;
 		};
@@ -176,9 +107,8 @@ export function BrmLayer({ map, visible }: BrmLayerProps) {
 	useEffect(() => {
 		if (!map || !addedRef.current) return;
 		const vis = visible ? "visible" : "none";
-		[CLUSTER_LAYER, CLUSTER_COUNT_LAYER, POINT_LAYER].forEach((id) => {
-			if (map.getLayer(id)) map.setLayoutProperty(id, "visibility", vis);
-		});
+		if (map.getLayer(POINT_LAYER))
+			map.setLayoutProperty(POINT_LAYER, "visibility", vis);
 	}, [map, visible]);
 
 	return null;
