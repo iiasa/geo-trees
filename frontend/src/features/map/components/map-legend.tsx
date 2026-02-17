@@ -26,7 +26,7 @@ export function MapLegend({ layers }: MapLegendProps) {
 	if (visibleLayers.length === 0 || !isVisible) return null;
 
 	return (
-		<div className="absolute bottom-8 right-4 z-10 bg-white/95 backdrop-blur-sm rounded-lg p-3 border border-gray-200 shadow-lg max-w-xs">
+		<div className="absolute bottom-8 right-56 z-10 bg-white/95 backdrop-blur-sm rounded-lg p-3 border border-gray-200 shadow-lg max-w-xs">
 			<div className="flex items-center justify-between mb-2">
 				<h3 className="text-xs font-semibold text-gray-900">Legend</h3>
 				<button

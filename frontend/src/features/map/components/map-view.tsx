@@ -12,9 +12,10 @@ import {
 
 interface MapViewProps {
 	layers: MapLayerDto[];
+	onMapReady?: (map: maplibregl.Map) => void;
 }
 
-export function MapView({ layers }: MapViewProps) {
+export function MapView({ layers, onMapReady }: MapViewProps) {
 	const containerRef = useRef<HTMLDivElement>(null);
 	const mapRef = useRef<maplibregl.Map | null>(null);
 	const { layerVisibility, layerOpacity, activeBasemap, setSelectedFeature } =
@@ -46,6 +47,7 @@ export function MapView({ layers }: MapViewProps) {
 		map.on("load", () => {
 			setMapReady(true);
 			setStyleVersion(1);
+			onMapReady?.(map);
 		});
 
 		return () => {
