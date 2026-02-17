@@ -137,3 +137,6 @@ dist
 # Vite logs files
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
+
+# Backend environment-specific settings
+backend/IIASA.GeoTrees/appsettings.Development.json
