@@ -71,8 +71,11 @@ export function LegendPanel() {
 	const { layers } = useMapLayers();
 	const { layerVisibility } = useMapStore();
 
-	const visibleLayers = layers.filter((l) =>
-		l.id ? layerVisibility[l.id] : false,
+	const visibleLayers = layers.filter(
+		(l) =>
+			l.id &&
+			layerVisibility[l.id] &&
+			l.sourceEndpoint !== "external-data-geojson",
 	);
 
 	return (
