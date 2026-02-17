@@ -19,7 +19,7 @@ export function MapPage() {
 	const [panelOpen, setPanelOpen] = useState(true);
 	const [downloadOpen, setDownloadOpen] = useState(false);
 	const [mapInstance, setMapInstance] = useState<maplibregl.Map | null>(null);
-	const { setLayerVisibility, layerVisibility } = useMapStore();
+	const { setLayerVisibility, layerVisibility, activeBasemap } = useMapStore();
 
 	const brmVisible = layerVisibility["brm-sites"] ?? true;
 	const alsVisible = layerVisibility["als-data"] ?? false;
@@ -43,9 +43,21 @@ export function MapPage() {
 		<div className="relative w-screen h-screen overflow-hidden">
 			<MapHeader />
 			{!isLoading && <MapView layers={layers} onMapReady={setMapInstance} />}
-			<BrmLayer map={mapInstance} visible={brmVisible} />
-			<BrmPopup map={mapInstance} pointLayerId="brm-points" />
-			<AlsLayer map={mapInstance} visible={alsVisible} />
+			<BrmLayer
+				key={`brm-${activeBasemap}`}
+				map={mapInstance}
+				visible={brmVisible}
+			/>
+			<BrmPopup
+				key={`brm-popup-${activeBasemap}`}
+				map={mapInstance}
+				pointLayerId="brm-points"
+			/>
+			<AlsLayer
+				key={`als-${activeBasemap}`}
+				map={mapInstance}
+				visible={alsVisible}
+			/>
 			<LayerPanel
 				layers={layers}
 				isOpen={panelOpen}
