@@ -16,7 +16,8 @@ public class OpenIddictDataSeedContributor : IDataSeedContributor, ITransientDep
 
     public OpenIddictDataSeedContributor(
         IOpenIddictApplicationManager applicationManager,
-        IOpenIddictScopeManager scopeManager)
+        IOpenIddictScopeManager scopeManager
+    )
     {
         _applicationManager = applicationManager;
         _scopeManager = scopeManager;
@@ -32,12 +33,14 @@ public class OpenIddictDataSeedContributor : IDataSeedContributor, ITransientDep
     {
         if (await _scopeManager.FindByNameAsync("GeoTrees") is null)
         {
-            await _scopeManager.CreateAsync(new OpenIddictScopeDescriptor
-            {
-                Name = "GeoTrees",
-                DisplayName = "GeoTrees API",
-                Resources = { "GeoTrees" }
-            });
+            await _scopeManager.CreateAsync(
+                new OpenIddictScopeDescriptor
+                {
+                    Name = "GeoTrees",
+                    DisplayName = "GeoTrees API",
+                    Resources = { "GeoTrees" },
+                }
+            );
         }
     }
 
@@ -55,14 +58,14 @@ public class OpenIddictDataSeedContributor : IDataSeedContributor, ITransientDep
         {
             "http://localhost:3000/auth/callback",
             "https://geo-trees.nodes.iiasa.ac.at/auth/callback",
-            "https://data.geo-trees.org/auth/callback"
+            "https://data.geo-trees.org/auth/callback",
         };
 
         var postLogoutRedirectUris = new List<string>
         {
             "http://localhost:3000",
             "https://geo-trees.nodes.iiasa.ac.at",
-            "https://data.geo-trees.org"
+            "https://data.geo-trees.org",
         };
 
         var descriptor = new OpenIddictApplicationDescriptor
@@ -78,18 +81,15 @@ public class OpenIddictDataSeedContributor : IDataSeedContributor, ITransientDep
                 OpenIddictConstants.Permissions.Endpoints.Token,
                 OpenIddictConstants.Permissions.Endpoints.EndSession,
                 OpenIddictConstants.Permissions.Endpoints.Revocation,
-
                 OpenIddictConstants.Permissions.GrantTypes.AuthorizationCode,
                 OpenIddictConstants.Permissions.GrantTypes.RefreshToken,
-
                 OpenIddictConstants.Permissions.ResponseTypes.Code,
-
                 OpenIddictConstants.Permissions.Scopes.Email,
                 OpenIddictConstants.Permissions.Scopes.Profile,
                 OpenIddictConstants.Permissions.Scopes.Roles,
                 OpenIddictConstants.Permissions.Prefixes.Scope + "offline_access",
-                OpenIddictConstants.Permissions.Prefixes.Scope + "GeoTrees"
-            }
+                OpenIddictConstants.Permissions.Prefixes.Scope + "GeoTrees",
+            },
         };
 
         foreach (var uri in redirectUris)

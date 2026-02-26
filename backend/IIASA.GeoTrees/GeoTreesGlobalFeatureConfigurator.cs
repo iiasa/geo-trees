@@ -10,7 +10,8 @@ public static class GeoTreesGlobalFeatureConfigurator
 
     public static void Configure()
     {
-        OneTimeRunner.Run(() => {
+        OneTimeRunner.Run(() =>
+        {
             GlobalFeatureManager.Instance.Modules.CmsKit(cmsKit =>
             {
                 cmsKit.Pages.Enable();

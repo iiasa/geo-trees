@@ -26,7 +26,8 @@ public class PlotAppService : ApplicationService, IPlotAppService
 
     public PlotAppService(
         IRepository<Plot, Guid> plotRepository,
-        IRepository<Download, Guid> downloadRepository)
+        IRepository<Download, Guid> downloadRepository
+    )
     {
         _plotRepository = plotRepository;
         _downloadRepository = downloadRepository;
@@ -58,12 +59,14 @@ public class PlotAppService : ApplicationService, IPlotAppService
 
         var plots = await AsyncExecuter.ToListAsync(query);
 
-        var dtos = plots.Select(p =>
-        {
-            var dto = ObjectMapper.Map<Plot, PlotDto>(p);
-            dto.RoundLocation = $"{p.LatCnt}, {p.LonCnt}";
-            return dto;
-        }).ToList();
+        var dtos = plots
+            .Select(p =>
+            {
+                var dto = ObjectMapper.Map<Plot, PlotDto>(p);
+                dto.RoundLocation = $"{p.LatCnt}, {p.LonCnt}";
+                return dto;
+            })
+            .ToList();
 
         return new PagedResultDto<PlotDto>(totalCount, dtos);
     }
@@ -100,7 +103,8 @@ public class PlotAppService : ApplicationService, IPlotAppService
     {
         var queryable = await _plotRepository.GetQueryableAsync();
         var exists = await AsyncExecuter.AnyAsync(
-            queryable.Where(p => p.PlotId == input.PlotId && p.SubPlotId == input.SubPlotId));
+            queryable.Where(p => p.PlotId == input.PlotId && p.SubPlotId == input.SubPlotId)
+        );
 
         if (exists)
         {
@@ -108,7 +112,8 @@ public class PlotAppService : ApplicationService, IPlotAppService
         }
 
         var plot = ObjectMapper.Map<CreateUpdatePlotDto, Plot>(input);
-        if (plot.Version <= 0) plot.Version = 1;
+        if (plot.Version <= 0)
+            plot.Version = 1;
 
         await _plotRepository.InsertAsync(plot, autoSave: true);
 
@@ -140,7 +145,8 @@ public class PlotAppService : ApplicationService, IPlotAppService
     {
         var queryable = await _plotRepository.GetQueryableAsync();
         var countries = await AsyncExecuter.ToListAsync(
-            queryable.Select(p => p.CountryName).Distinct().OrderBy(c => c));
+            queryable.Select(p => p.CountryName).Distinct().OrderBy(c => c)
+        );
         return countries;
     }
 
@@ -149,7 +155,8 @@ public class PlotAppService : ApplicationService, IPlotAppService
     {
         var queryable = await _plotRepository.GetQueryableAsync();
         var versions = await AsyncExecuter.ToListAsync(
-            queryable.Select(p => p.Version).Distinct().OrderBy(v => v));
+            queryable.Select(p => p.Version).Distinct().OrderBy(v => v)
+        );
         return versions;
     }
 
@@ -246,7 +253,8 @@ public class PlotAppService : ApplicationService, IPlotAppService
             throw new UserFriendlyException(
                 input.Country.Equals("all", StringComparison.OrdinalIgnoreCase)
                     ? "No plots found"
-                    : $"No plots found for country: {input.Country}");
+                    : $"No plots found for country: {input.Country}"
+            );
         }
 
         var content = input.Format switch
@@ -327,65 +335,67 @@ public class PlotAppService : ApplicationService, IPlotAppService
 
         csv.AppendLine(
             "Plot_ID,CountryName,Network,Institution,Link,YearEstablished,YearCensus,"
-            + "PITeam,Reference,Confidential,OtherMeasurements,BiomassProcessingProtocol,Status,SubPlot_Id,"
-            + "AGB_Chave,Lat_Cnt,Lon_Cnt,Lat_NE,Lon_NE,Lat_NW,Lon_NW,Lat_SE,Lon_SE,Lat_SW,Lon_SW,"
-            + "Altitude,SlopeDegree,PlotArea,AGBChaveCred25,AGBChaveCred975,WoodDensity,GSV,BA,NDens,"
-            + "PlotShape,ForestStatus,MinDBH,HLoreyLocal,HLoreyChave,HLoreyFeldpausch,HMaxLocal,"
-            + "HMaxChave,HMaxFeldpausch,AGBLocal,AGBLocalCred25,AGBLocal975,AGBFeldpausch,"
-            + "AGBFeldpauschCred25,AGBFeldpauschCred975");
+                + "PITeam,Reference,Confidential,OtherMeasurements,BiomassProcessingProtocol,Status,SubPlot_Id,"
+                + "AGB_Chave,Lat_Cnt,Lon_Cnt,Lat_NE,Lon_NE,Lat_NW,Lon_NW,Lat_SE,Lon_SE,Lat_SW,Lon_SW,"
+                + "Altitude,SlopeDegree,PlotArea,AGBChaveCred25,AGBChaveCred975,WoodDensity,GSV,BA,NDens,"
+                + "PlotShape,ForestStatus,MinDBH,HLoreyLocal,HLoreyChave,HLoreyFeldpausch,HMaxLocal,"
+                + "HMaxChave,HMaxFeldpausch,AGBLocal,AGBLocalCred25,AGBLocal975,AGBFeldpausch,"
+                + "AGBFeldpauschCred25,AGBFeldpauschCred975"
+        );
 
         foreach (var plot in plots)
         {
             csv.AppendLine(
                 $"{EscapeCsvField(plot.PlotId)},"
-                + $"{EscapeCsvField(plot.CountryName)},"
-                + $"{EscapeCsvField(plot.Network)},"
-                + $"{EscapeCsvField(plot.Institution)},"
-                + $"{EscapeCsvField(plot.Link)},"
-                + $"{plot.YearEstablished},"
-                + $"{plot.YearCensus},"
-                + $"{EscapeCsvField(plot.PiTeam)},"
-                + $"{EscapeCsvField(plot.Reference)},"
-                + $"{plot.Confidential},"
-                + $"{EscapeCsvField(plot.OtherMeasurements)},"
-                + $"{EscapeCsvField(plot.BiomassProcessingProtocol)},"
-                + $"{EscapeCsvField(plot.Status)},"
-                + $"{EscapeCsvField(plot.SubPlotId)},"
-                + $"{plot.AgbChave ?? 0},"
-                + $"{plot.LatCnt ?? 0},"
-                + $"{plot.LonCnt ?? 0},"
-                + $"{plot.LatNe ?? 0},"
-                + $"{plot.LonNe ?? 0},"
-                + $"{plot.LatNw ?? 0},"
-                + $"{plot.LonNw ?? 0},"
-                + $"{plot.LatSe ?? 0},"
-                + $"{plot.LonSe ?? 0},"
-                + $"{plot.LatSw ?? 0},"
-                + $"{plot.LonSw ?? 0},"
-                + $"{plot.Altitude ?? 0},"
-                + $"{plot.SlopeDegree ?? 0},"
-                + $"{plot.PlotArea ?? 0},"
-                + $"{plot.AgbChaveCred25 ?? 0},"
-                + $"{plot.AgbChaveCred975 ?? 0},"
-                + $"{plot.WoodDensity ?? 0},"
-                + $"{plot.Gsv ?? 0},"
-                + $"{plot.Ba ?? 0},"
-                + $"{plot.Ndens ?? 0},"
-                + $"{EscapeCsvField(plot.PlotShape)},"
-                + $"{EscapeCsvField(plot.ForestStatus)},"
-                + $"{plot.MinDbh ?? 0},"
-                + $"{plot.HLoreyLocal ?? 0},"
-                + $"{plot.HLoreyChave ?? 0},"
-                + $"{plot.HLoreyFeldpausch ?? 0},"
-                + $"{plot.HMaxLocal ?? 0},"
-                + $"{plot.HMaxChave ?? 0},"
-                + $"{plot.HMaxFeldpausch ?? 0},"
-                + $"{plot.AgbLocal ?? 0},"
-                + $"{plot.AgbLocalCred25 ?? 0},"
-                + $"{plot.AgbLocal975 ?? 0},"
-                + $"{plot.AgbFeldpausch ?? 0},"
-                + $"{plot.AgbFeldpauschCred25 ?? 0},"
-                + $"{plot.AgbFeldpauschCred975 ?? 0}");
+                    + $"{EscapeCsvField(plot.CountryName)},"
+                    + $"{EscapeCsvField(plot.Network)},"
+                    + $"{EscapeCsvField(plot.Institution)},"
+                    + $"{EscapeCsvField(plot.Link)},"
+                    + $"{plot.YearEstablished},"
+                    + $"{plot.YearCensus},"
+                    + $"{EscapeCsvField(plot.PiTeam)},"
+                    + $"{EscapeCsvField(plot.Reference)},"
+                    + $"{plot.Confidential},"
+                    + $"{EscapeCsvField(plot.OtherMeasurements)},"
+                    + $"{EscapeCsvField(plot.BiomassProcessingProtocol)},"
+                    + $"{EscapeCsvField(plot.Status)},"
+                    + $"{EscapeCsvField(plot.SubPlotId)},"
+                    + $"{plot.AgbChave ?? 0},"
+                    + $"{plot.LatCnt ?? 0},"
+                    + $"{plot.LonCnt ?? 0},"
+                    + $"{plot.LatNe ?? 0},"
+                    + $"{plot.LonNe ?? 0},"
+                    + $"{plot.LatNw ?? 0},"
+                    + $"{plot.LonNw ?? 0},"
+                    + $"{plot.LatSe ?? 0},"
+                    + $"{plot.LonSe ?? 0},"
+                    + $"{plot.LatSw ?? 0},"
+                    + $"{plot.LonSw ?? 0},"
+                    + $"{plot.Altitude ?? 0},"
+                    + $"{plot.SlopeDegree ?? 0},"
+                    + $"{plot.PlotArea ?? 0},"
+                    + $"{plot.AgbChaveCred25 ?? 0},"
+                    + $"{plot.AgbChaveCred975 ?? 0},"
+                    + $"{plot.WoodDensity ?? 0},"
+                    + $"{plot.Gsv ?? 0},"
+                    + $"{plot.Ba ?? 0},"
+                    + $"{plot.Ndens ?? 0},"
+                    + $"{EscapeCsvField(plot.PlotShape)},"
+                    + $"{EscapeCsvField(plot.ForestStatus)},"
+                    + $"{plot.MinDbh ?? 0},"
+                    + $"{plot.HLoreyLocal ?? 0},"
+                    + $"{plot.HLoreyChave ?? 0},"
+                    + $"{plot.HLoreyFeldpausch ?? 0},"
+                    + $"{plot.HMaxLocal ?? 0},"
+                    + $"{plot.HMaxChave ?? 0},"
+                    + $"{plot.HMaxFeldpausch ?? 0},"
+                    + $"{plot.AgbLocal ?? 0},"
+                    + $"{plot.AgbLocalCred25 ?? 0},"
+                    + $"{plot.AgbLocal975 ?? 0},"
+                    + $"{plot.AgbFeldpausch ?? 0},"
+                    + $"{plot.AgbFeldpauschCred25 ?? 0},"
+                    + $"{plot.AgbFeldpauschCred975 ?? 0}"
+            );
         }
 
         return csv.ToString();
@@ -393,7 +403,8 @@ public class PlotAppService : ApplicationService, IPlotAppService
 
     private static string EscapeCsvField(string? field)
     {
-        if (string.IsNullOrEmpty(field)) return "";
+        if (string.IsNullOrEmpty(field))
+            return "";
         return field.Contains(',') ? $"\"{field}\"" : field;
     }
 
@@ -414,7 +425,8 @@ public class PlotAppService : ApplicationService, IPlotAppService
             var termsPdfPath = Path.Combine(
                 AppDomain.CurrentDomain.BaseDirectory,
                 "Source",
-                "GEOTREES_TermsConditions_1.2.pdf");
+                "GEOTREES_TermsConditions_1.2.pdf"
+            );
 
             if (File.Exists(termsPdfPath))
             {

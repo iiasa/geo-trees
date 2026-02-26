@@ -10,7 +10,8 @@ using Volo.Abp.TextTemplating;
 namespace IIASA.GeoTrees.Emailing.EventHandlers;
 
 public class UserCreatedEmailHandler
-    : ILocalEventHandler<EntityCreatedEventData<IdentityUser>>, ITransientDependency
+    : ILocalEventHandler<EntityCreatedEventData<IdentityUser>>,
+        ITransientDependency
 {
     private readonly ITemplateRenderer _templateRenderer;
     private readonly IEmailSender _emailSender;
@@ -23,7 +24,8 @@ public class UserCreatedEmailHandler
         IEmailSender emailSender,
         ILogger<UserCreatedEmailHandler> logger,
         IdentityUserManager userManager,
-        IConfiguration configuration)
+        IConfiguration configuration
+    )
     {
         _templateRenderer = templateRenderer;
         _emailSender = emailSender;
@@ -45,7 +47,8 @@ public class UserCreatedEmailHandler
         {
             var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
             var frontendUrl = _configuration["App:FrontendUrl"] ?? "http://localhost:3000";
-            var confirmationLink = $"{frontendUrl}/auth/confirm-email?userId={user.Id}&confirmationToken={Uri.EscapeDataString(token)}";
+            var confirmationLink =
+                $"{frontendUrl}/auth/confirm-email?userId={user.Id}&confirmationToken={Uri.EscapeDataString(token)}";
 
             var body = await _templateRenderer.RenderAsync(
                 GeoTreesEmailTemplates.WelcomeEmail,
@@ -57,11 +60,7 @@ public class UserCreatedEmailHandler
                 }
             );
 
-            await _emailSender.SendAsync(
-                user.Email,
-                "Welcome to IIASA GeoTrees",
-                body
-            );
+            await _emailSender.SendAsync(user.Email, "Welcome to IIASA GeoTrees", body);
         }
         catch (Exception ex)
         {

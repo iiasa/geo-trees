@@ -11,14 +11,14 @@ public class GeoTreesEmailTemplateDefinitionProvider : TemplateDefinitionProvide
         // Override ABP's standard email layout with GeoTrees branding.
         // This affects ALL emails sent by ABP (password reset, email confirmation, etc.)
         var standardLayout = context.GetOrNull(StandardEmailTemplates.Layout);
-        standardLayout?
-            .WithVirtualFilePath("/Emailing/Templates/Layout.tpl", isInlineLocalized: true)
+        standardLayout
+            ?.WithVirtualFilePath("/Emailing/Templates/Layout.tpl", isInlineLocalized: true)
             .WithScribanEngine();
 
         // Override ABP's standard message template to use Scriban
         var standardMessage = context.GetOrNull(StandardEmailTemplates.Message);
-        standardMessage?
-            .WithVirtualFilePath("/Emailing/Templates/Message.tpl", isInlineLocalized: true)
+        standardMessage
+            ?.WithVirtualFilePath("/Emailing/Templates/Message.tpl", isInlineLocalized: true)
             .WithScribanEngine();
 
         // Custom GeoTrees templates
@@ -27,8 +27,11 @@ public class GeoTreesEmailTemplateDefinitionProvider : TemplateDefinitionProvide
                 GeoTreesEmailTemplates.WelcomeEmail,
                 layout: StandardEmailTemplates.Layout
             )
-            .WithVirtualFilePath("/Emailing/Templates/WelcomeEmail.tpl", isInlineLocalized: true)
-            .WithScribanEngine()
+                .WithVirtualFilePath(
+                    "/Emailing/Templates/WelcomeEmail.tpl",
+                    isInlineLocalized: true
+                )
+                .WithScribanEngine()
         );
 
         context.Add(
@@ -36,8 +39,11 @@ public class GeoTreesEmailTemplateDefinitionProvider : TemplateDefinitionProvide
                 GeoTreesEmailTemplates.PasswordChangedEmail,
                 layout: StandardEmailTemplates.Layout
             )
-            .WithVirtualFilePath("/Emailing/Templates/PasswordChangedEmail.tpl", isInlineLocalized: true)
-            .WithScribanEngine()
+                .WithVirtualFilePath(
+                    "/Emailing/Templates/PasswordChangedEmail.tpl",
+                    isInlineLocalized: true
+                )
+                .WithScribanEngine()
         );
     }
 }

@@ -11,7 +11,8 @@ public class PasswordChangedNotificationService : ITransientDependency
 
     public PasswordChangedNotificationService(
         ITemplateRenderer templateRenderer,
-        IEmailSender emailSender)
+        IEmailSender emailSender
+    )
     {
         _templateRenderer = templateRenderer;
         _emailSender = emailSender;
@@ -28,10 +29,6 @@ public class PasswordChangedNotificationService : ITransientDependency
             }
         );
 
-        await _emailSender.SendAsync(
-            email,
-            "Your GeoTrees Password Has Been Changed",
-            body
-        );
+        await _emailSender.SendAsync(email, "Your GeoTrees Password Has Been Changed", body);
     }
 }

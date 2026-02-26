@@ -27,7 +27,9 @@ public class EmailConfirmationAppService : GeoTreesAppService
         var result = await _userManager.ConfirmEmailAsync(user, input.Token);
         if (!result.Succeeded)
         {
-            throw new UserFriendlyException("Email confirmation failed. The link may have expired or already been used.");
+            throw new UserFriendlyException(
+                "Email confirmation failed. The link may have expired or already been used."
+            );
         }
     }
 }

@@ -14,7 +14,8 @@ public partial class MapLayerToMapLayerDtoMapper : MapperBase<MapLayer, MapLayer
 }
 
 [Mapper(RequiredMappingStrategy = RequiredMappingStrategy.Target)]
-public partial class CreateUpdateMapLayerDtoToMapLayerMapper : MapperBase<CreateUpdateMapLayerDto, MapLayer>
+public partial class CreateUpdateMapLayerDtoToMapLayerMapper
+    : MapperBase<CreateUpdateMapLayerDto, MapLayer>
 {
     public override partial MapLayer Map(CreateUpdateMapLayerDto source);
 
