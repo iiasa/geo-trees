@@ -14,6 +14,7 @@ export interface MapControl {
 	position: ControlPosition;
 	panel?: ReactNode;
 	isOpen: boolean;
+	isActive?: boolean;
 	onClick?: () => void;
 	isDisplayOnly?: boolean;
 }

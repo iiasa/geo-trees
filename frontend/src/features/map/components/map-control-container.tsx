@@ -52,9 +52,15 @@ function ControlButton({
 					<button
 						type="button"
 						onClick={control.onClick}
-						className="flex items-center justify-center size-11 rounded-full bg-white/95 backdrop-blur-sm border border-gray-200 shadow-lg hover:bg-gray-50 transition-colors"
+						className={`flex items-center justify-center size-11 rounded-full backdrop-blur-sm border shadow-lg transition-colors ${
+							control.isActive
+								? "bg-primary text-white border-primary"
+								: "bg-white/95 border-gray-200 hover:bg-gray-50"
+						}`}
 					>
-						<Icon className="size-5 text-gray-700" />
+						<Icon
+							className={`size-5 ${control.isActive ? "text-white" : "text-gray-700"}`}
+						/>
 					</button>
 				</TooltipTrigger>
 				<TooltipContent side={POPOVER_SIDE[control.position]}>

@@ -2,12 +2,14 @@ import { useEffect } from "react";
 import {
 	BookOpen,
 	Download,
+	Globe,
 	Layers,
 	Map as MapIcon,
 	Minus,
 	Plus,
 } from "lucide-react";
 import { useMapControlsStore } from "../stores/map-controls-store";
+import { useMapStore } from "../stores/map-store";
 import { BasemapPanel } from "./basemap-switcher";
 import { LayerPanel } from "./layer-panel";
 import { LegendPanel } from "./map-legend";
@@ -21,6 +23,8 @@ interface MapControlsProps {
 
 export function MapControls({ map }: MapControlsProps) {
 	const setControls = useMapControlsStore((s) => s.setControls);
+	const is3D = useMapStore((s) => s.is3D);
+	const setIs3D = useMapStore((s) => s.setIs3D);
 
 	useEffect(() => {
 		setControls([
@@ -73,6 +77,15 @@ export function MapControls({ map }: MapControlsProps) {
 				onClick: () => map?.zoomOut(),
 			},
 			{
+				id: "toggle-3d",
+				icon: Globe,
+				title: is3D ? "Switch to 2D" : "Switch to 3D Globe",
+				position: "bottom-left",
+				isOpen: false,
+				isActive: is3D,
+				onClick: () => setIs3D(!is3D),
+			},
+			{
 				id: "scale",
 				icon: () => <ScaleBar map={map} />,
 				title: "Scale",
@@ -81,7 +94,7 @@ export function MapControls({ map }: MapControlsProps) {
 				isDisplayOnly: true,
 			},
 		]);
-	}, [map, setControls]);
+	}, [map, setControls, is3D, setIs3D]);
 
 	return null;
 }

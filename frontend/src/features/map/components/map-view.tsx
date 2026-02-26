@@ -57,8 +57,13 @@ export function MapView({ layers, onMapReady }: MapViewProps) {
 	const mapRef = useRef<maplibregl.Map | null>(null);
 	const onMapReadyRef = useRef(onMapReady);
 	onMapReadyRef.current = onMapReady;
-	const { layerVisibility, layerOpacity, activeBasemap, setSelectedFeature } =
-		useMapStore();
+	const {
+		layerVisibility,
+		layerOpacity,
+		activeBasemap,
+		setSelectedFeature,
+		is3D,
+	} = useMapStore();
 	const [mapReady, setMapReady] = useState(false);
 	const popupRef = useRef<maplibregl.Popup | null>(null);
 	const [styleVersion, setStyleVersion] = useState(0);
@@ -110,6 +115,17 @@ export function MapView({ layers, onMapReady }: MapViewProps) {
 			setStyleVersion((v) => v + 1);
 		});
 	}, [activeBasemap, mapReady]);
+
+	useEffect(() => {
+		const map = mapRef.current;
+		if (!map || styleVersion === 0) return;
+
+		if (is3D) {
+			map.setProjection({ type: "globe" });
+		} else {
+			map.setProjection({ type: "mercator" });
+		}
+	}, [is3D, styleVersion]);
 
 	const addLayerToMap = useCallback(
 		async (map: maplibregl.Map, layer: MapLayerDto) => {

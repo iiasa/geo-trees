@@ -13,6 +13,8 @@ interface MapState {
 	setSelectedFeature: (feature: Feature | null) => void;
 	setLayerOpacity: (layerId: string, opacity: number) => void;
 	setActiveBasemap: (basemap: BasemapId) => void;
+	is3D: boolean;
+	setIs3D: (is3D: boolean) => void;
 }
 
 export const useMapStore = create<MapState>((set) => ({
@@ -37,4 +39,9 @@ export const useMapStore = create<MapState>((set) => ({
 		})),
 	setSelectedFeature: (feature) => set({ selectedFeature: feature }),
 	setActiveBasemap: (basemap) => set({ activeBasemap: basemap }),
+	is3D: localStorage.getItem("map-is3D") === "true",
+	setIs3D: (is3D) => {
+		localStorage.setItem("map-is3D", String(is3D));
+		set({ is3D });
+	},
 }));
