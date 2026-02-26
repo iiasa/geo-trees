@@ -116,11 +116,7 @@ public static class TypeExtensions
                 {
                     if (
                         merged.Count == 0
-                        || !string.Equals(
-                            merged.Last(),
-                            part,
-                            StringComparison.OrdinalIgnoreCase
-                        )
+                        || !string.Equals(merged.Last(), part, StringComparison.OrdinalIgnoreCase)
                     )
                     {
                         merged.Add(part);
@@ -187,10 +183,7 @@ public static class TypeExtensions
 
         if (!enumType.IsEnum)
         {
-            throw new ArgumentException(
-                $"Type {enumType.Name} is not an enum.",
-                nameof(enumType)
-            );
+            throw new ArgumentException($"Type {enumType.Name} is not an enum.", nameof(enumType));
         }
 
         // Check cache first
@@ -271,9 +264,7 @@ public static class TypeExtensions
         if (type.IsGenericType)
         {
             var baseName = type.GetGenericTypeDefinition().Name;
-            var genericArgs = type.GetGenericArguments()
-                .Select(t => t.GetDescription())
-                .ToArray();
+            var genericArgs = type.GetGenericArguments().Select(t => t.GetDescription()).ToArray();
 
             return $"{baseName}<{string.Join(", ", genericArgs)}>";
         }

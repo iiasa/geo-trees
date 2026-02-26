@@ -13,7 +13,8 @@ public class AdminEmailConfirmationDataSeeder : IDataSeedContributor, ITransient
 
     public AdminEmailConfirmationDataSeeder(
         IdentityUserManager userManager,
-        ILogger<AdminEmailConfirmationDataSeeder> logger)
+        ILogger<AdminEmailConfirmationDataSeeder> logger
+    )
     {
         _userManager = userManager;
         _logger = logger;
@@ -41,8 +42,10 @@ public class AdminEmailConfirmationDataSeeder : IDataSeedContributor, ITransient
         }
         else
         {
-            _logger.LogWarning("Failed to confirm admin user email during seed: {Errors}",
-                string.Join(", ", result.Errors.Select(e => e.Description)));
+            _logger.LogWarning(
+                "Failed to confirm admin user email during seed: {Errors}",
+                string.Join(", ", result.Errors.Select(e => e.Description))
+            );
         }
     }
 }

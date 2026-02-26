@@ -16,34 +16,73 @@ namespace IIASA.GeoTrees.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Email = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: false),
-                    Name = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: false),
-                    Purpose = table.Column<string>(type: "character varying(1024)", maxLength: 1024, nullable: false),
-                    Format = table.Column<string>(type: "character varying(64)", maxLength: 64, nullable: false),
+                    Email = table.Column<string>(
+                        type: "character varying(256)",
+                        maxLength: 256,
+                        nullable: false
+                    ),
+                    Name = table.Column<string>(
+                        type: "character varying(256)",
+                        maxLength: 256,
+                        nullable: false
+                    ),
+                    Purpose = table.Column<string>(
+                        type: "character varying(1024)",
+                        maxLength: 1024,
+                        nullable: false
+                    ),
+                    Format = table.Column<string>(
+                        type: "character varying(64)",
+                        maxLength: 64,
+                        nullable: false
+                    ),
                     IpAddress = table.Column<string>(type: "text", nullable: false),
                     UserAgent = table.Column<string>(type: "text", nullable: false),
                     Referer = table.Column<string>(type: "text", nullable: false),
                     Origin = table.Column<string>(type: "text", nullable: false),
                     ExtraProperties = table.Column<string>(type: "text", nullable: false),
-                    ConcurrencyStamp = table.Column<string>(type: "character varying(40)", maxLength: 40, nullable: false),
-                    CreationTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    ConcurrencyStamp = table.Column<string>(
+                        type: "character varying(40)",
+                        maxLength: 40,
+                        nullable: false
+                    ),
+                    CreationTime = table.Column<DateTime>(
+                        type: "timestamp without time zone",
+                        nullable: false
+                    ),
                     CreatorId = table.Column<Guid>(type: "uuid", nullable: true),
-                    LastModificationTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
-                    LastModifierId = table.Column<Guid>(type: "uuid", nullable: true)
+                    LastModificationTime = table.Column<DateTime>(
+                        type: "timestamp without time zone",
+                        nullable: true
+                    ),
+                    LastModifierId = table.Column<Guid>(type: "uuid", nullable: true),
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AppDownloads", x => x.Id);
-                });
+                }
+            );
 
             migrationBuilder.CreateTable(
                 name: "AppPlots",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    PlotId = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: false),
-                    SubPlotId = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: false),
-                    CountryName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: false),
+                    PlotId = table.Column<string>(
+                        type: "character varying(256)",
+                        maxLength: 256,
+                        nullable: false
+                    ),
+                    SubPlotId = table.Column<string>(
+                        type: "character varying(256)",
+                        maxLength: 256,
+                        nullable: false
+                    ),
+                    CountryName = table.Column<string>(
+                        type: "character varying(256)",
+                        maxLength: 256,
+                        nullable: false
+                    ),
                     Network = table.Column<string>(type: "text", nullable: true),
                     Institution = table.Column<string>(type: "text", nullable: true),
                     Link = table.Column<string>(type: "text", nullable: true),
@@ -69,7 +108,10 @@ namespace IIASA.GeoTrees.Migrations
                     MinDbh = table.Column<double>(type: "double precision", nullable: true),
                     HLoreyLocal = table.Column<double>(type: "double precision", nullable: true),
                     HLoreyChave = table.Column<double>(type: "double precision", nullable: true),
-                    HLoreyFeldpausch = table.Column<double>(type: "double precision", nullable: true),
+                    HLoreyFeldpausch = table.Column<double>(
+                        type: "double precision",
+                        nullable: true
+                    ),
                     HMaxLocal = table.Column<double>(type: "double precision", nullable: true),
                     HMaxChave = table.Column<double>(type: "double precision", nullable: true),
                     HMaxFeldpausch = table.Column<double>(type: "double precision", nullable: true),
@@ -77,11 +119,20 @@ namespace IIASA.GeoTrees.Migrations
                     AgbLocalCred25 = table.Column<double>(type: "double precision", nullable: true),
                     AgbLocal975 = table.Column<double>(type: "double precision", nullable: true),
                     AgbFeldpausch = table.Column<double>(type: "double precision", nullable: true),
-                    AgbFeldpauschCred25 = table.Column<double>(type: "double precision", nullable: true),
-                    AgbFeldpauschCred975 = table.Column<double>(type: "double precision", nullable: true),
+                    AgbFeldpauschCred25 = table.Column<double>(
+                        type: "double precision",
+                        nullable: true
+                    ),
+                    AgbFeldpauschCred975 = table.Column<double>(
+                        type: "double precision",
+                        nullable: true
+                    ),
                     AgbChave = table.Column<double>(type: "double precision", nullable: true),
                     AgbChaveCred25 = table.Column<double>(type: "double precision", nullable: true),
-                    AgbChaveCred975 = table.Column<double>(type: "double precision", nullable: true),
+                    AgbChaveCred975 = table.Column<double>(
+                        type: "double precision",
+                        nullable: true
+                    ),
                     WoodDensity = table.Column<double>(type: "double precision", nullable: true),
                     Gsv = table.Column<double>(type: "double precision", nullable: true),
                     Ba = table.Column<double>(type: "double precision", nullable: true),
@@ -92,47 +143,60 @@ namespace IIASA.GeoTrees.Migrations
                     Status = table.Column<string>(type: "text", nullable: true),
                     Version = table.Column<int>(type: "integer", nullable: false),
                     ExtraProperties = table.Column<string>(type: "text", nullable: false),
-                    ConcurrencyStamp = table.Column<string>(type: "character varying(40)", maxLength: 40, nullable: false),
-                    CreationTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    ConcurrencyStamp = table.Column<string>(
+                        type: "character varying(40)",
+                        maxLength: 40,
+                        nullable: false
+                    ),
+                    CreationTime = table.Column<DateTime>(
+                        type: "timestamp without time zone",
+                        nullable: false
+                    ),
                     CreatorId = table.Column<Guid>(type: "uuid", nullable: true),
-                    LastModificationTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
-                    LastModifierId = table.Column<Guid>(type: "uuid", nullable: true)
+                    LastModificationTime = table.Column<DateTime>(
+                        type: "timestamp without time zone",
+                        nullable: true
+                    ),
+                    LastModifierId = table.Column<Guid>(type: "uuid", nullable: true),
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AppPlots", x => x.Id);
-                });
+                }
+            );
 
             migrationBuilder.CreateIndex(
                 name: "IX_AppPlots_CountryName",
                 table: "AppPlots",
-                column: "CountryName");
+                column: "CountryName"
+            );
 
             migrationBuilder.CreateIndex(
                 name: "IX_AppPlots_PlotId",
                 table: "AppPlots",
-                column: "PlotId");
+                column: "PlotId"
+            );
 
             migrationBuilder.CreateIndex(
                 name: "IX_AppPlots_PlotId_SubPlotId",
                 table: "AppPlots",
                 columns: new[] { "PlotId", "SubPlotId" },
-                unique: true);
+                unique: true
+            );
 
             migrationBuilder.CreateIndex(
                 name: "IX_AppPlots_Version",
                 table: "AppPlots",
-                column: "Version");
+                column: "Version"
+            );
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "AppDownloads");
+            migrationBuilder.DropTable(name: "AppDownloads");
 
-            migrationBuilder.DropTable(
-                name: "AppPlots");
+            migrationBuilder.DropTable(name: "AppPlots");
         }
     }
 }

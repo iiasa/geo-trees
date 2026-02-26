@@ -7,7 +7,8 @@ public class MapLayer : AuditedAggregateRoot<Guid>
 {
     public MapLayer() { }
 
-    public MapLayer(Guid id) : base(id) { }
+    public MapLayer(Guid id)
+        : base(id) { }
 
     public string Name { get; set; } = null!;
     public MapLayerType Type { get; set; }

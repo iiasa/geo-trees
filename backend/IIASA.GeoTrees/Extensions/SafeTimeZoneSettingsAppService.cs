@@ -14,10 +14,11 @@ namespace IIASA.GeoTrees.Extensions;
 /// </summary>
 public class SafeTimeZoneSettingsAppService : TimeZoneSettingsAppService
 {
-    public SafeTimeZoneSettingsAppService(ISettingManager settingManager, ITimezoneProvider timezoneProvider)
-        : base(settingManager, timezoneProvider)
-    {
-    }
+    public SafeTimeZoneSettingsAppService(
+        ISettingManager settingManager,
+        ITimezoneProvider timezoneProvider
+    )
+        : base(settingManager, timezoneProvider) { }
 
     public override Task<List<NameValue>> GetTimezonesAsync()
     {

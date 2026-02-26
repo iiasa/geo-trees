@@ -21,7 +21,8 @@ public class ExternalDataAppService : ApplicationService
 
     public ExternalDataAppService(
         IHttpClientFactory httpClientFactory,
-        IConfiguration configuration)
+        IConfiguration configuration
+    )
     {
         _httpClientFactory = httpClientFactory;
         _configuration = configuration;
@@ -47,21 +48,29 @@ public class ExternalDataAppService : ApplicationService
             if (csvReader.Read())
             {
                 csvReader.ReadHeader();
-                headers = csvReader.HeaderRecord!
-                    .Take(12)
+                headers = csvReader
+                    .HeaderRecord!.Take(12)
                     .Select(h => h.Trim().Replace("\"", ""))
                     .ToList();
             }
 
-            int latIdx = headers.FindIndex(h => h.Equals("latitude", StringComparison.OrdinalIgnoreCase));
-            int lngIdx = headers.FindIndex(h => h.Equals("longitude", StringComparison.OrdinalIgnoreCase));
+            int latIdx = headers.FindIndex(h =>
+                h.Equals("latitude", StringComparison.OrdinalIgnoreCase)
+            );
+            int lngIdx = headers.FindIndex(h =>
+                h.Equals("longitude", StringComparison.OrdinalIgnoreCase)
+            );
 
             if (latIdx == -1 || lngIdx == -1)
             {
-                throw new UserFriendlyException("Latitude or Longitude column not found in the CSV data.");
+                throw new UserFriendlyException(
+                    "Latitude or Longitude column not found in the CSV data."
+                );
             }
 
-            var propertyTranslations = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+            var propertyTranslations = new Dictionary<string, string>(
+                StringComparer.OrdinalIgnoreCase
+            )
             {
                 { "Geotrees_Back-CARTO", "Site" },
                 { "Descriptif de la station", "SiteDescription" },
@@ -80,8 +89,20 @@ public class ExternalDataAppService : ApplicationService
                 for (int i = 0; i < headers.Count; i++)
                     row.Add(csvReader.GetField(i) ?? string.Empty);
 
-                if (double.TryParse(row[latIdx], NumberStyles.Any, CultureInfo.InvariantCulture, out var lat)
-                    && double.TryParse(row[lngIdx], NumberStyles.Any, CultureInfo.InvariantCulture, out var lng))
+                if (
+                    double.TryParse(
+                        row[latIdx],
+                        NumberStyles.Any,
+                        CultureInfo.InvariantCulture,
+                        out var lat
+                    )
+                    && double.TryParse(
+                        row[lngIdx],
+                        NumberStyles.Any,
+                        CultureInfo.InvariantCulture,
+                        out var lng
+                    )
+                )
                 {
                     var properties = new Dictionary<string, object>();
                     for (int j = 0; j < headers.Count; j++)
@@ -89,29 +110,32 @@ public class ExternalDataAppService : ApplicationService
                         if (j != latIdx && j != lngIdx)
                         {
                             var key = headers[j];
-                            var translatedKey = propertyTranslations.TryGetValue(key, out var translated)
+                            var translatedKey = propertyTranslations.TryGetValue(
+                                key,
+                                out var translated
+                            )
                                 ? translated
                                 : key;
                             properties[translatedKey] = row[j];
                         }
                     }
 
-                    features.Add(new
-                    {
-                        type = "Feature",
-                        geometry = new
+                    features.Add(
+                        new
                         {
-                            type = "Point",
-                            coordinates = new[] { lng, lat },
-                        },
-                        properties,
-                    });
+                            type = "Feature",
+                            geometry = new { type = "Point", coordinates = new[] { lng, lat } },
+                            properties,
+                        }
+                    );
                 }
                 else
                 {
                     Logger.LogWarning(
                         "Skipping line: invalid lat/lng values (lat: {Lat}, lng: {Lng})",
-                        row[latIdx], row[lngIdx]);
+                        row[latIdx],
+                        row[lngIdx]
+                    );
                 }
             }
         }

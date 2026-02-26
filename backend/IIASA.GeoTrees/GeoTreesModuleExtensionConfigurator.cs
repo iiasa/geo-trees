@@ -37,7 +37,8 @@ public static class GeoTreesModuleExtensionConfigurator
 
     private static void ConfigureExtraProperties()
     {
-        ObjectExtensionManager.Instance.Modules()
+        ObjectExtensionManager
+            .Instance.Modules()
             .ConfigureIdentity(identity =>
             {
                 identity.ConfigureUser(user =>

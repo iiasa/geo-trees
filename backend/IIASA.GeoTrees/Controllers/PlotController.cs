@@ -19,7 +19,8 @@ public class PlotController : AbpController
 
     public PlotController(
         IPlotAppService plotAppService,
-        IRepository<Download, Guid> downloadRepository)
+        IRepository<Download, Guid> downloadRepository
+    )
     {
         _plotAppService = plotAppService;
         _downloadRepository = downloadRepository;
@@ -32,7 +33,8 @@ public class PlotController : AbpController
         [FromQuery] string purpose,
         [FromQuery] string email,
         [FromQuery] string name,
-        [FromQuery] string country)
+        [FromQuery] string country
+    )
     {
         var input = new PlotDownloadRequestDto
         {

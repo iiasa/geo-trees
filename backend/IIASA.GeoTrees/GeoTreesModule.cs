@@ -39,6 +39,7 @@ using Volo.Abp.Identity.EntityFrameworkCore;
 using Volo.Abp.Identity.Web;
 using Volo.Abp.Localization;
 using Volo.Abp.Localization.ExceptionHandling;
+using Volo.Abp.MailKit;
 using Volo.Abp.Mapperly;
 using Volo.Abp.Modularity;
 using Volo.Abp.MultiTenancy;
@@ -60,16 +61,15 @@ using Volo.Abp.Swashbuckle;
 using Volo.Abp.TenantManagement;
 using Volo.Abp.TenantManagement.EntityFrameworkCore;
 using Volo.Abp.TenantManagement.Web;
+using Volo.Abp.TextTemplating.Scriban;
 using Volo.Abp.UI.Navigation;
 using Volo.Abp.UI.Navigation.Urls;
 using Volo.Abp.Uow;
 using Volo.Abp.Validation.Localization;
-using Volo.Abp.MailKit;
-using Volo.Abp.TextTemplating.Scriban;
 using Volo.Abp.VirtualFileSystem;
-using Volo.CmsKit.Web;
 using Volo.CmsKit;
 using Volo.CmsKit.EntityFrameworkCore;
+using Volo.CmsKit.Web;
 
 namespace IIASA.GeoTrees;
 
@@ -204,12 +204,13 @@ public class GeoTreesModule : AbpModule
 
         // Override ABP's TimeZoneSettingsAppService to handle deprecated IANA timezone IDs on Linux
         context.Services.Replace(
-            ServiceDescriptor.Transient<ITimeZoneSettingsAppService, SafeTimeZoneSettingsAppService>()
+            ServiceDescriptor.Transient<
+                ITimeZoneSettingsAppService,
+                SafeTimeZoneSettingsAppService
+            >()
         );
 
-        Configure<RazorPagesOptions>(options =>
-        {
-        });
+        Configure<RazorPagesOptions>(options => { });
     }
 
     private void ConfigureHealthChecks(ServiceConfigurationContext context)
@@ -252,9 +253,12 @@ public class GeoTreesModule : AbpModule
         Configure<AppUrlOptions>(options =>
         {
             options.Applications["MVC"].RootUrl = configuration["App:SelfUrl"];
-            options.Applications["Geo Trees"].RootUrl = configuration["App:FrontendUrl"] ?? "http://localhost:3000";
-            options.Applications["Geo Trees"].Urls["Abp.Account.PasswordReset"] = "auth/reset-password";
-            options.Applications["Geo Trees"].Urls["Abp.Account.EmailConfirmation"] = "auth/confirm-email";
+            options.Applications["Geo Trees"].RootUrl =
+                configuration["App:FrontendUrl"] ?? "http://localhost:3000";
+            options.Applications["Geo Trees"].Urls["Abp.Account.PasswordReset"] =
+                "auth/reset-password";
+            options.Applications["Geo Trees"].Urls["Abp.Account.EmailConfirmation"] =
+                "auth/confirm-email";
         });
     }
 

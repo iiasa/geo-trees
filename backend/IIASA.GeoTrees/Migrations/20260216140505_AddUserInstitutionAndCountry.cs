@@ -15,26 +15,24 @@ namespace IIASA.GeoTrees.Migrations
                 table: "AbpUsers",
                 type: "character varying(128)",
                 maxLength: 128,
-                nullable: true);
+                nullable: true
+            );
 
             migrationBuilder.AddColumn<string>(
                 name: "Institution",
                 table: "AbpUsers",
                 type: "character varying(256)",
                 maxLength: 256,
-                nullable: true);
+                nullable: true
+            );
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropColumn(
-                name: "Country",
-                table: "AbpUsers");
+            migrationBuilder.DropColumn(name: "Country", table: "AbpUsers");
 
-            migrationBuilder.DropColumn(
-                name: "Institution",
-                table: "AbpUsers");
+            migrationBuilder.DropColumn(name: "Institution", table: "AbpUsers");
         }
     }
 }

@@ -7,7 +7,8 @@ public class Plot : AuditedAggregateRoot<Guid>
 {
     public Plot() { }
 
-    public Plot(Guid id) : base(id) { }
+    public Plot(Guid id)
+        : base(id) { }
 
     public string PlotId { get; set; } = null!;
     public string SubPlotId { get; set; } = null!;

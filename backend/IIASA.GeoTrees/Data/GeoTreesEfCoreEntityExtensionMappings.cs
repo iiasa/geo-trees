@@ -13,23 +13,22 @@ public static class GeoTreesEfCoreEntityExtensionMappings
         GeoTreesGlobalFeatureConfigurator.Configure();
         GeoTreesModuleExtensionConfigurator.Configure();
 
-        OneTimeRunner.Run(() => {
-            ObjectExtensionManager.Instance
-                .MapEfCoreProperty<IdentityUser, string>(
-                    "Institution",
-                    (entityBuilder, propertyBuilder) =>
-                    {
-                        propertyBuilder.HasMaxLength(256);
-                    }
-                );
-            ObjectExtensionManager.Instance
-                .MapEfCoreProperty<IdentityUser, string>(
-                    "Country",
-                    (entityBuilder, propertyBuilder) =>
-                    {
-                        propertyBuilder.HasMaxLength(128);
-                    }
-                );
+        OneTimeRunner.Run(() =>
+        {
+            ObjectExtensionManager.Instance.MapEfCoreProperty<IdentityUser, string>(
+                "Institution",
+                (entityBuilder, propertyBuilder) =>
+                {
+                    propertyBuilder.HasMaxLength(256);
+                }
+            );
+            ObjectExtensionManager.Instance.MapEfCoreProperty<IdentityUser, string>(
+                "Country",
+                (entityBuilder, propertyBuilder) =>
+                {
+                    propertyBuilder.HasMaxLength(128);
+                }
+            );
         });
     }
 }

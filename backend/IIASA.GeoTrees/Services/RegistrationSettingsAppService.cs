@@ -22,10 +22,7 @@ public class RegistrationSettingsAppService : ApplicationService
             GeoTreesSettings.Registration.TermsAndConditionsUrl
         );
 
-        return new RegistrationSettingsDto
-        {
-            TermsAndConditionsUrl = termsUrl ?? ""
-        };
+        return new RegistrationSettingsDto { TermsAndConditionsUrl = termsUrl ?? "" };
     }
 }
 

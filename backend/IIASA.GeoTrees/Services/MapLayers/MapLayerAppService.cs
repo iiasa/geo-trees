@@ -39,7 +39,10 @@ public class MapLayerAppService : ApplicationService, IMapLayerAppService
             .Take(input.MaxResultCount);
 
         var entities = await AsyncExecuter.ToListAsync(query);
-        var dtos = ObjectMapper.Map<System.Collections.Generic.List<MapLayer>, System.Collections.Generic.List<MapLayerDto>>(entities);
+        var dtos = ObjectMapper.Map<
+            System.Collections.Generic.List<MapLayer>,
+            System.Collections.Generic.List<MapLayerDto>
+        >(entities);
 
         return new PagedResultDto<MapLayerDto>(totalCount, dtos);
     }
