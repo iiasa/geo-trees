@@ -21,6 +21,7 @@ RUN dotnet publish "IIASA.GeoTrees.csproj" -c $configuration -o /app/publish /p:
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
+RUN chown -R app:app /app
 
 COPY --chmod=755 <<'EOF' /app/entrypoint.sh
 #!/bin/sh
