@@ -17,6 +17,9 @@ RUN dotnet build "IIASA.GeoTrees.csproj" -c $configuration -o /app/build
 
 FROM build AS publish
 ARG configuration=Release
+RUN dotnet tool install -g Volo.Abp.Cli
+ENV PATH="$PATH:/root/.dotnet/tools"
+RUN abp install-libs
 RUN dotnet publish "IIASA.GeoTrees.csproj" -c $configuration -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
