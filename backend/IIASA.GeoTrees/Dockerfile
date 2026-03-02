@@ -21,4 +21,17 @@ RUN dotnet publish "IIASA.GeoTrees.csproj" -c $configuration -o /app/publish /p:
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "IIASA.GeoTrees.dll"]
+
+COPY --chmod=755 <<'EOF' /app/entrypoint.sh
+#!/bin/sh
+if [ ! -f openiddict.pfx ]; then
+  openssl req -x509 -newkey rsa:2048 -keyout /tmp/openiddict.key -out /tmp/openiddict.crt \
+    -days 1825 -nodes -subj "/CN=GeoTrees OpenIddict" && \
+  openssl pkcs12 -export -out openiddict.pfx -inkey /tmp/openiddict.key -in /tmp/openiddict.crt \
+    -passout pass:"$AuthServer__CertificatePassPhrase" && \
+  rm /tmp/openiddict.key /tmp/openiddict.crt
+fi
+exec dotnet IIASA.GeoTrees.dll
+EOF
+
+ENTRYPOINT ["/app/entrypoint.sh"]
