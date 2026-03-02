@@ -22,6 +22,12 @@ public static class HealthChecksBuilderExtensions
             healthCheckUrl = "/health-status";
         }
 
+        if (!Uri.IsWellFormedUriString(healthCheckUrl, UriKind.Absolute))
+        {
+            var selfUrl = configuration["App:SelfUrl"]?.TrimEnd('/') ?? "http://localhost:8080";
+            healthCheckUrl = selfUrl + healthCheckUrl;
+        }
+
         services.ConfigureHealthCheckEndpoint("/health-status");
 
         var healthChecksUiBuilder = services.AddHealthChecksUI(settings =>
