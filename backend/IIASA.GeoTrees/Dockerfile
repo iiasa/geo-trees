@@ -17,6 +17,7 @@ RUN dotnet build "IIASA.GeoTrees.csproj" -c $configuration -o /app/build
 
 FROM build AS publish
 ARG configuration=Release
+RUN apt-get update && apt-get install -y --no-install-recommends nodejs npm && rm -rf /var/lib/apt/lists/*
 RUN dotnet tool install -g Volo.Abp.Cli
 ENV PATH="$PATH:/root/.dotnet/tools"
 RUN abp install-libs
