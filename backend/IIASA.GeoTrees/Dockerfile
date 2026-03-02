@@ -29,7 +29,8 @@ if [ ! -f openiddict.pfx ]; then
     -days 1825 -nodes -subj "/CN=GeoTrees OpenIddict" && \
   openssl pkcs12 -export -out openiddict.pfx -inkey /tmp/openiddict.key -in /tmp/openiddict.crt \
     -passout pass:"$AuthServer__CertificatePassPhrase" && \
-  rm /tmp/openiddict.key /tmp/openiddict.crt
+  rm /tmp/openiddict.key /tmp/openiddict.crt && \
+  chmod 400 openiddict.pfx
 fi
 dotnet IIASA.GeoTrees.dll --migrate-database
 exec dotnet IIASA.GeoTrees.dll
