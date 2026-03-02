@@ -19,9 +19,11 @@ ARG configuration=Release
 RUN dotnet publish "IIASA.GeoTrees.csproj" -c $configuration -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
+USER root
 WORKDIR /app
 COPY --from=publish /app/publish .
 RUN chown -R app:app /app
+USER app
 
 COPY --chmod=755 <<'EOF' /app/entrypoint.sh
 #!/bin/sh
