@@ -94,7 +94,6 @@ export const MAP_LAYER_TYPE = {
 	TILE_JSON: 3,
 } as const;
 
-
 export const SOURCE_ENDPOINT_MAP: Record<string, string> = {
 	"plot-geojson": "/api/proxy/api/app/plot/geo-json",
 	"external-data-geojson":

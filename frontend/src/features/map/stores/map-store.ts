@@ -39,9 +39,14 @@ export const useMapStore = create<MapState>((set) => ({
 		})),
 	setSelectedFeature: (feature) => set({ selectedFeature: feature }),
 	setActiveBasemap: (basemap) => set({ activeBasemap: basemap }),
-	is3D: localStorage.getItem("map-is3D") === "true",
+	is3D:
+		typeof localStorage !== "undefined"
+			? localStorage.getItem("map-is3D") === "true"
+			: false,
 	setIs3D: (is3D) => {
-		localStorage.setItem("map-is3D", String(is3D));
+		if (typeof localStorage !== "undefined") {
+			localStorage.setItem("map-is3D", String(is3D));
+		}
 		set({ is3D });
 	},
 }));
