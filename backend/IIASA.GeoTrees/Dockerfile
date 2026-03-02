@@ -31,6 +31,7 @@ if [ ! -f openiddict.pfx ]; then
     -passout pass:"$AuthServer__CertificatePassPhrase" && \
   rm /tmp/openiddict.key /tmp/openiddict.crt
 fi
+dotnet IIASA.GeoTrees.dll --migrate-database
 exec dotnet IIASA.GeoTrees.dll
 EOF
 
