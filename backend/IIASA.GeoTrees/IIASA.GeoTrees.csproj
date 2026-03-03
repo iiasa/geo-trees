@@ -80,6 +80,8 @@
     <PackageReference Include="Volo.CmsKit.HttpApi" Version="10.0.2" />
     <PackageReference Include="Volo.CmsKit.Application" Version="10.0.2" />
     <PackageReference Include="Volo.CmsKit.EntityFrameworkCore" Version="10.0.2" />
+    <PackageReference Include="Magick.NET-Q16-AnyCPU" Version="14.10.3" />
+    <PackageReference Include="HtmlSanitizer" Version="9.0.892" />
   </ItemGroup>
 
   <ItemGroup>

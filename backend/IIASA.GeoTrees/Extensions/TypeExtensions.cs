@@ -27,13 +27,13 @@ public static class TypeExtensions
         this Type type,
         bool fullyQualified = false,
         bool shortName = true,
-        Func<string, bool> isUnique = null
+        Func<string, bool>? isUnique = null
     )
     {
         ArgumentNullException.ThrowIfNull(type);
 
         // If shortName and isUnique is not provided, make it automatic
-        Func<string, bool> autoIsUnique = isUnique;
+        Func<string, bool>? autoIsUnique = isUnique;
         if (shortName && isUnique == null)
         {
             var allTypes = AppDomain
@@ -72,7 +72,7 @@ public static class TypeExtensions
                     nsParts = nsParts.Skip(2).ToList();
                 }
                 // Try adding namespace segments from right to left
-                typeName = null;
+                typeName = (type.FullName ?? (ns + "." + className)).Replace(".", "");
                 for (int i = nsParts.Count - 1; i >= 0; i--)
                 {
                     var candidate = string.Concat(nsParts.Skip(i)) + className;
@@ -81,11 +81,6 @@ public static class TypeExtensions
                         typeName = candidate;
                         break;
                     }
-                }
-                // Fallback: fully qualified name with no dots
-                if (typeName == null)
-                {
-                    typeName = (type.FullName ?? (ns + "." + className)).Replace(".", "");
                 }
             }
             else

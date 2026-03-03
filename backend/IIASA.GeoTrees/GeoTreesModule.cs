@@ -400,7 +400,7 @@ public class GeoTreesModule : AbpModule
             ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto,
             ForwardLimit = 2,
         };
-        forwardedHeadersOptions.KnownNetworks.Clear();
+        forwardedHeadersOptions.KnownIPNetworks.Clear();
         forwardedHeadersOptions.KnownProxies.Clear();
         app.UseForwardedHeaders(forwardedHeadersOptions);
 
