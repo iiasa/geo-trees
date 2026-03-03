@@ -395,10 +395,14 @@ public class GeoTreesModule : AbpModule
         var app = context.GetApplicationBuilder();
         var env = context.GetEnvironment();
 
-        app.UseForwardedHeaders(new ForwardedHeadersOptions
+        var forwardedHeadersOptions = new ForwardedHeadersOptions
         {
             ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto,
-        });
+            ForwardLimit = 2,
+        };
+        forwardedHeadersOptions.KnownNetworks.Clear();
+        forwardedHeadersOptions.KnownProxies.Clear();
+        app.UseForwardedHeaders(forwardedHeadersOptions);
 
         if (env.IsDevelopment())
         {
