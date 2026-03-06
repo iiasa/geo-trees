@@ -58,6 +58,7 @@ public class OpenIddictDataSeedContributor : IDataSeedContributor, ITransientDep
         {
             "http://localhost:3000/auth/callback",
             "https://geo-trees.nodes.iiasa.ac.at/auth/callback",
+            "https://geo-trees.iiasa.ac.at/auth/callback",
             "https://data.geo-trees.org/auth/callback",
         };
 
@@ -65,6 +66,7 @@ public class OpenIddictDataSeedContributor : IDataSeedContributor, ITransientDep
         {
             "http://localhost:3000",
             "https://geo-trees.nodes.iiasa.ac.at",
+            "https://geo-trees.iiasa.ac.at",
             "https://data.geo-trees.org",
         };
 
