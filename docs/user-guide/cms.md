@@ -77,7 +77,7 @@ The Puck editor is a drag-and-drop page builder that loads when you create or ed
 
 ### Available Content Blocks
 
-There are 19 built-in content blocks:
+There are 24 built-in content blocks:
 
 | Block | Purpose |
 |-------|---------|
@@ -100,6 +100,11 @@ There are 19 built-in content blocks:
 | Gallery | Image gallery |
 | Spacer | Vertical spacing element |
 | Welcome | Welcome/introduction section |
+| Accordion | Collapsible accordion with multiple expandable sections |
+| Alert | Contextual alert/notification banner with severity variants |
+| Tabs | Tabbed content panels for organising related information |
+| CTA | Call-to-action section with headline, body text, and button |
+| Stats | Display a set of key statistics or metrics with labels |
 
 ### Adding a Block
 
