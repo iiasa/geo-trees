@@ -109,6 +109,13 @@ async function handleProxyRequest(request: Request) {
 		// Create a new response with the proxied data
 		const responseHeaders = new Headers(response.headers);
 
+		// Node's fetch auto-decompresses the upstream body, so the
+		// content-encoding and content-length from the upstream no longer
+		// describe what we forward. Strip them to prevent the browser from
+		// trying to decode an already-decoded body.
+		responseHeaders.delete("content-encoding");
+		responseHeaders.delete("content-length");
+
 		// Add CORS headers if needed
 		responseHeaders.set("Access-Control-Allow-Origin", "*");
 		responseHeaders.set(
