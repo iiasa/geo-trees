@@ -3,6 +3,12 @@ import { json } from "@tanstack/react-start";
 import { APP_CONSTANTS } from "@/constants";
 import { getUserSession } from "@/infrastructure/auth/auth-server";
 
+// Resolved once at module load: Vite inlines `import.meta.env` at build time,
+// so `APP_CONSTANTS.API_BASE_URL` is frozen into the Docker image. Reading
+// `process.env` here lets the container override it without rebuilding.
+const API_BASE_URL =
+	process.env.VITE_API_BASE_URL || APP_CONSTANTS.API_BASE_URL;
+
 export const Route = createFileRoute("/api/proxy/$")({
 	server: {
 		handlers: {
@@ -56,7 +62,7 @@ async function handleProxyRequest(request: Request) {
 		}
 
 		// Only allow proxy to API endpoints
-		const targetUrl = `${APP_CONSTANTS.API_BASE_URL}/${path}`;
+		const targetUrl = `${API_BASE_URL}/${path}`;
 
 		// Add query parameters to target URL
 		const queryString = url.search;

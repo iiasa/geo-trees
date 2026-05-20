@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useId, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Download, Loader2 } from "lucide-react";
 import { useAuthCombined as useAuth } from "@/features/auth/hooks/use-auth";
@@ -23,6 +23,7 @@ const ACKNOWLEDGMENT_TEXT =
 
 export function DownloadPanel() {
 	const { user, isAuthenticated, login } = useAuth();
+	const acknowledgmentId = useId();
 
 	const [name, setName] = useState(user?.name ?? "");
 	const [email, setEmail] = useState(user?.email ?? "");
@@ -206,13 +207,13 @@ export function DownloadPanel() {
 				</div>
 				<div className="flex items-start gap-2">
 					<Checkbox
-						id="acknowledgment"
+						id={acknowledgmentId}
 						checked={acknowledged}
 						onCheckedChange={(v) => setAcknowledged(v === true)}
 						className="mt-0.5"
 					/>
 					<label
-						htmlFor="acknowledgment"
+						htmlFor={acknowledgmentId}
 						className="text-xs text-gray-600 leading-relaxed cursor-pointer"
 					>
 						{ACKNOWLEDGMENT_TEXT}

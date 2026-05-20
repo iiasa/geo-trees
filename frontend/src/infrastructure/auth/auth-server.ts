@@ -22,7 +22,13 @@ export async function getUserSession(): Promise<SessionData | null> {
 	try {
 		const sessionData = await sessionUtils.get();
 
-		if (!sessionData) {
+		if (!sessionData?.accessToken) {
+			// Clear partial sessions (e.g. refreshToken but missing accessToken
+			// after a failed login). Skip the cookie write for the common case
+			// of an empty session shell on unauthenticated requests.
+			if (sessionData?.refreshToken || sessionData?.user) {
+				await sessionUtils.clear();
+			}
 			return null;
 		}
 
