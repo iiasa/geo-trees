@@ -7,6 +7,8 @@ export type ControlPosition =
 	| "bottom-right"
 	| "bottom-left";
 
+export type ControlVariant = "default" | "dark" | "pill-top" | "pill-bottom";
+
 export interface MapControl {
 	id: string;
 	icon: ComponentType<{ className?: string }>;
@@ -17,6 +19,7 @@ export interface MapControl {
 	isActive?: boolean;
 	onClick?: () => void;
 	isDisplayOnly?: boolean;
+	variant?: ControlVariant;
 }
 
 interface MapControlsState {

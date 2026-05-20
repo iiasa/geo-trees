@@ -16,10 +16,10 @@ import {
 } from "../stores/map-controls-store";
 
 const POSITION_CLASSES: Record<ControlPosition, string> = {
-	"top-right": "top-16 right-4",
-	"top-left": "top-16 left-4",
-	"bottom-right": "bottom-8 right-4",
-	"bottom-left": "bottom-8 left-4",
+	"top-right": "top-16 right-4 gap-2",
+	"top-left": "top-16 left-4 gap-2",
+	"bottom-right": "bottom-8 right-4 gap-0",
+	"bottom-left": "bottom-8 left-4 gap-2 items-start",
 };
 
 const POPOVER_SIDE: Record<
@@ -31,6 +31,33 @@ const POPOVER_SIDE: Record<
 	"bottom-right": "left",
 	"bottom-left": "right",
 };
+
+function buttonClasses(control: MapControl): string {
+	const base = "flex items-center justify-center size-10 transition-colors";
+
+	if (control.variant === "pill-top") {
+		return `${base} w-10 h-10 rounded-t-md border border-b-0 border-gray-200 bg-white shadow-lg hover:bg-gray-50 text-gray-900`;
+	}
+	if (control.variant === "pill-bottom") {
+		return `${base} w-10 h-10 rounded-b-md border border-gray-200 bg-white shadow-lg hover:bg-gray-50 text-gray-900`;
+	}
+
+	if (control.variant === "dark") {
+		const active = control.isActive || control.isOpen;
+		return `${base} rounded-full shadow-lg ${
+			active
+				? "bg-primary text-white"
+				: "bg-zinc-900/90 backdrop-blur-sm text-white hover:bg-zinc-800"
+		}`;
+	}
+
+	const active = control.isActive || control.isOpen;
+	return `${base} rounded-full backdrop-blur-sm border shadow-lg ${
+		active
+			? "bg-primary text-white border-primary"
+			: "bg-white/95 border-gray-200 hover:bg-gray-50 text-gray-700"
+	}`;
+}
 
 function ControlButton({
 	control,
@@ -52,15 +79,9 @@ function ControlButton({
 					<button
 						type="button"
 						onClick={control.onClick}
-						className={`flex items-center justify-center size-11 rounded-full backdrop-blur-sm border shadow-lg transition-colors ${
-							control.isActive
-								? "bg-primary text-white border-primary"
-								: "bg-white/95 border-gray-200 hover:bg-gray-50"
-						}`}
+						className={buttonClasses(control)}
 					>
-						<Icon
-							className={`size-5 ${control.isActive ? "text-white" : "text-gray-700"}`}
-						/>
+						<Icon className="size-5" />
 					</button>
 				</TooltipTrigger>
 				<TooltipContent side={POPOVER_SIDE[control.position]}>
@@ -81,17 +102,8 @@ function ControlButton({
 				<Tooltip>
 					<TooltipTrigger asChild>
 						<PopoverTrigger asChild>
-							<button
-								type="button"
-								className={`flex items-center justify-center size-11 rounded-full backdrop-blur-sm border shadow-lg transition-colors ${
-									control.isOpen
-										? "bg-primary text-white border-primary"
-										: "bg-white/95 border-gray-200 hover:bg-gray-50"
-								}`}
-							>
-								<Icon
-									className={`size-5 ${control.isOpen ? "text-white" : "text-gray-700"}`}
-								/>
+							<button type="button" className={buttonClasses(control)}>
+								<Icon className="size-5" />
 							</button>
 						</PopoverTrigger>
 					</TooltipTrigger>
@@ -125,7 +137,7 @@ function PositionGroup({
 
 	return (
 		<div
-			className={`absolute ${POSITION_CLASSES[position]} z-10 flex flex-col gap-2`}
+			className={`absolute ${POSITION_CLASSES[position]} z-10 flex flex-col`}
 		>
 			{controls.map((control) => (
 				<ControlButton

@@ -13,6 +13,7 @@ import {
 import { ALS_POSITIONS } from "../constants/als-positions";
 import { getStatusFromRaw, STATUS_COLORS } from "../utils/status-mapping";
 import { buildBrmPopupHtml } from "../utils/brm-popup-html";
+import { buildPlotPopupHtml } from "../utils/plot-popup-html";
 
 interface MapViewProps {
 	layers: MapLayerDto[];
@@ -82,6 +83,7 @@ export function MapView({ layers, onMapReady }: MapViewProps) {
 			center: MAP_DEFAULTS.CENTER,
 			zoom: MAP_DEFAULTS.ZOOM,
 			renderWorldCopies: false,
+			attributionControl: { compact: true },
 		});
 
 		mapRef.current = map;
@@ -90,6 +92,9 @@ export function MapView({ layers, onMapReady }: MapViewProps) {
 			setMapReady(true);
 			setStyleVersion(1);
 			onMapReadyRef.current?.(map);
+			if (import.meta.env.DEV) {
+				(window as unknown as { __map__: maplibregl.Map }).__map__ = map;
+			}
 		});
 
 		return () => {
@@ -290,21 +295,12 @@ export function MapView({ layers, onMapReady }: MapViewProps) {
 			if (ep === "external-data-geojson") {
 				html = buildBrmPopupHtml(feature.properties || {});
 			} else {
-				const properties = feature.properties || {};
-				const name = properties.name || properties.PlotId || "Feature";
-				const entries = Object.entries(properties)
-					.filter(([key]) => key !== "name" && key !== "PlotId")
-					.slice(0, 6);
-				html = `<div class="p-2 max-w-xs"><h3 class="font-semibold text-sm mb-1">${name}</h3>`;
-				for (const [key, value] of entries) {
-					html += `<div class="text-xs"><span class="text-gray-500">${key}:</span> ${value}</div>`;
-				}
-				html += "</div>";
+				html = buildPlotPopupHtml(feature.properties || {});
 			}
 
 			popupRef.current = new maplibregl.Popup({
 				closeOnClick: true,
-				maxWidth: ep === "external-data-geojson" ? "360px" : undefined,
+				maxWidth: "360px",
 			})
 				.setLngLat(e.lngLat)
 				.setHTML(html)
