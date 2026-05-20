@@ -5,4 +5,5 @@ using Volo.Abp.Application.Services;
 namespace IIASA.GeoTrees.Services.MapLayers;
 
 public interface IMapLayerAppService
-    : ICrudAppService<MapLayerDto, Guid, GetMapLayerListDto, CreateUpdateMapLayerDto> { }
+    : ICrudAppService<MapLayerDto, Guid, GetMapLayerListDto, CreateUpdateMapLayerDto>
+{ }
