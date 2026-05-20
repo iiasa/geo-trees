@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using IIASA.GeoTrees.Entities.MapLayers;
 using Microsoft.Extensions.Logging;
@@ -28,7 +29,9 @@ public class MapLayerDataSeederContributor : IDataSeedContributor, ITransientDep
 
     public async Task SeedAsync(DataSeedContext context)
     {
-        if (await _mapLayerRepository.GetCountAsync() > 0)
+        await SeedBrmSitesLayerAsync();
+
+        if (await _mapLayerRepository.GetCountAsync() > 1)
         {
             return;
         }
@@ -99,5 +102,29 @@ public class MapLayerDataSeederContributor : IDataSeedContributor, ITransientDep
         );
 
         _logger.LogInformation("Map layers seeded successfully.");
+    }
+
+    private async Task SeedBrmSitesLayerAsync()
+    {
+        var existing = await _mapLayerRepository.GetQueryableAsync();
+        if (existing.Any(l => l.SourceEndpoint == "external-data-geojson"))
+        {
+            return;
+        }
+
+        _logger.LogInformation("Seeding GEO-TREES Sites (BRM) map layer...");
+
+        await _mapLayerRepository.InsertAsync(
+            new MapLayer(_guidGenerator.Create())
+            {
+                Name = "GEO-TREES Sites",
+                Type = MapLayerType.BackendGeoJson,
+                SourceEndpoint = "external-data-geojson",
+                GroupName = "GEO-TREES Data",
+                IsVisible = true,
+                Order = 0,
+            },
+            autoSave: true
+        );
     }
 }
