@@ -1,0 +1,36 @@
+node_modules
+.output
+.vite
+.tanstack
+dist
+coverage
+.cache
+.parcel-cache
+.eslintcache
+.stylelintcache
+.tsbuildinfo
+
+# Tests / local dev artifacts
+.playwright-mcp
+playwright-report
+test-results
+e2e/.auth
+
+# Editor / OS
+.vscode
+.idea
+.DS_Store
+Thumbs.db
+
+# Env files (env is supplied at runtime)
+.env
+.env.*
+!.env.example
+
+# Logs
+*.log
+logs
+
+# Git
+.git
+.gitignore
