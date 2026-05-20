@@ -1,25 +1,64 @@
+// `import.meta.env.VITE_*` is statically inlined by Vite at build time, so a
+// bundled container can't pick up runtime overrides. `process.env` is read at
+// runtime on the server; the `typeof` guard keeps this file safe to import
+// from client bundles where `process` is undefined. The build-time arg must
+// stay a literal member access — Vite only inlines static lookups.
+const runtimeEnv = (key: string): string | undefined =>
+	typeof process !== "undefined" ? process.env[key] : undefined;
+
+const pick = (
+	runtime: string | undefined,
+	buildTime: string | undefined,
+	fallback: string,
+): string => runtime || buildTime || fallback;
+
+// Bypasses `pick` so the `any` typing of `import.meta.env.VITE_*` flows
+// through — `OIDC_CONSTANTS.SCOPES` is consumed as `string` by openid-client
+// despite the array shape, and tightening the type here surfaces that mismatch.
+const scopesRaw =
+	runtimeEnv("VITE_OIDC_SCOPES") || import.meta.env.VITE_OIDC_SCOPES;
+
 // OpenID Connect Configuration Constants
 export const OIDC_CONSTANTS = {
 	// OIDC Provider Configuration
-	ISSUER: import.meta.env.VITE_OIDC_ISSUER || "https://your-oidc-provider.com",
-	CLIENT_ID: import.meta.env.VITE_OIDC_CLIENT_ID || "your-client-id",
-	CLIENT_SECRET:
-		import.meta.env.VITE_OIDC_CLIENT_SECRET || "your-client-secret",
+	ISSUER: pick(
+		runtimeEnv("VITE_OIDC_ISSUER"),
+		import.meta.env.VITE_OIDC_ISSUER,
+		"https://your-oidc-provider.com",
+	),
+	CLIENT_ID: pick(
+		runtimeEnv("VITE_OIDC_CLIENT_ID"),
+		import.meta.env.VITE_OIDC_CLIENT_ID,
+		"your-client-id",
+	),
+	CLIENT_SECRET: pick(
+		runtimeEnv("VITE_OIDC_CLIENT_SECRET"),
+		import.meta.env.VITE_OIDC_CLIENT_SECRET,
+		"your-client-secret",
+	),
 	// Application URLs
-	BASE_URL: import.meta.env.VITE_BASE_URL || "http://localhost:3000",
-	REDIRECT_URI:
-		import.meta.env.VITE_OIDC_REDIRECT_URI ||
+	BASE_URL: pick(
+		runtimeEnv("VITE_BASE_URL"),
+		import.meta.env.VITE_BASE_URL,
+		"http://localhost:3000",
+	),
+	REDIRECT_URI: pick(
+		runtimeEnv("VITE_OIDC_REDIRECT_URI"),
+		import.meta.env.VITE_OIDC_REDIRECT_URI,
 		"http://localhost:3000/auth/callback",
+	),
 
 	// Session Configuration
-	SESSION_SECRET:
-		import.meta.env.VITE_SESSION_SECRET ||
+	SESSION_SECRET: pick(
+		runtimeEnv("VITE_SESSION_SECRET"),
+		import.meta.env.VITE_SESSION_SECRET,
 		"your-super-secret-key-change-this-in-production",
+	),
 	SESSION_COOKIE_NAME: "geo-trees-session",
 
 	// Scopes (comma-separated string from env, or default)
-	SCOPES: import.meta.env.VITE_OIDC_SCOPES
-		? import.meta.env.VITE_OIDC_SCOPES.split(",").map((s: string) => s.trim())
+	SCOPES: scopesRaw
+		? scopesRaw.split(",").map((s: string) => s.trim())
 		: ["openid", "profile", "email", "offline_access", "AbpTemplate"],
 
 	// Additional OIDC parameters
