@@ -1,25 +1,50 @@
+// Vite inlines `import.meta.env.VITE_*` at build time, so the production Docker
+// image was frozen on placeholder OIDC values and login failed even when the
+// container had the right env vars set. Read `process.env` first on the server
+// so runtime overrides win; fall back to the inlined build-time value (dev) and
+// finally the placeholder default. The `typeof process` guard keeps this file
+// safe to import from client bundles (DEMO_CONSTANTS below).
+const runtimeEnv = (key: string): string | undefined =>
+	typeof process !== "undefined" ? process.env[key] : undefined;
+
+const oidcScopes =
+	runtimeEnv("VITE_OIDC_SCOPES") || import.meta.env.VITE_OIDC_SCOPES;
+
 // OpenID Connect Configuration Constants
 export const OIDC_CONSTANTS = {
 	// OIDC Provider Configuration
-	ISSUER: import.meta.env.VITE_OIDC_ISSUER || "https://your-oidc-provider.com",
-	CLIENT_ID: import.meta.env.VITE_OIDC_CLIENT_ID || "your-client-id",
+	ISSUER:
+		runtimeEnv("VITE_OIDC_ISSUER") ||
+		import.meta.env.VITE_OIDC_ISSUER ||
+		"https://your-oidc-provider.com",
+	CLIENT_ID:
+		runtimeEnv("VITE_OIDC_CLIENT_ID") ||
+		import.meta.env.VITE_OIDC_CLIENT_ID ||
+		"your-client-id",
 	CLIENT_SECRET:
-		import.meta.env.VITE_OIDC_CLIENT_SECRET || "your-client-secret",
+		runtimeEnv("VITE_OIDC_CLIENT_SECRET") ||
+		import.meta.env.VITE_OIDC_CLIENT_SECRET ||
+		"your-client-secret",
 	// Application URLs
-	BASE_URL: import.meta.env.VITE_BASE_URL || "http://localhost:3000",
+	BASE_URL:
+		runtimeEnv("VITE_BASE_URL") ||
+		import.meta.env.VITE_BASE_URL ||
+		"http://localhost:3000",
 	REDIRECT_URI:
+		runtimeEnv("VITE_OIDC_REDIRECT_URI") ||
 		import.meta.env.VITE_OIDC_REDIRECT_URI ||
 		"http://localhost:3000/auth/callback",
 
 	// Session Configuration
 	SESSION_SECRET:
+		runtimeEnv("VITE_SESSION_SECRET") ||
 		import.meta.env.VITE_SESSION_SECRET ||
 		"your-super-secret-key-change-this-in-production",
 	SESSION_COOKIE_NAME: "geo-trees-session",
 
 	// Scopes (comma-separated string from env, or default)
-	SCOPES: import.meta.env.VITE_OIDC_SCOPES
-		? import.meta.env.VITE_OIDC_SCOPES.split(",").map((s: string) => s.trim())
+	SCOPES: oidcScopes
+		? oidcScopes.split(",").map((s: string) => s.trim())
 		: ["openid", "profile", "email", "offline_access", "AbpTemplate"],
 
 	// Additional OIDC parameters
