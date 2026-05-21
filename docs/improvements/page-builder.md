@@ -7,7 +7,7 @@ Improvements to the existing `@measured/puck`-based page editor in `features/cms
 - **Effort:** S
 - **Why:** 24 `*-block.tsx` files exist. A 445-line developer README at `frontend/src/features/cms/pages/config/components/README.md` documents them, but there is no user-facing catalog for CMS editors.
 - **Pointers:** `frontend/src/features/cms/pages/config/components/README.md`, `frontend/src/features/cms/pages/config/components/*-block.tsx`.
-- **Approach:** Adapt the developer README into a user-facing `docs/user-guide/cms-blocks.md` (one section per block — purpose, fields, screenshot). Keep the developer README as the implementation reference. Link from `docs/user-guide/cms.md`.
+- **Approach:** Adapt the developer README into a user-facing `docs/user-guide/cms-blocks.md` (one section per block — purpose, fields, screenshot). Link from `docs/user-guide/cms.md`.
 
 ### PB-02 — Unit tests for blocks
 - **Stack:** frontend
@@ -33,8 +33,8 @@ Improvements to the existing `@measured/puck`-based page editor in `features/cms
 ### PB-05 — Draft vs publish flow
 - **Stack:** frontend
 - **Effort:** L
-- **Why:** Page editor has no draft state — saving commits a live change. Editors need a draft → review → publish flow. (Verify the exact current save behaviour in `page-form-store.ts` before designing the migration.)
-- **Pointers:** `features/cms/pages/stores/page-form-store.ts`, `features/cms/pages/components/page-form.tsx` (322), backend page entity (via Volo.CmsKit assembly, not in-repo).
+- **Why:** No draft state. `puck-editor.tsx` wires Puck's `onPublish` to a `handleSave` that commits directly, then renames the Publish button to "Save" — collapsing both concepts. Editors need a separate draft → publish flow.
+- **Pointers:** `features/cms/pages/components/puck-editor.tsx:71,83-94,124`, `features/cms/pages/components/page-form.tsx` (322), backend page entity (via Volo.CmsKit assembly, not in-repo).
 - **Approach:** Add `Status: Draft | Published` and a draft-content column. Editor saves draft; explicit Publish action promotes draft to live. Show a "Draft" badge.
 
 ### PB-06 — Editor/render parity

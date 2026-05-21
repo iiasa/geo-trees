@@ -26,7 +26,7 @@ Refactors, dead code removal, test gaps, and consistency cleanups.
 ### CQ-04 — Expand E2E coverage
 - **Stack:** frontend
 - **Effort:** M
-- **Why:** `e2e/` covers auth, dashboard, roles, users. The map and CMS — the two largest features — have no E2E coverage. CMS permission gating (PB-10) needs an E2E test too.
+- **Why:** `e2e/` covers auth, dashboard, roles, users. The map and CMS — the two largest features — have no E2E coverage. Pair with PB-10 (CMS permission gating).
 - **Pointers:** `e2e/auth-flows.spec.ts`, `e2e/auth.spec.ts`, `e2e/dashboard.spec.ts`, `e2e/roles.spec.ts`, `e2e/users.spec.ts`.
 - **Approach:** Add `map.spec.ts` (layer toggle, 3D toggle, feature popup, download panel), `cms-pages.spec.ts` (Puck save/publish round-trip + non-admin gate per PB-10), `tenants.spec.ts`, `settings.spec.ts`.
 

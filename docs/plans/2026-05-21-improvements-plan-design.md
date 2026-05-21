@@ -53,13 +53,13 @@ docs/improvements/
 
 <a id="closing-items"></a>
 
-**Closing items:** strike the title and add a `Status` line. Don't delete — closed items document history. Example:
+**Closing items:** strike the title and prepend a `Status` line above the existing fields. Don't delete — closed items document history. Example:
 
 ```markdown
 ### ~~CQ-02 — Remove starter-template dead code~~
-- **Status:** closed · #42
+- **Status:** closed · #42 *(or 7-char commit SHA)*
 - **Stack:** frontend
-- ...
+- ... (remaining fields unchanged)
 ```
 
 ## Content sources

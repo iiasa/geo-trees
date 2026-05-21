@@ -75,6 +75,6 @@ Bundle size, SSR, runtime performance, auth/session, headers, and dependency hyg
 ### PS-11 — Health & readiness probe docs
 - **Stack:** infra
 - **Effort:** S
-- **Why:** `docs/deployment/docker.md` names the frontend probe (`GET /api/health` every 30s) but the backend probe is undocumented and the recent `ASPNETCORE_URLS` work (`016ef98`, `8a6e862`) shows it was in flux.
+- **Why:** `docs/deployment/docker.md` names the frontend probe (`GET /api/health` every 30s) but the backend probe is undocumented. Recent `ASPNETCORE_URLS` work in `016ef98` and `8a6e862` shows the area is still in motion.
 - **Pointers:** `docs/deployment/docker.md:23,67`, backend health check registrations, commits `016ef98` and `8a6e862`.
 - **Approach:** Add backend probe URL, expected status codes, and what each check verifies (DB, OpenIddict, etc.) — alongside the existing frontend probe doc in `docs/deployment/docker.md`.

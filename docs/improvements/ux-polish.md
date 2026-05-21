@@ -6,7 +6,7 @@ Accessibility, responsive design, loading and error states, design-system consis
 - **Stack:** frontend
 - **Effort:** M
 - **Why:** Zero `aria-label` / `role` occurrences across all 10 tsx files in `features/map/`. Screen-reader users can't operate the map. Pair with UX-05 (keyboard).
-- **Pointers:** `features/map/components/` (map-view, map-controls, map-header, map-legend, layer-panel, download-panel, basemap-switcher, map-page, map-control-container) and `features/map/components/controls/` (incl. scale-bar).
+- **Pointers:** `features/map/components/` (map-view, map-controls, map-legend, layer-panel, download-panel, etc.) plus `features/map/components/controls/`.
 - **Approach:** Add `aria-label` to every control (zoom, pan, 3D toggle, layer toggles, legend toggle, download button). Provide an accessible text description of the map canvas. Verify with axe-core or Lighthouse a11y.
 
 ### UX-02 — Loading state audit
@@ -47,7 +47,7 @@ Accessibility, responsive design, loading and error states, design-system consis
 ### UX-07 — Toast/notification UI
 - **Stack:** frontend
 - **Effort:** S
-- **Why:** Pairs with CQ-05. The `<Toaster>` is already mounted (`src/routes/__root.tsx:118`, Sonner) but no helper wraps it and no rule says when to use it.
+- **Why:** Pair with CQ-05. The `<Toaster>` is already mounted (`src/routes/__root.tsx:118`, Sonner) but no helper wraps it and no rule says when to use it.
 - **Pointers:** `src/routes/__root.tsx:118`, `src/shared/components/ui/sonner.tsx`.
 - **Approach:** Define `notifySuccess`, `notifyError`, `notifyInfo` in `shared/utils/notify.ts`. Document the rule: surface every catch-block error to the user unless it's expected (e.g. 401 redirect).
 
