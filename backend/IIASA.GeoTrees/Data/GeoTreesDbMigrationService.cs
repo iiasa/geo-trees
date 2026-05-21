@@ -207,13 +207,13 @@ public class GeoTreesDbMigrationService : ITransientDependency
         return Path.Combine(slnDirectoryPath, "IIASA.GeoTrees");
     }
 
-    private string GetSolutionDirectoryPath()
+    private string? GetSolutionDirectoryPath()
     {
         var currentDirectory = new DirectoryInfo(Directory.GetCurrentDirectory());
 
-        while (Directory.GetParent(currentDirectory.FullName) != null)
+        while (Directory.GetParent(currentDirectory.FullName) is { } parent)
         {
-            currentDirectory = Directory.GetParent(currentDirectory.FullName);
+            currentDirectory = parent;
 
             if (
                 Directory

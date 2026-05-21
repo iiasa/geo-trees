@@ -12,7 +12,7 @@
   <ItemGroup>
     <PackageReference Include="Serilog.AspNetCore" Version="9.0.0" />
     <PackageReference Include="Serilog.Sinks.Async" Version="2.1.0" />
-    <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="10.0.0" />
+    <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="10.0.7" />
     <PackageReference Include="AspNetCore.HealthChecks.UI" Version="9.0.0" />
     <PackageReference Include="KubernetesClient" Version="18.0.5"/>
     <PackageReference Include="IdentityModel" Version="7.0.0" />
@@ -24,51 +24,54 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Volo.Abp.AspNetCore.Mvc" Version="10.0.2" />
-    <PackageReference Include="Volo.Abp.Autofac" Version="10.0.2" />
-    <PackageReference Include="Volo.Abp.Mapperly" Version="10.0.2" />
-    <PackageReference Include="Volo.Abp.Swashbuckle" Version="10.0.2" />
-    <PackageReference Include="Volo.Abp.AspNetCore.Serilog" Version="10.0.2" />
-    <PackageReference Include="Volo.Abp.MailKit" Version="10.0.2" />
-    <PackageReference Include="Volo.Abp.TextTemplating.Scriban" Version="10.0.2" />
+    <PackageReference Include="Volo.Abp.AspNetCore.Mvc" Version="10.4.0" />
+    <PackageReference Include="Volo.Abp.Autofac" Version="10.4.0" />
+    <PackageReference Include="Volo.Abp.Mapperly" Version="10.4.0" />
+    <PackageReference Include="Volo.Abp.Swashbuckle" Version="10.4.0" />
+    <PackageReference Include="Volo.Abp.AspNetCore.Serilog" Version="10.4.0" />
+    <PackageReference Include="Volo.Abp.MailKit" Version="10.4.0" />
+    <PackageReference Include="Volo.Abp.TextTemplating.Scriban" Version="10.4.0" />
+    <PackageReference Include="Scriban" Version="7.2.0" />
+    <PackageReference Include="MailKit" Version="4.16.0" />
+    <PackageReference Include="MimeKit" Version="4.16.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Volo.Abp.Account.Web.OpenIddict" Version="10.0.2" />
-    <PackageReference Include="Volo.Abp.Account.HttpApi" Version="10.0.2" />
-    <PackageReference Include="Volo.Abp.Account.Application" Version="10.0.2" />
+    <PackageReference Include="Volo.Abp.Account.Web.OpenIddict" Version="10.4.0" />
+    <PackageReference Include="Volo.Abp.Account.HttpApi" Version="10.4.0" />
+    <PackageReference Include="Volo.Abp.Account.Application" Version="10.4.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Volo.Abp.PermissionManagement.Domain.Identity" Version="10.0.2" />
-    <PackageReference Include="Volo.Abp.Identity.Web" Version="10.0.2" />
-    <PackageReference Include="Volo.Abp.Identity.HttpApi" Version="10.0.2" />
-    <PackageReference Include="Volo.Abp.Identity.Application" Version="10.0.2" />
+    <PackageReference Include="Volo.Abp.PermissionManagement.Domain.Identity" Version="10.4.0" />
+    <PackageReference Include="Volo.Abp.Identity.Web" Version="10.4.0" />
+    <PackageReference Include="Volo.Abp.Identity.HttpApi" Version="10.4.0" />
+    <PackageReference Include="Volo.Abp.Identity.Application" Version="10.4.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Volo.Abp.PermissionManagement.Domain.OpenIddict" Version="10.0.2" />
-    <PackageReference Include="Volo.Abp.PermissionManagement.Web" Version="10.0.2" />
-    <PackageReference Include="Volo.Abp.PermissionManagement.HttpApi" Version="10.0.2" />
-    <PackageReference Include="Volo.Abp.PermissionManagement.Application" Version="10.0.2" />
+    <PackageReference Include="Volo.Abp.PermissionManagement.Domain.OpenIddict" Version="10.4.0" />
+    <PackageReference Include="Volo.Abp.PermissionManagement.Web" Version="10.4.0" />
+    <PackageReference Include="Volo.Abp.PermissionManagement.HttpApi" Version="10.4.0" />
+    <PackageReference Include="Volo.Abp.PermissionManagement.Application" Version="10.4.0" />
   </ItemGroup>
 
   <ItemGroup>   
-    <PackageReference Include="Volo.Abp.TenantManagement.Web" Version="10.0.2" />
-    <PackageReference Include="Volo.Abp.TenantManagement.HttpApi" Version="10.0.2" />
-    <PackageReference Include="Volo.Abp.TenantManagement.Application" Version="10.0.2" />
+    <PackageReference Include="Volo.Abp.TenantManagement.Web" Version="10.4.0" />
+    <PackageReference Include="Volo.Abp.TenantManagement.HttpApi" Version="10.4.0" />
+    <PackageReference Include="Volo.Abp.TenantManagement.Application" Version="10.4.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Volo.Abp.FeatureManagement.Web" Version="10.0.2" />
-    <PackageReference Include="Volo.Abp.FeatureManagement.HttpApi" Version="10.0.2" />
-    <PackageReference Include="Volo.Abp.FeatureManagement.Application" Version="10.0.2" />
+    <PackageReference Include="Volo.Abp.FeatureManagement.Web" Version="10.4.0" />
+    <PackageReference Include="Volo.Abp.FeatureManagement.HttpApi" Version="10.4.0" />
+    <PackageReference Include="Volo.Abp.FeatureManagement.Application" Version="10.4.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Volo.Abp.SettingManagement.Web" Version="10.0.2" />
-    <PackageReference Include="Volo.Abp.SettingManagement.HttpApi" Version="10.0.2" />
-    <PackageReference Include="Volo.Abp.SettingManagement.Application" Version="10.0.2" />
+    <PackageReference Include="Volo.Abp.SettingManagement.Web" Version="10.4.0" />
+    <PackageReference Include="Volo.Abp.SettingManagement.HttpApi" Version="10.4.0" />
+    <PackageReference Include="Volo.Abp.SettingManagement.Application" Version="10.4.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -76,25 +79,25 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Volo.CmsKit.Web" Version="10.0.2" />
-    <PackageReference Include="Volo.CmsKit.HttpApi" Version="10.0.2" />
-    <PackageReference Include="Volo.CmsKit.Application" Version="10.0.2" />
-    <PackageReference Include="Volo.CmsKit.EntityFrameworkCore" Version="10.0.2" />
-    <PackageReference Include="Magick.NET-Q16-AnyCPU" Version="14.10.3" />
+    <PackageReference Include="Volo.CmsKit.Web" Version="10.4.0" />
+    <PackageReference Include="Volo.CmsKit.HttpApi" Version="10.4.0" />
+    <PackageReference Include="Volo.CmsKit.Application" Version="10.4.0" />
+    <PackageReference Include="Volo.CmsKit.EntityFrameworkCore" Version="10.4.0" />
+    <PackageReference Include="Magick.NET-Q16-AnyCPU" Version="14.13.1" />
     <PackageReference Include="HtmlSanitizer" Version="9.0.892" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Volo.Abp.AuditLogging.EntityFrameworkCore" Version="10.0.2" />
-    <PackageReference Include="Volo.Abp.Identity.EntityFrameworkCore" Version="10.0.2" />
-    <PackageReference Include="Volo.Abp.OpenIddict.EntityFrameworkCore" Version="10.0.2" />
-    <PackageReference Include="Volo.Abp.TenantManagement.EntityFrameworkCore" Version="10.0.2" />
-    <PackageReference Include="Volo.Abp.BackgroundJobs.EntityFrameworkCore" Version="10.0.2" />
-    <PackageReference Include="Volo.Abp.BlobStoring.Database.EntityFrameworkCore" Version="10.0.2" />
-    <PackageReference Include="Volo.Abp.FeatureManagement.EntityFrameworkCore" Version="10.0.2" />
-    <PackageReference Include="Volo.Abp.PermissionManagement.EntityFrameworkCore" Version="10.0.2" />
-    <PackageReference Include="Volo.Abp.SettingManagement.EntityFrameworkCore" Version="10.0.2" />
-    <PackageReference Include="Volo.Abp.EntityFrameworkCore.PostgreSql" Version="10.0.2" />
+    <PackageReference Include="Volo.Abp.AuditLogging.EntityFrameworkCore" Version="10.4.0" />
+    <PackageReference Include="Volo.Abp.Identity.EntityFrameworkCore" Version="10.4.0" />
+    <PackageReference Include="Volo.Abp.OpenIddict.EntityFrameworkCore" Version="10.4.0" />
+    <PackageReference Include="Volo.Abp.TenantManagement.EntityFrameworkCore" Version="10.4.0" />
+    <PackageReference Include="Volo.Abp.BackgroundJobs.EntityFrameworkCore" Version="10.4.0" />
+    <PackageReference Include="Volo.Abp.BlobStoring.Database.EntityFrameworkCore" Version="10.4.0" />
+    <PackageReference Include="Volo.Abp.FeatureManagement.EntityFrameworkCore" Version="10.4.0" />
+    <PackageReference Include="Volo.Abp.PermissionManagement.EntityFrameworkCore" Version="10.4.0" />
+    <PackageReference Include="Volo.Abp.SettingManagement.EntityFrameworkCore" Version="10.4.0" />
+    <PackageReference Include="Volo.Abp.EntityFrameworkCore.PostgreSql" Version="10.4.0" />
   </ItemGroup>
 
   <ItemGroup>
