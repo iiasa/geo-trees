@@ -43,13 +43,16 @@ async function handleProxyRequest(request: Request) {
 		const url = new URL(request.url);
 		const path = url.pathname.replace("/api/proxy/", "");
 
-		// Check if we're in test mode
+		// Test-mode mocks are only honoured when the server is started with
+		// VITE_TEST_MODE=true (or NODE_ENV=test). The header/UA hints never
+		// activate mocks in production — they would be trivially spoofable.
+		const isTestModeEnv =
+			process.env.NODE_ENV === "test" || process.env.VITE_TEST_MODE === "true";
 		const isTestMode =
-			process.env.NODE_ENV === "test" ||
-			process.env.VITE_TEST_MODE === "true" ||
-			request.headers.get("x-test-mode") === "true" ||
-			request.headers.get("user-agent")?.includes("Playwright") ||
-			request.headers.get("user-agent")?.includes("HeadlessChrome");
+			isTestModeEnv &&
+			(request.headers.get("x-test-mode") === "true" ||
+				request.headers.get("user-agent")?.includes("Playwright") ||
+				request.headers.get("user-agent")?.includes("HeadlessChrome"));
 
 		// Handle test mode for user-related endpoints
 		if (isTestMode && path.includes("identity/users")) {
@@ -112,7 +115,10 @@ async function handleProxyRequest(request: Request) {
 		// Make the request to the actual API
 		const response = await fetch(proxyRequest);
 
-		// Create a new response with the proxied data
+		// The proxy is only reached from same-origin frontend code, so no CORS
+		// response headers are required. Stripping the upstream's CORS headers
+		// avoids leaking a wildcard Access-Control-Allow-Origin together with the
+		// user's bearer token.
 		const responseHeaders = new Headers(response.headers);
 
 		// Node's fetch auto-decompresses the upstream body, so the
@@ -122,13 +128,15 @@ async function handleProxyRequest(request: Request) {
 		responseHeaders.delete("content-encoding");
 		responseHeaders.delete("content-length");
 
-		// Add CORS headers if needed
-		responseHeaders.set("Access-Control-Allow-Origin", "*");
-		responseHeaders.set(
-			"Access-Control-Allow-Methods",
-			"GET, POST, PUT, PATCH, DELETE, OPTIONS, HEAD",
-		);
-		responseHeaders.set("Access-Control-Allow-Headers", "*");
+		// Strip the upstream's CORS headers — the proxy is reached from
+		// same-origin frontend code, so no CORS response headers are required,
+		// and forwarding a wildcard Allow-Origin alongside the user's bearer
+		// token would be a leak.
+		responseHeaders.delete("Access-Control-Allow-Origin");
+		responseHeaders.delete("Access-Control-Allow-Methods");
+		responseHeaders.delete("Access-Control-Allow-Headers");
+		responseHeaders.delete("Access-Control-Allow-Credentials");
+		responseHeaders.delete("Access-Control-Expose-Headers");
 
 		// Handle 204 No Content responses which should not have a body
 		if (response.status === 204) {

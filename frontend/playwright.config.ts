@@ -83,6 +83,12 @@ export default defineConfig({
 			url: "http://localhost:3000",
 			reuseExistingServer: !process.env.CI,
 			timeout: 120 * 1000, // 2 minutes
+			env: {
+				// Required so /api/proxy and /auth/me honour the x-test-mode header
+				// served by the e2e fixture. The server gates this env var to
+				// prevent header-based bypass in production.
+				VITE_TEST_MODE: "true",
+			},
 		},
 	],
 

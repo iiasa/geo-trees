@@ -68,14 +68,14 @@
     "@radix-ui/react-tooltip": "^1.2.8",
     "@tabler/icons-react": "^3.35.0",
     "@tailwindcss/vite": "^4.0.6",
-    "@tanstack/react-devtools": "^0.7.0",
+    "@tanstack/react-devtools": "^0.10.5",
     "@tanstack/react-query": "^5.90.11",
-    "@tanstack/react-router": "^1.160.2",
-    "@tanstack/react-router-devtools": "^1.132.0",
-    "@tanstack/react-router-ssr-query": "^1.131.7",
-    "@tanstack/react-start": "^1.160.2",
+    "@tanstack/react-router": "^1.170.5",
+    "@tanstack/react-router-devtools": "^1.167.0",
+    "@tanstack/react-router-ssr-query": "^1.167.0",
+    "@tanstack/react-start": "^1.168.7",
     "@tanstack/react-table": "^8.21.3",
-    "@tanstack/router-plugin": "^1.132.0",
+    "@tanstack/router-plugin": "^1.168.7",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cmdk": "^1.1.1",
@@ -105,9 +105,9 @@
   },
   "devDependencies": {
     "@biomejs/biome": "2.2.4",
-    "@hey-api/openapi-ts": "^0.88.0",
+    "@hey-api/openapi-ts": "^0.97.2",
     "@playwright/test": "^1.57.0",
-    "@tanstack/devtools-vite": "^0.3.11",
+    "@tanstack/devtools-vite": "^0.7.0",
     "@testing-library/dom": "^10.4.0",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.2.0",
@@ -123,8 +123,20 @@
     "knip": "^5.70.2",
     "msw": "^2.12.3",
     "typescript": "^5.7.2",
-    "vite": "^7.1.7",
+    "vite": "^7.3.3",
     "vitest": "^4.0.14",
     "web-vitals": "^5.1.0"
+  },
+  "pnpm": {
+    "overrides": {
+      "lodash": ">=4.18.1",
+      "seroval": ">=1.5.3",
+      "undici": ">=7.24.0",
+      "ws": ">=8.20.1",
+      "picomatch@<2.3.2": ">=2.3.2",
+      "picomatch@<4.0.4": ">=4.0.4",
+      "protocol-buffers-schema": ">=3.6.1",
+      "smol-toml": ">=1.6.1"
+    }
   }
 }
