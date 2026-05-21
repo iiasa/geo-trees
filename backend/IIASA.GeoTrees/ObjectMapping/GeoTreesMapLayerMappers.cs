@@ -17,7 +17,17 @@ public partial class MapLayerToMapLayerDtoMapper : MapperBase<MapLayer, MapLayer
 public partial class CreateUpdateMapLayerDtoToMapLayerMapper
     : MapperBase<CreateUpdateMapLayerDto, MapLayer>
 {
+    [MapperIgnoreTarget(nameof(MapLayer.CreationTime))]
+    [MapperIgnoreTarget(nameof(MapLayer.CreatorId))]
+    [MapperIgnoreTarget(nameof(MapLayer.LastModificationTime))]
+    [MapperIgnoreTarget(nameof(MapLayer.LastModifierId))]
+    [MapperIgnoreTarget(nameof(MapLayer.ConcurrencyStamp))]
     public override partial MapLayer Map(CreateUpdateMapLayerDto source);
 
+    [MapperIgnoreTarget(nameof(MapLayer.CreationTime))]
+    [MapperIgnoreTarget(nameof(MapLayer.CreatorId))]
+    [MapperIgnoreTarget(nameof(MapLayer.LastModificationTime))]
+    [MapperIgnoreTarget(nameof(MapLayer.LastModifierId))]
+    [MapperIgnoreTarget(nameof(MapLayer.ConcurrencyStamp))]
     public override partial void Map(CreateUpdateMapLayerDto source, MapLayer destination);
 }

@@ -24,9 +24,7 @@ const config = defineConfig({
     viteReact(),
   ],
   nitro: {
-    externals: {
-      inline: ["@tabler/icons-react"],
-    },
+    noExternals: ["@tabler/icons-react"],
   },
 });
 

@@ -14,13 +14,17 @@ export const Route = createFileRoute("/auth/me")({
 		handlers: {
 			GET: async ({ request }) => {
 				try {
-					// Check if we're in test mode and return mock data
-					const isTestMode =
+					// Test-mode mocks are only honoured when the server is started
+					// with VITE_TEST_MODE=true (or NODE_ENV=test). The header/UA
+					// hints never activate mocks in production.
+					const isTestModeEnv =
 						process.env.NODE_ENV === "test" ||
-						process.env.VITE_TEST_MODE === "true" ||
-						request.headers.get("x-test-mode") === "true" ||
-						request.headers.get("user-agent")?.includes("Playwright") ||
-						request.headers.get("user-agent")?.includes("HeadlessChrome");
+						process.env.VITE_TEST_MODE === "true";
+					const isTestMode =
+						isTestModeEnv &&
+						(request.headers.get("x-test-mode") === "true" ||
+							request.headers.get("user-agent")?.includes("Playwright") ||
+							request.headers.get("user-agent")?.includes("HeadlessChrome"));
 
 					if (isTestMode) {
 						const mockUser = {

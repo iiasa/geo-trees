@@ -16,10 +16,7 @@ export default defineConfig({
     clean: true, // Clean output directory before generating
   },
 
-  // Use fetch client (default)
-  client: 'fetch',
-
-  // Plugins
+  // Plugins (the @hey-api/client-fetch plugin below selects the fetch client)
   plugins: [
     {
       name: '@hey-api/client-fetch',

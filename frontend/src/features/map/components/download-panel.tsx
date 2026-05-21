@@ -22,8 +22,8 @@ const ACKNOWLEDGMENT_TEXT =
 	"This study was made possible by use of data of GEO-TREES, accessed through the data.geo-trees.org portal. We acknowledge the work of the many field workers and technicians involved in the acquisition, curation, and maintenance of the data";
 
 export function DownloadPanel() {
-	const { user, isAuthenticated, login } = useAuth();
 	const acknowledgmentId = useId();
+	const { user, isAuthenticated, login } = useAuth();
 
 	const [name, setName] = useState(user?.name ?? "");
 	const [email, setEmail] = useState(user?.email ?? "");

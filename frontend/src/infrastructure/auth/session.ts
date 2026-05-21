@@ -7,6 +7,22 @@ import {
 } from "@tanstack/react-start/server";
 import { OIDC_CONSTANTS } from "../constants";
 
+// Refuse to start the server with the placeholder session secret: anyone who
+// has read the source can forge cookies, so leaving it in place silently turns
+// every staging/QA deploy into an authentication bypass.
+const PLACEHOLDER_SESSION_SECRET =
+	"your-super-secret-key-change-this-in-production";
+if (
+	!OIDC_CONSTANTS.SESSION_SECRET ||
+	OIDC_CONSTANTS.SESSION_SECRET === PLACEHOLDER_SESSION_SECRET ||
+	OIDC_CONSTANTS.SESSION_SECRET.length < 32
+) {
+	throw new Error(
+		"VITE_SESSION_SECRET is missing, too short (<32 chars), or matches the placeholder. " +
+			"Set a high-entropy value before starting the server.",
+	);
+}
+
 export interface User {
 	sub: string;
 	name?: string;
