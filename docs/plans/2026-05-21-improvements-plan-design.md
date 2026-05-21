@@ -51,7 +51,16 @@ docs/improvements/
 - `Stack`: `frontend`, `backend`, or `infra`
 - `Effort`: `S` (≤1 day), `M` (1-3 days), `L` (≥3 days). Rough — used for filtering, not estimation.
 
-**Closing items:** strike the title (`### ~~CQ-01 — …~~`), add a `- **Status:** closed · <commit-sha-or-PR>` line. Don't delete — closed items document history.
+<a id="closing-items"></a>
+
+**Closing items:** strike the title and add a `Status` line. Don't delete — closed items document history. Example:
+
+```markdown
+### ~~CQ-02 — Remove starter-template dead code~~
+- **Status:** closed · #42
+- **Stack:** frontend
+- ...
+```
 
 ## Content sources
 
@@ -68,7 +77,7 @@ Each item draws from:
 - No priority field — kept open per user direction; track tags + effort tag give enough filterability
 - Item IDs are append-only — closed items stay visible
 - Backlog covers full stack (frontend, backend, infra) — backend items are tagged accordingly
-- Seed contains ~40 items; expected to grow over time
+- Seed contains 41 items; expected to grow over time
 - Location is `docs/improvements/` (sibling of `docs/plans/`), not nested under `docs/developer/` — this content is audience-agnostic (maintainers, contributors, reviewers all use it)
 
 ## Brainstorming trail

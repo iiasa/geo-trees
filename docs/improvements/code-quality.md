@@ -20,22 +20,22 @@ Refactors, dead code removal, test gaps, and consistency cleanups.
 - **Stack:** frontend
 - **Effort:** L
 - **Why:** 21 test files for 303 source files. Vitest thresholds are configured at 70% statements / 65% branches — verify they're actually met and identify the weakest features.
-- **Pointers:** `vitest.config.ts` (thresholds), run `pnpm test:coverage` and inspect the V8 report. Likely-untested: map, cms, dashboard, settings.
-- **Approach:** Generate a baseline coverage report, list features below threshold, file one follow-up item per feature. Start with map (highest user-facing surface, currently 0 test files in `features/map/`).
+- **Pointers:** `vitest.config.ts` (thresholds), run `pnpm test:coverage` and inspect the V8 report. `features/map/` has only 2 tests (store + util) and no component tests; `features/cms/`, `features/dashboard/`, `features/settings/` likewise need a coverage audit.
+- **Approach:** Generate a baseline coverage report, list features below threshold, file one follow-up item per feature. Start with map components (no test files exist for any `*.tsx` in `features/map/components/`).
 
 ### CQ-04 — Expand E2E coverage
 - **Stack:** frontend
 - **Effort:** M
-- **Why:** `e2e/` covers auth, dashboard, roles, users. The map and CMS — the two largest features — have no E2E coverage.
+- **Why:** `e2e/` covers auth, dashboard, roles, users. The map and CMS — the two largest features — have no E2E coverage. CMS permission gating (PB-10) needs an E2E test too.
 - **Pointers:** `e2e/auth-flows.spec.ts`, `e2e/auth.spec.ts`, `e2e/dashboard.spec.ts`, `e2e/roles.spec.ts`, `e2e/users.spec.ts`.
-- **Approach:** Add `map.spec.ts` (layer toggle, 3D toggle, feature popup, download panel), `cms-pages.spec.ts` (Puck save/publish round-trip), `tenants.spec.ts`, `settings.spec.ts`.
+- **Approach:** Add `map.spec.ts` (layer toggle, 3D toggle, feature popup, download panel), `cms-pages.spec.ts` (Puck save/publish round-trip + non-admin gate per PB-10), `tenants.spec.ts`, `settings.spec.ts`.
 
 ### CQ-05 — Centralize error / toast pipeline
 - **Stack:** frontend
 - **Effort:** M
-- **Why:** ~10 sites call `console.error("X failed:", error)` in auth, profile, and CMS forms — errors disappear silently from the user's perspective.
-- **Pointers:** `features/auth/hooks/use-auth.tsx:141,166`, `features/auth/components/forgot-password-form.tsx:46`, `features/auth/components/reset-password-form.tsx:66`, `features/auth/components/register-form.tsx:68`, `features/profile/hooks/use-profile-data.ts:39,55`, `features/tenants/components/tenant-connection-string-modal.tsx:83,90`.
-- **Approach:** Add `shared/utils/notify.ts` with `notifyError(error, fallback)` and `notifySuccess(msg)`. Wire to Sonner (already in deps). Replace each `console.error` site. Pair with UX-07.
+- **Why:** ~10 sites call `console.error("X failed:", error)` in auth, profile, and CMS forms — errors disappear silently from the user's perspective. A `<Toaster>` is already mounted (`src/routes/__root.tsx:118`) but no helper wraps it.
+- **Pointers:** `features/auth/hooks/use-auth.tsx:141,166`, `features/auth/components/forgot-password-form.tsx:46`, `features/auth/components/reset-password-form.tsx:66`, `features/auth/components/register-form.tsx:68`, `features/profile/hooks/use-profile-data.ts:39,55`, `features/tenants/components/tenant-connection-string-modal.tsx:90`.
+- **Approach:** Add `shared/utils/notify.ts` with `notifyError(error, fallback)` and `notifySuccess(msg)` backed by Sonner. Replace each `console.error` site. Pair with UX-07.
 
 ### CQ-06 — Audit type escape hatches
 - **Stack:** frontend
@@ -58,12 +58,12 @@ Refactors, dead code removal, test gaps, and consistency cleanups.
 - **Pointers:** `features/map/components/map-view.tsx`.
 - **Approach:** Extract `useMapLayers(map, layers)` and `useMapEvents(map, callbacks)` hooks. Move source/layer definitions to `features/map/constants/`.
 
-### CQ-09 — Backend: review handler/service sizes
+### CQ-09 — Backend: review largest app service
 - **Stack:** backend
 - **Effort:** M
-- **Why:** ABP application services aren't covered by the frontend's 500-line lint rule. No explicit sizing guideline exists for `.cs` files.
-- **Pointers:** `backend/IIASA.GeoTrees/` — pick the largest `*AppService.cs` and review.
-- **Approach:** Add a `dotnet-format` analyzer or document a "split when >400 lines" guideline in `docs/developer/backend.md`. Audit existing services against it.
+- **Why:** `Services/Plots/PlotAppService.cs` is 442 lines — by far the largest service (next-largest is 145 lines). No explicit sizing guideline for `.cs` files exists.
+- **Pointers:** `backend/IIASA.GeoTrees/Services/Plots/PlotAppService.cs`, `docs/developer/backend.md`.
+- **Approach:** Refactor `PlotAppService` into focused services (CRUD vs query vs status transitions). Add a "split when >400 lines" guideline section to `docs/developer/backend.md`. A Roslyn analyzer to enforce is a separate follow-up.
 
 ### CQ-10 — Document store conventions
 - **Stack:** frontend

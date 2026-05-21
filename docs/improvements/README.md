@@ -1,6 +1,6 @@
 # Improvements Backlog
 
-Ongoing, full-stack improvements backlog. Items are open by default — pick what fits the current sprint, leave the rest.
+Ongoing, full-stack backlog. Items are open by default; closed items stay struck through for history.
 
 ## Tracks
 
@@ -13,24 +13,9 @@ Ongoing, full-stack improvements backlog. Items are open by default — pick wha
 
 ## How to use
 
-- **Browsing:** open a track file and skim by ID. Each item has a `Why`, `Pointers`, and `Approach`.
-- **Picking:** filter mentally by `Stack` (frontend / backend / infra) and `Effort` (S / M / L).
+- **Browsing:** open a track file and skim by ID. Each item has `Why`, `Pointers`, `Approach`.
+- **Picking:** filter by `Stack` (frontend / backend / infra) and `Effort` (S ≤1 day, M 1-3 days, L ≥3 days).
 - **Adding:** append to the relevant track file. ID is the next number in that track. No renumbering.
-- **Closing:** strike the title and add a `Status: closed · <PR-or-SHA>` line. Don't delete — closed items document history.
+- **Closing:** see the closing convention in the [design doc](../plans/2026-05-21-improvements-plan-design.md#closing-items).
 
-## Per-item schema
-
-```markdown
-### <ID> — <Title>
-- **Stack:** frontend | backend | infra
-- **Effort:** S | M | L
-- **Why:** rationale (≤2 lines)
-- **Pointers:** concrete file paths / line counts / heuristics
-- **Approach:** suggested direction (≤2 lines)
-```
-
-`Effort`: `S` ≤1 day, `M` 1-3 days, `L` ≥3 days. Rough — used for filtering, not estimation.
-
-## Design
-
-See [`docs/plans/2026-05-21-improvements-plan-design.md`](../plans/2026-05-21-improvements-plan-design.md).
+Per-item schema and full conventions live in the [design doc](../plans/2026-05-21-improvements-plan-design.md).

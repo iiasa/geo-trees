@@ -19,21 +19,21 @@ Bundle size, SSR, runtime performance, auth/session, headers, and dependency hyg
 ### PS-03 — Map tile/source caching
 - **Stack:** frontend
 - **Effort:** M
-- **Why:** BRM and ALS layers fetch tiles/data on every map load. Recent commit `e086a3d feat: refactor map layers and add new BRM and ALS data handling` is the right area.
+- **Why:** BRM and ALS layers fetch tiles/data on every map load. No client-side caching of tile responses today.
 - **Pointers:** `features/map/components/`, `features/map-layers/`, browser DevTools network tab on a map session.
 - **Approach:** Verify HTTP cache headers on tile responses (check the proxy and backend). If acceptable, consider a service worker to retain tiles offline.
 
 ### PS-04 — CSP & security headers
 - **Stack:** frontend
 - **Effort:** M
-- **Why:** No documented CSP / HSTS / Referrer-Policy / Permissions-Policy on the Node frontend server. Recent proxy hardening (`3afd1ac chore(frontend): clear advisories and harden proxy/session`) didn't include headers.
-- **Pointers:** Wherever the Node start handler is wired (TanStack Start middleware), and `src/routes/api/proxy.*` for proxied responses.
+- **Why:** No CSP / HSTS / Referrer-Policy / Permissions-Policy on the Node frontend server. Recent proxy hardening (`3afd1ac`) didn't include headers.
+- **Pointers:** `src/router.tsx`, `src/routes/__root.tsx`, `src/routes/api/proxy.$.ts` (the proxy route).
 - **Approach:** Add headers middleware setting CSP (script-src 'self', style-src 'self' 'unsafe-inline' for now, connect-src to backend), HSTS in prod, Referrer-Policy `strict-origin-when-cross-origin`. Document in `docs/deployment/production-config.md`.
 
 ### PS-05 — Cookie/session test matrix
 - **Stack:** frontend
 - **Effort:** S
-- **Why:** Recent hardening fixed proxy/session issues. Without tests asserting cookie flags, regressions could land silently.
+- **Why:** No tests assert cookie flags on the auth set-cookie paths, so a regression in `SameSite` / `Secure` / `HttpOnly` could land silently.
 - **Pointers:** `src/infrastructure/auth/session.ts`, `src/infrastructure/auth/auth-server.ts` (311 lines).
 - **Approach:** Add unit tests asserting `SameSite=Lax|Strict`, `Secure` (in prod), `HttpOnly` on every set-cookie path. Run against `auth-server.ts` directly.
 
@@ -41,7 +41,7 @@ Bundle size, SSR, runtime performance, auth/session, headers, and dependency hyg
 - **Stack:** infra
 - **Effort:** S
 - **Why:** Recent chores cleared frontend and backend vulnerabilities. Without CI gating, the next vuln slips in unnoticed.
-- **Pointers:** `.github/workflows/` (or wherever CI is configured), `package.json`, `backend/IIASA.GeoTrees/*.csproj`.
+- **Pointers:** `.github/workflows/frontend-ci.yml`, `.github/workflows/backend-ci.yml`, `package.json`, `backend/IIASA.GeoTrees/*.csproj`.
 - **Approach:** Add a job that runs `pnpm audit --prod --audit-level high` and `dotnet list package --vulnerable --include-transitive`. Fail the build on high/critical. Allow scheduled-only run if it's too noisy on PRs.
 
 ### PS-07 — Rate-limit `/api/proxy` and auth endpoints
@@ -68,13 +68,13 @@ Bundle size, SSR, runtime performance, auth/session, headers, and dependency hyg
 ### PS-10 — OpenIddict signing cert rotation runbook
 - **Stack:** infra
 - **Effort:** S
-- **Why:** Container entrypoint generates the OpenIddict signing certificate on first run (`backend/IIASA.GeoTrees/Dockerfile` entrypoint script). Behavior on cert change or pod restart isn't documented.
-- **Pointers:** `backend/IIASA.GeoTrees/Dockerfile`, recent commit `8d9d7f4 feat: add custom entrypoint script for OpenIddict certificate generation`.
-- **Approach:** Document: where the cert lives, what persists it across restarts, how to rotate, what client tokens it invalidates. Add to `docs/deployment/production-config.md`.
+- **Why:** `docs/deployment/production-config.md` already documents auto-generation behaviour (§ "Certificate Auto-Generation in Docker"), but has no rotation runbook — what persists across pod restarts, how to rotate, what tokens it invalidates.
+- **Pointers:** `docs/deployment/production-config.md:16-18`, `backend/IIASA.GeoTrees/Dockerfile` entrypoint, commit `8d9d7f4`.
+- **Approach:** Extend the existing section with: persistence (volume mount expectations), rotation procedure, token-invalidation impact, and recovery if the cert is lost.
 
 ### PS-11 — Health & readiness probe docs
 - **Stack:** infra
 - **Effort:** S
-- **Why:** Recent `ASPNETCORE_URLS`-based health-check work shows this is in flux. Operators don't know which URL to probe or what counts as healthy.
-- **Pointers:** Backend health check registrations, commits `016ef98` and `8a6e862`.
-- **Approach:** Document the probe URL, expected status codes, and what each check verifies (DB, OpenIddict, etc.) in `docs/deployment/`.
+- **Why:** `docs/deployment/docker.md` names the frontend probe (`GET /api/health` every 30s) but the backend probe is undocumented and the recent `ASPNETCORE_URLS` work (`016ef98`, `8a6e862`) shows it was in flux.
+- **Pointers:** `docs/deployment/docker.md:23,67`, backend health check registrations, commits `016ef98` and `8a6e862`.
+- **Approach:** Add backend probe URL, expected status codes, and what each check verifies (DB, OpenIddict, etc.) — alongside the existing frontend probe doc in `docs/deployment/docker.md`.

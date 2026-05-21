@@ -2,17 +2,17 @@
 
 Improvements to the existing `@measured/puck`-based page editor in `features/cms/pages/`.
 
-### PB-01 — Block catalog documentation
+### PB-01 — User-facing block catalog
 - **Stack:** frontend
 - **Effort:** S
-- **Why:** Seven block components exist (text, gallery, hero, list, form, table, carousel) with no overview. Editors don't know what's available; developers don't know what to extend.
-- **Pointers:** `features/cms/pages/config/components/` (text-block, gallery-block, hero-block, list-block, form-block, table-block, carousel-block).
-- **Approach:** Add `docs/user-guide/cms-blocks.md` with one section per block — props, intended use, screenshot. Link from `docs/user-guide/cms.md`.
+- **Why:** 24 `*-block.tsx` files exist. A 445-line developer README at `frontend/src/features/cms/pages/config/components/README.md` documents them, but there is no user-facing catalog for CMS editors.
+- **Pointers:** `frontend/src/features/cms/pages/config/components/README.md`, `frontend/src/features/cms/pages/config/components/*-block.tsx`.
+- **Approach:** Adapt the developer README into a user-facing `docs/user-guide/cms-blocks.md` (one section per block — purpose, fields, screenshot). Keep the developer README as the implementation reference. Link from `docs/user-guide/cms.md`.
 
 ### PB-02 — Unit tests for blocks
 - **Stack:** frontend
 - **Effort:** M
-- **Why:** Block files are large (gallery-block 331, carousel-block 315, list-block, hero-block) and untested. Refactors are risky.
+- **Why:** 24 block files exist with zero `*.test.tsx` siblings. Largest are gallery-block (331) and carousel-block (315). Refactors are risky.
 - **Pointers:** `features/cms/pages/config/components/*.tsx`, no `*.test.tsx` siblings.
 - **Approach:** Add render + prop-validation tests per block. Use the existing `renderWithProviders()` from `src/test-utils/`. Mock images and external links.
 
@@ -33,9 +33,9 @@ Improvements to the existing `@measured/puck`-based page editor in `features/cms
 ### PB-05 — Draft vs publish flow
 - **Stack:** frontend
 - **Effort:** L
-- **Why:** Today, saving the editor likely commits a live change (assumption — verify in `page-form-store.ts`). Editors need a draft state before publishing.
-- **Pointers:** `features/cms/pages/stores/page-form-store.ts`, `features/cms/pages/components/page-form.tsx` (322), backend `Page` entity.
-- **Approach:** Add `Page.Status: Draft | Published` and `Page.DraftContent` JSON column. Editor saves draft; explicit Publish action promotes draft to live. Show a "Draft" badge.
+- **Why:** Page editor has no draft state — saving commits a live change. Editors need a draft → review → publish flow. (Verify the exact current save behaviour in `page-form-store.ts` before designing the migration.)
+- **Pointers:** `features/cms/pages/stores/page-form-store.ts`, `features/cms/pages/components/page-form.tsx` (322), backend page entity (via Volo.CmsKit assembly, not in-repo).
+- **Approach:** Add `Status: Draft | Published` and a draft-content column. Editor saves draft; explicit Publish action promotes draft to live. Show a "Draft" badge.
 
 ### PB-06 — Editor/render parity
 - **Stack:** frontend
@@ -62,12 +62,12 @@ Improvements to the existing `@measured/puck`-based page editor in `features/cms
 - **Stack:** frontend
 - **Effort:** S
 - **Why:** `puck-config.tsx` enumerates available blocks. Without enforcing it as the only enumeration, parallel lists can drift.
-- **Pointers:** `features/cms/pages/config/puck-config.tsx`, anywhere else that imports block components.
+- **Pointers:** `features/cms/pages/config/puck-config.tsx`. Find other importers with `rg -l 'config/components/.*-block' frontend/src/`.
 - **Approach:** Confirm `puck-config.tsx` is imported by both editor and render. Block components export only via this registry (no direct route-level imports).
 
 ### PB-10 — Editor permission gating
 - **Stack:** frontend
 - **Effort:** S
-- **Why:** Anyone hitting `/admin/cms/*` while signed in could conceivably reach the editor. Verify role/permission checks are explicit.
+- **Why:** `src/routes/_authed.tsx` only checks `if (!user) redirect`; it does not enforce any permission. CMS routes are therefore reachable by every signed-in user. Pair with CQ-04 for the E2E.
 - **Pointers:** `src/routes/_authed.tsx`, CMS route files under `src/routes/`, `shared/components/permission-guard.tsx`, `shared/hooks/use-permissions.ts`.
-- **Approach:** Confirm CMS routes are guarded by a `CmsEditor` (or equivalent) permission. Add an E2E test asserting a non-admin user gets 403/redirect.
+- **Approach:** Gate CMS routes with a `CmsEditor` (or equivalent) permission via `<PermissionGuard>` or a `beforeLoad` check. Add an E2E test asserting a non-admin signed-in user gets 403/redirect.
