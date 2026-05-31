@@ -1,31 +1,10 @@
 services:
-  postgres:
-    image: postgis/postgis:16-3.5
-    ports:
-      - "5432:5432"
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: geotrees
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-    restart: unless-stopped
-
-  adminer:
-    image: adminer
-    ports:
-      - "8080:8080"
-    environment:
-      ADMINER_DEFAULT_SERVER: postgres
-    depends_on:
-      - postgres
-    restart: unless-stopped
-
+  # Postgres now comes from the shared ../../dev-services stack (one PostGIS on
+  # the external `devnet` network). Start it with `make up` in ~/Repos/dev-services.
+  # The backend connects to db `geotrees` on shared postgres:5432
+  # (Host=localhost;Database=geotrees;Username=postgres;Password=postgres in
+  # appsettings.json — already matches). Adminer is also provided by dev-services
+  # (http://localhost:8080). Only Mailpit stays local to this project.
   mailpit:
     image: axllent/mailpit
     ports:
@@ -35,6 +14,3 @@ services:
       MP_SMTP_AUTH_ACCEPT_ANY: 1
       MP_SMTP_AUTH_ALLOW_INSECURE: 1
     restart: unless-stopped
-
-volumes:
-  postgres_data:

@@ -6,6 +6,24 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 Full-stack web application (IIASA GeoTrees) with a React/TanStack SSR frontend and an ABP Framework (.NET) backend. The frontend proxies all API calls through its own `/api/proxy` route to the backend, avoiding CORS issues.
 
+## Local database (shared dev-services stack)
+
+**Do NOT start your own Postgres container.** All repos in `~/Repos` share one
+stack defined in `~/Repos/dev-services` (one PostGIS + Redis + MinIO + Adminer on
+the `devnet` Docker network). Start it once with `make up` in that directory; it
+stays up across projects.
+
+- **Postgres**: `localhost:5432`, user/pass `postgres`/`postgres`, this repo's
+  database is **`geotrees`** (already created by the stack's init SQL).
+- The backend connection string in `backend/IIASA.GeoTrees/appsettings.json`
+  (`Host=localhost;Database=geotrees;Username=postgres;Password=postgres`) already
+  points at it — no change needed.
+- `backend/docker-compose.yml` now only runs **Mailpit** (Adminer is provided by
+  the shared stack at <http://localhost:8080>).
+
+If 5432 is taken by an old per-project container, stop that container rather than
+remapping ports. To add a database, edit `dev-services/init/01-databases.sql`.
+
 ## Commands
 
 ### Frontend (run from `frontend/`, uses `pnpm`)
